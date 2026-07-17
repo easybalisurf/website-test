@@ -52,6 +52,8 @@
   @keyframes logoWave{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
   @keyframes checkPop{0%{transform:scale(0.4);opacity:0}60%{transform:scale(1.15);opacity:1}100%{transform:scale(1);opacity:1}}
   @keyframes recoFade{from{opacity:.35}to{opacity:1}}
+  @keyframes livePulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.3;transform:scale(.55)}}
+  @keyframes condShimmer{0%,100%{opacity:1}50%{opacity:.45}}
   .logo-mark{display:inline-flex}
   .logo-char{display:inline-block}
   .hero-char{display:inline-block;transform-origin:center bottom;animation:heroSwell 15s ease-in-out infinite}
@@ -60,7 +62,12 @@
   @keyframes waveDriftA{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
   @keyframes waveDriftB{0%{transform:translateX(-50%)}100%{transform:translateX(0)}}
   @keyframes foamBob{0%,100%{transform:translateY(0);opacity:.9}50%{transform:translateY(3px);opacity:.5}}
-  @media(prefers-reduced-motion:reduce){.waveFoam,.wsA,.wsB{animation:none!important}}
+  @keyframes waveScrollA{from{background-position:0 center}to{background-position:-240px center}}
+  @keyframes waveScrollB{from{background-position:0 center}to{background-position:200px center}}
+  .wvOrn{position:absolute;left:0;right:0;top:0;height:100%;background-repeat:repeat-x}
+  .wvOrnA{animation:waveScrollA 14s linear infinite}
+  .wvOrnB{animation:waveScrollB 22s linear infinite}
+  @media(prefers-reduced-motion:reduce){.waveFoam,.wsA,.wsB,.wvOrnA,.wvOrnB{animation:none!important}}
   @media(hover:hover) and (pointer:fine){ .rev-track:hover{animation-play-state:paused} }
   .rev-scroll::-webkit-scrollbar{display:none}
   .nav-burger{display:none}
@@ -187,11 +194,12 @@
   </div>
 </header>
 
+<!-- ============ CONTRAST SECTIONS (deliberate alternating tones) ============ -->
+
 <!-- ============ SMART FORECAST / SPOT FINDER ============ -->
-<section id="forecast" data-screen-label="Forecast" style="position:relative;background:transparent">
-  <div aria-hidden="true" style="position:absolute;left:0;right:0;top:0;bottom:0;background:linear-gradient(180deg,#0E3852 0%,#0B2A3F 45%,#0A2334 100%)"></div>
+<section id="forecast" data-screen-label="Forecast" style="position:relative;background:#0B3E56">
   <div class="wrap sec-pad" style="max-width:1280px;margin:0 auto;padding:100px 32px;position:relative;z-index:1">
-   <div style="max-width:860px;margin:0 auto;padding-top:120px">
+   <div style="max-width:860px;margin:0 auto">
     <p style="{{ subhead }};text-align:center">{{ t.finder.sub }}</p>
     <h2 style="{{ h2Style }};text-align:center;margin:12px auto 0">{{ t.finder.h2 }}</h2>
     <p style="max-width:56ch;margin:18px auto 0;text-align:center;font-size:16px;line-height:1.6">{{ t.finder.lead }}</p>
@@ -221,6 +229,7 @@
           <span style="font-family:'Antonio';font-weight:700;font-size:36px;color:#61FFD0;line-height:.95">{{ reco.active.name }}</span>
           <span style="font-size:13px;color:#FFFFFFBD">{{ reco.active.region }}</span>
         </div>
+        <div style="{{ wxStatus.pill }}"><span style="{{ wxStatus.dot }}"></span>{{ wxStatus.label }}</div>
         <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap">
           <sc-for list="{{ reco.spots }}" as="s" hint-placeholder-count="3">
             <button type="button" onClick="{{ s.pick }}" style="{{ s.style }}">{{ s.name }}</button>
@@ -229,7 +238,7 @@
       </div>
 
       <!-- conditions -->
-      <div class="cond-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:20px">
+      <div class="cond-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:20px;{{ condAnim }}">
         <sc-for list="{{ reco.conds }}" as="c" hint-placeholder-count="3">
           <div style="text-align:center;padding:14px 8px;border-radius:12px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08)">
             <div style="display:flex;align-items:center;justify-content:center;height:20px">
@@ -298,19 +307,19 @@
 </section>
 
 <!-- ============ WHY US ============ -->
-<section id="why" data-screen-label="Why us" style="position:relative;overflow:hidden;background:linear-gradient(180deg,#0D4864 0%,#0C425C 100%)">
+<section id="why" data-screen-label="Why us" style="position:relative;overflow:hidden;background:#F4F1E9;color:#33474C">
 
   <div class="wrap sec-pad" style="position:relative;max-width:1280px;margin:0 auto;padding:110px 32px">
     <div style="max-width:680px">
-      <p style="{{ subhead }}">{{ t.why.sub }}</p>
-      <h2 style="{{ h2Style }}">{{ t.why.h2 }}</h2>
-      <p style="font-size:16px;line-height:1.65;margin:18px 0 0;max-width:52ch;color:#FFFFFFCC">{{ t.why.mission }}</p>
+      <p style="{{ subheadDark }}">{{ t.why.sub }}</p>
+      <h2 style="{{ h2Dark }}">{{ t.why.h2 }}</h2>
+      <p style="font-size:16px;line-height:1.65;margin:18px 0 0;max-width:52ch;color:#55676D">{{ t.why.mission }}</p>
       <div class="perks-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:34px 28px;margin-top:38px">
         <sc-for list="{{ perks }}" as="p" hint-placeholder-count="4">
           <div style="display:flex;gap:18px;align-items:flex-start">
-            <span style="flex:none;width:44px;height:44px;border-radius:12px;background:rgba(97,255,208,.12);border:1px solid rgba(97,255,208,.35);display:flex;align-items:center;justify-content:center;font-family:'Antonio';font-weight:700;color:#61FFD0;font-size:20px">{{ p.n }}</span>
+            <span style="flex:none;width:44px;height:44px;border-radius:12px;background:rgba(14,124,140,.08);border:1px solid rgba(14,124,140,.30);display:flex;align-items:center;justify-content:center;font-family:'Antonio';font-weight:700;color:#0E7C8C;font-size:20px">{{ p.n }}</span>
             <div>
-              <h4 style="font-family:'Antonio',sans-serif;font-weight:600;font-size:22px;color:#fff;margin:2px 0 6px;line-height:1.05">{{ p.title }}</h4>
+              <h4 style="font-family:'Antonio',sans-serif;font-weight:600;font-size:22px;color:#0B3E56;margin:2px 0 6px;line-height:1.05">{{ p.title }}</h4>
               <p style="font-size:15px;line-height:1.6;margin:0;max-width:44ch">{{ p.body }}</p>
             </div>
           </div>
@@ -321,7 +330,7 @@
 </section>
 
 <!-- ============ HOW IT WORKS ============ -->
-<section id="how" data-screen-label="How it works" style="background:linear-gradient(180deg,#0F5074 0%,#0C4763 100%)">
+<section id="how" data-screen-label="How it works" style="background:#08293A">
   <div class="wrap sec-pad" style="max-width:1280px;margin:0 auto;padding:100px 32px">
     <p style="{{ subhead }};text-align:center">{{ t.how.sub }}</p>
     <h2 style="{{ h2Style }};text-align:center;margin:12px auto 0">{{ t.how.h2 }}</h2>
@@ -341,20 +350,20 @@
 </section>
 
 <!-- ============ TESTIMONIALS MARQUEE ============ -->
-<section data-screen-label="Testimonials" style="padding:88px 0 56px;overflow:hidden;background:linear-gradient(180deg,#0B3C53 0%,#0A364B 100%)">
-  <p style="{{ subhead }};text-align:center">{{ t.rev.sub }}</p>
-  <h2 style="{{ h2Style }};text-align:center;margin:12px auto 48px">{{ t.rev.h2 }}</h2>
+<section data-screen-label="Testimonials" style="padding:88px 0 56px;overflow:hidden;background:#EDF3F4;color:#33474C">
+  <p style="{{ subheadDark }};text-align:center">{{ t.rev.sub }}</p>
+  <h2 style="{{ h2Dark }};text-align:center;margin:12px auto 48px">{{ t.rev.h2 }}</h2>
   <div class="rev-scroll" style="{{ revScrollStyle }}">
     <div class="rev-track" style="{{ revTrackStyle }}">
     <sc-for list="{{ reviewsLoop }}" as="r" hint-placeholder-count="6">
       <div style="{{ r.cardStyle }}">
-        <div style="color:#61FFD0;font-size:15px;letter-spacing:2px">★★★★★</div>
-        <p style="font-size:16px;line-height:1.6;color:#fff;margin:16px 0 20px">"{{ r.text }}"</p>
+        <div style="color:#0E9AAE;font-size:15px;letter-spacing:2px">★★★★★</div>
+        <p style="font-size:16px;line-height:1.6;color:#33474C;margin:16px 0 20px">"{{ r.text }}"</p>
         <div style="display:flex;align-items:center;gap:12px">
-          <span style="width:38px;height:38px;border-radius:50%;background:rgba(97,255,208,.15);border:1px solid rgba(97,255,208,.4);display:flex;align-items:center;justify-content:center;font-family:'Antonio';color:#61FFD0;font-weight:700">{{ r.init }}</span>
+          <span style="width:38px;height:38px;border-radius:50%;background:rgba(14,124,140,.10);border:1px solid rgba(14,124,140,.30);display:flex;align-items:center;justify-content:center;font-family:'Antonio';color:#0E7C8C;font-weight:700">{{ r.init }}</span>
           <div>
-            <div style="font-size:14px;color:#fff;font-weight:600">{{ r.name }}</div>
-            <div style="font-size:12px;color:#FFFFFFBD">{{ r.from }}</div>
+            <div style="font-size:14px;color:#0B3E56;font-weight:600">{{ r.name }}</div>
+            <div style="font-size:12px;color:#6A7B81">{{ r.from }}</div>
           </div>
         </div>
       </div>
@@ -364,7 +373,7 @@
 </section>
 
 <!-- ============ FAQ ============ -->
-<section id="faq" data-screen-label="FAQ" style="background:linear-gradient(180deg,#0C425C 0%,#0B3B52 100%)">
+<section id="faq" data-screen-label="FAQ" style="background:#0B3E56">
   <div class="wrap sec-pad" style="max-width:1280px;margin:0 auto;padding:64px 32px 100px">
    <div style="max-width:900px;margin:0 auto">
     <p style="{{ subhead }};text-align:center">{{ t.faq.sub }}</p>
@@ -387,7 +396,7 @@
 </section>
 
 <!-- ============ BOOKING FORM ============ -->
-<section id="book" data-screen-label="Booking" style="position:relative;overflow:hidden;background:linear-gradient(180deg,#093043 0%,#08293A 100%)">
+<section id="book" data-screen-label="Booking" style="position:relative;overflow:hidden;background:#08293A">
 
   <div class="wrap sec-pad book-grid" style="position:relative;max-width:1280px;margin:0 auto;padding:100px 32px;display:grid;grid-template-columns:1fr 1.05fr;gap:64px;align-items:center">
     <div>
@@ -672,6 +681,8 @@
   </div>
 </section>
 
+<!-- /contrast sections -->
+
 <!-- ============ FOOTER ============ -->
 <footer style="position:relative;background:#061019;border-top:1px solid rgba(255,255,255,.10);box-shadow:inset 0 1px 0 rgba(255,255,255,.05)">
   <div class="wrap footer-grid" style="max-width:1280px;margin:0 auto;padding:64px 32px 40px;display:grid;grid-template-columns:1.4fr 1fr;gap:40px;align-items:start">
@@ -943,7 +954,16 @@ class Component extends DCLogic {
     this._parallax();
     this.maybeFetch();
   }
-  componentDidUpdate(prevProps, prevState) {
+  // Preserve the 7-day strip's horizontal scroll across re-renders (picking a day/slot re-renders it).
+  getSnapshotBeforeUpdate() {
+    const s = document.querySelector('.week-strip');
+    return s ? s.scrollLeft : null;
+  }
+  componentDidUpdate(prevProps, prevState, snap) {
+    if (snap != null) {
+      const s = document.querySelector('.week-strip');
+      if (s && s.scrollLeft !== snap) s.scrollLeft = snap;
+    }
     if (prevState.lang !== this.state.lang) document.documentElement.lang = this.state.lang;
     // Re-render wipes JS-applied transforms on the wave/parallax nodes → reapply immediately so
     // the seam wave doesn't jump/flicker when the header toggles its scrolled state near the top.
@@ -994,7 +1014,12 @@ class Component extends DCLogic {
       const tz = 'Asia%2FMakassar';
       const m = 'https://marine-api.open-meteo.com/v1/marine?latitude=' + lat + '&longitude=' + lon + '&hourly=wave_height,sea_level_height_msl,sea_surface_temperature&timezone=' + tz + '&start_date=' + start + '&end_date=' + end;
       const w = 'https://api.open-meteo.com/v1/forecast?latitude=' + lat + '&longitude=' + lon + '&hourly=wind_speed_10m,wind_direction_10m&wind_speed_unit=kn&timezone=' + tz + '&start_date=' + start + '&end_date=' + end;
-      const [mr, wr] = await Promise.all([fetch(m), fetch(w)]);
+      // Abort a slow/blocked request so the pill never hangs on "Fetching" — falls back to the estimated model.
+      const ctrl = new AbortController();
+      const to = setTimeout(() => ctrl.abort(), 8000);
+      let mr, wr;
+      try { [mr, wr] = await Promise.all([fetch(m, { signal: ctrl.signal }), fetch(w, { signal: ctrl.signal })]); }
+      finally { clearTimeout(to); }
       if (!mr.ok || !wr.ok) throw new Error('http');
       const mj = await mr.json(), wj = await wr.json();
       if (!mj.hourly || !wj.hourly) throw new Error('shape');
@@ -1038,7 +1063,7 @@ class Component extends DCLogic {
     const n = Math.max(1, gradLen - 1);
     return [...word].map((ch, i) => ({
       ch: ch === ' ' ? '\u00A0' : ch,
-      style: 'color:' + (i < gradLen ? this.logoGradientColor(i/n) : '#ffffff') + ';animation-delay:' + (i * 0.09).toFixed(2) + 's'
+      style: 'color:' + (i < gradLen ? this.logoGradientColor(i/n) : '#ffffff') + ';animation-delay:' + (i * 0.09).toFixed(2) + 's' + (ch === '.' ? ';position:relative;top:-0.34em' : '')
     }));
   }
   buildHeroChars(h1a, h1accent, h1b) {
@@ -1164,7 +1189,7 @@ class Component extends DCLogic {
         wind: ref.windKt,
         dotStyle: 'width:8px;height:8px;border-radius:50%;margin:6px auto 0;background:' + dotC[dqi],
         style: 'flex:none;width:66px;scroll-snap-align:start;text-align:center;cursor:pointer;padding:10px 4px 11px;border-radius:14px;background:' + (sel ? 'rgba(97,255,208,.16)' : 'rgba(255,255,255,.04)') + ';border:1px solid ' + (sel ? 'rgba(97,255,208,.55)' : 'rgba(255,255,255,.09)') + ';transition:all .2s',
-        pick: (e) => { const strip = e && e.currentTarget ? e.currentTarget.closest('.week-strip') : null; const sl = strip ? strip.scrollLeft : 0; this.setEx('date', ds); if (strip) requestAnimationFrame(() => { const s2 = document.querySelector('.week-strip'); if (s2) s2.scrollLeft = sl; }); }
+        pick: () => this.setEx('date', ds)
       });
     }
 
@@ -1236,6 +1261,8 @@ class Component extends DCLogic {
     const f = this.state.form;
     const subhead = "font-family:'Inter',sans-serif;color:#7CFFDA;font-size:14px;font-weight:600;letter-spacing:.4px;text-transform:uppercase;margin:0;text-shadow:0 1px 4px rgba(0,0,0,.55)";
     const h2Style = "font-family:'Antonio',sans-serif;font-weight:700;font-size:clamp(34px,4.5vw,62px);line-height:.98;letter-spacing:-.5px;color:#fff;margin:12px 0 0;max-width:16ch";
+    const subheadDark = "font-family:'Inter',sans-serif;color:#0E7C8C;font-size:14px;font-weight:600;letter-spacing:.4px;text-transform:uppercase;margin:0";
+    const h2Dark = "font-family:'Antonio',sans-serif;font-weight:700;font-size:clamp(34px,4.5vw,62px);line-height:.98;letter-spacing:-.5px;color:#0B3E56;margin:12px 0 0;max-width:16ch";
     const inputStyle = "width:100%;height:50px;box-sizing:border-box;margin-top:8px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.16);border-radius:12px;padding:0 15px;color:#fff;font-family:'Inter',sans-serif;font-size:15px;line-height:1;outline:none;-webkit-appearance:none;appearance:none";
     const selectStyle = inputStyle + ";background-image:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='7' viewBox='0 0 11 7'%3E%3Cpath d='M1 1l4.5 4.5L10 1' stroke='%2361FFD0' stroke-width='1.6' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\");background-repeat:no-repeat;background-position:right 15px center;padding-right:36px";
     // Native date input: no appearance:none / display:flex here — both break the native tap-to-open
@@ -1268,6 +1295,15 @@ class Component extends DCLogic {
     const wxKey = activeForKey.lat + ',' + activeForKey.lon + ',' + wxStart;
     const locale = { en:'en-US', ru:'ru-RU', zh:'zh-CN', ko:'ko-KR', fr:'fr-FR', de:'de-DE', es:'es-ES' }[this.state.lang] || 'en-US';
     const reco = this.buildReco(ex.sport, ex.level, ex.date, L.smart, ex.spot, ex.slot, this.state.wx[wxKey], locale);
+
+    // Live-forecast status pill: fetching live conditions / live / fell back to estimate.
+    const wxLoaded = !!this.state.wx[wxKey];
+    const wxFailed = !!(this._wxFail && this._wxFail[wxKey]);
+    const pillBase = 'display:inline-flex;align-items:center;gap:7px;margin-top:12px;padding:5px 12px;border-radius:100px;font-size:12px;font-weight:600;letter-spacing:.2px;';
+    const dotBase = 'width:8px;height:8px;border-radius:50%;flex:none;';
+    let wxStatus, condAnim = '';
+    // Status pill removed entirely — forecast just shows the data.
+    wxStatus = { label: '', pill: 'display:none', dot: 'display:none' };
     const exSportVal = L.book.sportOpts[ex.sport];
     const exLevelVal = L.book.levelOpts[ex.level];
     const onExSport = e => this.setEx('sport', Math.max(0, L.book.sportOpts.indexOf(e.target.value)));
@@ -1382,7 +1418,7 @@ class Component extends DCLogic {
       navStyle: (this.state.scrolled || this.state.menuOpen)
         ? "position:fixed;top:0;left:0;right:0;z-index:70;background:linear-gradient(180deg,rgba(255,255,255,.15),rgba(255,255,255,.08));backdrop-filter:blur(10px) saturate(140%);-webkit-backdrop-filter:blur(10px) saturate(140%);border-bottom:1px solid rgba(255,255,255,.14);box-shadow:0 8px 40px rgba(0,0,0,.25),inset 0 1px 0 rgba(255,255,255,.16);transition:all .35s"
         : "position:fixed;top:0;left:0;right:0;z-index:70;background:transparent;border-bottom:1px solid transparent;transition:background .35s,border-color .35s",
-      eyebrow: subhead, subhead, h2Style, inputStyle, selectStyle, textareaStyle, fieldLabel, footHead, footLink, glassCard, glassPanel,
+      eyebrow: subhead, subhead, subheadDark, h2Style, h2Dark, inputStyle, selectStyle, textareaStyle, fieldLabel, footHead, footLink, glassCard, glassPanel,
 
       curLangName: (LANGS.find(l => l.c === this.state.lang) || LANGS[0]).n,
       langBtnStyle: "display:flex;align-items:center;gap:7px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.2);border-radius:100px;color:#fff;font-family:'Inter';font-size:13px;font-weight:500;padding:9px 14px;cursor:pointer;transition:all .2s",
@@ -1420,7 +1456,7 @@ class Component extends DCLogic {
       })),
       reviewsLoop: (this.state.isTouch ? [...L.rev.list] : [...L.rev.list, ...L.rev.list]).map(r => ({
         ...r,
-        cardStyle: 'flex:none;width:340px;max-width:82vw;padding:30px;border:1px solid rgba(255,255,255,.1);border-radius:18px;background:rgba(255,255,255,.02)' + (this.state.isTouch ? ';scroll-snap-align:center' : '')
+        cardStyle: 'flex:none;width:340px;max-width:82vw;padding:30px;border:1px solid rgba(11,62,86,.10);border-radius:18px;background:#ffffff;box-shadow:0 12px 30px -14px rgba(11,62,86,.28)' + (this.state.isTouch ? ';scroll-snap-align:center' : '')
       })),
       revScrollStyle: this.state.isTouch ? 'overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;scroll-snap-type:x mandatory;padding:2px 22px 10px;scrollbar-width:none' : '',
       revTrackStyle: 'display:flex;gap:22px;width:max-content' + (this.state.isTouch ? ';animation:none' : ''),
@@ -1434,7 +1470,7 @@ class Component extends DCLogic {
       onInstructorLang: e => this.set('instructorLang', e.target.value),
       openDatePicker: e => { if (e.target.showPicker) { try { e.target.showPicker(); } catch (err) {} } },
       reco,
-      recoKey: JSON.stringify(this.state.explore), exSportVal, exLevelVal, onExSport, onExLevel, bookThis,
+      recoKey: JSON.stringify(this.state.explore), wxStatus, condAnim, exSportVal, exLevelVal, onExSport, onExLevel, bookThis,
       guideHref: 'Surf Guide.dc.html?lang=' + this.state.lang,
       termsHref: 'Terms of Service.dc.html?lang=' + this.state.lang,
 
