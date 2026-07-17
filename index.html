@@ -183,7 +183,7 @@
     </p>
     <div style="display:flex;flex-wrap:wrap;gap:14px;margin-top:36px;pointer-events:auto;animation:floatUp 1.1s .5s ease-out both">
       <a href="#book" style="display:inline-flex;align-items:center;gap:9px;background:linear-gradient(120deg,#7DFFC4,#61FFD0 42%,#3FD9E6);color:#08100d;font-weight:600;font-size:15px;padding:16px 30px;border-radius:100px;transition:transform .2s,box-shadow .2s" style-hover="box-shadow:0 10px 40px rgba(97,255,208,.45);transform:translateY(-2px)">{{ t.hero.ctaBook }}</a>
-      <a href="#why" style="display:inline-flex;align-items:center;gap:7px;color:#fff;font-weight:500;font-size:15px;padding:16px 6px;border-bottom:1px solid rgba(255,255,255,.4);transition:border-color .2s,gap .2s" style-hover="border-color:#61FFD0;gap:11px">{{ t.hero.ctaExplore }} →</a>
+      <a href="#why" style="display:inline-flex;align-items:center;gap:7px;color:#fff;font-weight:500;font-size:15px;padding:16px 6px;transition:color .2s,gap .2s" style-hover="color:#61FFD0;gap:11px">{{ t.hero.ctaExplore }}</a>
     </div>
     <div style="display:flex;flex-wrap:wrap;align-items:center;gap:22px;margin-top:52px;padding-top:22px;border-top:1px solid rgba(255,255,255,.1);pointer-events:auto;animation:floatUp 1.2s .6s ease-out both">
       <span style="font-size:10px;font-weight:600;letter-spacing:.6px;text-transform:uppercase;color:#FFFFFF60;white-space:nowrap">{{ t.certs.label }}</span>
@@ -261,7 +261,7 @@
       <!-- 7-day forecast for active spot -->
       <div style="margin-top:22px">
         <div style="font-size:11px;letter-spacing:.4px;text-transform:uppercase;color:#FFFFFF80;margin-bottom:8px">{{ t.smart.week }}</div>
-        <div class="week-strip" style="display:flex;gap:7px;overflow-x:auto;-webkit-overflow-scrolling:touch;scroll-snap-type:x proximity;scroll-behavior:smooth;padding-bottom:4px;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 14px,#000 calc(100% - 14px),transparent 100%);mask-image:linear-gradient(90deg,transparent 0,#000 14px,#000 calc(100% - 14px),transparent 100%)">
+        <div class="week-strip" onScroll="{{ onWeekScroll }}" onTouchStart="{{ onWeekTouchStart }}" onTouchEnd="{{ onWeekTouchEnd }}" onTouchCancel="{{ onWeekTouchEnd }}" style="display:flex;gap:7px;overflow-x:auto;-webkit-overflow-scrolling:touch;scroll-behavior:auto;padding-bottom:4px;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 14px,#000 calc(100% - 14px),transparent 100%);mask-image:linear-gradient(90deg,transparent 0,#000 14px,#000 calc(100% - 14px),transparent 100%)">
           <sc-for list="{{ reco.week }}" as="d" hint-placeholder-count="7">
             <button type="button" onClick="{{ d.pick }}" style="{{ d.style }}">
               <div style="font-size:10px;letter-spacing:.3px;text-transform:uppercase;color:#FFFFFF99">{{ d.label }}</div>
@@ -509,7 +509,7 @@
                 <span style="font-size:12px;color:#FFFFFFBD">{{ remainderDue }}</span>
               </div>
             </div>
-            <button type="button" onClick="{{ next }}" style="{{ nextBtn }};margin-top:20px">{{ w.next }} →</button>
+            <button type="button" onClick="{{ next }}" style="{{ nextBtn }};margin-top:20px">{{ w.next }}</button>
           </div>
         </sc-if>
 
@@ -609,8 +609,8 @@
               </div>
             </div>
             <div style="display:flex;gap:12px;margin-top:20px">
-              <button type="button" onClick="{{ back }}" style="{{ backBtn }}">← {{ w.back }}</button>
-              <button type="button" onClick="{{ next }}" style="{{ nextBtn }}">{{ w.next }} →</button>
+              <button type="button" onClick="{{ back }}" style="{{ backBtn }}">{{ w.back }}</button>
+              <button type="button" onClick="{{ next }}" style="{{ nextBtn }}">{{ w.next }}</button>
             </div>
           </div>
         </sc-if>
@@ -670,7 +670,7 @@
               </div>
             </div>
             <div style="display:flex;gap:12px;margin-top:20px">
-              <button type="button" onClick="{{ back }}" style="{{ backBtn }}">← {{ w.back }}</button>
+              <button type="button" onClick="{{ back }}" style="{{ backBtn }}">{{ w.back }}</button>
               <button type="submit" style="{{ nextBtn }}">{{ t.book.submit }}</button>
             </div>
             <p style="font-size:12px;text-align:center;margin:14px 0 0;color:#FFFFFF80">{{ t.book.fineA }}<a href="{{ termsHref }}" style="color:#61FFD0">{{ t.book.fineLink }}</a>{{ t.book.fineB }}</p>
@@ -953,16 +953,33 @@ class Component extends DCLogic {
     document.addEventListener('mousedown', this._onDoc);
     this._parallax();
     this.maybeFetch();
+    // Deep-link support: arriving at index.html#forecast (e.g. from the Surf Guide CTA) must
+    // land on the forecast section, but the section only exists after this component renders —
+    // so honor the hash manually once mounted instead of relying on the browser's pre-render jump.
+    const hash = window.location.hash;
+    if (hash && hash.length > 1) {
+      setTimeout(() => {
+        const el = document.getElementById(hash.slice(1));
+        if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 70, behavior: 'auto' });
+      }, 60);
+    }
   }
-  // Preserve the 7-day strip's horizontal scroll across re-renders (picking a day/slot re-renders it).
+  // Preserve the 7-day strip's horizontal scroll across re-renders. React replaces the strip
+  // node on every render (and the async weather update triggers extra renders), so we track the
+  // position in an instance var via onScroll and reapply it after each update — snapshot alone
+  // isn't enough because a re-render with no user interaction would otherwise reset it to 0.
   getSnapshotBeforeUpdate() {
     const s = document.querySelector('.week-strip');
-    return s ? s.scrollLeft : null;
+    if (s) this._weekScroll = s.scrollLeft;
+    return null;
   }
   componentDidUpdate(prevProps, prevState, snap) {
-    if (snap != null) {
+    // The strip's content momentarily collapses during re-render, which clamps scrollLeft to 0,
+    // so reapply the saved position after every update. Skip only while the user is actively
+    // touching/flinging the strip (mobile), where forcing scrollLeft would kill momentum.
+    if (this._weekScroll != null && !this._weekTouching) {
       const s = document.querySelector('.week-strip');
-      if (s && s.scrollLeft !== snap) s.scrollLeft = snap;
+      if (s && s.scrollLeft !== this._weekScroll) s.scrollLeft = this._weekScroll;
     }
     if (prevState.lang !== this.state.lang) document.documentElement.lang = this.state.lang;
     // Re-render wipes JS-applied transforms on the wave/parallax nodes → reapply immediately so
@@ -1471,6 +1488,9 @@ class Component extends DCLogic {
       openDatePicker: e => { if (e.target.showPicker) { try { e.target.showPicker(); } catch (err) {} } },
       reco,
       recoKey: JSON.stringify(this.state.explore), wxStatus, condAnim, exSportVal, exLevelVal, onExSport, onExLevel, bookThis,
+      onWeekScroll: e => { this._weekScroll = e.target.scrollLeft; },
+      onWeekTouchStart: () => { this._weekTouching = true; },
+      onWeekTouchEnd: () => { this._weekTouching = false; },
       guideHref: 'Surf Guide.dc.html?lang=' + this.state.lang,
       termsHref: 'Terms of Service.dc.html?lang=' + this.state.lang,
 
