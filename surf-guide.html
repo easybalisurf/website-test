@@ -74,8 +74,8 @@
     <section style="margin-top:48px;animation:floatUp 1s .28s ease-out both">
       <h2 style="font-family:'Antonio',sans-serif;font-weight:600;font-size:26px;color:#fff;margin:0 0 16px">{{ t.spotsTitle }}</h2>
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px">
-        <sc-for list="{{ t.spots }}" as="sp" hint-placeholder-count="6">
-          <div style="padding:18px 20px;border-radius:14px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1)"><strong style="color:#fff">{{ sp.name }}</strong><br><span style="font-size:14px">{{ sp.desc }}</span></div>
+        <sc-for list="{{ spots }}" as="sp" hint-placeholder-count="6">
+          <div style="{{ sp.cardStyle }}"><strong style="color:#fff">{{ sp.name }}</strong><br><span style="font-size:14px">{{ sp.desc }}</span></div>
         </sc-for>
       </div>
     </section>
@@ -112,12 +112,17 @@ class Component extends DCLogic {
     const t = D[lang] || D.en;
     return {
       t,
+      spots: (t.spots || []).map(sp => {
+        const c = sp.diff === 'adv' ? '#ec6a5e' : sp.diff === 'int' ? '#f2c14e' : '#46d17a';
+        const tint = sp.diff === 'adv' ? 'rgba(236,106,94,.10)' : sp.diff === 'int' ? 'rgba(242,193,78,.10)' : 'rgba(70,209,122,.10)';
+        return { ...sp, cardStyle: 'padding:18px 20px 18px 22px;border-radius:14px;background:' + tint + ';border:1px solid rgba(255,255,255,.1);border-left:4px solid ' + c };
+      }),
       windSegs: (t.windBody || []).map(seg => ({ ...seg, style: this.segStyle(seg) })),
       swellSegs: (t.swellBody || []).map(seg => ({ ...seg, style: this.segStyle(seg) })),
       seasonDrySegs: (t.seasonDry || []).map(seg => ({ ...seg, style: this.segStyle(seg) })),
       seasonWetSegs: (t.seasonWet || []).map(seg => ({ ...seg, style: this.segStyle(seg) })),
-      backHref: 'index.html?lang=' + lang,
-      ctaHref: 'index.html?lang=' + lang + '#forecast',
+      backHref: 'Bali Surf Booking.dc.html?lang=' + lang,
+      ctaHref: 'Bali Surf Booking.dc.html?lang=' + lang + '#forecast',
     };
   }
 }

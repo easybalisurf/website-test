@@ -155,7 +155,7 @@
 
 <!-- ============ HERO ============ -->
 <header id="hero" data-screen-label="Hero" style="position:relative;min-height:100vh;display:flex;align-items:flex-end;overflow:hidden;padding-top:calc(74px + env(safe-area-inset-top))">
-  <div id="heroBgLayer" style="position:absolute;inset:0;background:linear-gradient(180deg,#0E3A63 0%,#1E6FA8 52%,#155B7A 78%,#0C3D57 100%)"></div>
+  <div id="heroBgLayer" style="position:absolute;inset:0;background:linear-gradient(180deg,#0E3A63 0%,#1E6FA8 50%,#176394 80%,#145E86 100%)"></div>
   
   <div id="heroContent" class="wrap" style="position:relative;width:100%;max-width:1280px;margin:0 auto;padding:0 32px 90px;pointer-events:none;will-change:transform,opacity">
     <div style="animation:floatUp .8s .1s ease-out both">
@@ -188,13 +188,9 @@
 </header>
 
 <!-- ============ SMART FORECAST / SPOT FINDER ============ -->
-<section id="forecast" data-screen-label="Forecast" style="position:relative;background:linear-gradient(180deg,#0E4E6E 0%,#0D4864 100%)">
-  <div aria-hidden="true" style="position:absolute;left:0;right:0;top:0;height:92px;overflow:hidden;pointer-events:none;line-height:0">
-    <svg class="wsA" data-speed="-0.45" viewBox="0 0 2880 120" preserveAspectRatio="none" style="position:absolute;left:0;top:0;width:220%;height:90px;will-change:transform">
-      <path d="M0,60 C240,104 480,104 720,60 C960,16 1200,16 1440,60 C1680,104 1920,104 2160,60 C2400,16 2640,16 2880,60 L2880,0 L0,0 Z" fill="#0C3D57"></path>
-    </svg>
-  </div>
-  <div class="wrap sec-pad" style="max-width:1280px;margin:0 auto;padding:100px 32px">
+<section id="forecast" data-screen-label="Forecast" style="position:relative;background:transparent">
+  <div aria-hidden="true" style="position:absolute;left:0;right:0;top:0;bottom:0;background:linear-gradient(180deg,#0E3852 0%,#0B2A3F 45%,#0A2334 100%)"></div>
+  <div class="wrap sec-pad" style="max-width:1280px;margin:0 auto;padding:100px 32px;position:relative;z-index:1">
    <div style="max-width:860px;margin:0 auto;padding-top:120px">
     <p style="{{ subhead }};text-align:center">{{ t.finder.sub }}</p>
     <h2 style="{{ h2Style }};text-align:center;margin:12px auto 0">{{ t.finder.h2 }}</h2>
@@ -325,7 +321,7 @@
 </section>
 
 <!-- ============ HOW IT WORKS ============ -->
-<section id="how" data-screen-label="How it works" style="background:linear-gradient(180deg,#0C425C 0%,#0B3C53 100%)">
+<section id="how" data-screen-label="How it works" style="background:linear-gradient(180deg,#0F5074 0%,#0C4763 100%)">
   <div class="wrap sec-pad" style="max-width:1280px;margin:0 auto;padding:100px 32px">
     <p style="{{ subhead }};text-align:center">{{ t.how.sub }}</p>
     <h2 style="{{ h2Style }};text-align:center;margin:12px auto 0">{{ t.how.h2 }}</h2>
@@ -368,7 +364,7 @@
 </section>
 
 <!-- ============ FAQ ============ -->
-<section id="faq" data-screen-label="FAQ" style="background:linear-gradient(180deg,#0A364B 0%,#093043 100%)">
+<section id="faq" data-screen-label="FAQ" style="background:linear-gradient(180deg,#0C425C 0%,#0B3B52 100%)">
   <div class="wrap sec-pad" style="max-width:1280px;margin:0 auto;padding:64px 32px 100px">
    <div style="max-width:900px;margin:0 auto">
     <p style="{{ subhead }};text-align:center">{{ t.faq.sub }}</p>
