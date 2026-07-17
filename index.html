@@ -30,8 +30,8 @@
 <script src="./services-data.js"></script>
 <style>
   *{box-sizing:border-box}
-  html{scroll-behavior:smooth;background:#0a0e0d}
-  body{margin:0;background:#0a0e0d;color:#FFFFFFBD;font-family:'Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+  html{scroll-behavior:smooth;background:#061019}
+  body{margin:0;background:#061019;color:#FFFFFFBD;font-family:'Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
   a{color:#61FFD0;text-decoration:none}
   a:hover{color:#8affe0}
   ::selection{background:#61FFD0;color:#08100d}
@@ -188,7 +188,7 @@
 </header>
 
 <!-- ============ SMART FORECAST / SPOT FINDER ============ -->
-<section id="forecast" data-screen-label="Forecast" style="position:relative;background:linear-gradient(180deg,#0A2E4A 0%,#0A2B49 60%,#0A2749 100%)">
+<section id="forecast" data-screen-label="Forecast" style="position:relative;background:linear-gradient(180deg,#0E4E6E 0%,#0D4864 100%)">
   <div aria-hidden="true" style="position:absolute;left:0;right:0;top:0;height:92px;overflow:hidden;pointer-events:none;line-height:0">
     <svg class="wsA" data-speed="-0.45" viewBox="0 0 2880 120" preserveAspectRatio="none" style="position:absolute;left:0;top:0;width:220%;height:90px;will-change:transform">
       <path d="M0,60 C240,104 480,104 720,60 C960,16 1200,16 1440,60 C1680,104 1920,104 2160,60 C2400,16 2640,16 2880,60 L2880,0 L0,0 Z" fill="#0C3D57"></path>
@@ -302,7 +302,7 @@
 </section>
 
 <!-- ============ WHY US ============ -->
-<section id="why" data-screen-label="Why us" style="position:relative;overflow:hidden;background:linear-gradient(180deg,#0A2749 0%,#0D2346 45%,#101F44 100%)">
+<section id="why" data-screen-label="Why us" style="position:relative;overflow:hidden;background:linear-gradient(180deg,#0D4864 0%,#0C425C 100%)">
 
   <div class="wrap sec-pad" style="position:relative;max-width:1280px;margin:0 auto;padding:110px 32px">
     <div style="max-width:680px">
@@ -325,7 +325,7 @@
 </section>
 
 <!-- ============ HOW IT WORKS ============ -->
-<section id="how" data-screen-label="How it works" style="background:linear-gradient(180deg,#101F44 0%,#141D42 50%,#171B41 100%)">
+<section id="how" data-screen-label="How it works" style="background:linear-gradient(180deg,#0C425C 0%,#0B3C53 100%)">
   <div class="wrap sec-pad" style="max-width:1280px;margin:0 auto;padding:100px 32px">
     <p style="{{ subhead }};text-align:center">{{ t.how.sub }}</p>
     <h2 style="{{ h2Style }};text-align:center;margin:12px auto 0">{{ t.how.h2 }}</h2>
@@ -345,7 +345,7 @@
 </section>
 
 <!-- ============ TESTIMONIALS MARQUEE ============ -->
-<section data-screen-label="Testimonials" style="padding:88px 0 56px;overflow:hidden;background:linear-gradient(180deg,#171B41 0%,#251543 40%,#251543 70%,#1A1435 100%)">
+<section data-screen-label="Testimonials" style="padding:88px 0 56px;overflow:hidden;background:linear-gradient(180deg,#0B3C53 0%,#0A364B 100%)">
   <p style="{{ subhead }};text-align:center">{{ t.rev.sub }}</p>
   <h2 style="{{ h2Style }};text-align:center;margin:12px auto 48px">{{ t.rev.h2 }}</h2>
   <div class="rev-scroll" style="{{ revScrollStyle }}">
@@ -368,7 +368,7 @@
 </section>
 
 <!-- ============ FAQ ============ -->
-<section id="faq" data-screen-label="FAQ" style="background:linear-gradient(180deg,#1A1435 0%,#111A32 50%,#0E1526 100%)">
+<section id="faq" data-screen-label="FAQ" style="background:linear-gradient(180deg,#0A364B 0%,#093043 100%)">
   <div class="wrap sec-pad" style="max-width:1280px;margin:0 auto;padding:64px 32px 100px">
    <div style="max-width:900px;margin:0 auto">
     <p style="{{ subhead }};text-align:center">{{ t.faq.sub }}</p>
@@ -391,7 +391,7 @@
 </section>
 
 <!-- ============ BOOKING FORM ============ -->
-<section id="book" data-screen-label="Booking" style="position:relative;overflow:hidden;background:linear-gradient(180deg,#0E1526 0%,#0C1224 45%,#0A0F22 100%)">
+<section id="book" data-screen-label="Booking" style="position:relative;overflow:hidden;background:linear-gradient(180deg,#093043 0%,#08293A 100%)">
 
   <div class="wrap sec-pad book-grid" style="position:relative;max-width:1280px;margin:0 auto;padding:100px 32px;display:grid;grid-template-columns:1fr 1.05fr;gap:64px;align-items:center">
     <div>
@@ -677,7 +677,7 @@
 </section>
 
 <!-- ============ FOOTER ============ -->
-<footer style="position:relative;background:#0A0F22">
+<footer style="position:relative;background:#061019;border-top:1px solid rgba(255,255,255,.10);box-shadow:inset 0 1px 0 rgba(255,255,255,.05)">
   <div class="wrap footer-grid" style="max-width:1280px;margin:0 auto;padding:64px 32px 40px;display:grid;grid-template-columns:1.4fr 1fr;gap:40px;align-items:start">
     <div>
       <div class="logo-mark" style="font-family:'Antonio',sans-serif;font-weight:700;font-size:16px;letter-spacing:1.4px;transform-origin:0% 70%;width:max-content;color:#FFFFFF80">
@@ -696,7 +696,7 @@
       <div>
         <div style="{{ footHead }}">{{ t.foot.company }}</div>
         <a href="{{ termsHref }}" style="{{ footLink }}">{{ t.foot.terms }}</a>
-        <a href="instructors.html" style="{{ footLink }}">{{ t.foot.forInstructors }}</a>
+        <a href="Instructors.dc.html" style="{{ footLink }}">{{ t.foot.forInstructors }}</a>
       </div>
       <div>
         <div style="{{ footHead }}">{{ t.foot.contact }}</div>
@@ -1250,8 +1250,8 @@ class Component extends DCLogic {
     const footHead = "font-size:12px;letter-spacing:.6px;text-transform:uppercase;color:#61FFD0;margin-bottom:16px;font-weight:600";
     const footLink = "display:block;font-size:14px;color:#FFFFFFBD;margin-bottom:11px";
 
-    const glassCard = "background:linear-gradient(135deg,rgba(150,190,255,.12),rgba(150,190,255,.025));backdrop-filter:blur(14px) saturate(150%);-webkit-backdrop-filter:blur(14px) saturate(150%);border:1px solid rgba(170,205,255,.20);box-shadow:0 20px 60px rgba(0,0,0,.4),inset 0 1px 0 rgba(200,225,255,.30),inset 0 -1px 0 rgba(255,255,255,.05)";
-    const glassPanel = "background:linear-gradient(135deg,rgba(150,190,255,.07),rgba(150,190,255,.018));backdrop-filter:blur(12px) saturate(140%);-webkit-backdrop-filter:blur(12px) saturate(140%);border:1px solid rgba(170,205,255,.17);border-radius:18px;box-shadow:0 10px 40px rgba(0,0,0,.3),inset 0 1px 0 rgba(200,225,255,.20)";
+    const glassCard = "background:linear-gradient(180deg,rgba(255,255,255,.13),rgba(255,255,255,.06));backdrop-filter:blur(14px) saturate(140%);-webkit-backdrop-filter:blur(14px) saturate(140%);border:1px solid rgba(255,255,255,.16);box-shadow:0 20px 60px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.22)";
+    const glassPanel = "background:linear-gradient(180deg,rgba(255,255,255,.10),rgba(255,255,255,.045));backdrop-filter:blur(14px) saturate(140%);-webkit-backdrop-filter:blur(14px) saturate(140%);border:1px solid rgba(255,255,255,.14);border-radius:18px;box-shadow:0 10px 40px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.18)";
 
     const CERT_BADGES = [
       { name: 'ISA', full: 'International Surfing Association' },
@@ -1384,7 +1384,7 @@ class Component extends DCLogic {
     return {
       t: L,
       navStyle: (this.state.scrolled || this.state.menuOpen)
-        ? "position:fixed;top:0;left:0;right:0;z-index:70;background:linear-gradient(180deg,rgba(8,14,13,.85),rgba(8,14,13,.75));backdrop-filter:blur(10px) saturate(140%);-webkit-backdrop-filter:blur(10px) saturate(160%);border-bottom:1px solid rgba(255,255,255,.12);box-shadow:0 8px 40px rgba(0,0,0,.25),inset 0 1px 0 rgba(255,255,255,.16);transition:all .35s"
+        ? "position:fixed;top:0;left:0;right:0;z-index:70;background:linear-gradient(180deg,rgba(255,255,255,.15),rgba(255,255,255,.08));backdrop-filter:blur(10px) saturate(140%);-webkit-backdrop-filter:blur(10px) saturate(140%);border-bottom:1px solid rgba(255,255,255,.14);box-shadow:0 8px 40px rgba(0,0,0,.25),inset 0 1px 0 rgba(255,255,255,.16);transition:all .35s"
         : "position:fixed;top:0;left:0;right:0;z-index:70;background:transparent;border-bottom:1px solid transparent;transition:background .35s,border-color .35s",
       eyebrow: subhead, subhead, h2Style, inputStyle, selectStyle, textareaStyle, fieldLabel, footHead, footLink, glassCard, glassPanel,
 
@@ -1403,7 +1403,7 @@ class Component extends DCLogic {
 
       toggleMenu: () => this.setState(s => ({ menuOpen: !s.menuOpen })),
       closeMenu: () => this.setState({ menuOpen: false }),
-      drawerStyle: "position:fixed;inset:0;z-index:65;background:rgba(8,14,13,.98);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;transition:opacity .3s,visibility .3s;opacity:" + (this.state.menuOpen ? '1' : '0') + ";visibility:" + (this.state.menuOpen ? 'visible' : 'hidden'),
+      drawerStyle: "position:fixed;inset:0;z-index:65;background:rgba(9,44,60,.97);backdrop-filter:blur(14px) saturate(140%);-webkit-backdrop-filter:blur(14px) saturate(140%);display:flex;align-items:center;justify-content:center;transition:opacity .3s,visibility .3s;opacity:" + (this.state.menuOpen ? '1' : '0') + ";visibility:" + (this.state.menuOpen ? 'visible' : 'hidden'),
       drawerLink: "font-family:'Antonio',sans-serif;font-weight:600;font-size:30px;color:#fff;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.08);transition:color .2s,opacity .35s ease,transform .35s ease",
       drawerLink0: "font-family:'Antonio',sans-serif;font-weight:600;font-size:30px;color:#fff;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.08);transition:color .2s,opacity .35s ease,transform .35s ease;transition-delay:" + (this.state.menuOpen ? '.05s' : '0s') + ";opacity:" + (this.state.menuOpen ? '1' : '0') + ";transform:translateY(" + (this.state.menuOpen ? '0' : '10px') + ")",
       drawerLink1: "font-family:'Antonio',sans-serif;font-weight:600;font-size:30px;color:#fff;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.08);transition:color .2s,opacity .35s ease,transform .35s ease;transition-delay:" + (this.state.menuOpen ? '.1s' : '0s') + ";opacity:" + (this.state.menuOpen ? '1' : '0') + ";transform:translateY(" + (this.state.menuOpen ? '0' : '10px') + ")",
@@ -1439,8 +1439,8 @@ class Component extends DCLogic {
       openDatePicker: e => { if (e.target.showPicker) { try { e.target.showPicker(); } catch (err) {} } },
       reco,
       recoKey: JSON.stringify(this.state.explore), exSportVal, exLevelVal, onExSport, onExLevel, bookThis,
-      guideHref: 'surf-guide.html?lang=' + this.state.lang,
-      termsHref: 'terms-of-service.html?lang=' + this.state.lang,
+      guideHref: 'Surf Guide.dc.html?lang=' + this.state.lang,
+      termsHref: 'Terms of Service.dc.html?lang=' + this.state.lang,
 
       faqs: L.faq.list.map((item, i) => {
         const open = this.state.openFaq === i;
