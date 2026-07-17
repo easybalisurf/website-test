@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bali Surf Guide — Waves, Wind & Best Spots | EasyBali.Surf</title>
+<meta name="description" content="Guide to Bali's best surf, kite and SUP spots — wave types, wind patterns, tides and seasonality to help you plan your session.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://easybali.surf/surf-guide.html">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Antonio:wght@400;500;600;700&amp;family=Oswald:wght@400;500;600;700&amp;family=Audiowide&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
+<script src="./i18n.js"></script>
+<style>
+  *{box-sizing:border-box}
+  body{margin:0;background:#0c2436;color:#FFFFFFBD;font-family:'Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+  a{color:#61FFD0;text-decoration:none}
+  a:hover{color:#8affe0}
+  ::selection{background:#61FFD0;color:#08100d}
+  html[lang="ru"] [style*="Antonio"]{font-family:'Oswald',sans-serif !important}
+  @keyframes floatUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+</style>
+</helmet>
+
+<div style="position:relative;min-height:100vh">
+
+  <header style="border-bottom:1px solid rgba(97,255,208,.12)">
+    <div style="max-width:840px;margin:0 auto;padding:28px 32px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap">
+      <a href="{{ backHref }}" style="display:flex;align-items:center;color:#fff">
+        <span style="font-family:'Antonio',sans-serif;font-weight:700;font-size:24px;letter-spacing:2px">
+          <span style="color:#8CFFC1">E</span><span style="color:#8CFFC1">A</span><span style="color:#82F0C0">S</span><span style="color:#7CE4C3">Y</span><span style="color:#76D8C6">B</span><span style="color:#70CDC9">A</span><span style="color:#6AC1CC">L</span><span style="color:#64B6CF">I</span><span style="color:#61C9E6">.</span><span style="color:#fff">SURF</span>
+        </span>
+      </a>
+      <a href="{{ backHref }}" style="font-size:14px;color:#FFFFFFBD">{{ t.backLink }}</a>
+    </div>
+  </header>
+
+  <main style="max-width:760px;margin:0 auto;padding:80px 32px 100px">
+    <p style="font-family:'Inter',sans-serif;color:#61FFD0;font-size:14px;font-weight:500;letter-spacing:.4px;text-transform:uppercase;margin:0;animation:floatUp .7s ease-out both">{{ t.eyebrow }}</p>
+    <h1 style="font-family:'Antonio',sans-serif;font-weight:700;font-size:clamp(34px,6vw,54px);line-height:1.02;letter-spacing:-.5px;color:#fff;margin:14px 0 0;animation:floatUp .8s .06s ease-out both">{{ t.h1 }}</h1>
+    <p style="font-size:17px;line-height:1.7;margin:22px 0 0;max-width:62ch;animation:floatUp .9s .12s ease-out both">{{ t.lead }}</p>
+
+    <section style="margin-top:56px;animation:floatUp 1s .16s ease-out both">
+      <h2 style="font-family:'Antonio',sans-serif;font-weight:600;font-size:26px;color:#fff;margin:0 0 16px">{{ t.sizeTitle }}</h2>
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <sc-for list="{{ t.sizes }}" as="sz" hint-placeholder-count="3">
+          <div style="padding:20px 22px;border-radius:14px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1)">
+            <strong style="color:#61FFD0">{{ sz.strong }}</strong><span style="color:#fff"> — {{ sz.tag }}</span> {{ sz.body }}
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <section style="margin-top:48px;animation:floatUp 1s .2s ease-out both">
+      <h2 style="font-family:'Antonio',sans-serif;font-weight:600;font-size:26px;color:#fff;margin:0 0 16px">{{ t.windTitle }}</h2>
+      <p style="font-size:15px;line-height:1.7;margin:0 0 16px;max-width:62ch">
+        <sc-for list="{{ windSegs }}" as="seg" hint-placeholder-count="7"><span style="{{ seg.style }}">{{ seg.t }}</span></sc-for>
+      </p>
+    </section>
+
+    <section style="margin-top:48px;animation:floatUp 1s .24s ease-out both">
+      <h2 style="font-family:'Antonio',sans-serif;font-weight:600;font-size:26px;color:#fff;margin:0 0 16px">{{ t.swellTitle }}</h2>
+      <p style="font-size:15px;line-height:1.7;margin:0;max-width:62ch">
+        <sc-for list="{{ swellSegs }}" as="seg" hint-placeholder-count="5"><span style="{{ seg.style }}">{{ seg.t }}</span></sc-for>
+      </p>
+    </section>
+
+    <section style="margin-top:48px;animation:floatUp 1s .28s ease-out both">
+      <h2 style="font-family:'Antonio',sans-serif;font-weight:600;font-size:26px;color:#fff;margin:0 0 16px">{{ t.spotsTitle }}</h2>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px">
+        <sc-for list="{{ t.spots }}" as="sp" hint-placeholder-count="6">
+          <div style="padding:18px 20px;border-radius:14px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1)"><strong style="color:#fff">{{ sp.name }}</strong><br><span style="font-size:14px">{{ sp.desc }}</span></div>
+        </sc-for>
+      </div>
+    </section>
+
+    <section style="margin-top:48px;animation:floatUp 1s .32s ease-out both">
+      <h2 style="font-family:'Antonio',sans-serif;font-weight:600;font-size:26px;color:#fff;margin:0 0 16px">{{ t.seasonTitle }}</h2>
+      <p style="font-size:15px;line-height:1.7;margin:0 0 16px;max-width:62ch">
+        <sc-for list="{{ seasonDrySegs }}" as="seg" hint-placeholder-count="2"><span style="{{ seg.style }}">{{ seg.t }}</span></sc-for>
+      </p>
+      <p style="font-size:15px;line-height:1.7;margin:0;max-width:62ch">
+        <sc-for list="{{ seasonWetSegs }}" as="seg" hint-placeholder-count="2"><span style="{{ seg.style }}">{{ seg.t }}</span></sc-for>
+      </p>
+    </section>
+
+    <a href="{{ ctaHref }}" style="display:inline-flex;align-items:center;gap:9px;background:linear-gradient(120deg,#7DFFC4,#61FFD0 42%,#3FD9E6);color:#08100d;font-weight:600;font-size:15px;padding:16px 30px;border-radius:100px;margin-top:56px;animation:floatUp 1s .36s ease-out both">{{ t.cta }}</a>
+  </main>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  // Language is never chosen on this page — it's inherited from whichever site
+  // language the visitor was on when they clicked through (via ?lang= on the link).
+  urlLang() {
+    const v = typeof window !== 'undefined' ? new URLSearchParams(window.location.search).get('lang') : null;
+    return (window.GUIDE_TEXT && window.GUIDE_TEXT[v]) ? v : 'en';
+  }
+  segStyle(seg) { return seg.b ? 'color:#fff;font-weight:600' : ''; }
+  renderVals() {
+    const lang = this.urlLang();
+    if (typeof document !== 'undefined') document.documentElement.lang = lang;
+    const D = window.GUIDE_TEXT || {};
+    const t = D[lang] || D.en;
+    return {
+      t,
+      windSegs: (t.windBody || []).map(seg => ({ ...seg, style: this.segStyle(seg) })),
+      swellSegs: (t.swellBody || []).map(seg => ({ ...seg, style: this.segStyle(seg) })),
+      seasonDrySegs: (t.seasonDry || []).map(seg => ({ ...seg, style: this.segStyle(seg) })),
+      seasonWetSegs: (t.seasonWet || []).map(seg => ({ ...seg, style: this.segStyle(seg) })),
+      backHref: 'index.html?lang=' + lang,
+      ctaHref: 'index.html?lang=' + lang + '#forecast',
+    };
+  }
+}
+
+</script>
+</body>
+</html>

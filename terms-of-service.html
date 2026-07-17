@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Terms of Service — EasyBali.Surf</title>
+<meta name="description" content="Terms of Service for EasyBali.Surf surf, kite, wing foil and SUP coaching bookings in Bali.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://easybali.surf/terms-of-service.html">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Antonio:wght@400;500;600;700&amp;family=Oswald:wght@400;500;600;700&amp;family=Audiowide&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
+<script src="./i18n.js"></script>
+<style>
+  *{box-sizing:border-box}
+  body{margin:0;background:#0a0e0d;color:#FFFFFFBD;font-family:'Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+  a{color:#61FFD0;text-decoration:none}
+  a:hover{color:#8affe0}
+  ::selection{background:#61FFD0;color:#08100d}
+  h2{font-family:'Antonio',sans-serif;font-weight:600;color:#fff;font-size:22px;margin:44px 0 12px}
+  html[lang="ru"] h2,html[lang="ru"] [style*="Antonio"]{font-family:'Oswald',sans-serif !important}
+  p,li{font-size:15px;line-height:1.7}
+  li{margin-bottom:8px}
+</style>
+</helmet>
+
+<div style="position:relative;min-height:100vh">
+
+  <header style="border-bottom:1px solid rgba(97,255,208,.12)">
+    <div style="max-width:840px;margin:0 auto;padding:28px 32px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap">
+      <a href="{{ backHref }}" style="display:flex;align-items:center;color:#fff">
+        <span style="font-family:'Antonio',sans-serif;font-weight:700;font-size:24px;letter-spacing:2px">
+          <span style="color:#8CFFC1">E</span><span style="color:#8CFFC1">A</span><span style="color:#7FF5C6">S</span><span style="color:#72EBCB">Y</span><span style="color:#65E0D0">B</span><span style="color:#58D6D5">A</span><span style="color:#4BCBDA">L</span><span style="color:#3EC1DF">I</span><span style="color:#31B6E4">.</span><span style="color:#fff">SURF</span>
+        </span>
+      </a>
+      <a href="{{ backHref }}" style="font-size:14px;color:#FFFFFFBD">{{ t.backLink }}</a>
+    </div>
+  </header>
+
+  <main style="max-width:720px;margin:0 auto;padding:70px 32px 100px">
+    <p style="font-family:'Inter',sans-serif;color:#61FFD0;font-size:14px;font-weight:500;letter-spacing:.4px;text-transform:uppercase;margin:0">{{ t.eyebrow }}</p>
+    <h1 style="font-family:'Antonio',sans-serif;font-weight:700;font-size:clamp(30px,5vw,44px);line-height:1.05;letter-spacing:-.5px;color:#fff;margin:14px 0 0">{{ t.h1 }}</h1>
+    <p style="font-size:14px;color:#FFFFFF80;margin:10px 0 0">{{ t.updated }}</p>
+
+    <p style="margin-top:28px;max-width:64ch">{{ t.intro }}</p>
+
+    <sc-for list="{{ t.sections }}" as="s" hint-placeholder-count="10">
+      <div>
+        <h2>{{ s.h }}</h2>
+        <sc-if value="{{ s.body }}" hint-placeholder-val="{{ true }}"><p>{{ s.body }}<sc-if value="{{ s.contactEmail }}" hint-placeholder-val="{{ false }}"> <a href="mailto:hello@easybali.surf">hello@EasyBali.surf</a></sc-if></p></sc-if>
+        <sc-if value="{{ s.list }}" hint-placeholder-val="{{ false }}">
+          <ul>
+            <sc-for list="{{ s.list }}" as="li" hint-placeholder-count="4"><li>{{ li }}</li></sc-for>
+          </ul>
+        </sc-if>
+      </div>
+    </sc-for>
+  </main>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  // Language is never chosen on this page — it's inherited from whichever site
+  // language the visitor was on when they clicked through (via ?lang= on the link).
+  urlLang() {
+    const v = typeof window !== 'undefined' ? new URLSearchParams(window.location.search).get('lang') : null;
+    return (window.TERMS_TEXT && window.TERMS_TEXT[v]) ? v : 'en';
+  }
+  renderVals() {
+    const lang = this.urlLang();
+    if (typeof document !== 'undefined') document.documentElement.lang = lang;
+    const D = window.TERMS_TEXT || {};
+    const t = D[lang] || D.en;
+    return {
+      t,
+      backHref: 'index.html?lang=' + lang,
+    };
+  }
+}
+
+</script>
+</body>
+</html>
