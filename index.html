@@ -302,7 +302,7 @@
 
       <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:22px;padding-top:20px;border-top:1px solid rgba(255,255,255,.1)">
         <p style="font-size:12px;line-height:1.5;color:#FFFFFF99;margin:0;max-width:44ch">{{ t.smart.disclaimer }}</p>
-        <button type="button" onClick="{{ bookThis }}" style="flex:none;background:linear-gradient(120deg,#7DFFC4,#61FFD0 42%,#3FD9E6);color:#08100d;font-weight:600;font-size:15px;padding:14px 26px;border:none;border-radius:100px;cursor:pointer;transition:transform .2s,box-shadow .2s" style-hover="box-shadow:0 10px 34px rgba(97,255,208,.4);transform:translateY(-1px)">{{ t.smart.bookBtn }}</button>
+        <button type="button" onClick="{{ bookThis }}" style="flex:none;background:linear-gradient(120deg,#7DFFC4,#61FFD0 42%,#3FD9E6);color:#08100d;font-weight:600;font-size:15px;padding:14px 26px;border:none;border-radius:100px;cursor:pointer;transition:transform .2s,box-shadow .2s" style-hover="box-shadow:0 10px 34px rgba(97,255,208,.4);transform:translateY(-1px)">{{ reco.bookLabel }}</button>
       </div>
     </div>
    </div>
@@ -467,7 +467,7 @@
             </div>
             <sc-if value="{{ showCoachNote }}" hint-placeholder-val="{{ true }}">
               <div style="display:flex;align-items:flex-start;gap:8px;margin-top:12px;font-size:13px;line-height:1.5;color:#61FFD0">
-                <span style="flex:none;font-size:14px">🏄</span><span>{{ t.book.sessionsCoachNote }}</span>
+                <span>{{ t.book.sessionsCoachNote }}</span>
               </div>
             </sc-if>
             <div style="display:flex;flex-direction:column;gap:14px;margin-top:16px">
@@ -679,7 +679,7 @@
             </div>
             <div style="display:flex;gap:12px;margin-top:20px">
               <button type="button" onClick="{{ back }}" style="{{ backBtn }}">{{ w.back }}</button>
-              <button type="submit" style="{{ nextBtn }}">{{ t.book.submit }}</button>
+              <button type="submit" style="{{ nextBtn }}">{{ submitLabel }}</button>
             </div>
             <p style="font-size:12px;text-align:center;margin:14px 0 0;color:#FFFFFF80">{{ t.book.fineA }}<a href="{{ termsHref }}" style="color:#61FFD0">{{ t.book.fineLink }}</a>{{ t.book.fineB }}</p>
           </div>
@@ -1129,24 +1129,25 @@ class Component extends DCLogic {
     const word = 'EASYBALI.SURF';
     const gradLen = word.indexOf('.') + 1; // gradient covers "EASYBALI." — ".SURF" renders white
     const n = Math.max(1, gradLen - 1);
+    // Fully static logo. The yellow sun-dot sits in its normal "easybali.surf" position on the
+    // baseline between BALI and SURF; the SURF letters are frozen mid wave-start (a swell rising
+    // to a crest at R) — motion implied, nothing animates or re-renders.
+    const waveY = { 9: -0.03, 10: -0.10, 11: -0.16, 12: -0.09 }; // S U R F — swell cresting at R
+    const waveR = { 9: 2, 10: 4, 11: 0, 12: -4 };                // tilt follows the wave slope
     return [...word].map((ch, i) => {
-      const delay = ';animation-delay:' + (i * 0.09).toFixed(2) + 's';
       const color = (i < gradLen ? this.logoGradientColor(i/n) : '#ffffff');
       if (ch === '.') {
-        // The dot sits ABOVE the preceding "I" so "I." reads as a lowercase "i" (a little sun above
-        // the stroke). It takes no horizontal room (negative margins) so "I" butts up against "S".
-        const sun = 'display:inline-block;position:relative;top:-0.09em;left:-0.25em;width:0.17em;height:0.17em;border-radius:50%'
-          + ';background:#FFD668;vertical-align:baseline;animation:none'
-          + ';margin:0 -0.09em 0 0';
+        const sun = 'display:inline-block;align-self:flex-end;width:0.16em;height:0.16em;border-radius:50%;background:#FFD668;margin:0 0.04em 0.08em;animation:none';
         return { ch: '', style: sun, navStyle: sun + ';transition:opacity .35s', footStyle: sun };
       }
+      const lift = waveY[i] ? ';transform:translateY(' + waveY[i] + 'em) rotate(' + waveR[i] + 'deg)' : '';
+      const st = 'color:' + color + ';animation:none' + lift;
       return {
         ch: ch === ' ' ? '\u00A0' : ch,
-        style: 'color:' + color + delay,
+        style: st,
         // Logo keeps its brand color everywhere — only nav links/burger flip to dark ink over light sections.
-        navStyle: 'color:' + color + delay + ';transition:color .35s',
-        // Footer: same brand gradient on EASYBALI, white on SURF (matches nav).
-        footStyle: 'color:' + color + ';animation:none'
+        navStyle: st + ';transition:color .35s',
+        footStyle: st
       };
     });
   }
@@ -1178,8 +1179,9 @@ class Component extends DCLogic {
           const idx = i++;
           // Stagger the swing so a single crest travels left→right through the whole
           // title over ~1.4s, then all letters rest flat for the remainder of the 9s cycle.
-          const delay = (idx * 0.08).toFixed(3);
-          return { ch: c.ch, style: 'color:' + c.color + ';display:inline-block;transform-origin:center bottom;animation-delay:-' + delay + 's' };
+          // First crest starts at 3s — right as the reader reaches "waves." — then loops on the 9s cycle.
+          const delay = (3 + idx * 0.08).toFixed(3);
+          return { ch: c.ch, style: 'color:' + c.color + ';display:inline-block;transform-origin:center bottom;animation-delay:' + delay + 's' };
         })
       };
     });
@@ -1308,6 +1310,7 @@ class Component extends DCLogic {
     return {
       active, primary, week, conds,
       noSlots: slots.length === 0, noWinMsg: sm.noWin,
+      bookLabel: (() => { const dp2 = targetDate.split('-').map(Number); const dl = new Date(Date.UTC(dp2[0], dp2[1] - 1, dp2[2])).toLocaleDateString(locale, { day: 'numeric', month: 'short', timeZone: 'UTC' }); return chosenSlot ? (sm.bookDate || 'Book {date}').replace('{date}', dl) : (sm.pickSlot || 'Select a time slot'); })(),
       spots: pool.map(s => ({ name: s.name, style: spotChip(active.name === s.name), pick: () => this.setEx('spot', s.name) })),
       slots: slots.map(s => ({ ...s, style: slotRow(chosenSlot === s.time), pick: () => this.setState(st => ({ explore: { ...st.explore, slot: s.time, spot: st.explore.spot || active.name } })) }))
     };
@@ -1653,6 +1656,7 @@ class Component extends DCLogic {
       tbPrice: ad.transferBack ? (this.state.transferBackFrom ? '$' + tbOne + ' · ~' + this.transferEtaMin(this.state.transferBackFrom, destName) + ' ' + (W.minAbbr || 'min') : '—') : '',
       summary, orderTotal: '$' + totalNum,
       depositDue: '$' + Math.round(baseNum * 0.2),
+      submitLabel: (L.book.submit || 'Pay {dep} & book').replace('{dep}', '$' + Math.round(baseNum * 0.2)),
       depositLabel: (L.book.sessionDeposit || 'Deposit due (20% of session price)'),
       // Live USD→IDR rate (fetched in componentDidMount, cached 6h) — falls back to ~18,000 until it resolves.
       remainderLabel: L.book.remainderLabel || 'Balance paid locally (approx.)',
