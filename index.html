@@ -54,6 +54,8 @@
   @keyframes recoFade{from{opacity:.35}to{opacity:1}}
   @keyframes livePulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.3;transform:scale(.55)}}
   @keyframes condShimmer{0%,100%{opacity:1}50%{opacity:.45}}
+  nav{perspective:900px}
+  .nav-inner{transform-style:preserve-3d;backface-visibility:hidden}
   .logo-mark{display:inline-flex}
   .logo-char{display:inline-block}
   .hero-char{display:inline-block;transform-origin:center bottom;animation:heroSwell 15s ease-in-out infinite}
@@ -107,23 +109,24 @@
 
 <!-- ============ NAV ============ -->
 <nav data-screen-label="Nav" style="{{ navStyle }}">
-  <div class="wrap" style="max-width:1280px;margin:0 auto;padding:env(safe-area-inset-top) 32px 0;height:calc(74px + env(safe-area-inset-top));display:flex;align-items:center;justify-content:space-between">
-    <a href="#hero" style="display:flex;align-items:center;color:#fff">
+  <div class="wrap nav-inner" style="max-width:1280px;margin:0 auto;padding:env(safe-area-inset-top) 32px 0;height:calc(74px + env(safe-area-inset-top));display:flex;align-items:center;justify-content:space-between">
+    <a href="#hero" style="display:flex;align-items:center;color:{{ navInk }}">
       <span class="logo-mark" style="font-family:'Antonio',sans-serif;font-weight:700;font-size:24px;letter-spacing:2px">
-        <sc-for list="{{ logoChars }}" as="lc" hint-placeholder-count="13"><span class="logo-char" style="{{ lc.style }}">{{ lc.ch }}</span></sc-for>
+        <sc-for list="{{ logoChars }}" as="lc" hint-placeholder-count="13"><span class="logo-char" style="{{ lc.navStyle }}">{{ lc.ch }}</span></sc-for>
       </span>
     </a>
 
     <!-- desktop nav -->
     <div class="nav-desktop" style="display:flex;align-items:center;gap:28px">
-      <a href="#forecast" style="color:#FFFFFFBD;font-size:14px;font-weight:500;transition:color .2s" style-hover="color:#61FFD0">{{ t.nav.forecast }}</a>
-      <a href="#why" style="color:#FFFFFFBD;font-size:14px;font-weight:500;transition:color .2s" style-hover="color:#61FFD0">{{ t.nav.why }}</a>
-      <a href="#how" style="color:#FFFFFFBD;font-size:14px;font-weight:500;transition:color .2s" style-hover="color:#61FFD0">{{ t.nav.how }}</a>
+      <a href="#forecast" style="{{ navLinkForecast }}" style-hover="color:#61FFD0">{{ t.nav.forecast }}</a>
+      <a href="#why" style="{{ navLinkWhy }}" style-hover="color:#61FFD0">{{ t.nav.why }}</a>
+      <a href="#how" style="{{ navLinkHow }}" style-hover="color:#61FFD0">{{ t.nav.how }}</a>
+      <a href="#faq" style="{{ navLinkFaq }}" style-hover="color:#61FFD0">FAQ</a>
 
       <div data-langwrap="" style="position:relative">
         <button onClick="{{ toggleLang }}" style="{{ langBtnStyle }}">
           <span>{{ curLangName }}</span>
-          <span style="{{ langCaret }}">▾</span>
+          <span style="{{ langCaret }}"><svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
         </button>
         <div style="{{ langMenuStyle }}">
           <sc-for list="{{ langOptions }}" as="lo" hint-placeholder-count="6">
@@ -307,7 +310,7 @@
 </section>
 
 <!-- ============ WHY US ============ -->
-<section id="why" data-screen-label="Why us" style="position:relative;overflow:hidden;background:#F4F1E9;color:#33474C">
+<section id="why" data-navtheme="light" data-screen-label="Why us" style="position:relative;overflow:hidden;background:#F4F1E9;color:#33474C">
 
   <div class="wrap sec-pad" style="position:relative;max-width:1280px;margin:0 auto;padding:110px 32px">
     <div style="max-width:680px">
@@ -350,7 +353,7 @@
 </section>
 
 <!-- ============ TESTIMONIALS MARQUEE ============ -->
-<section data-screen-label="Testimonials" style="padding:88px 0 56px;overflow:hidden;background:#EDF3F4;color:#33474C">
+<section data-navtheme="light" data-screen-label="Testimonials" style="padding:88px 0 56px;overflow:hidden;background:#EDF3F4;color:#33474C">
   <p style="{{ subheadDark }};text-align:center">{{ t.rev.sub }}</p>
   <h2 style="{{ h2Dark }};text-align:center;margin:12px auto 48px">{{ t.rev.h2 }}</h2>
   <div class="rev-scroll" style="{{ revScrollStyle }}">
@@ -462,6 +465,11 @@
                 </select>
               </label>
             </div>
+            <sc-if value="{{ showCoachNote }}" hint-placeholder-val="{{ true }}">
+              <div style="display:flex;align-items:flex-start;gap:8px;margin-top:12px;font-size:13px;line-height:1.5;color:#61FFD0">
+                <span style="flex:none;font-size:14px">🏄</span><span>{{ t.book.sessionsCoachNote }}</span>
+              </div>
+            </sc-if>
             <div style="display:flex;flex-direction:column;gap:14px;margin-top:16px">
               <sc-for list="{{ sessionRows }}" as="row" hint-placeholder-count="1">
                 <div style="padding:14px;border-radius:14px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08)">
@@ -685,30 +693,30 @@
 
 <!-- ============ FOOTER ============ -->
 <footer style="position:relative;background:#061019;border-top:1px solid rgba(255,255,255,.10);box-shadow:inset 0 1px 0 rgba(255,255,255,.05)">
-  <div class="wrap footer-grid" style="max-width:1280px;margin:0 auto;padding:64px 32px 40px;display:grid;grid-template-columns:1.4fr 1fr;gap:40px;align-items:start">
+  <div class="wrap footer-grid" style="max-width:1280px;margin:0 auto;padding:64px 32px 40px;display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:40px;align-items:start">
     <div>
-      <div class="logo-mark" style="font-family:'Antonio',sans-serif;font-weight:700;font-size:16px;letter-spacing:1.4px;transform-origin:0% 70%;width:max-content;color:#FFFFFF80">
-        <sc-for list="{{ logoChars }}" as="lc" hint-placeholder-count="13"><span class="logo-char" style="color:#FFFFFF80">{{ lc.ch }}</span></sc-for>
+      <div class="logo-mark" style="font-family:'Antonio',sans-serif;font-weight:700;font-size:16px;letter-spacing:1.4px;transform-origin:0% 70%;width:max-content">
+        <sc-for list="{{ logoChars }}" as="lc" hint-placeholder-count="13"><span class="logo-char" style="{{ lc.footStyle }}">{{ lc.ch }}</span></sc-for>
       </div>
       <p style="font-size:13px;margin:16px 0 0;color:#FFFFFF80">© 2026 EasyBali.surf<br>{{ t.foot.rights }}</p>
     </div>
 
-    <div style="display:flex;flex-wrap:wrap;gap:40px">
+    <div style="display:contents">
       <div>
         <div style="{{ footHead }}">{{ t.foot.explore }}</div>
-        <a href="#why" style="{{ footLink }}">{{ t.nav.why }}</a>
-        <a href="#how" style="{{ footLink }}">{{ t.nav.how }}</a>
-        <a href="#faq" style="{{ footLink }}">FAQ</a>
+        <a href="#why" style="{{ footLink }}" style-hover="color:#61FFD0">{{ t.nav.why }}</a>
+        <a href="#how" style="{{ footLink }}" style-hover="color:#61FFD0">{{ t.nav.how }}</a>
+        <a href="#faq" style="{{ footLink }}" style-hover="color:#61FFD0">FAQ</a>
       </div>
       <div>
         <div style="{{ footHead }}">{{ t.foot.company }}</div>
-        <a href="{{ termsHref }}" style="{{ footLink }}">{{ t.foot.terms }}</a>
-        <a href="Instructors.dc.html" style="{{ footLink }}">{{ t.foot.forInstructors }}</a>
+        <a href="{{ termsHref }}" style="{{ footLink }}" style-hover="color:#61FFD0">{{ t.foot.terms }}</a>
+        <a href="Instructors.dc.html" style="{{ footLink }}" style-hover="color:#61FFD0">{{ t.foot.forInstructors }}</a>
       </div>
       <div>
         <div style="{{ footHead }}">{{ t.foot.contact }}</div>
-        <a href="mailto:hello@easybali.surf" style="{{ footLink }}">hello@easybali.surf</a>
-        <a href="https://t.me/EasyBaliSurf" style="{{ footLink }}">Telegram · @EasyBaliSurf</a>
+        <a href="mailto:hello@easybali.surf" style="{{ footLink }}" style-hover="color:#61FFD0">hello@easybali.surf</a>
+        <a href="https://t.me/EasyBaliSurf" style="{{ footLink }}" style-hover="color:#61FFD0">Telegram · @EasyBaliSurf</a>
       </div>
     </div>
   </div>
@@ -724,6 +732,8 @@ class Component extends DCLogic {
   // ============================================================
   state = {
     scrolled: false,
+    activeSection: '',
+    navOnLight: false,
     submitted: false,
     openFaq: 0,
     howVisible: {},
@@ -938,9 +948,26 @@ class Component extends DCLogic {
         wv.style.transform = 'translate3d(' + x.toFixed(1) + 'px,0,0)';
       });
     };
+    this._sectionIds = ['forecast', 'why', 'how', 'faq'];
     this._onScroll = () => {
       const s = window.scrollY > 40;
       if (s !== this.state.scrolled) this.setState({ scrolled: s });
+      // Active-section tracking: the section whose top is nearest above the nav line.
+      const line = 90;
+      let active = '';
+      for (const id of this._sectionIds) {
+        const el = document.getElementById(id);
+        if (el && el.getBoundingClientRect().top <= line) active = id;
+      }
+      if (active !== this.state.activeSection) this.setState({ activeSection: active });
+      // Which section sits under the nav line? Light sections flip the nav to dark ink.
+      let onLight = false;
+      const els = document.querySelectorAll('[data-navtheme="light"]');
+      for (const el of els) {
+        const r = el.getBoundingClientRect();
+        if (r.top <= line && r.bottom > line) { onLight = true; break; }
+      }
+      if (onLight !== this.state.navOnLight) this.setState({ navOnLight: onLight });
       if (this._raf) return;
       this._raf = requestAnimationFrame(() => { this._raf = null; this._parallax(); });
     };
@@ -982,6 +1009,16 @@ class Component extends DCLogic {
       if (s && s.scrollLeft !== this._weekScroll) s.scrollLeft = this._weekScroll;
     }
     if (prevState.lang !== this.state.lang) document.documentElement.lang = this.state.lang;
+    // Nav "flips over" when it crosses between dark and light sections.
+    if (prevState.navOnLight !== this.state.navOnLight) {
+      const inner = document.querySelector('.nav-inner');
+      if (inner && inner.animate) {
+        inner.animate(
+          [{ transform: 'rotateX(0deg)' }, { transform: 'rotateX(90deg)' }, { transform: 'rotateX(0deg)' }],
+          { duration: 480, easing: 'cubic-bezier(.5,0,.3,1)' }
+        );
+      }
+    }
     // Re-render wipes JS-applied transforms on the wave/parallax nodes → reapply immediately so
     // the seam wave doesn't jump/flicker when the header toggles its scrolled state near the top.
     if (this._parallax) this._parallax();
@@ -1074,14 +1111,23 @@ class Component extends DCLogic {
   logoGradientColor(t) {
     return this.lerpHex('#8CFFC1', '#61C9E6', t);
   }
-  buildLogoChars() {
+  buildLogoChars(onLight) {
     const word = 'EASYBALI.SURF';
     const gradLen = word.indexOf('.') + 1; // gradient covers "EASYBALI." — ".SURF" renders white
     const n = Math.max(1, gradLen - 1);
-    return [...word].map((ch, i) => ({
-      ch: ch === ' ' ? '\u00A0' : ch,
-      style: 'color:' + (i < gradLen ? this.logoGradientColor(i/n) : '#ffffff') + ';animation-delay:' + (i * 0.09).toFixed(2) + 's' + (ch === '.' ? ';position:relative;top:-0.34em' : '')
-    }));
+    return [...word].map((ch, i) => {
+      const dot = (ch === '.' ? ';position:relative;top:-0.34em' : '');
+      const delay = ';animation-delay:' + (i * 0.09).toFixed(2) + 's';
+      const color = (i < gradLen ? this.logoGradientColor(i/n) : '#ffffff');
+      return {
+        ch: ch === ' ' ? '\u00A0' : ch,
+        style: 'color:' + color + delay + dot,
+        // Logo keeps its brand color everywhere — only nav links/burger flip to dark ink over light sections.
+        navStyle: 'color:' + color + delay + dot + ';transition:color .35s',
+        // Footer: dimmed, no wave animation, but keep the raised dot for brand consistency.
+        footStyle: 'color:#FFFFFF80' + dot
+      };
+    });
   }
   buildHeroChars(h1a, h1accent, h1b) {
     const segs = [
@@ -1288,7 +1334,7 @@ class Component extends DCLogic {
     const textareaStyle = "width:100%;margin-top:8px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.16);border-radius:12px;padding:13px 15px;color:#fff;font-family:'Inter',sans-serif;font-size:15px;line-height:1.5;outline:none;resize:vertical;box-sizing:border-box";
     const fieldLabel = "display:block;font-size:13px;letter-spacing:.4px;color:#61FFD0;text-transform:uppercase;font-weight:500";
     const footHead = "font-size:12px;letter-spacing:.6px;text-transform:uppercase;color:#61FFD0;margin-bottom:16px;font-weight:600";
-    const footLink = "display:block;font-size:14px;color:#FFFFFFBD;margin-bottom:11px";
+    const footLink = "display:block;font-size:14px;color:#FFFFFFBD;margin-bottom:11px;transition:color .2s;width:max-content";
 
     const glassCard = "background:linear-gradient(180deg,rgba(255,255,255,.13),rgba(255,255,255,.06));backdrop-filter:blur(14px) saturate(140%);-webkit-backdrop-filter:blur(14px) saturate(140%);border:1px solid rgba(255,255,255,.16);box-shadow:0 20px 60px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.22)";
     const glassPanel = "background:linear-gradient(180deg,rgba(255,255,255,.10),rgba(255,255,255,.045));backdrop-filter:blur(14px) saturate(140%);-webkit-backdrop-filter:blur(14px) saturate(140%);border:1px solid rgba(255,255,255,.14);border-radius:18px;box-shadow:0 10px 40px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.18)";
@@ -1305,6 +1351,13 @@ class Component extends DCLogic {
     const menuItem = (a) => "display:block;width:100%;text-align:left;background:" + (a ? 'rgba(97,255,208,.16)' : 'transparent') + ";color:" + (a ? '#61FFD0' : '#fff') + ";border:none;border-radius:10px;cursor:pointer;font-family:'Inter';font-size:14px;font-weight:500;padding:10px 14px;transition:background .15s";
     const chip = (a) => "background:" + (a ? '#61FFD0' : 'transparent') + ";color:" + (a ? '#08100d' : '#fff') + ";border:1px solid " + (a ? '#61FFD0' : 'rgba(255,255,255,.25)') + ";border-radius:100px;padding:8px 15px;font-size:14px;font-weight:600;cursor:pointer";
     const lmOpen = this.state.langMenuOpen;
+    // Over light sections the nav BAR turns dark (navy) so light text stays legible; ink stays light.
+    const onLight = this.state.navOnLight && !this.state.menuOpen;
+    const navInk = '#fff';
+    const navLinkIdle = '#FFFFFFBD';
+    const navLinkActive = '#61FFD0';
+    const navLinkCss = (id) => "color:" + (this.state.activeSection === id ? navLinkActive : navLinkIdle) + ";font-size:14px;font-weight:500;transition:color .35s";
+    const burgerCss = (t) => "display:block;width:20px;height:2px;background:" + navInk + ";border-radius:2px;transition:" + t;
 
     const ex = this.state.explore;
     const wxStart = this.todayStr();
@@ -1432,14 +1485,23 @@ class Component extends DCLogic {
 
     return {
       t: L,
-      navStyle: (this.state.scrolled || this.state.menuOpen)
+      navStyle: this.state.menuOpen
         ? "position:fixed;top:0;left:0;right:0;z-index:70;background:linear-gradient(180deg,rgba(255,255,255,.15),rgba(255,255,255,.08));backdrop-filter:blur(10px) saturate(140%);-webkit-backdrop-filter:blur(10px) saturate(140%);border-bottom:1px solid rgba(255,255,255,.14);box-shadow:0 8px 40px rgba(0,0,0,.25),inset 0 1px 0 rgba(255,255,255,.16);transition:all .35s"
+        : this.state.scrolled
+        ? (onLight
+          ? "position:fixed;top:0;left:0;right:0;z-index:70;background:linear-gradient(180deg,rgba(9,32,52,.86),rgba(9,32,52,.72));backdrop-filter:blur(10px) saturate(140%);-webkit-backdrop-filter:blur(10px) saturate(140%);border-bottom:1px solid rgba(255,255,255,.1);box-shadow:0 8px 40px rgba(4,18,30,.28),inset 0 1px 0 rgba(255,255,255,.12);transition:all .35s"
+          : "position:fixed;top:0;left:0;right:0;z-index:70;background:linear-gradient(180deg,rgba(255,255,255,.15),rgba(255,255,255,.08));backdrop-filter:blur(10px) saturate(140%);-webkit-backdrop-filter:blur(10px) saturate(140%);border-bottom:1px solid rgba(255,255,255,.14);box-shadow:0 8px 40px rgba(0,0,0,.25),inset 0 1px 0 rgba(255,255,255,.16);transition:all .35s")
         : "position:fixed;top:0;left:0;right:0;z-index:70;background:transparent;border-bottom:1px solid transparent;transition:background .35s,border-color .35s",
       eyebrow: subhead, subhead, subheadDark, h2Style, h2Dark, inputStyle, selectStyle, textareaStyle, fieldLabel, footHead, footLink, glassCard, glassPanel,
 
       curLangName: (LANGS.find(l => l.c === this.state.lang) || LANGS[0]).n,
-      langBtnStyle: "display:flex;align-items:center;gap:7px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.2);border-radius:100px;color:#fff;font-family:'Inter';font-size:13px;font-weight:500;padding:9px 14px;cursor:pointer;transition:all .2s",
-      langCaret: "font-size:9px;transition:transform .2s;transform:rotate(" + (lmOpen ? '180deg' : '0') + ")",
+      navInk,
+      langBtnStyle: "display:flex;align-items:center;gap:7px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.2);border-radius:100px;color:" + navInk + ";font-family:'Inter';font-size:13px;font-weight:500;padding:9px 14px;cursor:pointer;transition:all .35s",
+      langCaret: "display:inline-flex;transition:transform .2s;transform:rotate(" + (lmOpen ? '180deg' : '0') + ")",
+      navLinkForecast: navLinkCss('forecast'),
+      navLinkWhy: navLinkCss('why'),
+      navLinkHow: navLinkCss('how'),
+      navLinkFaq: navLinkCss('faq'),
       langMenuStyle: "position:absolute;top:calc(100% + 10px);right:0;min-width:158px;border-radius:16px;overflow:hidden;padding:6px;" + glassCard + ";z-index:80;transition:opacity .2s,transform .2s,visibility .2s;transform-origin:top right;opacity:" + (lmOpen ? '1' : '0') + ";visibility:" + (lmOpen ? 'visible' : 'hidden') + ";transform:" + (lmOpen ? 'translateY(0) scale(1)' : 'translateY(-6px) scale(.97)'),
       toggleLang: () => this.setState(s => ({ langMenuOpen: !s.langMenuOpen })),
       langOptions: LANGS.map(l => ({
@@ -1458,9 +1520,9 @@ class Component extends DCLogic {
       drawerLink1: "font-family:'Antonio',sans-serif;font-weight:600;font-size:30px;color:#fff;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.08);transition:color .2s,opacity .35s ease,transform .35s ease;transition-delay:" + (this.state.menuOpen ? '.1s' : '0s') + ";opacity:" + (this.state.menuOpen ? '1' : '0') + ";transform:translateY(" + (this.state.menuOpen ? '0' : '10px') + ")",
       drawerLink2: "font-family:'Antonio',sans-serif;font-weight:600;font-size:30px;color:#fff;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.08);transition:color .2s,opacity .35s ease,transform .35s ease;transition-delay:" + (this.state.menuOpen ? '.15s' : '0s') + ";opacity:" + (this.state.menuOpen ? '1' : '0') + ";transform:translateY(" + (this.state.menuOpen ? '0' : '10px') + ")",
       drawerLink3: "font-family:'Antonio',sans-serif;font-weight:600;font-size:30px;color:#fff;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.08);transition:color .2s,opacity .35s ease,transform .35s ease;transition-delay:" + (this.state.menuOpen ? '.2s' : '0s') + ";opacity:" + (this.state.menuOpen ? '1' : '0') + ";transform:translateY(" + (this.state.menuOpen ? '0' : '10px') + ")",
-      burgerTop: "display:block;width:20px;height:2px;background:#fff;border-radius:2px;transition:transform .3s;transform:" + (this.state.menuOpen ? 'translateY(7px) rotate(45deg)' : 'none'),
-      burgerMid: "display:block;width:20px;height:2px;background:#fff;border-radius:2px;transition:opacity .2s;opacity:" + (this.state.menuOpen ? '0' : '1'),
-      burgerBot: "display:block;width:20px;height:2px;background:#fff;border-radius:2px;transition:transform .3s;transform:" + (this.state.menuOpen ? 'translateY(-7px) rotate(-45deg)' : 'none'),
+      burgerTop: burgerCss("transform .3s") + ";transform:" + (this.state.menuOpen ? 'translateY(7px) rotate(45deg)' : 'none'),
+      burgerMid: burgerCss("opacity .2s") + ";opacity:" + (this.state.menuOpen ? '0' : '1'),
+      burgerBot: burgerCss("transform .3s") + ";transform:" + (this.state.menuOpen ? 'translateY(-7px) rotate(-45deg)' : 'none'),
 
       stats: L.stats,
       sports: L.sports.items,
@@ -1510,7 +1572,7 @@ class Component extends DCLogic {
       priceEst, priceNote,
 
       // wizard
-      logoChars: this.buildLogoChars(),
+      logoChars: this.buildLogoChars(onLight),
       heroChars: this.buildHeroChars(L.hero.h1a, L.hero.h1accent, L.hero.h1b),
       heroRef: el => { this.heroRef = el; if (el) setTimeout(this.measureHeroLines, 60); },
       w: W, wizSteps, nextBtn, backBtn, addonPrice,
@@ -1588,6 +1650,7 @@ class Component extends DCLogic {
       onPhone: e => { this.set('phone', e.target.value); this.setState(s => ({ touched: { ...s.touched, phone: true } })); },
       onAge: e => { this.set('age', e.target.value); this.setState(s => ({ touched: { ...s.touched, age: true } })); },
       sessionCountOpts: ['1','2','3','4','5'],
+      showCoachNote: (parseInt(this.state.form.sessionCount, 10) || 1) > 1,
       sessionRows: (() => {
         const SLOTS = ['08:00 – 10:00', '10:00 – 12:00', '12:00 – 14:00', '14:00 – 16:00'];
         const SLOT_START_HOUR = { '08:00 – 10:00': 8, '10:00 – 12:00': 10, '12:00 – 14:00': 12, '14:00 – 16:00': 14 };

@@ -22,9 +22,9 @@ window.SITE_TEXT = {
         why: { sub:'Why EasyBali.surf', h2:'Not a factory. A crew.', mission:'Our mission is to make your time in the water as easy and enjoyable as possible — we take care of every detail and connect you with the best coaches on the island.',
           perks: [
             { n:'1', title:'Certified coaches', body:'ISA & IKO certified instructors, local and legally working foreign pros, who know every shift in the swell.' },
-            { n:'2', title:'Right spot, right time', body:'We track tides, wind and crowds daily and send you to the break that fits your level today.' },
-            { n:'3', title:'Small groups, real progress', body:'Max 3 riders per coach so you get real attention and actually improve, session after session.' },
-            { n:'4', title:'Pro add-ons on demand', body:'Base sessions cover coaching and safety. Add professional photo & video, drone edits, gear rental or door-to-spot transfers whenever you want them.' },
+            { n:'2', title:'Right spot, right time', body:'Our algorithm reads tides, wind and crowds daily and matches you to the break that fits your level today.' },
+            { n:'3', title:'Private only, max 3', body:'No group classes — ever. Just you (or up to 3 together) with your coach, so every minute of attention is yours.' },
+            { n:'4', title:'Pro add-ons on demand', body:'Base sessions cover coaching and safety. Add a professional photo + video + drone + edit package, gear rental or door-to-spot transfers whenever you want them.' },
           ] },
         how: { sub:'Simple as it gets', h2:'Booking in three steps',
           steps: [
@@ -58,7 +58,7 @@ window.SITE_TEXT = {
           fName:'Full name', phName:'Jane Rider', fEmail:'Email', fEmailHint:'Booking confirmation is sent to this address', fPhone:'Phone (WhatsApp)', fPhoneHint:'Your coach will contact you on this number', phPhone:'+62 812 000 000', fSport:'Discipline', fLevel:'Level', fDate:'Date', fPeople:'People', fSpot:'Spot', fSlot:'Time window',
           fNote:'Anything we should know?', phNote:'Goals, past experience, injuries…', fInstructorLang:'Instructor language', instructorLangOpts:['English','Russian'],
           sportOpts:['Surfing'/*,'Kitesurfing','Wing Foiling','SUP'*/], levelOpts:['First timer','Beginner','Intermediate','Advanced'],
-          fSessions:'Number of sessions',
+          fSessions:'Number of sessions', sessionsCoachNote:'Booking multiple days keeps you with the same coach throughout — for comfortable, consistent progress.',
           submit:'Pay deposit & book →', fineA:'By booking a session you agree to the ', fineLink:'service terms and conditions', fineB:'.', sessionDeposit:'Deposit due (20% of session price)', remainderLabel:'Balance paid locally (approx.)', priceLabel:'Estimated price', priceCalc:'{n} × {p} per person',
           okTitle:"You're booked!", okBodyA:'Thanks', okBodyB:" — your deposit is in and your spot is reserved. A coach will confirm your session on WhatsApp shortly. Wax up. 🤙", okBtn:'Book another session',
           okSpot:'Recommended spot' },
@@ -87,9 +87,9 @@ window.SITE_TEXT = {
         why: { sub:'Почему EasyBali.surf', h2:'Не конвейер. Команда.', mission:'Наша миссия — сделать твоё обучение максимально простым и приятным, позаботившись о каждой детали, и связать тебя с лучшими инструкторами острова.',
           perks: [
             { n:'1', title:'Сертифицированные тренеры', body:'Инструкторы с сертификатами ISA и IKO — местные и легально работающие иностранные профессионалы, знающие каждое изменение свелла.' },
-            { n:'2', title:'Нужный спот в нужное время', body:'Каждый день следим за приливами, ветром и загруженностью и отправляем тебя туда, где сегодня твой уровень.' },
-            { n:'3', title:'Малые группы, реальный прогресс', body:'Максимум 3 райдера на тренера — реальное внимание и прогресс от занятия к занятию.' },
-            { n:'4', title:'Доп услуги по запросу', body:'В базовое занятие входят тренер и безопасность. Добавляй профи фото и видео, съёмку с дрона, аренду снаряжения или трансфер до спота — когда захочешь.' },
+            { n:'2', title:'Нужный спот в нужное время', body:'Наш алгоритм каждый день анализирует приливы, ветер и загруженность и подбирает брейк, который подходит твоему уровню сегодня.' },
+            { n:'3', title:'Только индивидуально, до 3', body:'Никаких групповых занятий — только ты (или до 3 человек вместе) с тренером, чтобы всё внимание доставалось тебе.' },
+            { n:'4', title:'Доп услуги по запросу', body:'В базовое занятие входят тренер и безопасность. Добавляй пакет фото + видео + дрон + монтаж, аренду снаряжения или трансфер до спота — когда захочешь.' },
           ] },
         how: { sub:'Проще некуда', h2:'Бронирование в три шага',
           steps: [
@@ -123,7 +123,7 @@ window.SITE_TEXT = {
           fName:'Имя', phName:'Иван Райдер', fEmail:'Email', fEmailHint:'На этот адрес придёт подтверждение брони', fPhone:'Телефон (WhatsApp)', fPhoneHint:'По этому номеру инструктор свяжется с тобой', phPhone:'+62 812 000 000', fSport:'Дисциплина', fLevel:'Уровень', fDate:'Дата', fPeople:'Человек', fSpot:'Спот', fSlot:'Временное окно',
           fNote:'Что нам стоит знать?', phNote:'Цели, прошлый опыт, травмы…', fInstructorLang:'язык инструктора', instructorLangOpts:['Английский','русский'],
           sportOpts:['Сёрфинг'/*,'Кайтсёрфинг','Вингфойл','SUP'*/], levelOpts:['Новичок','Начинающий','Средний','Продвинутый'],
-          fSessions:'Количество занятий',
+          fSessions:'Количество занятий', sessionsCoachNote:'Бронируя несколько дней, ты занимаешься с одним и тем же тренером — для комфортного и последовательного прогресса.',
           submit:'Оставить заявку →', fineA:'Бронируя занятие, вы соглашаетесь с ', fineLink:'условиями и положениями сервиса', sessionDeposit:'Депозит (20% от стоимости занятия)', remainderLabel:'Остаток оплачивается на месте (примерно)', fineB:'.', priceLabel:'Ориентировочная цена', priceCalc:'{n} × {p} за человека',
           okTitle:'Спот забронирован!', okBodyA:'Спасибо', okBodyB:' — депозит получен, твоё место зарезервировано. Тренер скоро подтвердит занятие в WhatsApp. Готовь доску. 🤙', okBtn:'Забронировать ещё',
           okSpot:'Рекомендованный спот' },
