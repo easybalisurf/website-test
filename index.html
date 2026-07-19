@@ -21,7 +21,7 @@
 <helmet>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-<link href="https://fonts.googleapis.com/css2?family=Antonio:wght@400;500;600;700&amp;family=Oswald:wght@400;500;600;700&amp;family=Audiowide&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Antonio:wght@400;500;600;700&amp;family=Oswald:wght@400;500;600;700&amp;family=Audiowide&amp;family=Righteous&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
 <!-- Content/data split for easy editing:
      i18n.js          — all site + booking-wizard copy, per language (edit here to add a language or change any text)
      services-data.js — session pricing, add-on fees, transfer geo, surf-spot database (edit here to add service packages / spots)
@@ -56,7 +56,7 @@
   @keyframes condShimmer{0%,100%{opacity:1}50%{opacity:.45}}
   nav{perspective:900px}
   .nav-inner{transform-style:preserve-3d;backface-visibility:hidden}
-  .logo-mark{display:inline-flex}
+  .logo-mark{display:inline-flex;align-items:baseline}
   .logo-char{display:inline-block;transform-origin:center bottom;animation:heroSwell 15s ease-in-out infinite}
   .hero-char{display:inline-block;transform-origin:center bottom;animation:heroSwell 15s ease-in-out infinite}
   @keyframes heroSwell{0%{transform:translateY(0)}2%{transform:translateY(-0.17em)}4.5%{transform:translateY(0.05em)}7%{transform:translateY(0)}100%{transform:translateY(0)}}
@@ -1137,11 +1137,12 @@ class Component extends DCLogic {
     return [...word].map((ch, i) => {
       const color = (i < gradLen ? this.logoGradientColor(i/n) : '#ffffff');
       if (ch === '.') {
-        const sun = 'display:inline-block;align-self:flex-end;width:0.16em;height:0.16em;border-radius:50%;background:#FFD668;margin:0 0.04em 0.08em;animation:none';
+        const sun = 'display:inline-block;align-self:baseline;width:0.16em;height:0.16em;border-radius:50%;background:#ffffff;margin:0 0.05em 0;animation:none';
         return { ch: '', style: sun, navStyle: sun + ';transition:opacity .35s', footStyle: sun };
       }
       const lift = waveY[i] ? ';transform:translateY(' + waveY[i] + 'em) rotate(' + waveR[i] + 'deg)' : '';
-      const st = 'color:' + color + ';animation:none' + lift;
+      const surf = i > word.indexOf('.') ? ";font-family:'Righteous',sans-serif;font-size:.9em" : '';
+      const st = 'color:' + color + ';animation:none' + surf + lift;
       return {
         ch: ch === ' ' ? '\u00A0' : ch,
         style: st,
