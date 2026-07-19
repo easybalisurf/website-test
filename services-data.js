@@ -20,12 +20,12 @@ window.SERVICES_DATA = {
   // rental is per person per rental day; deposit = approx. refundable security deposit per rented set (not charged upfront).
   sessionPricing: {
     surf: {
-      standard: { base: 80, extraPerson: 55, rental: 20, deposit: 100 },
-      advanced: { base: 90, extraPerson: 65 }
+      standard: { base: 80, extraPerson: 55, extraPct: 70, rental: 20, deposit: 100 },
+      advanced: { base: 90, extraPerson: 65, extraPct: 72 }
     },
-    kite: { base: 140, extraPerson: 100, rental: 45, deposit: 400 },
-    wing: { base: 160, extraPerson: 115, rental: 40, deposit: 350 },
-    sup:  { base: 70,  extraPerson: 50,  rental: 15, deposit: 80 }
+    kite: { base: 140, extraPerson: 100, extraPct: 70, rental: 45, deposit: 400 },
+    wing: { base: 160, extraPerson: 115, extraPct: 72, rental: 40, deposit: 350 },
+    sup:  { base: 70,  extraPerson: 50,  extraPct: 70, rental: 15, deposit: 80 }
   },
   // Multi-session discount: price per session decreases linearly with each additional session (1–5 sessions).
   // "standard" applies to every non-advanced booking (all disciplines); "advanced" is surf-only (levelOpts index 3).

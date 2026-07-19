@@ -421,7 +421,15 @@
       </div>
     </sc-if>
 
-    <sc-if value="{{ notSubmitted }}" hint-placeholder-val="{{ true }}">
+    <sc-if value="{{ catalogUnavailable }}" hint-placeholder-val="{{ false }}">
+      <div style="{{ glassCard }};border-radius:24px;padding:48px 40px;text-align:center">
+        <div style="width:60px;height:60px;margin:0 auto 20px;border-radius:50%;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;font-size:28px">🌊</div>
+        <h3 style="font-family:'Antonio',sans-serif;font-weight:600;font-size:28px;color:#fff;margin:0 0 12px">{{ unavailableTitle }}</h3>
+        <p style="font-size:16px;line-height:1.6;margin:0 auto;max-width:36ch;color:#FFFFFFCC">{{ unavailableBody }}</p>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ showForm }}" hint-placeholder-val="{{ true }}">
       <form onSubmit="{{ submit }}" style="{{ glassCard }};border-radius:24px;padding:34px">
         <!-- stepper -->
         <div style="display:flex;align-items:center;gap:10px;margin-bottom:26px">
@@ -739,6 +747,7 @@ class Component extends DCLogic {
     activeSection: '',
     navOnLight: false,
     submitted: false,
+    catalogStatus: 'loading', // loading | ok | fail — booking form is hidden on 'fail'
     openFaq: 0,
     howVisible: {},
     isTouch: false,
@@ -1086,9 +1095,9 @@ class Component extends DCLogic {
         const keepFn = window.SERVICES_DATA.isDateBlocked; // preserve the client-side helper
         window.SERVICES_DATA = Object.assign({}, window.SERVICES_DATA, data);
         if (keepFn) window.SERVICES_DATA.isDateBlocked = keepFn;
-        this.forceUpdate();
+        this.setState({ catalogStatus: 'ok' });
       })
-      .catch(() => {}); // offline / endpoint down → static services-data.js stays authoritative
+      .catch(() => { this.setState({ catalogStatus: 'fail' }); }); // endpoint down → hide the booking form
   }
   maybeFetch() {
     const ex = this.state.explore;
@@ -1463,7 +1472,13 @@ class Component extends DCLogic {
     const baseMult = 1 - pm.baseRate * (sessionsCount - 1);
     const extraMult = 1 - pm.extraRate * (sessionsCount - 1);
     const perSessionBase = Math.round(tier.base * baseMult);
-    const perSessionExtra = Math.round(tier.extraPerson * extraMult);
+    // Extra rider = percent of the discounted per-session base, rounded to $5 (catalog-driven).
+    // Falls back to the legacy flat extraPerson only if a catalog without extraPct is in use.
+    const round5 = x => Math.round(x / 5) * 5;
+    const extraPct = tier.extraPct;
+    const perSessionExtra = (extraPct != null)
+      ? round5(perSessionBase * extraPct / 100)
+      : Math.round(tier.extraPerson * extraMult);
     const pricing = tier; // kept for legacy readers below
     const priceEst = '$' + (perSessionBase + perSessionExtra * (headcount - 1));
     const priceNote = L.book.priceCalc
@@ -1616,6 +1631,10 @@ class Component extends DCLogic {
 
       submitted: this.state.submitted,
       notSubmitted: !this.state.submitted,
+      catalogUnavailable: this.state.catalogStatus === 'fail' && !this.state.submitted,
+      showForm: !this.state.submitted && this.state.catalogStatus !== 'fail',
+      unavailableTitle: this.state.lang === 'ru' ? 'Бронирование временно недоступно' : 'Booking temporarily unavailable',
+      unavailableBody: this.state.lang === 'ru' ? 'Онлайн-бронирование через сайт временно недоступно. Пожалуйста, попробуйте позже.' : 'Online booking is temporarily unavailable. Please try again later.',
       okLine: L.book.okBodyA + (first ? (', ' + first) : '') + L.book.okBodyB,
       priceEst, priceNote,
 
