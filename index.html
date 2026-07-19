@@ -1132,7 +1132,7 @@ class Component extends DCLogic {
     // Fully static logo. The yellow sun-dot sits in its normal "easybali.surf" position on the
     // baseline between BALI and SURF; the SURF letters are frozen mid wave-start (a swell rising
     // to a crest at R) — motion implied, nothing animates or re-renders.
-    const waveY = { 9: -0.05, 10: -0.11, 11: -0.14, 12: -0.11 }; // S U R F — smooth swell cresting at R
+    const waveY = { 9: -0.05, 10: -0.16, 11: -0.27, 12: -0.14 }; // S U R F — smooth swell cresting at R
     const waveR = { 9: 2.5, 10: 2.5, 11: 0, 12: -2.5 };          // gentle tilt follows the wave slope
     return [...word].map((ch, i) => {
       const color = (i < gradLen ? this.logoGradientColor(i/n) : '#ffffff');
