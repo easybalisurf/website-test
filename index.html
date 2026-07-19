@@ -809,6 +809,9 @@ class Component extends DCLogic {
     }));
     const payload = {
       bookingId: 'EBS' + Date.now() + Math.random().toString(36).substr(2, 5).toUpperCase(),
+      // Idempotency: one stable key per booking attempt so a double-click / network retry
+      // can't create a duplicate order (the bot dedupes on this). Reused until a submit succeeds.
+      idempotencyKey: (this._idemKey || (this._idemKey = 'idem-' + Date.now() + '-' + Math.random().toString(36).slice(2, 12))),
       fullName: f.name, phone: f.phone, email: f.email, age: f.age ? parseInt(f.age, 10) : null,
       // Fallback to the English default in case older localStorage-persisted state (from
       // before this default fix) still has the pre-fix empty string.
@@ -835,7 +838,7 @@ class Component extends DCLogic {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'X-Booking-Secret': WEBHOOK_SECRET },
       body: JSON.stringify(payload)
-    }).catch(err => console.error('Admin bot webhook failed:', err));
+    }).then(() => { this._idemKey = null; }).catch(err => console.error('Admin bot webhook failed:', err));
   }
   validEmail(v) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test((v||'').trim()); }
   validPhone(v) { const d = (v||'').replace(/[^\d]/g,''); return /^\+?[\d\s()-]{6,}$/.test((v||'').trim()) && d.length >= 8 && d.length <= 15; }
@@ -980,6 +983,7 @@ class Component extends DCLogic {
     document.addEventListener('mousedown', this._onDoc);
     this._parallax();
     this.maybeFetch();
+    this.loadCatalog();
     // Deep-link support: arriving at index.html#forecast (e.g. from the Surf Guide CTA) must
     // land on the forecast section, but the section only exists after this component renders —
     // so honor the hash manually once mounted instead of relying on the browser's pre-render jump.
@@ -1066,6 +1070,22 @@ class Component extends DCLogic {
   // ============================================================
   // WEATHER (Open-Meteo fetch + retry)
   // ============================================================
+  // Pull the live catalogue (disciplines/prices/spots) the super-admin manages in the bot.
+  // On success it replaces the static services-data.js values so Forecast + form reflect
+  // current config with no redeploy; any failure silently keeps the bundled static fallback.
+  loadCatalog() {
+    const CATALOG_URL = 'https://admin-bot-production-b400.up.railway.app/catalog';
+    fetch(CATALOG_URL)
+      .then(r => r.ok ? r.json() : Promise.reject(new Error('http')))
+      .then(data => {
+        if (!data || !data.sessionPricing || !data.spots) return;
+        const keepFn = window.SERVICES_DATA.isDateBlocked; // preserve the client-side helper
+        window.SERVICES_DATA = Object.assign({}, window.SERVICES_DATA, data);
+        if (keepFn) window.SERVICES_DATA.isDateBlocked = keepFn;
+        this.forceUpdate();
+      })
+      .catch(() => {}); // offline / endpoint down → static services-data.js stays authoritative
+  }
   maybeFetch() {
     const ex = this.state.explore;
     const start = this.todayStr();
