@@ -244,10 +244,49 @@
         </div>
       </div>
 
-      <!-- conditions -->
-      <div class="cond-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:20px;{{ condAnim }}">
+      <!-- STEP 2 — pick a day (quality dot only; wave/wind detail lives per time slot) -->
+      <div style="margin-top:24px">
+        <div style="font-size:11px;letter-spacing:.4px;text-transform:uppercase;color:#FFFFFF80;margin-bottom:8px">{{ t.smart.week }}</div>
+        <div style="font-size:11px;color:#FFFFFF99;margin:-4px 0 10px">{{ t.smart.dotHint }}</div>
+        <div class="week-strip" onScroll="{{ onWeekScroll }}" onTouchStart="{{ onWeekTouchStart }}" onTouchEnd="{{ onWeekTouchEnd }}" onTouchCancel="{{ onWeekTouchEnd }}" style="display:flex;gap:7px;overflow-x:auto;-webkit-overflow-scrolling:touch;scroll-behavior:auto;padding-bottom:4px;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 14px,#000 calc(100% - 14px),transparent 100%);mask-image:linear-gradient(90deg,transparent 0,#000 14px,#000 calc(100% - 14px),transparent 100%)">
+          <sc-for list="{{ reco.week }}" as="d" hint-placeholder-count="7">
+            <button type="button" onClick="{{ d.pick }}" style="{{ d.style }}">
+              <div style="font-size:10px;letter-spacing:.3px;text-transform:uppercase;color:#FFFFFF99">{{ d.label }}</div>
+              <div style="font-family:'Antonio';font-weight:600;font-size:18px;color:#fff;line-height:1.1;margin-top:2px">{{ d.dnum }}</div>
+              <div style="{{ d.dotStyle }}"></div>
+            </button>
+          </sc-for>
+        </div>
+      </div>
+
+      <!-- STEP 3 — pick a time window; each row shows THAT slot's own wave · wind · tide -->
+      <div style="margin-top:22px">
+        <div style="font-size:11px;letter-spacing:.4px;text-transform:uppercase;color:#FFFFFF80;margin-bottom:8px">{{ t.smart.slotLabel }}</div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <sc-for list="{{ reco.slots }}" as="s" hint-placeholder-count="4">
+            <button type="button" onClick="{{ s.pick }}" style="{{ s.style }}">
+              <span style="display:flex;align-items:center;gap:10px">
+                <span style="{{ s.dotStyle }}"></span>
+                <span style="font-family:'Antonio';font-weight:600;font-size:17px;color:#fff">{{ s.time }}</span>
+              </span>
+              <span style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;justify-content:flex-end">
+                <span style="font-size:12px;color:#FFFFFFBD">{{ s.wave }} · {{ s.wind }} · {{ s.tide }}</span>
+                <span style="{{ s.badge }}">{{ s.quality }}</span>
+              </span>
+            </button>
+          </sc-for>
+          <sc-if value="{{ reco.noSlots }}" hint-placeholder-val="{{ false }}">
+            <div style="padding:16px 14px;border-radius:14px;background:rgba(255,255,255,.04);border:1px dashed rgba(255,255,255,.16);font-size:13px;color:#FFFFFF99;text-align:center">{{ reco.noWinMsg }}</div>
+          </sc-if>
+        </div>
+      </div>
+
+      <!-- Selected-window conditions — revealed only after a slot is picked, so the panel
+           isn't a wall of numbers up front (progressive disclosure). -->
+      <sc-if value="{{ reco.showConds }}" hint-placeholder-val="{{ false }}">
+      <div class="cond-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:20px">
         <sc-for list="{{ reco.conds }}" as="c" hint-placeholder-count="3">
-          <div style="text-align:center;padding:14px 8px;border-radius:12px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08)">
+          <div style="text-align:center;padding:14px 8px;border-radius:12px;background:rgba(97,255,208,.06);border:1px solid rgba(97,255,208,.16)">
             <div style="display:flex;align-items:center;justify-content:center;height:20px">
               <sc-if value="{{ c.isWave }}" hint-placeholder-val="{{ false }}">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#61FFD0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 17c1.5 1.5 3 1.5 4.5 0s3-1.5 4.5 0 3 1.5 4.5 0 3-1.5 4.5 0"/><path d="M2 12c1.5 1.5 3 1.5 4.5 0s3-1.5 4.5 0 3 1.5 4.5 0 3-1.5 4.5 0" opacity=".55"/></svg>
@@ -264,44 +303,7 @@
           </div>
         </sc-for>
       </div>
-
-      <!-- 7-day forecast for active spot -->
-      <div style="margin-top:22px">
-        <div style="font-size:11px;letter-spacing:.4px;text-transform:uppercase;color:#FFFFFF80;margin-bottom:8px">{{ t.smart.week }}</div>
-        <div class="week-strip" onScroll="{{ onWeekScroll }}" onTouchStart="{{ onWeekTouchStart }}" onTouchEnd="{{ onWeekTouchEnd }}" onTouchCancel="{{ onWeekTouchEnd }}" style="display:flex;gap:7px;overflow-x:auto;-webkit-overflow-scrolling:touch;scroll-behavior:auto;padding-bottom:4px;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 14px,#000 calc(100% - 14px),transparent 100%);mask-image:linear-gradient(90deg,transparent 0,#000 14px,#000 calc(100% - 14px),transparent 100%)">
-          <sc-for list="{{ reco.week }}" as="d" hint-placeholder-count="7">
-            <button type="button" onClick="{{ d.pick }}" style="{{ d.style }}">
-              <div style="font-size:10px;letter-spacing:.3px;text-transform:uppercase;color:#FFFFFF99">{{ d.label }}</div>
-              <div style="font-family:'Antonio';font-weight:600;font-size:18px;color:#fff;line-height:1.1;margin-top:2px">{{ d.dnum }}</div>
-              <div style="{{ d.dotStyle }}"></div>
-              <div style="font-family:'Antonio';font-weight:600;font-size:14px;color:#61FFD0;margin-top:8px;line-height:1">{{ d.wave }}m</div>
-              <div style="font-size:10px;color:#FFFFFF99;margin-top:3px">{{ d.wind }}kt</div>
-            </button>
-          </sc-for>
-        </div>
-      </div>
-
-      <!-- time windows -->
-      <div style="margin-top:22px">
-        <div style="font-size:11px;letter-spacing:.4px;text-transform:uppercase;color:#FFFFFF80;margin-bottom:8px">{{ t.smart.slotLabel }}</div>
-        <div style="display:flex;flex-direction:column;gap:8px">
-          <sc-for list="{{ reco.slots }}" as="s" hint-placeholder-count="3">
-            <button type="button" onClick="{{ s.pick }}" style="{{ s.style }}">
-              <span style="display:flex;align-items:center;gap:10px">
-                <span style="{{ s.dotStyle }}"></span>
-                <span style="font-family:'Antonio';font-weight:600;font-size:17px;color:#fff">{{ s.time }}</span>
-              </span>
-              <span style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:flex-end">
-                <span style="font-size:12px;color:#FFFFFFBD">{{ s.wind }} · {{ s.tide }}</span>
-                <span style="{{ s.badge }}">{{ s.quality }}</span>
-              </span>
-            </button>
-          </sc-for>
-          <sc-if value="{{ reco.noSlots }}" hint-placeholder-val="{{ false }}">
-            <div style="padding:16px 14px;border-radius:14px;background:rgba(255,255,255,.04);border:1px dashed rgba(255,255,255,.16);font-size:13px;color:#FFFFFF99;text-align:center">{{ reco.noWinMsg }}</div>
-          </sc-if>
-        </div>
-      </div>
+      </sc-if>
       </div>
 
       <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:22px;padding-top:20px;border-top:1px solid rgba(255,255,255,.1)">
@@ -1320,23 +1322,30 @@ class Component extends DCLogic {
     const badgeFg = ['#61FFD0', '#ffffff', '#FFFFFFBD', '#FFFFFF80'];
 
     let slots = baseSlots.map((time, i) => {
-      const qi = rankOf[i];
+      // ABSOLUTE quality from the slot's own score — NOT a relative rank among the day's 4 windows.
+      // Ranking made a flat/dangerous day still show a "Prime" window; real conditions can be all
+      // Poor or all Prime. Thresholds mirror the day-dot buckets. Safety-critical — show reality.
+      const sc = per[i].score;
+      const qi = sc >= 4.3 ? 0 : sc >= 3.2 ? 1 : sc >= 2.0 ? 2 : 3;
       return {
-        time, qi, startH: hoursH[i], quality: sm.q[qi], wind: per[i].windLabel, tide: per[i].tide,
+        time, qi, oi: i, startH: hoursH[i], quality: sm.q[qi], wave: per[i].wave.toFixed(1) + ' m', wind: per[i].windLabel, tide: per[i].tide,
         dotStyle: 'width:9px;height:9px;border-radius:50%;background:' + dotC[qi],
         badge: 'font-size:11px;font-weight:600;letter-spacing:.3px;text-transform:uppercase;padding:3px 9px;border-radius:100px;background:' + badgeBg[qi] + ';color:' + badgeFg[qi]
       };
     });
-    slots.sort((a, b) => a.qi - b.qi);
+    slots.sort((a, b) => a.qi - b.qi || per[b.oi].score - per[a.oi].score);
     // Same "≥1h before start" cutoff the booking form enforces — keep the two in sync.
     const bn = this.baliNow();
     if (targetDate === bn.dateStr) slots = slots.filter(sl => (sl.startH - bn.hour) >= 1);
 
-    const ref = per[1]; // objective morning-window snapshot — independent of rider level
+    // Conditions reflect the SELECTED time window (per-slot), not a fixed day snapshot — this is
+    // what removes the "waves shown per day" confusion. Shown only once a slot is actually picked.
+    const selSlot = slots.find(s => s.time === chosenSlot);
+    const selPer = selSlot ? per[selSlot.oi] : per[1];
     const conds = [
-      { isWave: true, label: sm.condWaves, val: ref.wave.toFixed(1) + ' m' },
-      { isWind: true, label: sm.condWind, val: ref.windKt + ' kt' },
-      { isTide: true, label: sm.condTide, val: ref.tide }
+      { isWave: true, label: sm.condWaves, val: selPer.wave.toFixed(1) + ' m' },
+      { isWind: true, label: sm.condWind, val: selPer.windKt + ' kt' },
+      { isTide: true, label: sm.condTide, val: selPer.tide }
     ];
 
     const spotChip = (sel) => 'background:' + (sel ? '#61FFD0' : 'rgba(255,255,255,.05)') + ';color:' + (sel ? '#08100d' : '#fff') + ';border:1px solid ' + (sel ? '#61FFD0' : 'rgba(255,255,255,.16)') + ';border-radius:100px;padding:8px 15px;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s';
@@ -1344,6 +1353,7 @@ class Component extends DCLogic {
 
     return {
       active, primary, week, conds,
+      showConds: !!selSlot,
       noSlots: slots.length === 0 || dateBlocked, noWinMsg: dateBlocked ? (sm.dateBlocked || sm.noWin) : sm.noWin,
       bookLabel: (() => { const dp2 = targetDate.split('-').map(Number); const dl = new Date(Date.UTC(dp2[0], dp2[1] - 1, dp2[2])).toLocaleDateString(locale, { day: 'numeric', month: 'short', timeZone: 'UTC' }); return chosenSlot ? (sm.bookDate || 'Book {date}').replace('{date}', dl) : (sm.pickSlot || 'Select a time slot'); })(),
       spots: pool.map(s => ({ name: s.name, style: spotChip(active.name === s.name), pick: () => this.setEx('spot', s.name) })),
