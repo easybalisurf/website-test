@@ -1,6 +1,18 @@
 // services-data.js — pricing & locations. Edit here to add service packages, change prices, or add surf spots — no other file needs to change.
 
 window.SERVICES_DATA = {
+  // Dates on which sessions CANNOT be booked (holidays, sold-out blocks, closed days).
+  // Add a single date '2026-08-17', or an inclusive range ['2026-08-01','2026-08-05'].
+  //   all  → blocks every discipline
+  //   surf/kite/wing/sup → blocks only that discipline
+  // Edit here only — the booking form and Live Forecast both read this automatically.
+  // (For calendar-driven availability instead of a manual list, the site would need the
+  //  bot backend to expose easybalisurf@gmail.com's per-discipline calendars — client-side
+  //  Google Calendar access can't be done securely without that server piece.)
+  blockedDates: {
+    all:  [],   // e.g. '2026-08-17', ['2026-12-24','2026-12-26']
+    surf: [], kite: [], wing: [], sup: []
+  },
   // Private lesson pricing — a 2-hour session for 1 person is the reference unit.
   // base = price for rider #1; extraPerson = added price per additional rider in the same session/package.
   // Surf has its own level-based tier (levelOpts index 3 = "Advanced") since advanced coaching costs more;
@@ -82,4 +94,12 @@ window.SERVICES_DATA = {
       { lat:-8.681, lon:115.446, shore:150, name:'Mushroom Bay',    region:'Nusa' }
     ]
   }
+};
+
+// True if `dateStr` (YYYY-MM-DD) is unavailable for the given discipline key (surf/kite/wing/sup).
+window.SERVICES_DATA.isDateBlocked = function (sportKey, dateStr) {
+  if (!dateStr) return false;
+  const B = window.SERVICES_DATA.blockedDates || {};
+  const hit = list => (list || []).some(e => Array.isArray(e) ? (dateStr >= e[0] && dateStr <= e[1]) : dateStr === e);
+  return hit(B.all) || hit(B[sportKey]);
 };
