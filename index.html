@@ -1632,7 +1632,9 @@ class Component extends DCLogic {
       spotPool: this.orderedSpots(sIdx, lvlIdx, null).pool.map(s => s.name),
       spotErr: (this.state.touched.spot && !f.spot) ? (W.errSpot || 'Please choose a spot') : '',
       spotSelectStyle: selectStyle + ((this.state.touched.spot && !f.spot) ? ';border-color:#FFB454;background:rgba(255,180,84,.07)' : ''),
-      instructorLangOpts: L.book.instructorLangOpts,
+      instructorLangOpts: (window.SERVICES_DATA && Array.isArray(window.SERVICES_DATA.languages) && window.SERVICES_DATA.languages.length)
+        ? window.SERVICES_DATA.languages.map(l => l.label)
+        : L.book.instructorLangOpts,
       onInstructorLang: e => this.set('instructorLang', e.target.value),
       openDatePicker: e => { if (e.target.showPicker) { try { e.target.showPicker(); } catch (err) {} } },
       reco,
