@@ -1104,11 +1104,22 @@ class Component extends DCLogic {
   maybeFetch() {
     const ex = this.state.explore;
     const start = this.todayStr();
-    const active = this.activeSpot(ex);
-    const key = active.lat + ',' + active.lon + ',' + start;
-    if (this.state.wx[key] || this._wxFail[key] || this._wxReq === key) return;
-    this._wxReq = key;
-    this.fetchWx(active.lat, active.lon, start, this.addDaysStr(start, 6), key);
+    const end = this.addDaysStr(start, 6);
+    // Fetch EVERY spot across ALL levels of the current sport (deduped by coords), so the forecast
+    // is ready for any spot regardless of the selected level. Per-key guard keeps one request each.
+    const SP = window.SERVICES_DATA.spots || {};
+    const sportKey = ['surf', 'kite', 'wing', 'sup'][ex.sport] || 'surf';
+    const raw = sportKey === 'surf'
+      ? [].concat(SP.surf && SP.surf[0] || [], SP.surf && SP.surf[1] || [], SP.surf && SP.surf[2] || [], SP.surf && SP.surf[3] || [])
+      : (SP[sportKey] || []);
+    const seen = {};
+    for (const sp of raw) {
+      const key = sp.lat + ',' + sp.lon + ',' + start;
+      if (seen[key]) continue; seen[key] = true;
+      if (this.state.wx[key] || this._wxFail[key] || (this._wxInFlight && this._wxInFlight[key])) continue;
+      (this._wxInFlight ||= {})[key] = true;
+      this.fetchWx(sp.lat, sp.lon, start, end, key);
+    }
   }
 
   async fetchWx(lat, lon, start, end, key) {
@@ -1116,7 +1127,7 @@ class Component extends DCLogic {
       const tz = 'Asia%2FMakassar';
       const m = 'https://marine-api.open-meteo.com/v1/marine?latitude=' + lat + '&longitude=' + lon + '&hourly=wave_height,sea_level_height_msl,sea_surface_temperature&timezone=' + tz + '&start_date=' + start + '&end_date=' + end;
       const w = 'https://api.open-meteo.com/v1/forecast?latitude=' + lat + '&longitude=' + lon + '&hourly=wind_speed_10m,wind_direction_10m&wind_speed_unit=kn&timezone=' + tz + '&start_date=' + start + '&end_date=' + end;
-      // Abort a slow/blocked request so the pill never hangs on "Fetching" — falls back to the estimated model.
+      // Abort a slow/blocked request so the panel never hangs — it then shows "unavailable".
       const ctrl = new AbortController();
       const to = setTimeout(() => ctrl.abort(), 8000);
       let mr, wr;
@@ -1125,10 +1136,10 @@ class Component extends DCLogic {
       if (!mr.ok || !wr.ok) throw new Error('http');
       const mj = await mr.json(), wj = await wr.json();
       if (!mj.hourly || !wj.hourly) throw new Error('shape');
-      this._wxReq = null;
+      if (this._wxInFlight) delete this._wxInFlight[key];
       this.setState(s => ({ wx: { ...s.wx, [key]: { marine: mj.hourly, wind: wj.hourly } } }));
     } catch (e) {
-      this._wxReq = null;
+      if (this._wxInFlight) delete this._wxInFlight[key];
       this._wxTries[key] = (this._wxTries[key] || 0) + 1;
       if (this._wxTries[key] < 4) setTimeout(() => this.maybeFetch(), 700 * this._wxTries[key]);
       else this._wxFail[key] = true;
@@ -1288,10 +1299,13 @@ class Component extends DCLogic {
       });
       return { per, sst: 27 + Math.round(rnd() * 2), live: false };
     };
-    const getDay = (date) => liveDay(date) || simDay(date);
+    // No simulation fallback: if the live forecast API returned nothing for this spot, we say so
+    // rather than invent numbers. Safety-critical — better "no data" than a fake "Prime".
+    const getDay = (date) => liveDay(date);
 
     const md = getDay(targetDate);
-    const per = md.per, sst = md.sst, live = md.live;
+    const per = md ? md.per : null, sst = md ? md.sst : null, live = !!(md && md.live);
+    const noData = !per;
 
     const dotC = ['#61FFD0', '#bfffe9', '#a3b3ac', '#6f8a80'];
     // 7-day strip
@@ -1299,29 +1313,27 @@ class Component extends DCLogic {
     for (let k = 0; k < 7; k++) {
       const ds = this.addDaysStr(weekStart, k);
       const dd = getDay(ds);
-      const bScore = dd.per.map(p => p.score).sort((a, b) => b - a)[0];
-      const ref = dd.per[1]; // objective morning-window conditions (level-independent)
-      const dqi = bScore >= 4.3 ? 0 : bScore >= 3.2 ? 1 : 2;
+      const bScore = dd ? dd.per.map(p => p.score).sort((a, b) => b - a)[0] : null;
+      const dqi = bScore == null ? -1 : bScore >= 4.3 ? 0 : bScore >= 3.2 ? 1 : 2;
       const dp = ds.split('-').map(Number);
       const dt = new Date(Date.UTC(dp[0], dp[1] - 1, dp[2]));
       const sel = ds === targetDate;
       week.push({
         label: dt.toLocaleDateString(locale, { weekday: 'short', timeZone: 'UTC' }),
         dnum: String(dt.getUTCDate()),
-        wave: ref.wave.toFixed(1),
-        wind: ref.windKt,
-        dotStyle: 'width:8px;height:8px;border-radius:50%;margin:6px auto 0;background:' + dotC[dqi],
+        // grey hollow dot when there's no live data for that day
+        dotStyle: 'width:8px;height:8px;border-radius:50%;margin:6px auto 0;' + (dqi < 0 ? 'background:transparent;border:1.5px solid rgba(255,255,255,.28)' : 'background:' + dotC[dqi]),
         style: 'flex:none;width:66px;scroll-snap-align:start;text-align:center;cursor:pointer;padding:10px 4px 11px;border-radius:14px;background:' + (sel ? 'rgba(97,255,208,.16)' : 'rgba(255,255,255,.04)') + ';border:1px solid ' + (sel ? 'rgba(97,255,208,.55)' : 'rgba(255,255,255,.09)') + ';transition:all .2s',
         pick: () => this.setEx('date', ds)
       });
     }
 
-    const order = per.map((p, i) => ({ i, s: p.score })).sort((a, b) => b.s - a.s);
+    const order = noData ? [] : per.map((p, i) => ({ i, s: p.score })).sort((a, b) => b.s - a.s);
     const rankOf = {}; order.forEach((o, r) => { rankOf[o.i] = r; });
     const badgeBg = ['rgba(97,255,208,.18)', 'rgba(255,255,255,.1)', 'rgba(255,255,255,.07)', 'rgba(255,255,255,.05)'];
     const badgeFg = ['#61FFD0', '#ffffff', '#FFFFFFBD', '#FFFFFF80'];
 
-    let slots = baseSlots.map((time, i) => {
+    let slots = noData ? [] : baseSlots.map((time, i) => {
       // ABSOLUTE quality from the slot's own score — NOT a relative rank among the day's 4 windows.
       // Ranking made a flat/dangerous day still show a "Prime" window; real conditions can be all
       // Poor or all Prime. Thresholds mirror the day-dot buckets. Safety-critical — show reality.
@@ -1341,12 +1353,12 @@ class Component extends DCLogic {
     // Conditions reflect the SELECTED time window (per-slot), not a fixed day snapshot — this is
     // what removes the "waves shown per day" confusion. Shown only once a slot is actually picked.
     const selSlot = slots.find(s => s.time === chosenSlot);
-    const selPer = selSlot ? per[selSlot.oi] : per[1];
-    const conds = [
+    const selPer = selSlot ? per[selSlot.oi] : null;
+    const conds = selPer ? [
       { isWave: true, label: sm.condWaves, val: selPer.wave.toFixed(1) + ' m' },
       { isWind: true, label: sm.condWind, val: selPer.windKt + ' kt' },
       { isTide: true, label: sm.condTide, val: selPer.tide }
-    ];
+    ] : [];
 
     const spotChip = (sel) => 'background:' + (sel ? '#61FFD0' : 'rgba(255,255,255,.05)') + ';color:' + (sel ? '#08100d' : '#fff') + ';border:1px solid ' + (sel ? '#61FFD0' : 'rgba(255,255,255,.16)') + ';border-radius:100px;padding:8px 15px;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s';
     const slotRow = (sel) => 'display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;text-align:left;cursor:pointer;padding:12px 14px;border-radius:14px;background:' + (sel ? 'rgba(97,255,208,.14)' : 'rgba(255,255,255,.04)') + ';border:1px solid ' + (sel ? 'rgba(97,255,208,.55)' : 'rgba(255,255,255,.1)') + ';transition:all .2s';
@@ -1354,7 +1366,8 @@ class Component extends DCLogic {
     return {
       active, primary, week, conds,
       showConds: !!selSlot,
-      noSlots: slots.length === 0 || dateBlocked, noWinMsg: dateBlocked ? (sm.dateBlocked || sm.noWin) : sm.noWin,
+      noSlots: noData || slots.length === 0 || dateBlocked,
+      noWinMsg: dateBlocked ? (sm.dateBlocked || sm.noWin) : noData ? (sm.noData || sm.noWin) : sm.noWin,
       bookLabel: (() => { const dp2 = targetDate.split('-').map(Number); const dl = new Date(Date.UTC(dp2[0], dp2[1] - 1, dp2[2])).toLocaleDateString(locale, { day: 'numeric', month: 'short', timeZone: 'UTC' }); return chosenSlot ? (sm.bookDate || 'Book {date}').replace('{date}', dl) : (sm.pickSlot || 'Select a time slot'); })(),
       spots: pool.map(s => ({ name: s.name, style: spotChip(active.name === s.name), pick: () => this.setEx('spot', s.name) })),
       slots: slots.map(s => ({ ...s, style: slotRow(chosenSlot === s.time), pick: () => this.setState(st => ({ explore: { ...st.explore, slot: s.time, spot: st.explore.spot || active.name } })) }))
