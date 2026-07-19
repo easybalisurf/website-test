@@ -1473,12 +1473,13 @@ class Component extends DCLogic {
     const extraMult = 1 - pm.extraRate * (sessionsCount - 1);
     const perSessionBase = Math.round(tier.base * baseMult);
     // Extra rider = percent of the discounted per-session base, rounded to $5 (catalog-driven).
-    // Falls back to the legacy flat extraPerson only if a catalog without extraPct is in use.
+    // Use the percent only when it's actually set (>0); otherwise fall back to the legacy flat
+    // extraPerson so pricing never silently drops to $0 if a catalog row predates extra_pct.
     const round5 = x => Math.round(x / 5) * 5;
-    const extraPct = tier.extraPct;
-    const perSessionExtra = (extraPct != null)
+    const extraPct = Number(tier.extraPct);
+    const perSessionExtra = (Number.isFinite(extraPct) && extraPct > 0)
       ? round5(perSessionBase * extraPct / 100)
-      : Math.round(tier.extraPerson * extraMult);
+      : Math.round((tier.extraPerson || 0) * extraMult);
     const pricing = tier; // kept for legacy readers below
     const priceEst = '$' + (perSessionBase + perSessionExtra * (headcount - 1));
     const priceNote = L.book.priceCalc
