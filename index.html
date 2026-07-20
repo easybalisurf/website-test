@@ -564,10 +564,11 @@
                 </div>
                 <sc-if value="{{ ttOpen }}" hint-placeholder-val="{{ false }}">
                   <label style="{{ fieldLabel }};margin-top:10px">{{ w.fromLabel }}
-                    <select value="{{ ttFrom }}" onChange="{{ onTTFrom }}" style="{{ selectStyle }}">
+                    <select value="{{ ttFrom }}" onChange="{{ onTTFrom }}" style="{{ ttSelectStyle }}">
                       <option value="" style="color:#000">{{ w.fromPlaceholder }}</option>
                       <sc-for list="{{ transferOpts }}" as="o" hint-placeholder-count="6"><option style="color:#000">{{ o }}</option></sc-for>
                     </select>
+                    <sc-if value="{{ ttFromErr }}" hint-placeholder-val="{{ false }}"><span style="display:flex;align-items:center;gap:6px;font-size:12px;color:#FFB454;margin-top:7px;font-weight:400;text-transform:none;letter-spacing:0"><span style="width:4px;height:4px;border-radius:50%;background:#FFB454;flex:none"></span>{{ ttFromErr }}</span></sc-if>
                   </label>
                 </sc-if>
               </div>
@@ -579,10 +580,11 @@
                 </div>
                 <sc-if value="{{ tbOpen }}" hint-placeholder-val="{{ false }}">
                   <label style="{{ fieldLabel }};margin-top:10px">{{ w.dropLabel }}
-                    <select value="{{ tbFrom }}" onChange="{{ onTBFrom }}" style="{{ selectStyle }}">
+                    <select value="{{ tbFrom }}" onChange="{{ onTBFrom }}" style="{{ tbSelectStyle }}">
                       <option value="" style="color:#000">{{ w.fromPlaceholder }}</option>
                       <sc-for list="{{ transferOpts }}" as="o" hint-placeholder-count="6"><option style="color:#000">{{ o }}</option></sc-for>
                     </select>
+                    <sc-if value="{{ tbFromErr }}" hint-placeholder-val="{{ false }}"><span style="display:flex;align-items:center;gap:6px;font-size:12px;color:#FFB454;margin-top:7px;font-weight:400;text-transform:none;letter-spacing:0"><span style="width:4px;height:4px;border-radius:50%;background:#FFB454;flex:none"></span>{{ tbFromErr }}</span></sc-if>
                   </label>
                 </sc-if>
               </div>
@@ -1701,6 +1703,10 @@ class Component extends DCLogic {
           }
           if (blockedIdx >= 0) { this.setState(s => ({ touched: { ...s.touched, dateAt: { ...(s.touched.dateAt||{}), [blockedIdx]: true } } })); return; }
         }
+        if (this.state.step === 2 && transfersAvail) {
+          if (ad.transferTo && !this.state.transferToFrom) { this.setState(s => ({ touched: { ...s.touched, ttFrom: true } })); return; }
+          if (ad.transferBack && !this.state.transferBackFrom) { this.setState(s => ({ touched: { ...s.touched, tbFrom: true } })); return; }
+        }
         this.gotoStep(Math.min(3, this.state.step + 1));
       },
       back: () => this.gotoStep(Math.max(1, this.state.step - 1)),
@@ -1737,6 +1743,10 @@ class Component extends DCLogic {
       ttFrom: this.state.transferToFrom, tbFrom: this.state.transferBackFrom,
       onTTFrom: e => this.setState({ transferToFrom: e.target.value }),
       onTBFrom: e => this.setState({ transferBackFrom: e.target.value }),
+      ttFromErr: (this.state.touched.ttFrom && ad.transferTo && !this.state.transferToFrom) ? (W.errPickup || 'Please choose a pick-up point') : '',
+      tbFromErr: (this.state.touched.tbFrom && ad.transferBack && !this.state.transferBackFrom) ? (W.errDropoff || 'Please choose a drop-off point') : '',
+      ttSelectStyle: selectStyle + ((this.state.touched.ttFrom && ad.transferTo && !this.state.transferToFrom) ? ';border-color:#FFB454;background:rgba(255,180,84,.07)' : ''),
+      tbSelectStyle: selectStyle + ((this.state.touched.tbFrom && ad.transferBack && !this.state.transferBackFrom) ? ';border-color:#FFB454;background:rgba(255,180,84,.07)' : ''),
       transferOpts: Object.keys(this.transferOrigins()),
       rentalPrice: '$' + rentalRate,
       mediaPrice: '$' + SVC.addonPricing.media + (sessionsCount > 1 ? ' ' + W.perDay : ''),
