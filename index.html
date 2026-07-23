@@ -270,6 +270,9 @@
                 <span style="font-family:'Antonio';font-weight:600;font-size:17px;color:#fff">{{ s.time }}</span>
               </span>
               <span style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;justify-content:flex-end">
+                <sc-if value="{{ s.full }}" hint-placeholder-val="{{ false }}">
+                  <span style="font-size:11px;font-weight:600;letter-spacing:.3px;text-transform:uppercase;padding:3px 9px;border-radius:100px;background:rgba(255,255,255,.12);color:#FFFFFFB0">{{ s.fullLabel }}</span>
+                </sc-if>
                 <span style="font-size:12px;color:#FFFFFFBD">{{ s.wave }} · {{ s.wind }} · {{ s.tide }}</span>
                 <span style="{{ s.badge }}">{{ s.quality }}</span>
               </span>
@@ -277,6 +280,9 @@
           </sc-for>
           <sc-if value="{{ reco.noSlots }}" hint-placeholder-val="{{ false }}">
             <div style="padding:16px 14px;border-radius:14px;background:rgba(255,255,255,.04);border:1px dashed rgba(255,255,255,.16);font-size:13px;color:#FFFFFF99;text-align:center">{{ reco.noWinMsg }}</div>
+          </sc-if>
+          <sc-if value="{{ reco.allFull }}" hint-placeholder-val="{{ false }}">
+            <div style="padding:16px 14px;border-radius:14px;background:rgba(255,180,84,.09);border:1px solid rgba(255,180,84,.35);font-size:13px;color:#FFD9A8;text-align:center">{{ reco.noCoachesMsg }}</div>
           </sc-if>
         </div>
       </div>
@@ -308,7 +314,7 @@
 
       <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:22px;padding-top:20px;border-top:1px solid rgba(255,255,255,.1)">
         <p style="font-size:12px;line-height:1.5;color:#FFFFFF99;margin:0;max-width:44ch">{{ t.smart.disclaimer }}</p>
-        <button type="button" onClick="{{ bookThis }}" style="flex:none;background:linear-gradient(120deg,#7DFFC4,#61FFD0 42%,#3FD9E6);color:#08100d;font-weight:600;font-size:15px;padding:14px 26px;border:none;border-radius:100px;cursor:pointer;transition:transform .2s,box-shadow .2s" style-hover="box-shadow:0 10px 34px rgba(97,255,208,.4);transform:translateY(-1px)">{{ reco.bookLabel }}</button>
+        <button type="button" disabled="{{ reco.bookDisabled }}" onClick="{{ bookThis }}" style="{{ reco.bookBtnStyle }}" style-hover="{{ reco.bookBtnHover }}">{{ reco.bookLabel }}</button>
       </div>
     </div>
    </div>
@@ -419,6 +425,7 @@
         <div style="width:66px;height:66px;margin:0 auto 22px;border-radius:50%;background:linear-gradient(120deg,#7DFFC4,#61FFD0 42%,#3FD9E6);color:#08100d;display:flex;align-items:center;justify-content:center;font-size:34px;animation:checkPop .5s .1s cubic-bezier(.2,.9,.3,1) both">✓</div>
         <h3 style="font-family:'Antonio',sans-serif;font-weight:600;font-size:34px;color:#fff;margin:0 0 12px;animation:floatUp .5s .2s ease-out both">{{ t.book.okTitle }}</h3>
         <p style="font-size:16px;line-height:1.6;margin:0 auto;max-width:40ch;animation:floatUp .5s .28s ease-out both">{{ okLine }}</p>
+        <p style="font-size:13px;line-height:1.5;margin:12px auto 0;max-width:38ch;color:#FFFFFF80;animation:floatUp .5s .34s ease-out both">{{ t.book.okMatchNote }}</p>
         <button onClick="{{ reset }}" style="margin-top:28px;background:transparent;border:1px solid rgba(255,255,255,.35);color:#fff;padding:12px 26px;border-radius:100px;font-size:14px;font-weight:500;cursor:pointer;animation:floatUp .5s .35s ease-out both">{{ t.book.okBtn }}</button>
       </div>
     </sc-if>
@@ -643,7 +650,8 @@
           <div>
             <div class="form-2col" style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
               <label style="{{ fieldLabel }}">{{ t.book.fName }}
-                <input required="" value="{{ form.name }}" onInput="{{ onName }}" placeholder="{{ t.book.phName }}" style="{{ inputStyle }}">
+                <input required="" value="{{ form.name }}" onInput="{{ onName }}" onBlur="{{ onName }}" placeholder="{{ t.book.phName }}" style="{{ nameInputStyle }}">
+                <sc-if value="{{ nameErr }}" hint-placeholder-val="{{ false }}"><span style="display:flex;align-items:center;gap:6px;font-size:12px;color:#FFB454;margin-top:7px;font-weight:400;text-transform:none;letter-spacing:0"><span style="width:4px;height:4px;border-radius:50%;background:#FFB454;flex:none"></span>{{ nameErr }}</span></sc-if>
               </label>
               <label style="{{ fieldLabel }}">{{ t.book.fEmail }}
                 <input required="" type="email" value="{{ form.email }}" onInput="{{ onEmail }}" onBlur="{{ onEmail }}" placeholder="you@email.com" style="{{ emailInputStyle }}">
@@ -696,7 +704,8 @@
               <button type="button" onClick="{{ back }}" style="{{ backBtn }}">{{ w.back }}</button>
               <button type="submit" style="{{ nextBtn }}">{{ submitLabel }}</button>
             </div>
-            <p style="font-size:12px;text-align:center;margin:14px 0 0;color:#FFFFFF80">{{ t.book.fineA }}<a href="{{ termsHref }}" style="color:#61FFD0">{{ t.book.fineLink }}</a>{{ t.book.fineB }}</p>
+            <p style="font-size:12px;text-align:center;margin:12px 0 0;color:#61FFD0CC">{{ t.book.refundGuarantee }}</p>
+            <p style="font-size:12px;text-align:center;margin:10px 0 0;color:#FFFFFF80">{{ t.book.fineA }}<a href="{{ termsHref }}" style="color:#61FFD0">{{ t.book.fineLink }}</a>{{ t.book.fineB }}</p>
           </div>
         </sc-if>
       </form>
@@ -758,6 +767,7 @@ class Component extends DCLogic {
     langMenuOpen: false,
     lang: (typeof window !== 'undefined' && ['en','ru','zh','ko','fr','de','es'].includes(new URLSearchParams(window.location.search).get('lang'))) ? new URLSearchParams(window.location.search).get('lang') : 'en',
     wx: {},
+    avail: {},
     explore: { sport: 0, level: 0, date: '', spot: '', slot: '' },
     step: 1,
     addons: { media:false, rental:false, transferTo:false, transferBack:false },
@@ -770,7 +780,7 @@ class Component extends DCLogic {
     // the select visually shows the first option and pricing already assumes it (see the
     // lvlIdx<0→0 and sIdx<0→0 fallbacks in renderVals, which this keeps in sync with).
     form: { name:'', email:'', phone:'', age:'', sport:'Surfing', level:'First timer', sessionCount:'1', sessions:[{date:'',slot:''}], people:'1', note:'', spot:'', instructorLang:'English' },
-    touched: { email:false, phone:false, age:false, spot:false, dateAt:{}, slotAt:{} }
+    touched: { name:false, email:false, phone:false, age:false, spot:false, dateAt:{}, slotAt:{} }
   };
 
   // ============================================================
@@ -856,6 +866,7 @@ class Component extends DCLogic {
       body: JSON.stringify(payload)
     }).then(() => { this._idemKey = null; }).catch(err => console.error('Admin bot webhook failed:', err));
   }
+  validName(v) { return !!((v||'').trim()); }
   validEmail(v) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test((v||'').trim()); }
   validPhone(v) { const d = (v||'').replace(/[^\d]/g,''); return /^\+?[\d\s()-]{6,}$/.test((v||'').trim()) && d.length >= 8 && d.length <= 15; }
   validAge(v) { if (v === '' || v == null) return false; const n = Number(v); return Number.isInteger(n) && n >= 6 && n <= 99; }
@@ -1101,6 +1112,21 @@ class Component extends DCLogic {
         this.setState({ catalogStatus: 'ok' });
       })
       .catch(() => { this.setState({ catalogStatus: 'fail' }); }); // endpoint down → hide the booking form
+  }
+  // Per-slot instructor availability for the forecast. Booleans only (never counts). Guarded one
+  // request per sport|level|date; on any failure we leave every window bookable — a probe error
+  // must NEVER block a real booking.
+  fetchAvailability(sportKey, levelSlug, date) {
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) return;
+    const key = sportKey + '|' + (levelSlug || '') + '|' + date;
+    this._availReq = this._availReq || {};
+    if (this._availReq[key]) return;
+    this._availReq[key] = true;
+    const url = 'https://admin-bot-production-b400.up.railway.app/availability?sport=' + encodeURIComponent(sportKey) + '&level=' + encodeURIComponent(levelSlug || '') + '&date=' + date;
+    fetch(url)
+      .then(r => r.ok ? r.json() : Promise.reject(new Error('http')))
+      .then(data => { if (data && data.slots) this.setState(s => ({ avail: { ...(s.avail || {}), [key]: data.slots } })); })
+      .catch(() => { this._availReq[key] = false; }); // allow a retry next render; keep slots bookable
   }
   maybeFetch() {
     const ex = this.state.explore;
@@ -1365,6 +1391,15 @@ class Component extends DCLogic {
     const bn = this.baliNow();
     if (targetDate === bn.dateStr) slots = slots.filter(sl => (sl.startH - bn.hour) >= 1);
 
+    // Live instructor availability per window (booleans only). Fetches once per sport|level|date;
+    // until it returns, every window stays bookable so nothing flashes/blocks on a slow probe.
+    const levelSlug = ['first-timer', 'beginner', 'intermediate', 'advanced'][levelIdx] || 'first-timer';
+    this.fetchAvailability(sportKey, levelSlug, targetDate);
+    const availSlots = (this.state.avail || {})[sportKey + '|' + levelSlug + '|' + targetDate] || null;
+    if (availSlots) slots = slots.map(s => ({ ...s, full: availSlots[s.time] === false }));
+    const anyFree = !availSlots || slots.some(s => !s.full);
+    const chosenFull = !!(availSlots && chosenSlot && availSlots[chosenSlot] === false);
+
     // Conditions reflect the SELECTED time window (per-slot), not a fixed day snapshot — this is
     // what removes the "waves shown per day" confusion. Shown only once a slot is actually picked.
     const selSlot = slots.find(s => s.time === chosenSlot);
@@ -1383,9 +1418,16 @@ class Component extends DCLogic {
       showConds: !!selSlot,
       noSlots: noData || slots.length === 0 || dateBlocked,
       noWinMsg: dateBlocked ? (sm.dateBlocked || sm.noWin) : noData ? (sm.noData || sm.noWin) : sm.noWin,
-      bookLabel: (() => { const dp2 = targetDate.split('-').map(Number); const dl = new Date(Date.UTC(dp2[0], dp2[1] - 1, dp2[2])).toLocaleDateString(locale, { day: 'numeric', month: 'short', timeZone: 'UTC' }); return chosenSlot ? (sm.bookDate || 'Book {date}').replace('{date}', dl) : (sm.pickSlot || 'Select a time slot'); })(),
+      allFull: !!(availSlots && !anyFree && slots.length > 0),
+      fullMsg: sm.slotFull || 'No coaches free for this window — try a neighbouring time or day.',
+      noCoachesMsg: sm.noCoaches || 'No coaches available for these windows — please try a neighbouring day.',
+      canBook: !!chosenSlot && !chosenFull && anyFree,
+      bookDisabled: !(!!chosenSlot && !chosenFull && anyFree),
+      bookBtnStyle: 'flex:none;font-weight:600;font-size:15px;padding:14px 26px;border:none;border-radius:100px;transition:transform .2s,box-shadow .2s;' + ((!!chosenSlot && !chosenFull && anyFree) ? 'background:linear-gradient(120deg,#7DFFC4,#61FFD0 42%,#3FD9E6);color:#08100d;cursor:pointer' : 'background:rgba(255,255,255,.12);color:#FFFFFF66;cursor:not-allowed'),
+      bookBtnHover: (!!chosenSlot && !chosenFull && anyFree) ? 'box-shadow:0 10px 34px rgba(97,255,208,.4);transform:translateY(-1px)' : '',
+      bookLabel: (() => { const dp2 = targetDate.split('-').map(Number); const dl = new Date(Date.UTC(dp2[0], dp2[1] - 1, dp2[2])).toLocaleDateString(locale, { day: 'numeric', month: 'short', timeZone: 'UTC' }); return chosenFull ? (sm.slotFull || 'No coaches free — pick another window') : chosenSlot ? (sm.bookDate || 'Book {date}').replace('{date}', dl) : (sm.pickSlot || 'Select a time slot'); })(),
       spots: pool.map(s => ({ name: s.name, style: spotChip(active.name === s.name), pick: () => this.setEx('spot', s.name) })),
-      slots: slots.map(s => ({ ...s, style: slotRow(chosenSlot === s.time), pick: () => this.setState(st => ({ explore: { ...st.explore, slot: s.time, spot: st.explore.spot || active.name } })) }))
+      slots: slots.map(s => ({ ...s, full: !!s.full, fullLabel: s.full ? (sm.slotFullTag || 'Full') : '', style: slotRow(chosenSlot === s.time) + (s.full ? ';opacity:.42;cursor:not-allowed;filter:grayscale(.5)' : ''), pick: s.full ? (() => {}) : (() => this.setState(st => ({ explore: { ...st.explore, slot: s.time, spot: st.explore.spot || active.name } }))) }))
     };
   }
 
@@ -1476,6 +1518,7 @@ class Component extends DCLogic {
     const onExSport = e => this.setEx('sport', Math.max(0, L.book.sportOpts.indexOf(e.target.value)));
     const onExLevel = e => this.setEx('level', Math.max(0, L.book.levelOpts.indexOf(e.target.value)));
     const bookThis = () => {
+      if (!reco.canBook) return; // no free coach for the chosen window — button is disabled anyway
       // If the chosen/default date has no time windows left (e.g. all of today's already ended
       // in Bali time), roll forward to the next day with an available window instead of booking a blank slot.
       let dt = /^\d{4}-\d{2}-\d{2}$/.test(ex.date) ? ex.date : this.todayStr();
@@ -1767,7 +1810,7 @@ class Component extends DCLogic {
       })(),
 
       form: f,
-      onName: e => this.set('name', e.target.value),
+      onName: e => { this.set('name', e.target.value); this.setState(s => ({ touched: { ...s.touched, name: true } })); },
       onEmail: e => { this.set('email', e.target.value); this.setState(s => ({ touched: { ...s.touched, email: true } })); },
       onPhone: e => { this.set('phone', e.target.value); this.setState(s => ({ touched: { ...s.touched, phone: true } })); },
       onAge: e => { this.set('age', e.target.value); this.setState(s => ({ touched: { ...s.touched, age: true } })); },
@@ -1778,6 +1821,7 @@ class Component extends DCLogic {
         const SLOT_START_HOUR = { '08:00 – 10:00': 8, '10:00 – 12:00': 10, '12:00 – 14:00': 12, '14:00 – 16:00': 14 };
         const bali = this.baliNow();
         const activeSessions = sessions.slice(0, sessionsCount);
+        const fLevelSlug = ['first-timer', 'beginner', 'intermediate', 'advanced'][lvlIdx] || 'first-timer';
         return activeSessions.map((row, i) => {
           const touchedRow = !!(this.state.touched.dateAt || {})[i];
           const dateBlocked = !!(row.date && SVC.isDateBlocked && SVC.isDateBlocked(discKey, row.date));
@@ -1796,14 +1840,21 @@ class Component extends DCLogic {
             dateInputStyle: dateInputBase + (dateBad ? ';border-color:#FFB454' : ''),
             slotErr: slotErr ? (W.errSlot || 'Please choose a time window') : '',
             slotSelectStyle: selectStyle + (slotErr ? ';border-color:#FFB454;background:rgba(255,180,84,.07)' : ''),
-            slotOptions: SLOTS.map(o => ({
-              value: o,
-              taken: !!(row.date && activeSessions.some((s, j) => j !== i && s.date === row.date && s.slot === o))
-                || (row.date === bali.dateStr && (SLOT_START_HOUR[o] - bali.hour) < 1)
-            }))
+            slotOptions: (() => {
+              if (row.date) this.fetchAvailability(discKey, fLevelSlug, row.date);
+              const av = (this.state.avail || {})[discKey + '|' + fLevelSlug + '|' + row.date] || null;
+              return SLOTS.map(o => ({
+                value: o,
+                taken: !!(row.date && activeSessions.some((s, j) => j !== i && s.date === row.date && s.slot === o))
+                  || (row.date === bali.dateStr && (SLOT_START_HOUR[o] - bali.hour) < 1)
+              // Hide windows with no free coach (availability probe) so the form matches the forecast.
+              })).filter(opt => !(av && av[opt.value] === false));
+            })()
           };
         });
       })(),
+      nameErr: (this.state.touched.name && !this.validName(f.name)) ? (W.errName || 'Please enter your name') : '',
+      nameInputStyle: inputStyle + ((this.state.touched.name && !this.validName(f.name)) ? ';border-color:#FFB454;background:rgba(255,180,84,.07)' : ''),
       emailErr: (this.state.touched.email && !this.validEmail(f.email)) ? (W.errEmail || 'Enter a valid email') : '',
       phoneErr: (this.state.touched.phone && !this.validPhone(f.phone)) ? (W.errPhone || 'Enter a valid phone number') : '',
       emailHintShow: !(this.state.touched.email && !this.validEmail(f.email)),
@@ -1820,8 +1871,8 @@ class Component extends DCLogic {
       onSpotField: e => this.set('spot', e.target.value),
       submit: e => {
         e.preventDefault();
-        const okEmail = this.validEmail(f.email), okPhone = this.validPhone(f.phone), okAge = f.age === '' || this.validAge(f.age);
-        if (!okEmail || !okPhone || !okAge) { this.setState({ touched: { email: true, phone: true, age: true } }); return; }
+        const okName = this.validName(f.name), okEmail = this.validEmail(f.email), okPhone = this.validPhone(f.phone), okAge = f.age === '' || this.validAge(f.age);
+        if (!okName || !okEmail || !okPhone || !okAge) { this.setState({ touched: { name: true, email: true, phone: true, age: true } }); return; }
         this.setState({ submitted: true });
         this.submitOrderToAdminBot(f, summary, baseNum, totalNum, headcount, sessionsWithAddons);
         const el = document.getElementById('book'); if (el) window.scrollTo({ top: el.offsetTop - 40, behavior: 'smooth' });
