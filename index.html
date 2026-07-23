@@ -702,8 +702,11 @@
             </div>
             <div style="display:flex;gap:12px;margin-top:20px">
               <button type="button" onClick="{{ back }}" style="{{ backBtn }}">{{ w.back }}</button>
-              <button type="submit" style="{{ nextBtn }}">{{ submitLabel }}</button>
+              <button type="submit" disabled="{{ multiInfeasible }}" style="{{ submitBtnStyle }}">{{ submitLabel }}</button>
             </div>
+            <sc-if value="{{ multiInfeasible }}" hint-placeholder-val="{{ false }}">
+              <p style="font-size:12px;text-align:center;margin:12px 0 0;color:#FFD9A8">{{ multiInfeasibleMsg }}</p>
+            </sc-if>
             <p style="font-size:12px;text-align:center;margin:12px 0 0;color:#61FFD0CC">{{ t.book.refundGuarantee }}</p>
             <p style="font-size:12px;text-align:center;margin:10px 0 0;color:#FFFFFF80">{{ t.book.fineA }}<a href="{{ termsHref }}" style="color:#61FFD0">{{ t.book.fineLink }}</a>{{ t.book.fineB }}</p>
           </div>
@@ -768,6 +771,7 @@ class Component extends DCLogic {
     lang: (typeof window !== 'undefined' && ['en','ru','zh','ko','fr','de','es'].includes(new URLSearchParams(window.location.search).get('lang'))) ? new URLSearchParams(window.location.search).get('lang') : 'en',
     wx: {},
     avail: {},
+    multiFeas: {},
     explore: { sport: 0, level: 0, date: '', spot: '', slot: '' },
     step: 1,
     addons: { media:false, rental:false, transferTo:false, transferBack:false },
@@ -1127,6 +1131,19 @@ class Component extends DCLogic {
       .then(r => r.ok ? r.json() : Promise.reject(new Error('http')))
       .then(data => { if (data && data.slots) this.setState(s => ({ avail: { ...(s.avail || {}), [key]: data.slots } })); })
       .catch(() => { this._availReq[key] = false; }); // allow a retry next render; keep slots bookable
+  }
+  // Multi-day feasibility: is there ONE coach free for the whole set? Guarded per set-signature;
+  // on any failure we treat it as feasible (never block a real booking on a probe error).
+  checkMultiFeasibility(sig, payload) {
+    this._multiReq = this._multiReq || {};
+    if (this._multiReq[sig]) return;
+    this._multiReq[sig] = true;
+    fetch('https://admin-bot-production-b400.up.railway.app/availability/multi', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload)
+    })
+      .then(r => r.ok ? r.json() : Promise.reject(new Error('http')))
+      .then(data => { if (data && typeof data.feasible === 'boolean') this.setState(s => ({ multiFeas: { ...(s.multiFeas || {}), [sig]: data.feasible } })); })
+      .catch(() => { this._multiReq[sig] = false; });
   }
   maybeFetch() {
     const ex = this.state.explore;
@@ -1744,6 +1761,19 @@ class Component extends DCLogic {
             if (rows[i] && rows[i].date && SVC.isDateBlocked && SVC.isDateBlocked(discKey, rows[i].date)) { blockedIdx = i; break; }
           }
           if (blockedIdx >= 0) { this.setState(s => ({ touched: { ...s.touched, dateAt: { ...(s.touched.dateAt||{}), [blockedIdx]: true } } })); return; }
+          // Block advancing if any chosen date has NO free coach in any window (availability probe).
+          const lvSlug = ['first-timer', 'beginner', 'intermediate', 'advanced'][lvlIdx] || 'first-timer';
+          const nowB = this.baliNow();
+          const SLOTSN = ['08:00 – 10:00', '10:00 – 12:00', '12:00 – 14:00', '14:00 – 16:00'];
+          const SLOTH = { '08:00 – 10:00': 8, '10:00 – 12:00': 10, '12:00 – 14:00': 12, '14:00 – 16:00': 14 };
+          let noCoachIdx = -1;
+          for (let i = 0; i < sessionsCount; i++) {
+            const av = rows[i] && rows[i].date ? (this.state.avail || {})[discKey + '|' + lvSlug + '|' + rows[i].date] : null;
+            if (!av) continue;
+            const future = SLOTSN.filter(o => !(rows[i].date === nowB.dateStr && (SLOTH[o] - nowB.hour) < 1));
+            if (future.length && future.every(o => av[o] === false)) { noCoachIdx = i; break; }
+          }
+          if (noCoachIdx >= 0) { this.setState(s => ({ touched: { ...s.touched, dateAt: { ...(s.touched.dateAt||{}), [noCoachIdx]: true } } })); return; }
         }
         if (this.state.step === 2 && transfersAvail) {
           if (ad.transferTo && !this.state.transferToFrom) { this.setState(s => ({ touched: { ...s.touched, ttFrom: true } })); return; }
@@ -1800,6 +1830,23 @@ class Component extends DCLogic {
       depositDue: '$' + Math.round(baseNum * 0.2),
       submitLabel: (L.book.submit || 'Pay {dep} & book').replace('{dep}', '$' + Math.round(baseNum * 0.2)),
       depositLabel: (L.book.sessionDeposit || 'Deposit due (20% of session price)'),
+      // Multi-day feasibility: one coach must be free for the WHOLE set. Only checked once every
+      // session row has a date+slot and a spot is picked; until the probe returns (or on error)
+      // we treat it as feasible so a slow/broken probe never blocks a real booking.
+      ...(() => {
+        const rows = (f.sessions || []).slice(0, sessionsCount).filter(s => s.date && s.slot);
+        const greyed = ';background:rgba(255,255,255,.12);color:#FFFFFF66;cursor:not-allowed';
+        if (sessionsCount < 2 || rows.length < sessionsCount || !f.spot) return { multiInfeasible: false, submitBtnStyle: nextBtn };
+        const levelSlug = ['first-timer', 'beginner', 'intermediate', 'advanced'][lvlIdx] || 'first-timer';
+        const langCode = { English: 'en', Russian: 'ru', 'Английский': 'en', 'Русский': 'ru' }[f.instructorLang] || '';
+        const sig = discKey + '|' + levelSlug + '|' + langCode + '|' + f.spot + '|' + rows.map(s => s.date + '@' + s.slot).join(',');
+        this.checkMultiFeasibility(sig, { sport: discKey, level: levelSlug, lang: langCode, sessions: rows.map(s => ({ date: s.date, timeWindow: s.slot, spot: f.spot })) });
+        const feas = (this.state.multiFeas || {})[sig];
+        return { multiInfeasible: feas === false, submitBtnStyle: nextBtn + (feas === false ? greyed : '') };
+      })(),
+      multiInfeasibleMsg: W.multiBusy || (this.state.lang === 'ru'
+        ? 'Нет одного тренера, свободного на все выбранные занятия. Измените даты или время.'
+        : 'No single coach is free for all selected sessions. Try different dates or times.'),
       // Live USD→IDR rate (fetched in componentDidMount, cached 6h) — falls back to ~18,000 until it resolves.
       remainderLabel: L.book.remainderLabel || 'Balance paid locally (approx.)',
       remainderDue: (() => {
@@ -1825,9 +1872,15 @@ class Component extends DCLogic {
         return activeSessions.map((row, i) => {
           const touchedRow = !!(this.state.touched.dateAt || {})[i];
           const dateBlocked = !!(row.date && SVC.isDateBlocked && SVC.isDateBlocked(discKey, row.date));
+          // Availability for this row's date (probe result). If EVERY window that day has no free
+          // coach, the date itself is unbookable — treat it like a blocked date on this first screen.
+          if (row.date) this.fetchAvailability(discKey, fLevelSlug, row.date);
+          const rowAv = (this.state.avail || {})[discKey + '|' + fLevelSlug + '|' + row.date] || null;
+          const futureWins = SLOTS.filter(o => !(row.date === bali.dateStr && (SLOT_START_HOUR[o] - bali.hour) < 1));
+          const noneFree = !!(rowAv && row.date && !dateBlocked && futureWins.length > 0 && futureWins.every(o => rowAv[o] === false));
           const err = touchedRow && !row.date;
-          const dateMsg = err ? (W.errDate || 'Please choose a date') : (dateBlocked ? (W.errBlocked || 'This date is unavailable — please choose another') : '');
-          const dateBad = err || dateBlocked;
+          const dateMsg = err ? (W.errDate || 'Please choose a date') : (dateBlocked ? (W.errBlocked || 'This date is unavailable — please choose another') : (noneFree ? (W.dateNoCoaches || 'No coaches available this day — please choose another') : ''));
+          const dateBad = err || dateBlocked || noneFree;
           const touchedSlot = !!(this.state.touched.slotAt || {})[i];
           const slotErr = touchedSlot && !row.slot;
           return {
@@ -1841,8 +1894,7 @@ class Component extends DCLogic {
             slotErr: slotErr ? (W.errSlot || 'Please choose a time window') : '',
             slotSelectStyle: selectStyle + (slotErr ? ';border-color:#FFB454;background:rgba(255,180,84,.07)' : ''),
             slotOptions: (() => {
-              if (row.date) this.fetchAvailability(discKey, fLevelSlug, row.date);
-              const av = (this.state.avail || {})[discKey + '|' + fLevelSlug + '|' + row.date] || null;
+              const av = rowAv;
               return SLOTS.map(o => ({
                 value: o,
                 taken: !!(row.date && activeSessions.some((s, j) => j !== i && s.date === row.date && s.slot === o))
@@ -1873,6 +1925,14 @@ class Component extends DCLogic {
         e.preventDefault();
         const okName = this.validName(f.name), okEmail = this.validEmail(f.email), okPhone = this.validPhone(f.phone), okAge = f.age === '' || this.validAge(f.age);
         if (!okName || !okEmail || !okPhone || !okAge) { this.setState({ touched: { name: true, email: true, phone: true, age: true } }); return; }
+        // Block a multi-day booking that no single coach can cover (probe already ran in renderVals).
+        const mrows = (f.sessions || []).slice(0, sessionsCount).filter(s => s.date && s.slot);
+        if (sessionsCount >= 2 && mrows.length === sessionsCount && f.spot) {
+          const levelSlug = ['first-timer', 'beginner', 'intermediate', 'advanced'][lvlIdx] || 'first-timer';
+          const langCode = { English: 'en', Russian: 'ru', 'Английский': 'en', 'Русский': 'ru' }[f.instructorLang] || '';
+          const sig = discKey + '|' + levelSlug + '|' + langCode + '|' + f.spot + '|' + mrows.map(s => s.date + '@' + s.slot).join(',');
+          if ((this.state.multiFeas || {})[sig] === false) return;
+        }
         this.setState({ submitted: true });
         this.submitOrderToAdminBot(f, summary, baseNum, totalNum, headcount, sessionsWithAddons);
         const el = document.getElementById('book'); if (el) window.scrollTo({ top: el.offsetTop - 40, behavior: 'smooth' });
