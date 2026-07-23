@@ -430,6 +430,15 @@
       </div>
     </sc-if>
 
+    <sc-if value="{{ slotTaken }}" hint-placeholder-val="{{ false }}">
+      <div style="{{ glassCard }};border-radius:24px;padding:48px 40px;text-align:center;animation:floatUp .5s ease-out both">
+        <div style="width:60px;height:60px;margin:0 auto 20px;border-radius:50%;background:rgba(255,180,84,.12);border:1px solid rgba(255,180,84,.4);display:flex;align-items:center;justify-content:center;font-size:28px">⏳</div>
+        <h3 style="font-family:'Antonio',sans-serif;font-weight:600;font-size:28px;color:#fff;margin:0 0 12px">{{ slotTakenTitle }}</h3>
+        <p style="font-size:16px;line-height:1.6;margin:0 auto;max-width:40ch;color:#FFFFFFCC">{{ slotTakenBody }}</p>
+        <button onClick="{{ reset }}" style="margin-top:28px;background:transparent;border:1px solid rgba(255,255,255,.35);color:#fff;padding:12px 26px;border-radius:100px;font-size:14px;font-weight:500;cursor:pointer">{{ slotTakenBtn }}</button>
+      </div>
+    </sc-if>
+
     <sc-if value="{{ catalogUnavailable }}" hint-placeholder-val="{{ false }}">
       <div style="{{ glassCard }};border-radius:24px;padding:48px 40px;text-align:center">
         <div style="width:60px;height:60px;margin:0 auto 20px;border-radius:50%;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;font-size:28px">🌊</div>
@@ -762,6 +771,7 @@ class Component extends DCLogic {
     activeSection: '',
     navOnLight: false,
     submitted: false,
+    slotTaken: false,
     catalogStatus: 'loading', // loading | ok | fail — booking form is hidden on 'fail'
     openFaq: 0,
     howVisible: {},
@@ -868,7 +878,14 @@ class Component extends DCLogic {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'X-Booking-Secret': WEBHOOK_SECRET },
       body: JSON.stringify(payload)
-    }).then(() => { this._idemKey = null; }).catch(err => console.error('Admin bot webhook failed:', err));
+    }).then(res => {
+      if (res && res.status === 409) {
+        this.setState({ submitted: false, slotTaken: true });
+        const el = document.getElementById('book'); if (el) window.scrollTo({ top: el.offsetTop - 40, behavior: 'smooth' });
+        return;
+      }
+      this._idemKey = null;
+    }).catch(err => console.error('Admin bot webhook failed:', err));
   }
   validName(v) { return !!((v||'').trim()); }
   validEmail(v) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test((v||'').trim()); }
@@ -1732,8 +1749,12 @@ class Component extends DCLogic {
 
       submitted: this.state.submitted,
       notSubmitted: !this.state.submitted,
-      catalogUnavailable: this.state.catalogStatus === 'fail' && !this.state.submitted,
-      showForm: !this.state.submitted && this.state.catalogStatus !== 'fail',
+      catalogUnavailable: this.state.catalogStatus === 'fail' && !this.state.submitted && !this.state.slotTaken,
+      showForm: !this.state.submitted && !this.state.slotTaken && this.state.catalogStatus !== 'fail',
+      slotTaken: !!this.state.slotTaken,
+      slotTakenTitle: this.state.lang === 'ru' ? 'Упс — слот уже заняли' : 'Oops — that slot was just taken',
+      slotTakenBody: this.state.lang === 'ru' ? 'Пока вы заполняли форму, свободный тренер на это окно закончился. Депозит НЕ списан. Выберите, пожалуйста, соседнее время или день.' : 'While you were filling in the form, the last free coach for this window got booked. You have NOT been charged. Please pick a neighbouring time or day.',
+      slotTakenBtn: this.state.lang === 'ru' ? 'Выбрать другое окно' : 'Pick another window',
       unavailableTitle: this.state.lang === 'ru' ? 'Бронирование временно недоступно' : 'Booking temporarily unavailable',
       unavailableBody: this.state.lang === 'ru' ? 'Онлайн-бронирование через сайт временно недоступно. Пожалуйста, попробуйте позже.' : 'Online booking is temporarily unavailable. Please try again later.',
       okLine: L.book.okBodyA + (first ? (', ' + first) : '') + L.book.okBodyB,
@@ -1937,7 +1958,7 @@ class Component extends DCLogic {
         this.submitOrderToAdminBot(f, summary, baseNum, totalNum, headcount, sessionsWithAddons);
         const el = document.getElementById('book'); if (el) window.scrollTo({ top: el.offsetTop - 40, behavior: 'smooth' });
       },
-      reset: () => this.setState(s => ({ submitted: false, step: 1, addons: { media:false, rental:false, transferTo:false, transferBack:false }, transferToFrom:'', transferBackFrom:'', form: { ...s.form, sessionCount: '1', sessions: [{ date:'', slot:'' }] } })),
+      reset: () => this.setState(s => ({ submitted: false, slotTaken: false, step: 1, addons: { media:false, rental:false, transferTo:false, transferBack:false }, transferToFrom:'', transferBackFrom:'', form: { ...s.form, sessionCount: '1', sessions: [{ date:'', slot:'' }] } })),
 
     };
   }
