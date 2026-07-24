@@ -395,6 +395,41 @@
   </div>
 </section>
 
+<!-- ============ SUSTAINABILITY & CULTURE ============ -->
+<section id="care" data-screen-label="Sustainability" style="position:relative;overflow:hidden;background:linear-gradient(180deg,#123D34 0%,#0E332C 100%);color:#CFE0D2">
+  <div class="wrap sec-pad" style="position:relative;max-width:1280px;margin:0 auto;padding:104px 32px">
+    <div style="max-width:720px;margin:0 auto;text-align:center">
+      <div style="display:flex;justify-content:center;margin-bottom:20px" aria-hidden="true">
+        <svg width="52" height="52" viewBox="0 0 100 100" fill="none">
+          <g>
+            <ellipse cx="50" cy="30" rx="14" ry="21" fill="#FBF3DC" stroke="#F1C24A" stroke-width="1.6"/>
+            <ellipse cx="50" cy="30" rx="14" ry="21" fill="#FBF3DC" stroke="#F1C24A" stroke-width="1.6" transform="rotate(72 50 50)"/>
+            <ellipse cx="50" cy="30" rx="14" ry="21" fill="#FBF3DC" stroke="#F1C24A" stroke-width="1.6" transform="rotate(144 50 50)"/>
+            <ellipse cx="50" cy="30" rx="14" ry="21" fill="#FBF3DC" stroke="#F1C24A" stroke-width="1.6" transform="rotate(216 50 50)"/>
+            <ellipse cx="50" cy="30" rx="14" ry="21" fill="#FBF3DC" stroke="#F1C24A" stroke-width="1.6" transform="rotate(288 50 50)"/>
+          </g>
+          <circle cx="50" cy="50" r="10" fill="#F1C24A"/>
+        </svg>
+      </div>
+      <p style="font-family:'Inter',sans-serif;color:#F1C24A;font-size:14px;font-weight:600;letter-spacing:.4px;text-transform:uppercase;margin:0">{{ t.care.sub }}</p>
+      <h2 style="font-family:'Antonio',sans-serif;font-weight:700;font-size:clamp(34px,4.5vw,62px);line-height:.98;letter-spacing:-.5px;color:#fff;margin:12px auto 0;max-width:18ch">{{ t.care.h2 }}</h2>
+      <p style="font-size:16px;line-height:1.65;margin:18px auto 0;max-width:60ch;color:#B8CDBC">{{ t.care.lead }}</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(258px,1fr));gap:22px;margin-top:52px">
+      <sc-for list="{{ careItems }}" as="c" hint-placeholder-count="3">
+        <div style="display:flex;flex-direction:column;padding:30px 26px;border:1px solid rgba(241,194,74,.26);border-radius:18px;background:rgba(255,255,255,.05);box-shadow:inset 0 1px 0 rgba(255,255,255,.08)">
+          <span style="width:34px;height:3px;border-radius:3px;background:#F1C24A;margin-bottom:16px"></span>
+          <h4 style="font-family:'Antonio',sans-serif;font-weight:600;font-size:23px;color:#fff;margin:0 0 10px;line-height:1.12">{{ c.title }}</h4>
+          <p style="font-size:15px;line-height:1.6;margin:0;flex:1;color:#B8CDBC">{{ c.body }}</p>
+          <sc-if value="{{ c.hasLink }}" hint-placeholder-val="{{ false }}">
+            <a href="{{ c.href }}" target="_blank" rel="noopener" style="margin-top:16px;font-size:14px;font-weight:600;color:#F1C24A;width:max-content" style-hover="color:#ffd873">{{ c.link }} →</a>
+          </sc-if>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+</section>
+
 <!-- ============ FAQ ============ -->
 <section id="faq" data-screen-label="FAQ" style="background:#0B3E56">
   <div class="wrap sec-pad" style="max-width:1280px;margin:0 auto;padding:64px 32px 100px">
@@ -1296,7 +1331,7 @@ class Component extends DCLogic {
         return svg(e('path', { key: 'a', d: 'M4 8h3l1.5-2.5h7L17 8h3a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1Z' }), e('circle', { key: 'b', cx: 12, cy: 13, r: 3.4 }));
     }
   }
-  buildHeroChars(h1a, h1accent, h1b) {
+  buildHeroChars(h1a, h1accent, h1b, still) {
     const segs = [
       { text: h1a, color: '#fff' },
       { text: h1accent, color: '#61FFD0' },
@@ -1326,7 +1361,7 @@ class Component extends DCLogic {
           // title over ~1.4s, then all letters rest flat for the remainder of the 9s cycle.
           // First crest starts at 3s — right as the reader reaches "waves." — then loops on the 9s cycle.
           const delay = (3 + idx * 0.08).toFixed(3);
-          return { ch: c.ch, style: 'color:' + c.color + ';display:inline-block;transform-origin:center bottom;animation-delay:' + delay + 's' };
+          return { ch: c.ch, style: 'color:' + c.color + ';display:inline-block;transform-origin:center bottom;animation-delay:' + delay + 's' + (still ? ';animation:none' : '') };
         })
       };
     });
@@ -1691,9 +1726,9 @@ class Component extends DCLogic {
     return {
       t: L,
       navStyle: this.state.menuOpen
-        ? "position:fixed;top:0;left:0;right:0;z-index:70;background:linear-gradient(180deg,rgba(255,255,255,.15),rgba(255,255,255,.08));backdrop-filter:blur(10px) saturate(140%);-webkit-backdrop-filter:blur(10px) saturate(140%);border-bottom:1px solid rgba(255,255,255,.14);box-shadow:0 8px 40px rgba(0,0,0,.25),inset 0 1px 0 rgba(255,255,255,.16);transition:all .35s"
+        ? "position:fixed;top:0;left:0;right:0;z-index:70;background:transparent;border-bottom:1px solid transparent;transition:all .35s"
         : this.state.scrolled
-        ? "position:fixed;top:0;left:0;right:0;z-index:70;background:linear-gradient(180deg,rgba(9,32,52,.86),rgba(9,32,52,.72));backdrop-filter:blur(10px) saturate(140%);-webkit-backdrop-filter:blur(10px) saturate(140%);border-bottom:1px solid rgba(255,255,255,.1);box-shadow:0 8px 40px rgba(4,18,30,.28),inset 0 1px 0 rgba(255,255,255,.12);transition:background .35s,box-shadow .35s,border-color .35s"
+        ? "position:fixed;top:0;left:0;right:0;z-index:70;background:linear-gradient(180deg,rgba(18,22,27,.86),rgba(18,22,27,.7));backdrop-filter:blur(10px) saturate(115%);-webkit-backdrop-filter:blur(10px) saturate(115%);border-bottom:1px solid rgba(255,255,255,.09);box-shadow:0 8px 40px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.1);transition:background .35s,box-shadow .35s,border-color .35s"
         : "position:fixed;top:0;left:0;right:0;z-index:70;background:transparent;border-bottom:1px solid transparent;transition:background .35s,border-color .35s",
       eyebrow: subhead, subhead, subheadDark, h2Style, h2Dark, inputStyle, selectStyle, textareaStyle, fieldLabel, footHead, footLink, glassCard, glassPanel,
 
@@ -1717,7 +1752,7 @@ class Component extends DCLogic {
 
       toggleMenu: () => this.setState(s => ({ menuOpen: !s.menuOpen })),
       closeMenu: () => this.setState({ menuOpen: false }),
-      drawerStyle: "position:fixed;inset:0;z-index:65;background:rgba(14,29,42,.97);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;transition:opacity .3s,visibility .3s;opacity:" + (this.state.menuOpen ? '1' : '0') + ";visibility:" + (this.state.menuOpen ? 'visible' : 'hidden'),
+      drawerStyle: "position:fixed;inset:0;z-index:65;background:rgba(18,22,27,.97);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;transition:opacity .3s,visibility .3s;opacity:" + (this.state.menuOpen ? '1' : '0') + ";visibility:" + (this.state.menuOpen ? 'visible' : 'hidden'),
       drawerLink: "font-family:'Inter',sans-serif;font-weight:600;font-size:26px;letter-spacing:-.2px;color:#fff;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.08);transition:color .2s,opacity .35s ease,transform .35s ease",
       drawerLink0: "font-family:'Inter',sans-serif;font-weight:600;font-size:26px;letter-spacing:-.2px;color:#fff;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.08);transition:color .2s,opacity .35s ease,transform .35s ease;transition-delay:" + (this.state.menuOpen ? '.05s' : '0s') + ";opacity:" + (this.state.menuOpen ? '1' : '0') + ";transform:translateY(" + (this.state.menuOpen ? '0' : '10px') + ")",
       drawerLink1: "font-family:'Inter',sans-serif;font-weight:600;font-size:26px;letter-spacing:-.2px;color:#fff;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.08);transition:color .2s,opacity .35s ease,transform .35s ease;transition-delay:" + (this.state.menuOpen ? '.1s' : '0s') + ";opacity:" + (this.state.menuOpen ? '1' : '0') + ";transform:translateY(" + (this.state.menuOpen ? '0' : '10px') + ")",
@@ -1743,6 +1778,7 @@ class Component extends DCLogic {
       revScrollStyle: this.state.isTouch ? 'overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;scroll-snap-type:x mandatory;padding:2px 22px 10px;scrollbar-width:none' : '',
       revTrackStyle: 'display:flex;gap:22px;width:max-content' + (this.state.isTouch ? ';animation:none' : ''),
       certBadges: CERT_BADGES,
+      careItems: (L.care && L.care.items ? L.care.items : []).map(it => ({ ...it, hasLink: !!it.href })),
       sportOpts: L.book.sportOpts,
       levelOpts: L.book.levelOpts,
       spotPool: this.orderedSpots(sIdx, lvlIdx, null).pool.map(s => s.name),
@@ -1787,7 +1823,7 @@ class Component extends DCLogic {
 
       // wizard
       logoChars: this.buildLogoChars(onLight),
-      heroChars: this.buildHeroChars(L.hero.h1a, L.hero.h1accent, L.hero.h1b),
+      heroChars: this.buildHeroChars(L.hero.h1a, L.hero.h1accent, L.hero.h1b, this.state.lang !== 'en'),
       heroRef: el => { this.heroRef = el; if (el) setTimeout(this.measureHeroLines, 60); },
       w: W, wizSteps, nextBtn, backBtn, addonPrice,
       isStep1: step === 1, isStep2: step === 2, isStep3: step === 3,
