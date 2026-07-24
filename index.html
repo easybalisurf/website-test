@@ -960,6 +960,18 @@ class Component extends DCLogic {
     const s = Math.sin(dLat/2)**2 + Math.cos(toR(a[0]))*Math.cos(toR(b[0]))*Math.sin(dLon/2)**2;
     return 2 * R * Math.asin(Math.sqrt(s));
   }
+  // Auto-derive a spot's district from its coordinates (nearest known Bali zone), so new spots
+  // added in the bot don't need a region typed in by hand. Falls back to any explicit region.
+  regionFor(spot) {
+    if (!spot) return '';
+    const ZONES = { 'Canggu':[-8.657,115.128], 'Seminyak':[-8.690,115.157], 'Kuta':[-8.717,115.168], 'Bukit':[-8.815,115.088], 'Sanur':[-8.687,115.263], 'Benoa':[-8.760,115.222], 'Nusa Lembongan':[-8.681,115.446], 'West Bali':[-8.435,114.803], 'East Bali':[-8.596,115.331], 'Ubud':[-8.507,115.262] };
+    if (typeof spot.lat === 'number' && typeof spot.lon === 'number') {
+      let best = '', bd = Infinity;
+      for (const name in ZONES) { const d = this.haversine([spot.lat, spot.lon], ZONES[name]); if (d < bd) { bd = d; best = name; } }
+      if (best) return best;
+    }
+    return spot.region || '';
+  }
   // Grab-average fare for the route +20% (USD, whole dollars)
   transferPrice(originName, destName) {
     if (!originName) return 0;
@@ -1189,6 +1201,10 @@ class Component extends DCLogic {
         window.SERVICES_DATA = Object.assign({}, window.SERVICES_DATA, data);
         if (keepFn) window.SERVICES_DATA.isDateBlocked = keepFn;
         this.setState({ catalogStatus: 'ok' });
+        // The live catalog may add spots that weren't in the bundled fallback — pull their
+        // forecasts now (guarded by the wx cache, so already-fetched spots aren't re-requested)
+        // so a newly-added spot shows conditions immediately, with no need to switch sport/level.
+        this.maybeFetch();
       })
       .catch(() => { this.setState({ catalogStatus: 'fail' }); }); // endpoint down → hide the booking form
   }
@@ -1507,7 +1523,7 @@ class Component extends DCLogic {
     const slotRow = (sel) => 'display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;text-align:left;cursor:pointer;padding:12px 14px;border-radius:14px;background:' + (sel ? 'rgba(97,255,208,.14)' : 'rgba(255,255,255,.04)') + ';border:1px solid ' + (sel ? 'rgba(97,255,208,.55)' : 'rgba(255,255,255,.1)') + ';transition:all .2s';
 
     return {
-      active, primary, week, conds,
+      active: { ...active, region: this.regionFor(active) }, primary, week, conds,
       showConds: !!selSlot,
       noSlots: noData || slots.length === 0 || dateBlocked,
       noWinMsg: dateBlocked ? (sm.dateBlocked || sm.noWin) : noData ? (sm.noData || sm.noWin) : sm.noWin,
