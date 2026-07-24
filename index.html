@@ -63,6 +63,7 @@
   .logo-mark{display:inline-flex;align-items:baseline}
   .logo-char{display:inline-block;transform-origin:center bottom;animation:heroSwell 15s ease-in-out infinite}
   .hero-char{display:inline-block;transform-origin:center bottom;animation:heroSwell 15s ease-in-out infinite}
+  html:not([lang="en"]) .hero-char{animation:none!important}
   @keyframes heroSwell{0%{transform:translateY(0)}2%{transform:translateY(-0.17em)}4.5%{transform:translateY(0.05em)}7%{transform:translateY(0)}100%{transform:translateY(0)}}
   .rev-track{animation:marquee 42s linear infinite}
   @keyframes waveDriftA{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
@@ -189,7 +190,7 @@
       {{ t.hero.lead }}
     </p>
     <div style="display:flex;flex-wrap:wrap;gap:14px;margin-top:36px;pointer-events:auto;animation:floatUp 1.1s .5s ease-out both">
-      <a href="#book" style="display:inline-flex;align-items:center;gap:9px;background:linear-gradient(120deg,#7DFFC4,#61FFD0 42%,#3FD9E6);color:#08100d;font-weight:600;font-size:15px;padding:16px 30px;border-radius:100px;transition:transform .2s,box-shadow .2s" style-hover="box-shadow:0 10px 40px rgba(97,255,208,.45);transform:translateY(-2px)">{{ t.hero.ctaBook }}</a>
+      <a href="#book" style="display:inline-flex;align-items:center;gap:9px;background:linear-gradient(120deg,#7DFFC4,#61FFD0 42%,#3FD9E6);color:#08100d;font-weight:600;font-size:15px;padding:16px 30px;border-radius:100px;transition:filter .2s" style-hover="filter:brightness(1.05)">{{ t.hero.ctaBook }}</a>
       <a href="#why" style="display:inline-flex;align-items:center;gap:7px;color:#fff;font-weight:500;font-size:15px;padding:16px 6px;transition:color .2s,gap .2s" style-hover="color:#61FFD0;gap:11px">{{ t.hero.ctaExplore }}</a>
     </div>
     <div style="display:flex;flex-wrap:wrap;align-items:center;gap:22px;margin-top:52px;padding-top:22px;border-top:1px solid rgba(255,255,255,.1);pointer-events:auto;animation:floatUp 1.2s .6s ease-out both">
@@ -290,7 +291,8 @@
       <!-- Selected-window conditions — revealed only after a slot is picked, so the panel
            isn't a wall of numbers up front (progressive disclosure). -->
       <sc-if value="{{ reco.showConds }}" hint-placeholder-val="{{ false }}">
-      <div class="cond-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:20px">
+      <div style="font-size:11px;letter-spacing:.4px;text-transform:uppercase;color:#FFFFFF80;margin:20px 0 8px">{{ t.smart.condTitle }}</div>
+      <div class="cond-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:0">
         <sc-for list="{{ reco.conds }}" as="c" hint-placeholder-count="3">
           <div style="text-align:center;padding:14px 8px;border-radius:12px;background:rgba(97,255,208,.06);border:1px solid rgba(97,255,208,.16)">
             <div style="display:flex;align-items:center;justify-content:center;height:20px">
@@ -300,8 +302,14 @@
               <sc-if value="{{ c.isWind }}" hint-placeholder-val="{{ false }}">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#61FFD0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8h11a3 3 0 1 0-2.6-4.5"/><path d="M2 13h15a3 3 0 1 1-2.6 4.5"/><path d="M2 18h8a2.2 2.2 0 1 1-1.9 3.3"/></svg>
               </sc-if>
-              <sc-if value="{{ c.isTide }}" hint-placeholder-val="{{ false }}">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#61FFD0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 6.5v6l4 2"/></svg>
+              <sc-if value="{{ c.isTideUp }}" hint-placeholder-val="{{ false }}">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#61FFD0" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="M6 11l6-6 6 6"/></svg>
+              </sc-if>
+              <sc-if value="{{ c.isTideDown }}" hint-placeholder-val="{{ false }}">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#61FFD0" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M6 13l6 6 6-6"/></svg>
+              </sc-if>
+              <sc-if value="{{ c.isTideMid }}" hint-placeholder-val="{{ false }}">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#61FFD0" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18"/><path d="M7 8l5-5 5 5"/><path d="M7 16l5 5 5-5"/></svg>
               </sc-if>
             </div>
             <div style="font-family:'Antonio';font-weight:600;font-size:19px;color:#fff;margin-top:7px;line-height:1">{{ c.val }}</div>
@@ -474,6 +482,7 @@
                 </select>
               </label>
             </div>
+            <p style="font-size:12px;line-height:1.5;color:#FFB454;margin:12px 2px 0">{{ w.levelHonest }}</p>
             <label style="{{ fieldLabel }};margin-top:16px">{{ t.book.fSpot }}
               <select required="" value="{{ form.spot }}" onChange="{{ onSpotField }}" style="{{ spotSelectStyle }}">
                 <option value="" style="color:#000">—</option>
@@ -709,15 +718,27 @@
                 <span style="font-size:12px;color:#FFFFFFBD">{{ remainderDue }}</span>
               </div>
             </div>
+            <label onClick="{{ toggleAgree }}" style="display:flex;align-items:flex-start;gap:10px;margin-top:20px;cursor:pointer;font-size:13px;line-height:1.5;color:#FFFFFFB0">
+              <span style="{{ agreeBoxStyle }}">✓</span>
+              <span>{{ t.book.fineA }}<a href="{{ termsHref }}" style="color:#61FFD0" onClick="{{ stopProp }}">{{ t.book.fineLink }}</a>{{ t.book.fineB }}</span>
+            </label>
+            <div style="margin-top:20px">
+              <div style="font-size:12px;letter-spacing:.5px;text-transform:uppercase;color:#FFFFFF99;margin-bottom:10px">{{ payWith }}</div>
+              <div style="display:flex;gap:10px;flex-wrap:wrap">
+                <div style="flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:14px 20px;border-radius:12px;border:1px solid rgba(97,255,208,.4);background:rgba(255,255,255,.92);position:relative;cursor:pointer;transition:box-shadow .2s,background .2s" style-hover="background:#FFFFFF;box-shadow:0 0 0 2px rgba(97,255,208,.3)">
+                  <span style="font-family:Arial,Helvetica,sans-serif;font-weight:800;font-style:italic;font-size:17px;letter-spacing:-.3px;line-height:1"><span style="color:#253B80">Pay</span><span style="color:#179BD7">Pal</span></span>
+                  <span style="flex:none;width:18px;height:18px;border-radius:50%;background:#0B9B6A;color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;line-height:1">✓</span>
+                </div>
+              </div>
+            </div>
             <div style="display:flex;gap:12px;margin-top:20px">
               <button type="button" onClick="{{ back }}" style="{{ backBtn }}">{{ w.back }}</button>
-              <button type="submit" disabled="{{ multiInfeasible }}" style="{{ submitBtnStyle }}">{{ submitLabel }}</button>
+              <button type="submit" disabled="{{ submitBlocked }}" style="{{ submitBtnStyle }}">{{ submitLabel }}</button>
             </div>
             <sc-if value="{{ multiInfeasible }}" hint-placeholder-val="{{ false }}">
               <p style="font-size:12px;text-align:center;margin:12px 0 0;color:#FFD9A8">{{ multiInfeasibleMsg }}</p>
             </sc-if>
             <p style="font-size:12px;text-align:center;margin:12px 0 0;color:#61FFD0CC">{{ t.book.refundGuarantee }}</p>
-            <p style="font-size:12px;text-align:center;margin:10px 0 0;color:#FFFFFF80">{{ t.book.fineA }}<a href="{{ termsHref }}" style="color:#61FFD0">{{ t.book.fineLink }}</a>{{ t.book.fineB }}</p>
           </div>
         </sc-if>
       </form>
@@ -734,7 +755,7 @@
       <div class="logo-mark" style="font-family:'Antonio',sans-serif;font-weight:700;font-size:20px;letter-spacing:1.6px;transform-origin:0% 70%;width:max-content">
         <sc-for list="{{ logoChars }}" as="lc" hint-placeholder-count="13"><span class="logo-char" style="{{ lc.footStyle }}">{{ lc.ch }}</span></sc-for>
       </div>
-      <p style="font-size:13px;margin:16px 0 0;color:#FFFFFF80">© 2026 EasyBali.surf<br>{{ t.foot.rights }}</p>
+      <p style="font-size:13px;margin:16px 0 0;color:#FFFFFF80">© 2026 {{ t.foot.rights }}</p>
     </div>
 
     <div style="display:contents">
@@ -772,6 +793,7 @@ class Component extends DCLogic {
     navOnLight: false,
     submitted: false,
     slotTaken: false,
+    agreed: false,
     catalogStatus: 'loading', // loading | ok | fail — booking form is hidden on 'fail'
     openFaq: 0,
     howVisible: {},
@@ -880,6 +902,7 @@ class Component extends DCLogic {
       body: JSON.stringify(payload)
     }).then(res => {
       if (res && res.status === 409) {
+        // Slot filled up while the form was open — revert the optimistic success and warn.
         this.setState({ submitted: false, slotTaken: true });
         const el = document.getElementById('book'); if (el) window.scrollTo({ top: el.offsetTop - 40, behavior: 'smooth' });
         return;
@@ -1263,13 +1286,13 @@ class Component extends DCLogic {
     const e = React.createElement;
     const svg = (...kids) => e('svg', { key: 'pi' + i, width: 22, height: 22, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 2, strokeLinecap: 'round', strokeLinejoin: 'round' }, ...kids);
     switch (i) {
-      case 0:
+      case 0: // certified — award badge
         return svg(e('circle', { key: 'a', cx: 12, cy: 9, r: 5.5 }), e('path', { key: 'b', d: 'M8.8 13.5 7.5 21l4.5-2.6L16.5 21l-1.3-7.5' }));
-      case 1:
+      case 1: // right spot — map pin
         return svg(e('path', { key: 'a', d: 'M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11Z' }), e('circle', { key: 'b', cx: 12, cy: 10, r: 2.6 }));
-      case 2:
+      case 2: // private, max 3 — people
         return svg(e('circle', { key: 'a', cx: 9, cy: 8.5, r: 3.2 }), e('path', { key: 'b', d: 'M3.5 19.5c0-3 2.5-5 5.5-5s5.5 2 5.5 5' }), e('path', { key: 'c', d: 'M15.5 5.6a3.2 3.2 0 0 1 0 5.8M17.8 14.9c1.9.7 3.2 2.3 3.2 4.6' }));
-      default:
+      default: // add-ons — camera
         return svg(e('path', { key: 'a', d: 'M4 8h3l1.5-2.5h7L17 8h3a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1Z' }), e('circle', { key: 'b', cx: 12, cy: 13, r: 3.4 }));
     }
   }
@@ -1438,10 +1461,11 @@ class Component extends DCLogic {
     // what removes the "waves shown per day" confusion. Shown only once a slot is actually picked.
     const selSlot = slots.find(s => s.time === chosenSlot);
     const selPer = selSlot ? per[selSlot.oi] : null;
+    const tideIdx = selPer ? Math.max(0, sm.tide.indexOf(selPer.tide)) : 0;
     const conds = selPer ? [
       { isWave: true, label: sm.condWaves, val: selPer.wave.toFixed(1) + ' m' },
       { isWind: true, label: sm.condWind, val: selPer.windKt + ' kt' },
-      { isTide: true, label: sm.condTide, val: selPer.tide }
+      { isTideDown: tideIdx === 0, isTideMid: tideIdx === 1, isTideUp: tideIdx === 2, label: sm.condTide, val: selPer.tide }
     ] : [];
 
     const spotChip = (sel) => 'background:' + (sel ? '#61FFD0' : 'rgba(255,255,255,.05)') + ';color:' + (sel ? '#08100d' : '#fff') + ';border:1px solid ' + (sel ? '#61FFD0' : 'rgba(255,255,255,.16)') + ';border-radius:100px;padding:8px 15px;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s';
@@ -1606,8 +1630,8 @@ class Component extends DCLogic {
     const step = this.state.step;
     const ad = this.state.addons;
     const GRAD = 'linear-gradient(120deg,#7DFFC4,#61FFD0 42%,#3FD9E6)';
-    const nextBtn = 'flex:1;width:100%;background:' + GRAD + ';color:#08100d;font-weight:600;font-size:16px;padding:16px;border:none;border-radius:100px;cursor:pointer;transition:transform .2s,box-shadow .2s';
-    const backBtn = 'flex:none;background:transparent;border:1px solid rgba(255,255,255,.3);color:#fff;font-weight:500;font-size:15px;padding:16px 22px;border-radius:100px;cursor:pointer';
+    const nextBtn = 'flex:1;background:' + GRAD + ';color:#08100d;font-weight:600;font-size:15px;padding:13px 24px;border:none;border-radius:100px;cursor:pointer;transition:transform .2s,box-shadow .2s';
+    const backBtn = 'flex:none;background:transparent;border:1px solid rgba(255,255,255,.3);color:#fff;font-weight:500;font-size:14px;padding:13px 20px;border-radius:100px;cursor:pointer';
     const addonPrice = "font-family:'Antonio',sans-serif;font-weight:600;font-size:16px;color:#61FFD0;white-space:nowrap";
     const addonStyle = (chk) => ({
       row: 'display:flex;align-items:center;gap:14px;padding:15px 16px;border-radius:14px;cursor:pointer;user-select:none;transition:background .2s,border-color .2s;background:' + (chk ? 'rgba(97,255,208,.12)' : 'rgba(255,255,255,.04)') + ';border:1px solid ' + (chk ? 'rgba(97,255,208,.55)' : 'rgba(255,255,255,.1)'),
@@ -1645,10 +1669,10 @@ class Component extends DCLogic {
     const sessionLabel = [W.private, sportName, W.sessionWord].filter(Boolean).join(' ')
       + ' (' + (sessionsCount > 1 ? sessionsCount + 'x2h' : '2h') + ') x ' + headcount + ' ' + (headcount === 1 ? W.personWord : W.peopleWord);
     const summary = [{ label: sessionLabel, amount: '$' + baseNum, textColor: '#61FFD0', textWeight: '600', amountWeight: '700' }];
-    if (ad.media) summary.push({ type:'media', label: W.media + (sessionsCount > 1 ? ' ×' + mediaCount : ''), amount: '$' + addM , textColor:'#FFFFFFCC', textWeight:'400', amountWeight:'500' });
     if (ad.rental) summary.push({ type:'rental', label: W.rental + ' ' + rentalQty + ' ' + (rentalQty === 1 ? W.personWord : W.peopleWord) + ' ×' + sessionsCount + ' (2h)', amount: '$' + (rentalRate * rentalQty * sessionsCount) , textColor:'#FFFFFFCC', textWeight:'400', amountWeight:'500' });
     if (transfersAvail && ad.transferTo && this.state.transferToFrom) summary.push({ type:'transferTo', label: W.transferRoute.replace('{a}', this.state.transferToFrom).replace('{b}', destName) + (transferDaysCount > 1 ? ' x' + transferDaysCount : ''), amount: '$' + ttNum , textColor:'#FFFFFFCC', textWeight:'400', amountWeight:'500' });
     if (transfersAvail && ad.transferBack && this.state.transferBackFrom) summary.push({ type:'transferBack', label: W.transferRoute.replace('{a}', destName).replace('{b}', this.state.transferBackFrom) + (transferDaysCount > 1 ? ' x' + transferDaysCount : ''), amount: '$' + tbNum , textColor:'#FFFFFFCC', textWeight:'400', amountWeight:'500' });
+    if (ad.media) summary.push({ type:'media', label: W.media + (sessionsCount > 1 ? ' ×' + mediaCount : ''), amount: '$' + addM , textColor:'#FFFFFFCC', textWeight:'400', amountWeight:'500' });
 
     // Per-session addon breakdown (for the admin bot's order card, which nests addons under
     // each session date rather than showing one flat aggregated list) — same per-day rates
@@ -1694,11 +1718,11 @@ class Component extends DCLogic {
       toggleMenu: () => this.setState(s => ({ menuOpen: !s.menuOpen })),
       closeMenu: () => this.setState({ menuOpen: false }),
       drawerStyle: "position:fixed;inset:0;z-index:65;background:rgba(14,29,42,.97);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;transition:opacity .3s,visibility .3s;opacity:" + (this.state.menuOpen ? '1' : '0') + ";visibility:" + (this.state.menuOpen ? 'visible' : 'hidden'),
-      drawerLink: "font-family:'Antonio',sans-serif;font-weight:600;font-size:30px;color:#fff;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.08);transition:color .2s,opacity .35s ease,transform .35s ease",
-      drawerLink0: "font-family:'Antonio',sans-serif;font-weight:600;font-size:30px;color:#fff;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.08);transition:color .2s,opacity .35s ease,transform .35s ease;transition-delay:" + (this.state.menuOpen ? '.05s' : '0s') + ";opacity:" + (this.state.menuOpen ? '1' : '0') + ";transform:translateY(" + (this.state.menuOpen ? '0' : '10px') + ")",
-      drawerLink1: "font-family:'Antonio',sans-serif;font-weight:600;font-size:30px;color:#fff;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.08);transition:color .2s,opacity .35s ease,transform .35s ease;transition-delay:" + (this.state.menuOpen ? '.1s' : '0s') + ";opacity:" + (this.state.menuOpen ? '1' : '0') + ";transform:translateY(" + (this.state.menuOpen ? '0' : '10px') + ")",
-      drawerLink2: "font-family:'Antonio',sans-serif;font-weight:600;font-size:30px;color:#fff;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.08);transition:color .2s,opacity .35s ease,transform .35s ease;transition-delay:" + (this.state.menuOpen ? '.15s' : '0s') + ";opacity:" + (this.state.menuOpen ? '1' : '0') + ";transform:translateY(" + (this.state.menuOpen ? '0' : '10px') + ")",
-      drawerLink3: "font-family:'Antonio',sans-serif;font-weight:600;font-size:30px;color:#fff;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.08);transition:color .2s,opacity .35s ease,transform .35s ease;transition-delay:" + (this.state.menuOpen ? '.2s' : '0s') + ";opacity:" + (this.state.menuOpen ? '1' : '0') + ";transform:translateY(" + (this.state.menuOpen ? '0' : '10px') + ")",
+      drawerLink: "font-family:'Inter',sans-serif;font-weight:600;font-size:26px;letter-spacing:-.2px;color:#fff;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.08);transition:color .2s,opacity .35s ease,transform .35s ease",
+      drawerLink0: "font-family:'Inter',sans-serif;font-weight:600;font-size:26px;letter-spacing:-.2px;color:#fff;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.08);transition:color .2s,opacity .35s ease,transform .35s ease;transition-delay:" + (this.state.menuOpen ? '.05s' : '0s') + ";opacity:" + (this.state.menuOpen ? '1' : '0') + ";transform:translateY(" + (this.state.menuOpen ? '0' : '10px') + ")",
+      drawerLink1: "font-family:'Inter',sans-serif;font-weight:600;font-size:26px;letter-spacing:-.2px;color:#fff;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.08);transition:color .2s,opacity .35s ease,transform .35s ease;transition-delay:" + (this.state.menuOpen ? '.1s' : '0s') + ";opacity:" + (this.state.menuOpen ? '1' : '0') + ";transform:translateY(" + (this.state.menuOpen ? '0' : '10px') + ")",
+      drawerLink2: "font-family:'Inter',sans-serif;font-weight:600;font-size:26px;letter-spacing:-.2px;color:#fff;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.08);transition:color .2s,opacity .35s ease,transform .35s ease;transition-delay:" + (this.state.menuOpen ? '.15s' : '0s') + ";opacity:" + (this.state.menuOpen ? '1' : '0') + ";transform:translateY(" + (this.state.menuOpen ? '0' : '10px') + ")",
+      drawerLink3: "font-family:'Inter',sans-serif;font-weight:600;font-size:26px;letter-spacing:-.2px;color:#fff;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.08);transition:color .2s,opacity .35s ease,transform .35s ease;transition-delay:" + (this.state.menuOpen ? '.2s' : '0s') + ";opacity:" + (this.state.menuOpen ? '1' : '0') + ";transform:translateY(" + (this.state.menuOpen ? '0' : '10px') + ")",
       burgerTop: burgerCss("transform .3s") + ";transform:" + (this.state.menuOpen ? 'translateY(7px) rotate(45deg)' : 'none'),
       burgerMid: burgerCss("opacity .2s") + ";opacity:" + (this.state.menuOpen ? '0' : '1'),
       burgerBot: burgerCss("transform .3s") + ";transform:" + (this.state.menuOpen ? 'translateY(-7px) rotate(-45deg)' : 'none'),
@@ -1758,6 +1782,7 @@ class Component extends DCLogic {
       unavailableTitle: this.state.lang === 'ru' ? 'Бронирование временно недоступно' : 'Booking temporarily unavailable',
       unavailableBody: this.state.lang === 'ru' ? 'Онлайн-бронирование через сайт временно недоступно. Пожалуйста, попробуйте позже.' : 'Online booking is temporarily unavailable. Please try again later.',
       okLine: L.book.okBodyA + (first ? (', ' + first) : '') + L.book.okBodyB,
+      payWith: this.state.lang === 'ru' ? 'Способ оплаты' : 'Payment method',
       priceEst, priceNote,
 
       // wizard
@@ -1797,6 +1822,7 @@ class Component extends DCLogic {
           if (noCoachIdx >= 0) { this.setState(s => ({ touched: { ...s.touched, dateAt: { ...(s.touched.dateAt||{}), [noCoachIdx]: true } } })); return; }
         }
         if (this.state.step === 2 && transfersAvail) {
+          // A checked transfer leg MUST have its pick-up / drop-off point chosen.
           if (ad.transferTo && !this.state.transferToFrom) { this.setState(s => ({ touched: { ...s.touched, ttFrom: true } })); return; }
           if (ad.transferBack && !this.state.transferBackFrom) { this.setState(s => ({ touched: { ...s.touched, tbFrom: true } })); return; }
         }
@@ -1855,16 +1881,21 @@ class Component extends DCLogic {
       // session row has a date+slot and a spot is picked; until the probe returns (or on error)
       // we treat it as feasible so a slow/broken probe never blocks a real booking.
       ...(() => {
+        const agreed = !!this.state.agreed;
         const rows = (f.sessions || []).slice(0, sessionsCount).filter(s => s.date && s.slot);
         const greyed = ';background:rgba(255,255,255,.12);color:#FFFFFF66;cursor:not-allowed';
-        if (sessionsCount < 2 || rows.length < sessionsCount || !f.spot) return { multiInfeasible: false, submitBtnStyle: nextBtn };
+        if (sessionsCount < 2 || rows.length < sessionsCount || !f.spot) return { multiInfeasible: false, submitBtnStyle: nextBtn + (agreed ? '' : greyed), submitBlocked: !agreed };
         const levelSlug = ['first-timer', 'beginner', 'intermediate', 'advanced'][lvlIdx] || 'first-timer';
         const langCode = { English: 'en', Russian: 'ru', 'Английский': 'en', 'Русский': 'ru' }[f.instructorLang] || '';
         const sig = discKey + '|' + levelSlug + '|' + langCode + '|' + f.spot + '|' + rows.map(s => s.date + '@' + s.slot).join(',');
         this.checkMultiFeasibility(sig, { sport: discKey, level: levelSlug, lang: langCode, sessions: rows.map(s => ({ date: s.date, timeWindow: s.slot, spot: f.spot })) });
         const feas = (this.state.multiFeas || {})[sig];
-        return { multiInfeasible: feas === false, submitBtnStyle: nextBtn + (feas === false ? greyed : '') };
+        return { multiInfeasible: feas === false, submitBtnStyle: nextBtn + ((feas === false || !agreed) ? greyed : ''), submitBlocked: feas === false || !agreed };
       })(),
+      agreed: !!this.state.agreed,
+      toggleAgree: () => this.setState(s => ({ agreed: !s.agreed })),
+      stopProp: e => { e.stopPropagation(); },
+      agreeBoxStyle: 'flex:none;width:20px;height:20px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:13px;transition:all .18s;border:' + (this.state.agreed ? '1px solid #61FFD0;background:#61FFD0;color:#08100d' : '1.5px solid rgba(255,255,255,.35);background:transparent;color:transparent'),
       multiInfeasibleMsg: W.multiBusy || (this.state.lang === 'ru'
         ? 'Нет одного тренера, свободного на все выбранные занятия. Измените даты или время.'
         : 'No single coach is free for all selected sessions. Try different dates or times.'),
@@ -1944,6 +1975,7 @@ class Component extends DCLogic {
       onSpotField: e => this.set('spot', e.target.value),
       submit: e => {
         e.preventDefault();
+        if (!this.state.agreed) { this.setState({ agreeTouched: true }); return; }
         const okName = this.validName(f.name), okEmail = this.validEmail(f.email), okPhone = this.validPhone(f.phone), okAge = f.age === '' || this.validAge(f.age);
         if (!okName || !okEmail || !okPhone || !okAge) { this.setState({ touched: { name: true, email: true, phone: true, age: true } }); return; }
         // Block a multi-day booking that no single coach can cover (probe already ran in renderVals).
@@ -1958,7 +1990,7 @@ class Component extends DCLogic {
         this.submitOrderToAdminBot(f, summary, baseNum, totalNum, headcount, sessionsWithAddons);
         const el = document.getElementById('book'); if (el) window.scrollTo({ top: el.offsetTop - 40, behavior: 'smooth' });
       },
-      reset: () => this.setState(s => ({ submitted: false, slotTaken: false, step: 1, addons: { media:false, rental:false, transferTo:false, transferBack:false }, transferToFrom:'', transferBackFrom:'', form: { ...s.form, sessionCount: '1', sessions: [{ date:'', slot:'' }] } })),
+      reset: () => this.setState(s => ({ submitted: false, slotTaken: false, agreed: false, step: 1, addons: { media:false, rental:false, transferTo:false, transferBack:false }, transferToFrom:'', transferBackFrom:'', form: { ...s.form, sessionCount: '1', sessions: [{ date:'', slot:'' }] } })),
 
     };
   }
