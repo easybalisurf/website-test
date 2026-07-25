@@ -31,6 +31,16 @@
         <div style="width:64px;height:64px;margin:0 auto 20px;border-radius:50%;background:linear-gradient(120deg,#7DFFC4,#61FFD0 42%,#3FD9E6);color:#08100d;display:flex;align-items:center;justify-content:center;font-size:32px">✓</div>
         <h1 style="font-family:'Antonio',sans-serif;font-weight:700;font-size:34px;color:#fff;margin:0 0 10px">{{ t.thanksTitle }}</h1>
         <p style="font-size:15px;line-height:1.6;margin:0 auto;max-width:34ch">{{ t.thanksBody }}</p>
+        <sc-if value="{{ showGoogle }}" hint-placeholder-val="{{ false }}">
+          <div style="margin-top:26px;padding-top:24px;border-top:1px solid rgba(255,255,255,.12);text-align:left">
+            <h2 style="font-family:'Antonio',sans-serif;font-weight:600;font-size:22px;color:#fff;margin:0 0 8px;text-align:center">{{ t.googleTitle }}</h2>
+            <p style="font-size:14px;line-height:1.6;margin:0 0 14px;text-align:center;color:#FFFFFFCC">{{ t.googleBody }}</p>
+            <div style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);border-radius:12px;padding:13px 14px;font-size:14px;line-height:1.5;color:#fff;max-height:120px;overflow:auto">{{ text }}</div>
+            <button type="button" onClick="{{ copyReview }}" style="width:100%;margin-top:12px;background:transparent;border:1px solid rgba(255,255,255,.3);color:#fff;font-weight:500;font-size:14px;padding:12px;border-radius:100px;cursor:pointer">{{ copyLabel }}</button>
+            <a href="{{ googleUrl }}" target="_blank" rel="noopener" style="display:block;margin-top:10px;text-align:center;background:linear-gradient(120deg,#7DFFC4,#61FFD0 42%,#3FD9E6);color:#08100d;font-weight:600;font-size:15px;padding:14px;border-radius:100px">{{ t.googleBtn }} →</a>
+            <p style="font-size:12px;line-height:1.6;color:#FFFFFF80;margin:12px 2px 0">{{ t.googleSteps }}</p>
+          </div>
+        </sc-if>
       </div>
     </sc-if>
 
@@ -71,23 +81,31 @@
 <script type="text/x-dc" data-dc-script>
 class Component extends DCLogic {
   BOT = 'https://admin-bot-production-b400.up.railway.app';
+  // Replace YOUR_PLACE_ID with the Google Place ID for EasyBali.surf to enable the 5-star Google ask.
+  GOOGLE_URL = 'https://search.google.com/local/writereview?placeid=YOUR_PLACE_ID';
   TEXT = {
     en: { eyebrow:'Your session', title:'How did it go?', lead:'Tap the stars and leave a few words — it takes 20 seconds and helps other riders find the right coach.',
       placeholder:'What stood out? Your coach, the spot, the vibe…', submit:'Submit review', sending:'Sending…',
       note:'Only your first name and star rating may appear on our site. No contact details are ever shown.',
       ratings:['','Poor','Fair','Good','Great','Amazing'],
-      thanksTitle:'Thank you! 🤙', thanksBody:'Your review is in — we really appreciate it. See you back in the water.',
+      thanksTitle:'Thank you!', thanksBody:'Your review is in — we really appreciate it. See you back in the water.',
+      googleTitle:'One more thing?', googleBody:"Loved it? A quick Google review helps other riders find us — we've copied your words so you can just paste them.",
+      googleBtn:'Post on Google', googleSteps:'1. Tap “Copy my review”.  2. Open Google.  3. Paste, pick 5 stars, and post. Thank you!',
+      copy:'Copy my review', copied:'✓ Copied — now paste on Google',
       invalidTitle:'Link expired', invalidBody:'This review link is invalid or already used. If you think that\u2019s a mistake, just reply to our email.',
       errRating:'Please pick a star rating first.', errSend:'Something went wrong — please try again in a moment.' },
     ru: { eyebrow:'Ваше занятие', title:'Как всё прошло?', lead:'Поставьте звёзды и напишите пару слов — это займёт 20 секунд и поможет другим райдерам выбрать тренера.',
       placeholder:'Что понравилось? Тренер, спот, атмосфера…', submit:'Отправить отзыв', sending:'Отправляем…',
       note:'На сайте может появиться только ваше имя и оценка. Контактные данные никогда не показываются.',
       ratings:['','Слабо','Нормально','Хорошо','Отлично','Восторг'],
-      thanksTitle:'Спасибо! 🤙', thanksBody:'Отзыв получен — очень ценим. Увидимся в воде.',
+      thanksTitle:'Спасибо!', thanksBody:'Отзыв получен — очень ценим. Увидимся в воде.',
+      googleTitle:'Ещё один момент?', googleBody:'Понравилось? Отзыв в Google помогает другим райдерам найти нас — мы скопировали ваш текст, просто вставьте.',
+      googleBtn:'Оставить в Google', googleSteps:'1. Нажмите «Скопировать отзыв».  2. Откройте Google.  3. Вставьте, поставьте 5 звёзд и опубликуйте. Спасибо!',
+      copy:'Скопировать отзыв', copied:'✓ Скопировано — вставьте в Google',
       invalidTitle:'Ссылка недействительна', invalidBody:'Ссылка на отзыв неверна или уже использована. Если это ошибка — просто ответьте на наше письмо.',
       errRating:'Сначала выберите оценку в звёздах.', errSend:'Что-то пошло не так — попробуйте ещё раз через мгновение.' }
   };
-  state = { rating: 0, hover: 0, text: '', sending: false, done: false, err: '', o: '', t: '', lang: 'en' };
+  state = { rating: 0, hover: 0, text: '', sending: false, done: false, err: '', o: '', t: '', lang: 'en', copied: false };
   componentDidMount() {
     const q = new URLSearchParams(window.location.search);
     const lang = ['en', 'ru'].includes(q.get('lang')) ? q.get('lang') : 'en';
@@ -107,6 +125,11 @@ class Component extends DCLogic {
       throw new Error('http ' + r.status);
     }).catch(() => this.setState({ sending: false, err: T.errSend }));
   };
+  copyReview = () => {
+    const val = this.state.text || '';
+    const done = () => this.setState({ copied: true });
+    try { navigator.clipboard.writeText(val).then(done, done); } catch (e) { done(); }
+  };
   renderVals() {
     const T = this.TEXT[this.state.lang] || this.TEXT.en;
     const invalid = !this.state.o || !this.state.t;
@@ -116,6 +139,10 @@ class Component extends DCLogic {
       t: T,
       isInvalid: invalid,
       isDone: !invalid && this.state.done,
+      showGoogle: !invalid && this.state.done && this.state.rating >= 5 && !!(this.state.text || '').trim(),
+      googleUrl: this.GOOGLE_URL,
+      copyReview: this.copyReview,
+      copyLabel: this.state.copied ? T.copied : T.copy,
       isForm: !invalid && !this.state.done,
       text: this.state.text,
       onText: e => this.setState({ text: e.target.value }),

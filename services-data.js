@@ -1,6 +1,10 @@
 // services-data.js — pricing & locations. Edit here to add service packages, change prices, or add surf spots — no other file needs to change.
 
 window.SERVICES_DATA = {
+  // The Place = the destination that contains all the spots (a region/island). Our case: Bali.
+  // (Multi-place: the site nav shows a dropdown; each spot belongs to a place.)
+  place: 'Bali',
+  places: ['Bali'],
   // Dates on which sessions CANNOT be booked (holidays, sold-out blocks, closed days).
   // Add a single date '2026-08-17', or an inclusive range ['2026-08-01','2026-08-05'].
   //   all  → blocks every discipline

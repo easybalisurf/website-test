@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>EasyBali.Surf — Surf, Kite, Wing Foil & SUP Lessons in Bali</title>
+<title>EasyBali.Surf — Surf, Kite, Wing Foil & SUP Sessions in Bali</title>
 <meta name="description" content="Book certified surf, kite, wing foil and SUP coaching on Bali's best breaks. Live wind and swell forecasts, instant booking, coaches matched to your level.">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://easybali.surf/">
 <meta property="og:type" content="website">
-<meta property="og:title" content="EasyBali.Surf — Surf, Kite, Wing Foil & SUP Lessons in Bali">
+<meta property="og:title" content="EasyBali.Surf — Surf, Kite, Wing Foil & SUP Sessions in Bali">
 <meta property="og:description" content="Book certified surf, kite, wing foil and SUP coaching on Bali's best breaks — booked in minutes.">
 <meta property="og:url" content="https://easybali.surf/">
 <meta name="twitter:card" content="summary_large_image">
@@ -120,8 +120,12 @@
 <!-- ============ NAV ============ -->
 <nav data-screen-label="Nav" style="{{ navStyle }}">
   <div class="wrap nav-inner" style="max-width:1280px;margin:0 auto;padding:env(safe-area-inset-top) 32px 0;height:calc(74px + env(safe-area-inset-top));display:flex;align-items:center;justify-content:space-between">
-    <a href="#hero" style="display:flex;align-items:center;color:{{ navInk }}">
+    <a href="#hero" style="display:flex;align-items:center;gap:12px;color:{{ navInk }}">
       <eb-logo size="24px" animated="false"></eb-logo>
+      <span style="display:inline-flex;align-items:center;gap:7px;background:transparent;border:1px solid rgba(255,255,255,.2);border-radius:100px;color:{{ navInk }};font-family:'Inter';font-size:13px;font-weight:500;padding:9px 14px;white-space:nowrap">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11Z"/><circle cx="12" cy="10" r="2.6"/></svg>
+        {{ placeName }}
+      </span>
     </a>
 
     <!-- desktop nav -->
@@ -172,13 +176,10 @@
 </div>
 
 <!-- ============ HERO ============ -->
-<header id="hero" data-screen-label="Hero" style="position:relative;min-height:100vh;display:flex;align-items:flex-end;overflow:hidden;padding-top:calc(74px + env(safe-area-inset-top))">
+<header id="hero" data-screen-label="Hero" style="position:relative;min-height:100vh;display:flex;align-items:center;overflow:hidden;padding-top:calc(74px + env(safe-area-inset-top))">
   <div id="heroBgLayer" style="position:absolute;inset:0;background:linear-gradient(180deg,#0E3A63 0%,#1E6FA8 50%,#176394 80%,#145E86 100%)"></div>
   
   <div id="heroContent" class="wrap" style="position:relative;width:100%;max-width:1280px;margin:0 auto;padding:0 32px 90px;pointer-events:none;will-change:transform,opacity">
-    <div style="animation:floatUp .8s .1s ease-out both">
-      <p style="{{ eyebrow }}">{{ t.hero.eyebrow }}</p>
-    </div>
     <h1 ref="{{ heroRef }}" style="font-family:'Antonio',sans-serif;font-weight:700;font-size:clamp(36px,8vw,118px);line-height:1.06;letter-spacing:-1px;color:#fff;margin:14px 0 0;max-width:15ch;animation:floatUp .9s .2s ease-out both">
       <sc-for list="{{ heroChars }}" as="hw" hint-placeholder-count="8">
         <sc-if value="{{ hw.space }}" hint-placeholder-val="{{ false }}"><span>&#160;</span></sc-if>
@@ -377,7 +378,7 @@
     <div class="rev-track" style="{{ revTrackStyle }}">
     <sc-for list="{{ reviewsLoop }}" as="r" hint-placeholder-count="6">
       <div style="{{ r.cardStyle }}">
-        <div style="color:#0E9AAE;font-size:15px;letter-spacing:2px">★★★★★</div>
+        <div style="color:#0B6E7A;font-size:15px;letter-spacing:2px">★★★★★</div>
         <p style="font-size:16px;line-height:1.6;color:#33474C;margin:16px 0 20px">"{{ r.text }}"</p>
         <div style="display:flex;align-items:center;gap:12px">
           <span style="width:38px;height:38px;border-radius:50%;background:rgba(14,124,140,.10);border:1px solid rgba(14,124,140,.30);display:flex;align-items:center;justify-content:center;font-family:'Antonio';color:#0E7C8C;font-weight:700">{{ r.init }}</span>
@@ -437,7 +438,7 @@
 
     <sc-if value="{{ slotTaken }}" hint-placeholder-val="{{ false }}">
       <div style="{{ glassCard }};border-radius:24px;padding:48px 40px;text-align:center;animation:floatUp .5s ease-out both">
-        <div style="width:60px;height:60px;margin:0 auto 20px;border-radius:50%;background:rgba(255,180,84,.12);border:1px solid rgba(255,180,84,.4);display:flex;align-items:center;justify-content:center;font-size:28px">⏳</div>
+        <div style="width:60px;height:60px;margin:0 auto 20px;border-radius:50%;background:rgba(255,180,84,.12);border:1px solid rgba(255,180,84,.4);display:flex;align-items:center;justify-content:center"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#FFB454" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
         <h3 style="font-family:'Antonio',sans-serif;font-weight:600;font-size:28px;color:#fff;margin:0 0 12px">{{ slotTakenTitle }}</h3>
         <p style="font-size:16px;line-height:1.6;margin:0 auto;max-width:40ch;color:#FFFFFFCC">{{ slotTakenBody }}</p>
         <button onClick="{{ reset }}" style="margin-top:28px;background:transparent;border:1px solid rgba(255,255,255,.35);color:#fff;padding:12px 26px;border-radius:100px;font-size:14px;font-weight:500;cursor:pointer">{{ slotTakenBtn }}</button>
@@ -446,7 +447,7 @@
 
     <sc-if value="{{ catalogUnavailable }}" hint-placeholder-val="{{ false }}">
       <div style="{{ glassCard }};border-radius:24px;padding:48px 40px;text-align:center">
-        <div style="width:60px;height:60px;margin:0 auto 20px;border-radius:50%;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;font-size:28px">🌊</div>
+        <div style="width:60px;height:60px;margin:0 auto 20px;border-radius:50%;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#61FFD0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12c2 0 2-2 4-2s2 2 4 2 2-2 4-2 2 2 4 2 2-2 4-2"/><path d="M2 17c2 0 2-2 4-2s2 2 4 2 2-2 4-2 2 2 4 2 2-2 4-2"/></svg></div>
         <h3 style="font-family:'Antonio',sans-serif;font-weight:600;font-size:28px;color:#fff;margin:0 0 12px">{{ unavailableTitle }}</h3>
         <p style="font-size:16px;line-height:1.6;margin:0 auto;max-width:36ch;color:#FFFFFFCC">{{ unavailableBody }}</p>
       </div>
@@ -723,8 +724,8 @@
             <div style="margin-top:20px">
               <div style="font-size:12px;letter-spacing:.5px;text-transform:uppercase;color:#FFFFFF99;margin-bottom:10px">{{ payWith }}</div>
               <div style="display:flex;gap:10px;flex-wrap:wrap">
-                <div style="flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:14px 20px;border-radius:12px;border:1px solid rgba(97,255,208,.4);background:rgba(255,255,255,.92);position:relative;cursor:pointer;transition:box-shadow .2s,background .2s" style-hover="background:#FFFFFF;box-shadow:0 0 0 2px rgba(97,255,208,.3)">
-                  <span style="font-family:Arial,Helvetica,sans-serif;font-weight:800;font-style:italic;font-size:17px;letter-spacing:-.3px;line-height:1"><span style="color:#253B80">Pay</span><span style="color:#179BD7">Pal</span></span>
+                <div style="width:100%;display:flex;align-items:center;justify-content:center;gap:10px;padding:16px;border-radius:12px;background:rgba(97,255,208,.06);border:1px solid rgba(97,255,208,.16);position:relative;cursor:pointer;transition:border-color .2s" style-hover="border-color:rgba(97,255,208,.45)">
+                  <span style="display:inline-flex;align-items:center;padding:4px 8px;border-radius:7px;background:#FFFFFF"><span style="font-family:Arial,Helvetica,sans-serif;font-weight:800;font-style:italic;font-size:16px;letter-spacing:-.3px;line-height:1"><span style="color:#253B80">Pay</span><span style="color:#179BD7">Pal</span></span></span>
                   <span style="flex:none;width:18px;height:18px;border-radius:50%;background:#0B9B6A;color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;line-height:1">✓</span>
                 </div>
               </div>
@@ -762,6 +763,7 @@
         <div style="{{ footHead }}">{{ t.foot.company }}</div>
         <a href="{{ termsHref }}" style="{{ footLink }}" style-hover="color:#61FFD0">{{ t.foot.terms }}</a>
         <a href="Instructors.dc.html" style="{{ footLink }}" style-hover="color:#61FFD0">{{ t.foot.forInstructors }}</a>
+        <a href="{{ guideHref }}" style="{{ footLink }}" style-hover="color:#61FFD0">{{ t.foot.guide }}</a>
         <a href="{{ commitmentHref }}" style="{{ footLink }}" style-hover="color:#61FFD0">{{ t.foot.commitment }}</a>
       </div>
       <div>
@@ -1663,8 +1665,8 @@ class Component extends DCLogic {
       const num = i + 1, on = num <= step;
       return {
         num: String(num), name: nm,
-        dot: "flex:none;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Antonio',sans-serif;font-weight:700;font-size:15px;transition:background .2s,color .2s,border-color .2s;" + (on ? 'color:#08100d;background:' + GRAD + ';' : 'color:#FFFFFF99;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);'),
-        label: 'font-size:12px;font-weight:600;letter-spacing:.3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:' + (num === step ? '#fff' : '#FFFFFF80')
+        dot: "flex:none;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Inter',sans-serif;font-weight:600;font-size:13px;" + (on ? 'color:#08100d;background:' + GRAD + ';' : 'color:#FFFFFF80;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.16);'),
+        label: "font-family:'Inter',sans-serif;font-size:12px;font-weight:600;letter-spacing:.2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:" + (num === step ? '#fff' : '#FFFFFF80')
       };
     });
 
@@ -1720,6 +1722,8 @@ class Component extends DCLogic {
 
       curLangName: (LANGS.find(l => l.c === this.state.lang) || LANGS[0]).n,
       navInk,
+      placeName: (window.SERVICES_DATA && window.SERVICES_DATA.place) || 'Bali',
+      placeBorder: 'rgba(255,255,255,.22)',
       langBtnStyle: "display:flex;align-items:center;gap:7px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.2);border-radius:100px;color:" + navInk + ";font-family:'Inter';font-size:13px;font-weight:500;padding:9px 14px;cursor:pointer;transition:all .35s",
       langCaret: "display:inline-flex;transition:transform .2s;transform:rotate(" + (lmOpen ? '180deg' : '0') + ")",
       navLinkForecast: navLinkCss('forecast'),
@@ -1759,7 +1763,7 @@ class Component extends DCLogic {
       })),
       reviewsLoop: (() => { const base = (this.state.liveReviews && this.state.liveReviews.length) ? this.state.liveReviews : L.rev.list; return this.state.isTouch ? [...base] : [...base, ...base]; })().map(r => ({
         ...r,
-        cardStyle: 'flex:none;width:340px;max-width:82vw;padding:30px;border:1px solid rgba(11,62,86,.10);border-radius:18px;background:#ffffff;box-shadow:0 12px 30px -14px rgba(11,62,86,.28)' + (this.state.isTouch ? ';scroll-snap-align:center' : '')
+        cardStyle: 'flex:none;width:340px;max-width:82vw;padding:30px;border:1px solid rgba(11,62,86,.07);border-radius:18px;background:#FBF7EE;box-shadow:0 8px 22px -18px rgba(11,62,86,.35)' + (this.state.isTouch ? ';scroll-snap-align:center' : '')
       })),
       revScrollStyle: this.state.isTouch ? 'overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;scroll-snap-type:x mandatory;padding:2px 22px 10px;scrollbar-width:none' : '',
       revTrackStyle: 'display:flex;gap:22px;width:max-content' + (this.state.isTouch ? ';animation:none' : ''),

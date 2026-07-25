@@ -8,7 +8,7 @@
 window.SITE_TEXT = {
       en: {
         nav: { forecast:'Forecast', disciplines:'Disciplines', why:'Why us', coaches:'Coaches', how:'How it works', book:'Book a session' },
-        hero: { eyebrow:'Bali · Uluwatu · Canggu · Nusa Lembongan', h1a:'RIDE THE ', h1accent:'BEST', h1b:' WAVES OF THE ISLAND',
+        hero: { h1a:'RIDE THE ', h1accent:'BEST', h1b:' WAVES OF THE ISLAND',
           lead:'Book independent, certified coaches for surf, kite, wing foil & SUP. Private sessions only, live conditions, and the exact break that matches your level — every session tailored to you.',
           ctaBook:'Book your session', ctaExplore:'Why us?' },
         stats: [ {num:'12+',label:'Years coaching'}, {num:'4.9★',label:'Avg. rating'}, {num:'6',label:'Local breaks'}, {num:'2k+',label:'Riders taught'} ],
@@ -78,11 +78,11 @@ window.SITE_TEXT = {
             { title:'Respect for Balinese culture', body:'We live by Tri Hita Karana \u2014 the Balinese principle of harmony between people, nature and the sacred. We honour local ceremonies, temples and the communities whose home this is.', link:'', href:'' },
           ] },
         certs: { label:'Coaches certified by' },
-        foot: { tagline:"Water sports coaching on Bali's best breaks. Surf, kite, wing & SUP — booked in minutes.", explore:'Explore', contact:'Contact', follow:'Follow', company:'Company', terms:'Terms of Service', forInstructors:'For instructors', commitment:'Our commitment', rights:'All rights reserved.' },
+        foot: { tagline:"Water sports coaching on Bali's best breaks. Surf, kite, wing & SUP — booked in minutes.", explore:'Explore', contact:'Contact', follow:'Follow', company:'Company', terms:'Terms of Service', forInstructors:'For instructors', commitment:'Our commitment', guide:'Surf guide', rights:'All rights reserved.' },
       },
       ru: {
         nav: { forecast:'Прогноз', disciplines:'Дисциплины', why:'Почему мы', coaches:'Тренеры', how:'Как это работает', book:'Забронировать' },
-        hero: { eyebrow:'Бали · Улувату · Чангу · Нуса Лембонган', h1a:'ЛОВИ ', h1accent:'ЛУЧШИЕ', h1b:' ВОЛНЫ ОСТРОВА',
+        hero: { h1a:'ЛОВИ ', h1accent:'ЛУЧШИЕ', h1b:' ВОЛНЫ ОСТРОВА',
           lead:'Бронируй независимых сертифицированных инструкторов по сёрфингу, кайту, вингфойлу и SUP. Только индивидуальные занятия, живые условия и именно тот спот, что подходит твоему уровню — каждая тренировка под тебя.',
           ctaBook:'Забронировать', ctaExplore:'Почему мы?' },
         stats: [ {num:'12+',label:'лет опыта'}, {num:'4.9★',label:'средний рейтинг'}, {num:'6',label:'споты'}, {num:'2k+',label:'учеников'} ],
@@ -152,7 +152,7 @@ window.SITE_TEXT = {
             { title:'Уважение к культуре Бали', body:'Мы живём по принципу Три Хита Карана — балийской гармонии между людьми, природой и священным. Чтим местные церемонии, храмы и общины, для которых это дом.', link:'', href:'' },
           ] },
         certs: { label:'Аккредитации тренеров' },
-        foot: { tagline:'Тренировки по водным видам спорта на лучших спотах Бали. Сёрф, кайт, винг и SUP — бронь за пару минут.', explore:'Разделы', contact:'Контакты', follow:'Соцсети', company:'Компания', terms:'Условия использования', forInstructors:'Для инструкторов', commitment:'Наша позиция', rights:'Все права защищены.' },
+        foot: { tagline:'Тренировки по водным видам спорта на лучших спотах Бали. Сёрф, кайт, винг и SUP — бронь за пару минут.', explore:'Разделы', contact:'Контакты', follow:'Соцсети', company:'Компания', terms:'Условия использования', forInstructors:'Для инструкторов', commitment:'Наша позиция', guide:'Гид по сёрфингу', rights:'Все права защищены.' },
       },
     };
 

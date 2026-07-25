@@ -22,7 +22,7 @@
   --eb-bg:#0C2436;
   --eb-bg-solid:#0C2436;
   --eb-bg-2:#0B3E56;         /* alternate dark section — for section rhythm */
-  --eb-bg-light:#F5EFDF;     /* cream accent section (Why us, Testimonials) */
+  --eb-bg-light:#E4D6B0;     /* warm sand accent section (Why us, Testimonials) — softened to cut contrast vs navy */
   --eb-surface:rgba(255,255,255,.05);
   --eb-surface-2:linear-gradient(180deg,rgba(255,255,255,.09),rgba(255,255,255,.04));
   --eb-border:rgba(255,255,255,.14);
@@ -43,7 +43,7 @@
   --eb-radius:24px;
   --eb-radius-md:16px;
   --eb-radius-sm:12px;
-  --eb-shadow:0 18px 50px rgba(0,0,0,.4);
+  --eb-shadow:0 6px 18px rgba(8,16,13,.18);
 }
 
 *{box-sizing:border-box}
@@ -65,6 +65,9 @@ html[lang="ru"] [style*="Antonio"],
 html:not([lang="en"]) [style*="Antonio"]{font-family:var(--eb-font-head-ru)!important}
 
 @keyframes ebFloatUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+
+/* Static by directive — no motion anywhere across the product. */
+*,*::before,*::after{animation:none!important}
 
 /* ---- Optional component layer (secondary pages) ---- */
 .eb-page{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:32px 20px}

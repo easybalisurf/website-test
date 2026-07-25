@@ -26,7 +26,9 @@
       ensure();
       const size = this.getAttribute('size') || 'clamp(22px,5vw,30px)';
       const animated = this.getAttribute('animated') === 'true';
-      const stacked = this.getAttribute('stack') === 'true';
+      // Square/stacked lockup is the ONE logo everywhere now. Horizontal is opt-in only
+      // (horizontal="true") and no longer used across the product.
+      const stacked = this.getAttribute('horizontal') !== 'true';
       const root = this.shadowRoot || this.attachShadow({ mode: 'open' });
       const kf = `<style>@keyframes ebLogoWave{0%{transform:translateY(0)}2%{transform:translateY(-0.17em)}4.5%{transform:translateY(0.05em)}7%{transform:translateY(0)}100%{transform:translateY(0)}}:host{display:inline-block;vertical-align:middle;line-height:1}</style>`;
 
@@ -35,12 +37,16 @@
         // (E over B), share ONE continuous mint→aqua gradient across both rows (not per-row), and
         // surf keeps the same wavy per-letter offsets as the horizontal mark.
         const gradCss = `background:linear-gradient(120deg,${EASY[0][1]},${EASY[EASY.length - 1][1]});-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent`;
-        const surf = SURF.map(c => `<span style="display:inline-block;transform:translateY(${c[1]}em) rotate(${c[2]}deg)">${c[0]}</span>`).join('');
+        // Steeper wave for the stacked .surf; letters kept upright (no rotation).
+        const surf = [['S', -0.04], ['U', -0.24], ['R', -0.38], ['F', -0.14]]
+          .map(c => `<span style="display:inline-block;transform:translateY(${c[1]}em)">${c[0]}</span>`).join('');
+        // EASY over BALI, left-aligned (straight left edge, E over B); tight letter-spacing like the
+        // horizontal mark. Y is wider than I so it naturally protrudes past the right edge.
         root.innerHTML = kf +
-          `<span style="display:inline-flex;flex-direction:column;align-items:flex-start;font-family:'Antonio',sans-serif;font-weight:700;font-size:${size};letter-spacing:2px;line-height:.9;${gradCss}">` +
-            `<span>EASY</span>` +
-            `<span>BALI</span>` +
-            `<span style="font-family:'Righteous',sans-serif;-webkit-text-fill-color:#fff;color:#fff;background:none;font-size:.5em;letter-spacing:2px;margin-top:.34em;align-self:flex-end;display:inline-flex">${surf}</span>` +
+          `<span style="display:inline-flex;flex-direction:column;align-items:flex-start;font-family:'Antonio',sans-serif;font-weight:700;font-size:${size};letter-spacing:.06em;line-height:.9;${gradCss}">` +
+            `<span style="display:block">EASY</span>` +
+            `<span style="display:flex;justify-content:space-between;width:95%"><span>B</span><span>A</span><span>L</span><span>I</span></span>` +
+            `<span style="width:95%;box-sizing:border-box;margin-top:.3em;display:flex;align-items:center;justify-content:center;gap:.5em;background:linear-gradient(120deg,${EASY[0][1]},${EASY[EASY.length - 1][1]});border-radius:100px;padding:.16em 0;padding-left:0;font-family:'Righteous',sans-serif;-webkit-text-fill-color:#0C2436;color:#0C2436;font-size:.32em;letter-spacing:.4em;text-indent:.4em"><span style="width:.5em;height:.5em;border-radius:50%;background:#0C2436;flex:none"></span>SURF</span>` +
           `</span>`;
         return;
       }
