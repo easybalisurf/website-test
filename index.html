@@ -122,7 +122,7 @@
   <div class="wrap nav-inner" style="max-width:1280px;margin:0 auto;padding:env(safe-area-inset-top) 32px 0;height:calc(74px + env(safe-area-inset-top));display:flex;align-items:center;justify-content:space-between">
     <a href="#hero" style="display:flex;align-items:center;gap:12px;color:{{ navInk }}">
       <eb-logo size="24px" animated="false"></eb-logo>
-      <span style="display:inline-flex;align-items:center;gap:7px;background:transparent;border:1px solid rgba(255,255,255,.2);border-radius:100px;color:{{ navInk }};font-family:'Inter';font-size:13px;font-weight:500;padding:9px 14px;white-space:nowrap">
+      <span onClick="{{ onPlaceClick }}" style="display:inline-flex;align-items:center;gap:7px;background:transparent;border:1px solid rgba(255,255,255,.2);border-radius:100px;color:{{ navInk }};font-family:'Inter';font-size:13px;font-weight:500;padding:9px 14px;white-space:nowrap">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11Z"/><circle cx="12" cy="10" r="2.6"/></svg>
         {{ placeName }}
       </span>
@@ -1724,6 +1724,15 @@ class Component extends DCLogic {
       navInk,
       placeName: (window.SERVICES_DATA && window.SERVICES_DATA.place) || 'Bali',
       placeBorder: 'rgba(255,255,255,.22)',
+      // Dormant until a 2nd place exists: with only one place this is a no-op; once places[]
+      // has more than one entry, clicking a DIFFERENT place navigates to ITS OWN site (each
+      // place is a separate deployment/domain) rather than switching content on this page.
+      onPlaceClick: () => {
+        const places = (window.SERVICES_DATA && window.SERVICES_DATA.places) || [];
+        if (places.length <= 1) return;
+        const other = places.find(p => p.name !== ((window.SERVICES_DATA && window.SERVICES_DATA.place) || 'Bali'));
+        if (other && other.url) window.location.href = other.url;
+      },
       langBtnStyle: "display:flex;align-items:center;gap:7px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.2);border-radius:100px;color:" + navInk + ";font-family:'Inter';font-size:13px;font-weight:500;padding:9px 14px;cursor:pointer;transition:all .35s",
       langCaret: "display:inline-flex;transition:transform .2s;transform:rotate(" + (lmOpen ? '180deg' : '0') + ")",
       navLinkForecast: navLinkCss('forecast'),

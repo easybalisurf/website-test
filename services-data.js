@@ -2,9 +2,11 @@
 
 window.SERVICES_DATA = {
   // The Place = the destination that contains all the spots (a region/island). Our case: Bali.
-  // (Multi-place: the site nav shows a dropdown; each spot belongs to a place.)
+  // Multi-place FUTURE: each place gets its own site; `url` is this place's own site (used only
+  // when there's more than one place — clicking another place then navigates there instead of
+  // switching in-page state, since each place is a separate deployment).
   place: 'Bali',
-  places: ['Bali'],
+  places: [ { name: 'Bali', url: 'https://easybali.surf' } ],
   // Dates on which sessions CANNOT be booked (holidays, sold-out blocks, closed days).
   // Add a single date '2026-08-17', or an inclusive range ['2026-08-01','2026-08-05'].
   //   all  → blocks every discipline
