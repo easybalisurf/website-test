@@ -1,15 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
   <defs>
-    <linearGradient id="e" x1="14" y1="55" x2="46" y2="9" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#38a8dc"></stop>
-      <stop offset="1" stop-color="#5ee8c0"></stop>
+    <linearGradient id="g" x1="12" y1="14" x2="52" y2="46" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#61C9E6"></stop>
+      <stop offset="1" stop-color="#8CFFC1"></stop>
     </linearGradient>
   </defs>
-  <rect x="7.25" y="7.25" width="49.5" height="49.5" rx="13" fill="none" stroke="url(#e)" stroke-width="4.5"></rect>
-  <g fill="url(#e)">
-    <rect x="23" y="18" width="6" height="28" rx="1.6"></rect>
-    <rect x="23" y="18" width="18" height="6" rx="1.6"></rect>
-    <rect x="23" y="29" width="14" height="5.4" rx="1.6"></rect>
-    <rect x="23" y="40" width="18" height="6" rx="1.6"></rect>
-  </g>
+  <rect width="64" height="64" rx="14" fill="#0C2436"></rect>
+  <text x="12" y="30" font-family="Antonio, &#39;Arial Narrow&#39;, sans-serif" font-weight="700" font-size="20" letter-spacing="0.5" fill="url(#g)">EASY</text>
+  <text x="12" y="47" font-family="Antonio, &#39;Arial Narrow&#39;, sans-serif" font-weight="700" font-size="20" letter-spacing="0.5" fill="url(#g)">BALI</text>
+  <text x="34" y="58" font-family="Righteous, &#39;Trebuchet MS&#39;, sans-serif" font-size="9" letter-spacing="0.5" fill="#ffffff">SURF</text>
 </svg>

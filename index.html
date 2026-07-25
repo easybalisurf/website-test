@@ -28,10 +28,12 @@
      Both load before the component's logic runs, so window.SITE_TEXT / WIZARD_TEXT / SERVICES_DATA are ready synchronously. -->
 <script src="./i18n.js"></script>
 <script src="./services-data.js"></script>
+<script src="./brand.js"></script>
+<link rel="stylesheet" href="theme.css">
 <style>
   *{box-sizing:border-box}
-  html{scroll-behavior:smooth;background:#061019}
-  body{margin:0;background:#061019;color:#FFFFFFBD;font-family:'Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+  html{scroll-behavior:smooth;background:var(--eb-bg-solid)}
+  body{margin:0;background:var(--eb-bg);color:#FFFFFFBD;font-family:'Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
   a{color:#61FFD0;text-decoration:none}
   a:hover{color:#8affe0}
   ::selection{background:#61FFD0;color:#08100d}
@@ -91,6 +93,9 @@
     .wrap{padding-left:22px!important;padding-right:22px!important}
     .sec-pad{padding-top:74px!important;padding-bottom:74px!important}
   }
+  @media(max-width:380px){
+    .form-2col{grid-template-columns:1fr!important}
+  }
   @media(max-height:500px) and (orientation:landscape){
     #hero{min-height:auto!important;align-items:flex-start!important}
     #heroContent h1{font-size:clamp(30px,7vw,56px)!important;max-width:20ch!important}
@@ -98,7 +103,7 @@
     #heroContent > div:last-child{margin-top:20px!important}
   }
   @media(max-width:560px){
-    .form-2col{grid-template-columns:1fr!important}
+    .form-2col{gap:12px!important}
     .footer-grid{grid-template-columns:1fr!important}
     .perks-grid{grid-template-columns:1fr!important}
     .how-connector{display:none!important}
@@ -116,9 +121,7 @@
 <nav data-screen-label="Nav" style="{{ navStyle }}">
   <div class="wrap nav-inner" style="max-width:1280px;margin:0 auto;padding:env(safe-area-inset-top) 32px 0;height:calc(74px + env(safe-area-inset-top));display:flex;align-items:center;justify-content:space-between">
     <a href="#hero" style="display:flex;align-items:center;color:{{ navInk }}">
-      <span class="logo-mark" style="font-family:'Antonio',sans-serif;font-weight:700;font-size:24px;letter-spacing:2px">
-        <sc-for list="{{ logoChars }}" as="lc" hint-placeholder-count="13"><span class="logo-char" style="{{ lc.navStyle }}">{{ lc.ch }}</span></sc-for>
-      </span>
+      <eb-logo size="24px" animated="false"></eb-logo>
     </a>
 
     <!-- desktop nav -->
@@ -193,36 +196,29 @@
       <a href="#book" style="display:inline-flex;align-items:center;gap:9px;background:linear-gradient(120deg,#7DFFC4,#61FFD0 42%,#3FD9E6);color:#08100d;font-weight:600;font-size:15px;padding:16px 30px;border-radius:100px;transition:filter .2s" style-hover="filter:brightness(1.05)">{{ t.hero.ctaBook }}</a>
       <a href="#why" style="display:inline-flex;align-items:center;gap:7px;color:#fff;font-weight:500;font-size:15px;padding:16px 6px;transition:color .2s,gap .2s" style-hover="color:#61FFD0;gap:11px">{{ t.hero.ctaExplore }}</a>
     </div>
-    <div style="display:flex;flex-wrap:wrap;align-items:center;gap:22px;margin-top:52px;padding-top:22px;border-top:1px solid rgba(255,255,255,.1);pointer-events:auto;animation:floatUp 1.2s .6s ease-out both">
-      <span style="font-size:10px;font-weight:600;letter-spacing:.6px;text-transform:uppercase;color:#FFFFFF60;white-space:nowrap">{{ t.certs.label }}</span>
-      <sc-for list="{{ certBadges }}" as="c" hint-placeholder-count="4">
-        <span style="font-family:'Antonio',sans-serif;font-weight:600;font-size:16px;letter-spacing:.5px;color:#FFFFFFB0;white-space:nowrap">{{ c.name }}</span>
-      </sc-for>
-    </div>
   </div>
 </header>
 
 <!-- ============ CONTRAST SECTIONS (deliberate alternating tones) ============ -->
 
 <!-- ============ SMART FORECAST / SPOT FINDER ============ -->
-<section id="forecast" data-screen-label="Forecast" style="position:relative;background:#0B3E56">
+<section id="forecast" data-screen-label="Forecast" style="position:relative;background:var(--eb-bg-2)">
   <div class="wrap sec-pad" style="max-width:1280px;margin:0 auto;padding:100px 32px;position:relative;z-index:1">
    <div style="max-width:860px;margin:0 auto">
     <p style="{{ subhead }};text-align:center">{{ t.finder.sub }}</p>
     <h2 style="{{ h2Style }};text-align:center;margin:12px auto 0">{{ t.finder.h2 }}</h2>
-    <p style="max-width:56ch;margin:18px auto 0;text-align:center;font-size:16px;line-height:1.6">{{ t.finder.lead }}</p>
-    <p style="text-align:center;margin:10px 0 0"><a href="{{ guideHref }}" style="font-size:14px;font-weight:500;color:#61FFD0">{{ t.finder.guideLink }} →</a></p>
+    <p style="max-width:52ch;margin:18px auto 0;text-align:center;font-size:16px;line-height:1.6">{{ t.finder.lead }}</p>
 
     <!-- unified recommendation panel -->
     <div class="finder-panel" style="{{ glassPanel }};padding:28px;margin-top:40px">
       <!-- discipline + level dropdowns -->
       <div style="display:flex;flex-wrap:wrap;gap:16px">
-        <label style="{{ fieldLabel }};flex:1;min-width:190px">{{ t.book.fSport }}
+        <label style="{{ fieldLabel }};flex:1;min-width:130px">{{ t.book.fSport }}
           <select value="{{ exSportVal }}" onChange="{{ onExSport }}" style="{{ selectStyle }}">
             <sc-for list="{{ sportOpts }}" as="o" hint-placeholder-count="4"><option style="color:#000">{{ o }}</option></sc-for>
           </select>
         </label>
-        <label style="{{ fieldLabel }};flex:1;min-width:190px">{{ t.book.fLevel }}
+        <label style="{{ fieldLabel }};flex:1;min-width:130px">{{ t.book.fLevel }}
           <select value="{{ exLevelVal }}" onChange="{{ onExLevel }}" style="{{ selectStyle }}">
             <sc-for list="{{ levelOpts }}" as="o" hint-placeholder-count="4"><option style="color:#000">{{ o }}</option></sc-for>
           </select>
@@ -317,6 +313,7 @@
           </div>
         </sc-for>
       </div>
+      <p style="margin:14px 0 0;font-size:13px"><a href="{{ guideHref }}" style="font-weight:500;color:#61FFD0">{{ t.finder.guideLink }} →</a></p>
       </sc-if>
       </div>
 
@@ -330,7 +327,7 @@
 </section>
 
 <!-- ============ WHY US ============ -->
-<section id="why" data-navtheme="light" data-screen-label="Why us" style="position:relative;overflow:hidden;background:#F5EFDF;color:#33474C">
+<section id="why" data-navtheme="light" data-screen-label="Why us" style="position:relative;overflow:hidden;background:var(--eb-bg-light);color:#33474C">
 
   <div class="wrap sec-pad" style="position:relative;max-width:1280px;margin:0 auto;padding:110px 32px">
     <div style="max-width:680px">
@@ -353,7 +350,7 @@
 </section>
 
 <!-- ============ HOW IT WORKS ============ -->
-<section id="how" data-screen-label="How it works" style="background:#08293A">
+<section id="how" data-screen-label="How it works" style="background:var(--eb-bg)">
   <div class="wrap sec-pad" style="max-width:1280px;margin:0 auto;padding:100px 32px">
     <p style="{{ subhead }};text-align:center">{{ t.how.sub }}</p>
     <h2 style="{{ h2Style }};text-align:center;margin:12px auto 0">{{ t.how.h2 }}</h2>
@@ -373,7 +370,7 @@
 </section>
 
 <!-- ============ TESTIMONIALS MARQUEE ============ -->
-<section data-navtheme="light" data-screen-label="Testimonials" style="padding:88px 0 56px;overflow:hidden;background:#F5EFDF;color:#33474C">
+<section data-navtheme="light" data-screen-label="Testimonials" style="padding:88px 0 56px;overflow:hidden;background:var(--eb-bg-light);color:#33474C">
   <p style="{{ subheadDark }};text-align:center">{{ t.rev.sub }}</p>
   <h2 style="{{ h2Dark }};text-align:center;margin:12px auto 48px">{{ t.rev.h2 }}</h2>
   <div class="rev-scroll" style="{{ revScrollStyle }}">
@@ -395,43 +392,8 @@
   </div>
 </section>
 
-<!-- ============ SUSTAINABILITY & CULTURE ============ -->
-<section id="care" data-screen-label="Sustainability" style="position:relative;overflow:hidden;background:linear-gradient(180deg,#123D34 0%,#0E332C 100%);color:#CFE0D2">
-  <div class="wrap sec-pad" style="position:relative;max-width:1280px;margin:0 auto;padding:104px 32px">
-    <div style="max-width:720px;margin:0 auto;text-align:center">
-      <div style="display:flex;justify-content:center;margin-bottom:20px" aria-hidden="true">
-        <svg width="52" height="52" viewBox="0 0 100 100" fill="none">
-          <g>
-            <ellipse cx="50" cy="30" rx="14" ry="21" fill="#FBF3DC" stroke="#F1C24A" stroke-width="1.6"/>
-            <ellipse cx="50" cy="30" rx="14" ry="21" fill="#FBF3DC" stroke="#F1C24A" stroke-width="1.6" transform="rotate(72 50 50)"/>
-            <ellipse cx="50" cy="30" rx="14" ry="21" fill="#FBF3DC" stroke="#F1C24A" stroke-width="1.6" transform="rotate(144 50 50)"/>
-            <ellipse cx="50" cy="30" rx="14" ry="21" fill="#FBF3DC" stroke="#F1C24A" stroke-width="1.6" transform="rotate(216 50 50)"/>
-            <ellipse cx="50" cy="30" rx="14" ry="21" fill="#FBF3DC" stroke="#F1C24A" stroke-width="1.6" transform="rotate(288 50 50)"/>
-          </g>
-          <circle cx="50" cy="50" r="10" fill="#F1C24A"/>
-        </svg>
-      </div>
-      <p style="font-family:'Inter',sans-serif;color:#F1C24A;font-size:14px;font-weight:600;letter-spacing:.4px;text-transform:uppercase;margin:0">{{ t.care.sub }}</p>
-      <h2 style="font-family:'Antonio',sans-serif;font-weight:700;font-size:clamp(34px,4.5vw,62px);line-height:.98;letter-spacing:-.5px;color:#fff;margin:12px auto 0;max-width:18ch">{{ t.care.h2 }}</h2>
-      <p style="font-size:16px;line-height:1.65;margin:18px auto 0;max-width:60ch;color:#B8CDBC">{{ t.care.lead }}</p>
-    </div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(258px,1fr));gap:22px;margin-top:52px">
-      <sc-for list="{{ careItems }}" as="c" hint-placeholder-count="3">
-        <div style="display:flex;flex-direction:column;padding:30px 26px;border:1px solid rgba(241,194,74,.26);border-radius:18px;background:rgba(255,255,255,.05);box-shadow:inset 0 1px 0 rgba(255,255,255,.08)">
-          <span style="width:34px;height:3px;border-radius:3px;background:#F1C24A;margin-bottom:16px"></span>
-          <h4 style="font-family:'Antonio',sans-serif;font-weight:600;font-size:23px;color:#fff;margin:0 0 10px;line-height:1.12">{{ c.title }}</h4>
-          <p style="font-size:15px;line-height:1.6;margin:0;flex:1;color:#B8CDBC">{{ c.body }}</p>
-          <sc-if value="{{ c.hasLink }}" hint-placeholder-val="{{ false }}">
-            <a href="{{ c.href }}" target="_blank" rel="noopener" style="margin-top:16px;font-size:14px;font-weight:600;color:#F1C24A;width:max-content" style-hover="color:#ffd873">{{ c.link }} →</a>
-          </sc-if>
-        </div>
-      </sc-for>
-    </div>
-  </div>
-</section>
-
 <!-- ============ FAQ ============ -->
-<section id="faq" data-screen-label="FAQ" style="background:#0B3E56">
+<section id="faq" data-screen-label="FAQ" style="background:var(--eb-bg-2)">
   <div class="wrap sec-pad" style="max-width:1280px;margin:0 auto;padding:64px 32px 100px">
    <div style="max-width:900px;margin:0 auto">
     <p style="{{ subhead }};text-align:center">{{ t.faq.sub }}</p>
@@ -454,7 +416,7 @@
 </section>
 
 <!-- ============ BOOKING FORM ============ -->
-<section id="book" data-screen-label="Booking" style="position:relative;overflow:hidden;background:#08293A">
+<section id="book" data-screen-label="Booking" style="position:relative;overflow:hidden;background:var(--eb-bg)">
 
   <div class="wrap sec-pad book-grid" style="position:relative;max-width:1280px;margin:0 auto;padding:100px 32px;display:grid;grid-template-columns:1fr 1.05fr;gap:64px;align-items:center">
     <div>
@@ -526,17 +488,18 @@
               <sc-if value="{{ spotErr }}" hint-placeholder-val="{{ false }}"><span style="display:flex;align-items:center;gap:6px;font-size:12px;color:#FFB454;margin-top:7px;font-weight:400;text-transform:none;letter-spacing:0"><span style="width:4px;height:4px;border-radius:50%;background:#FFB454;flex:none"></span>{{ spotErr }}</span></sc-if>
             </label>
             <div class="form-2col" style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px">
-              <label style="{{ fieldLabel }}">{{ t.book.fSessions }}
-                <select value="{{ form.sessionCount }}" onChange="{{ onSessionCount }}" style="{{ selectStyle }}">
-                  <sc-for list="{{ sessionCountOpts }}" as="o" hint-placeholder-count="5"><option style="color:#000">{{ o }}</option></sc-for>
-                </select>
-              </label>
               <label style="{{ fieldLabel }}">{{ t.book.fPeople }}
                 <select value="{{ form.people }}" onChange="{{ onPeople }}" style="{{ selectStyle }}">
                   <option style="color:#000">1</option>
                   <option style="color:#000">2</option>
                 </select>
               </label>
+              <label style="{{ fieldLabel }}">{{ t.book.fSessions }}
+                <select value="{{ form.sessionCount }}" onChange="{{ onSessionCount }}" style="{{ selectStyle }}">
+                  <sc-for list="{{ sessionCountOpts }}" as="o" hint-placeholder-count="5"><option style="color:#000">{{ o }}</option></sc-for>
+                </select>
+              </label>
+              
             </div>
             <sc-if value="{{ showCoachNote }}" hint-placeholder-val="{{ true }}">
               <div style="display:flex;align-items:flex-start;gap:8px;margin-top:12px;font-size:13px;line-height:1.5;color:#61FFD0">
@@ -712,22 +675,22 @@
                 <sc-if value="{{ emailHintShow }}" hint-placeholder-val="{{ true }}"><span style="display:block;font-size:12px;color:#FFFFFF80;margin-top:7px;font-weight:400;text-transform:none;letter-spacing:0">{{ t.book.fEmailHint }}</span></sc-if>
               </label>
             </div>
+            <label style="{{ fieldLabel }};margin-top:16px">{{ t.book.fPhone }}
+              <input required="" type="tel" value="{{ form.phone }}" onInput="{{ onPhone }}" onBlur="{{ onPhone }}" placeholder="{{ t.book.phPhone }}" style="{{ phoneInputStyle }}">
+              <sc-if value="{{ phoneErr }}" hint-placeholder-val="{{ false }}"><span style="display:flex;align-items:center;gap:6px;font-size:12px;color:#FFB454;margin-top:7px;font-weight:400;text-transform:none;letter-spacing:0"><span style="width:4px;height:4px;border-radius:50%;background:#FFB454;flex:none"></span>{{ phoneErr }}</span></sc-if>
+              <sc-if value="{{ phoneHintShow }}" hint-placeholder-val="{{ true }}"><span style="display:block;font-size:12px;color:#FFFFFF80;margin-top:7px;font-weight:400;text-transform:none;letter-spacing:0">{{ t.book.fPhoneHint }}</span></sc-if>
+            </label>
             <div class="form-2col" style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px">
-              <label style="{{ fieldLabel }}">{{ t.book.fPhone }}
-                <input required="" type="tel" value="{{ form.phone }}" onInput="{{ onPhone }}" onBlur="{{ onPhone }}" placeholder="{{ t.book.phPhone }}" style="{{ phoneInputStyle }}">
-                <sc-if value="{{ phoneErr }}" hint-placeholder-val="{{ false }}"><span style="display:flex;align-items:center;gap:6px;font-size:12px;color:#FFB454;margin-top:7px;font-weight:400;text-transform:none;letter-spacing:0"><span style="width:4px;height:4px;border-radius:50%;background:#FFB454;flex:none"></span>{{ phoneErr }}</span></sc-if>
-                <sc-if value="{{ phoneHintShow }}" hint-placeholder-val="{{ true }}"><span style="display:block;font-size:12px;color:#FFFFFF80;margin-top:7px;font-weight:400;text-transform:none;letter-spacing:0">{{ t.book.fPhoneHint }}</span></sc-if>
-              </label>
               <label style="{{ fieldLabel }}">{{ w.fAge }}
                 <input type="number" min="6" max="99" value="{{ form.age }}" onInput="{{ onAge }}" onBlur="{{ onAge }}" placeholder="{{ w.phAge }}" style="{{ ageInputStyle }}">
                 <sc-if value="{{ ageErr }}" hint-placeholder-val="{{ false }}"><span style="display:flex;align-items:center;gap:6px;font-size:12px;color:#FFB454;margin-top:7px;font-weight:400;text-transform:none;letter-spacing:0"><span style="width:4px;height:4px;border-radius:50%;background:#FFB454;flex:none"></span>{{ ageErr }}</span></sc-if>
               </label>
+              <label style="{{ fieldLabel }}">{{ t.book.fInstructorLang }}
+                <select value="{{ form.instructorLang }}" onChange="{{ onInstructorLang }}" style="{{ selectStyle }}">
+                  <sc-for list="{{ instructorLangOpts }}" as="o" hint-placeholder-count="2"><option style="color:#000">{{ o }}</option></sc-for>
+                </select>
+              </label>
             </div>
-            <label style="{{ fieldLabel }};margin-top:16px">{{ t.book.fInstructorLang }}
-              <select value="{{ form.instructorLang }}" onChange="{{ onInstructorLang }}" style="{{ selectStyle }}">
-                <sc-for list="{{ instructorLangOpts }}" as="o" hint-placeholder-count="2"><option style="color:#000">{{ o }}</option></sc-for>
-              </select>
-            </label>
             <label style="{{ fieldLabel }};margin-top:16px">{{ t.book.fNote }}
               <textarea value="{{ form.note }}" onInput="{{ onNote }}" rows="3" placeholder="{{ t.book.phNote }}" style="{{ textareaStyle }}"></textarea>
             </label>
@@ -773,6 +736,9 @@
             <sc-if value="{{ multiInfeasible }}" hint-placeholder-val="{{ false }}">
               <p style="font-size:12px;text-align:center;margin:12px 0 0;color:#FFD9A8">{{ multiInfeasibleMsg }}</p>
             </sc-if>
+            <sc-if value="{{ reco.bookSoon }}" hint-placeholder-val="{{ false }}">
+              <p style="font-size:12px;text-align:center;line-height:1.5;margin:12px auto 0;max-width:42ch;color:#FFB454">{{ reco.soonWarnMsg }}</p>
+            </sc-if>
             <p style="font-size:12px;text-align:center;margin:12px 0 0;color:#61FFD0CC">{{ t.book.refundGuarantee }}</p>
           </div>
         </sc-if>
@@ -784,26 +750,19 @@
 <!-- /contrast sections -->
 
 <!-- ============ FOOTER ============ -->
-<footer style="position:relative;background:#061019;border-top:1px solid rgba(255,255,255,.10);box-shadow:inset 0 1px 0 rgba(255,255,255,.05)">
-  <div class="wrap footer-grid" style="max-width:1280px;margin:0 auto;padding:64px 32px 40px;display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:40px;align-items:start">
+<footer style="position:relative;background:var(--eb-bg);overflow:hidden;border-top:1px solid rgba(255,255,255,.08)">
+  <div class="wrap footer-grid" style="position:relative;max-width:1280px;margin:0 auto;padding:78px 32px 40px;display:grid;grid-template-columns:1.6fr 1fr 1fr;gap:40px;align-items:start">
     <div>
-      <div class="logo-mark" style="font-family:'Antonio',sans-serif;font-weight:700;font-size:20px;letter-spacing:1.6px;transform-origin:0% 70%;width:max-content">
-        <sc-for list="{{ logoChars }}" as="lc" hint-placeholder-count="13"><span class="logo-char" style="{{ lc.footStyle }}">{{ lc.ch }}</span></sc-for>
-      </div>
+      <eb-logo size="20px" animated="false"></eb-logo>
       <p style="font-size:13px;margin:16px 0 0;color:#FFFFFF80">© 2026 {{ t.foot.rights }}</p>
     </div>
 
     <div style="display:contents">
       <div>
-        <div style="{{ footHead }}">{{ t.foot.explore }}</div>
-        <a href="#why" style="{{ footLink }}" style-hover="color:#61FFD0">{{ t.nav.why }}</a>
-        <a href="#how" style="{{ footLink }}" style-hover="color:#61FFD0">{{ t.nav.how }}</a>
-        <a href="#faq" style="{{ footLink }}" style-hover="color:#61FFD0">FAQ</a>
-      </div>
-      <div>
         <div style="{{ footHead }}">{{ t.foot.company }}</div>
         <a href="{{ termsHref }}" style="{{ footLink }}" style-hover="color:#61FFD0">{{ t.foot.terms }}</a>
         <a href="Instructors.dc.html" style="{{ footLink }}" style-hover="color:#61FFD0">{{ t.foot.forInstructors }}</a>
+        <a href="{{ commitmentHref }}" style="{{ footLink }}" style-hover="color:#61FFD0">{{ t.foot.commitment }}</a>
       </div>
       <div>
         <div style="{{ footHead }}">{{ t.foot.contact }}</div>
@@ -1007,6 +966,14 @@ class Component extends DCLogic {
     return Math.max(10, Math.round((km / 28) * 60 / 5) * 5); // rounded to nearest 5 min
   }
 
+  // Live reviews collected post-session by the bot. Best-rated published reviews replace the
+  // static testimonials when available; any failure silently keeps the bundled fallback list.
+  loadReviews() {
+    fetch('https://admin-bot-production-b400.up.railway.app/reviews')
+      .then(r => r.ok ? r.json() : Promise.reject(new Error('http')))
+      .then(data => { if (data && Array.isArray(data.reviews) && data.reviews.length) this.setState({ liveReviews: data.reviews }); })
+      .catch(() => {});
+  }
   // Booking-wizard copy lives in i18n.js (window.WIZARD_TEXT) — edit it there to add a language or change any string.
   wizDict() { return window.WIZARD_TEXT; }
   gotoStep(n) {
@@ -1054,8 +1021,8 @@ class Component extends DCLogic {
         const delta = (window.scrollY + vh / 2) - el._baseCenter;
         el.style.transform = 'translate3d(0,' + (delta * sp).toFixed(1) + 'px,0)';
       });
-      const hc = document.getElementById('heroContent');
-      if (hc) { hc.style.transform = 'translateY(' + (y * 0.18).toFixed(1) + 'px)'; hc.style.opacity = Math.max(0, 1 - y / 680).toFixed(2); }
+      // Hero content scrolls normally (no parallax shift / fade) so the hand-off into the
+      // Forecast section reads like every other section boundary.
       // Scroll-driven wave silhouettes — hidden at rest, appear once you start scrolling.
       // Wrap distance must equal ONE visual tile of the path (period 1440 of a 2880 viewBox = half the
       // rendered width); anything else makes the modulo jump mid-pattern → the jerk near the header.
@@ -1102,6 +1069,7 @@ class Component extends DCLogic {
     this._parallax();
     this.maybeFetch();
     this.loadCatalog();
+    this.loadReviews();
     // Deep-link support: arriving at index.html#forecast (e.g. from the Surf Guide CTA) must
     // land on the forecast section, but the section only exists after this component renders —
     // so honor the hash manually once mounted instead of relying on the browser's pre-render jump.
@@ -1531,6 +1499,8 @@ class Component extends DCLogic {
       fullMsg: sm.slotFull || 'No coaches free for this window — try a neighbouring time or day.',
       noCoachesMsg: sm.noCoaches || 'No coaches available for these windows — please try a neighbouring day.',
       canBook: !!chosenSlot && !chosenFull && anyFree,
+      bookSoon: (() => { if (!chosenSlot) return false; const st = (chosenSlot.split(/[–-]/)[0] || '08:00').trim(); const p = targetDate.split('-').map(Number); const tp = st.split(':').map(Number); const startUtc = Date.UTC(p[0], p[1] - 1, p[2], tp[0], tp[1]) - 8 * 3600000; return (startUtc - Date.now()) < 24 * 3600000 && (startUtc - Date.now()) > 0; })(),
+      soonWarnMsg: sm.soonWarn || '',
       bookDisabled: !(!!chosenSlot && !chosenFull && anyFree),
       bookBtnStyle: 'flex:none;font-weight:600;font-size:15px;padding:14px 26px;border:none;border-radius:100px;transition:transform .2s,box-shadow .2s;' + ((!!chosenSlot && !chosenFull && anyFree) ? 'background:linear-gradient(120deg,#7DFFC4,#61FFD0 42%,#3FD9E6);color:#08100d;cursor:pointer' : 'background:rgba(255,255,255,.12);color:#FFFFFF66;cursor:not-allowed'),
       bookBtnHover: (!!chosenSlot && !chosenFull && anyFree) ? 'box-shadow:0 10px 34px rgba(97,255,208,.4);transform:translateY(-1px)' : '',
@@ -1787,14 +1757,14 @@ class Component extends DCLogic {
         showConnector: i < L.how.steps.length - 1,
         wrapStyle: 'position:relative;transition:opacity .6s ease,transform .6s ease;transition-delay:' + (this.state.isTouch ? '0s' : (i * 0.12).toFixed(2) + 's') + ';' + (this.state.howVisible[i] ? 'opacity:1;transform:translateY(0)' : 'opacity:0;transform:translateY(24px)')
       })),
-      reviewsLoop: (this.state.isTouch ? [...L.rev.list] : [...L.rev.list, ...L.rev.list]).map(r => ({
+      reviewsLoop: (() => { const base = (this.state.liveReviews && this.state.liveReviews.length) ? this.state.liveReviews : L.rev.list; return this.state.isTouch ? [...base] : [...base, ...base]; })().map(r => ({
         ...r,
         cardStyle: 'flex:none;width:340px;max-width:82vw;padding:30px;border:1px solid rgba(11,62,86,.10);border-radius:18px;background:#ffffff;box-shadow:0 12px 30px -14px rgba(11,62,86,.28)' + (this.state.isTouch ? ';scroll-snap-align:center' : '')
       })),
       revScrollStyle: this.state.isTouch ? 'overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;scroll-snap-type:x mandatory;padding:2px 22px 10px;scrollbar-width:none' : '',
       revTrackStyle: 'display:flex;gap:22px;width:max-content' + (this.state.isTouch ? ';animation:none' : ''),
       certBadges: CERT_BADGES,
-      careItems: (L.care && L.care.items ? L.care.items : []).map(it => ({ ...it, hasLink: !!it.href })),
+      careItems: (L.care && L.care.items ? L.care.items : []).map((it, i) => ({ ...it, hasLink: !!it.href, icWater: i === 0, icLeaf: i === 1, icHeart: i === 2 })),
       sportOpts: L.book.sportOpts,
       levelOpts: L.book.levelOpts,
       spotPool: this.orderedSpots(sIdx, lvlIdx, null).pool.map(s => s.name),
@@ -1812,6 +1782,7 @@ class Component extends DCLogic {
       onWeekTouchEnd: () => { this._weekTouching = false; },
       guideHref: 'Surf Guide.dc.html?lang=' + this.state.lang,
       termsHref: 'Terms of Service.dc.html?lang=' + this.state.lang,
+      commitmentHref: 'Commitment.dc.html?lang=' + this.state.lang,
 
       faqs: L.faq.list.map((item, i) => {
         const open = this.state.openFaq === i;

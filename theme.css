@@ -1,0 +1,76 @@
+/* ============================================================
+   EasyBali.surf — shared design system (visual source of truth)
+   ------------------------------------------------------------
+   2D / flat: NO depth cues, NO light-ray radials — but a deep
+   navy backdrop. Edit tokens here to restyle every page at once
+   (landing mirrors these). New location / winter-sport brand:
+   copy this file, change the --eb-* tokens + brand.js letter
+   maps. No page markup changes.
+   ============================================================ */
+:root{
+  /* Brand palette */
+  --eb-accent:#61FFD0;          /* mint — accent text, links, surfaces */
+  --eb-accent-2:#3FD9E6;        /* aqua */
+  --eb-accent-3:#7DFFC4;        /* gradient start */
+  --eb-accent-strong:#61FFD0;   /* readable accent on dark */
+  --eb-accent-ink:#08100d;      /* text on accent surfaces */
+  --eb-grad:linear-gradient(120deg,var(--eb-accent-3),var(--eb-accent) 42%,var(--eb-accent-2));
+  --eb-warn:#FFB454;
+  --eb-danger:#E5484D;
+
+  /* Surfaces — FLAT deep navy, no gradient / no depth */
+  --eb-bg:#0C2436;
+  --eb-bg-solid:#0C2436;
+  --eb-bg-2:#0B3E56;         /* alternate dark section — for section rhythm */
+  --eb-bg-light:#F5EFDF;     /* cream accent section (Why us, Testimonials) */
+  --eb-surface:rgba(255,255,255,.05);
+  --eb-surface-2:linear-gradient(180deg,rgba(255,255,255,.09),rgba(255,255,255,.04));
+  --eb-border:rgba(255,255,255,.14);
+  --eb-border-soft:rgba(255,255,255,.08);
+
+  /* Text (light on dark) */
+  --eb-text:#FFFFFFBD;
+  --eb-text-strong:#FFFFFF;
+  --eb-text-dim:#FFFFFF99;
+  --eb-text-mute:#FFFFFF66;
+
+  /* Type */
+  --eb-font-head:'Antonio',sans-serif;
+  --eb-font-head-ru:'Oswald',sans-serif;
+  --eb-font-body:'Inter',system-ui,sans-serif;
+
+  /* Shape & depth (soft, minimal) */
+  --eb-radius:24px;
+  --eb-radius-md:16px;
+  --eb-radius-sm:12px;
+  --eb-shadow:0 18px 50px rgba(0,0,0,.4);
+}
+
+*{box-sizing:border-box}
+html{background:var(--eb-bg-solid)}
+body{
+  margin:0;
+  background:var(--eb-bg);
+  color:var(--eb-text);
+  font-family:var(--eb-font-body);
+  -webkit-font-smoothing:antialiased;
+  min-height:100vh;
+}
+a{color:var(--eb-accent);text-decoration:none}
+a:hover{color:#8affe0}
+::selection{background:var(--eb-accent);color:var(--eb-accent-ink)}
+
+/* Russian (and any non-English) heads swap to the condensed fallback */
+html[lang="ru"] [style*="Antonio"],
+html:not([lang="en"]) [style*="Antonio"]{font-family:var(--eb-font-head-ru)!important}
+
+@keyframes ebFloatUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+
+/* ---- Optional component layer (secondary pages) ---- */
+.eb-page{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:32px 20px}
+.eb-card{width:100%;max-width:540px;background:var(--eb-surface-2);border:1px solid var(--eb-border);border-radius:var(--eb-radius);box-shadow:var(--eb-shadow);padding:36px 30px}
+.eb-eyebrow{font-family:var(--eb-font-body);color:var(--eb-accent);font-size:13px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;margin:0}
+.eb-h1{font-family:var(--eb-font-head);font-weight:700;line-height:1.02;color:var(--eb-text-strong);margin:8px 0 0}
+.eb-btn{background:var(--eb-grad);color:var(--eb-accent-ink);font-weight:600;font-size:15px;padding:14px 24px;border:none;border-radius:100px;cursor:pointer;transition:filter .2s}
+.eb-btn:hover{filter:brightness(1.05)}
+.eb-btn-ghost{background:transparent;border:1px solid rgba(255,255,255,.3);color:var(--eb-text-strong);font-weight:500;font-size:14px;padding:13px 20px;border-radius:100px;cursor:pointer}

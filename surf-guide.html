@@ -17,9 +17,11 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
 <link href="https://fonts.googleapis.com/css2?family=Antonio:wght@400;500;600;700&amp;family=Oswald:wght@400;500;600;700&amp;family=Audiowide&amp;family=Righteous&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
 <script src="./i18n.js"></script>
+<link rel="stylesheet" href="theme.css">
+<script src="brand.js"></script>
 <style>
   *{box-sizing:border-box}
-  body{margin:0;background:#0c2436;color:#FFFFFFBD;font-family:'Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+  body{margin:0;background:var(--eb-bg);color:#FFFFFFBD;font-family:'Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
   a{color:#61FFD0;text-decoration:none}
   a:hover{color:#8affe0}
   ::selection{background:#61FFD0;color:#08100d}
@@ -33,8 +35,8 @@
   <header style="border-bottom:1px solid rgba(97,255,208,.12)">
     <div style="max-width:840px;margin:0 auto;padding:28px 32px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap">
       <a href="{{ backHref }}" style="display:flex;align-items:center;color:#fff">
-        <span style="font-family:'Antonio',sans-serif;font-weight:700;font-size:24px;letter-spacing:1.8px;display:inline-flex;align-items:baseline"><span style="color:#61C9E6">E</span><span style="color:#67D1E1">A</span><span style="color:#6DD8DB">S</span><span style="color:#73E0D6">Y</span><span style="color:#7AE8D1">B</span><span style="color:#80F0CC">A</span><span style="color:#86F7C6">L</span><span style="color:#8CFFC1">I</span><span style="display:inline-block;align-self:baseline;width:0.16em;height:0.16em;border-radius:50%;background:#ffffff;margin:0 0.05em 0"></span><span style="color:#fff;font-family:'Righteous',sans-serif;font-size:.9em;transform:translateY(-0.05em) rotate(2.5deg)">S</span><span style="color:#fff;font-family:'Righteous',sans-serif;font-size:.9em;transform:translateY(-0.16em) rotate(2.5deg)">U</span><span style="color:#fff;font-family:'Righteous',sans-serif;font-size:.9em;transform:translateY(-0.27em) rotate(0deg)">R</span><span style="color:#fff;font-family:'Righteous',sans-serif;font-size:.9em;transform:translateY(-0.14em) rotate(-2.5deg)">F</span></span>
-            </a>
+        <eb-logo size="24px" animated="false"></eb-logo>
+      </a>
       <a href="{{ backHref }}" style="font-size:14px;color:#FFFFFFBD">{{ t.backLink }}</a>
     </div>
   </header>
@@ -48,7 +50,7 @@
       <h2 style="font-family:'Antonio',sans-serif;font-weight:600;font-size:26px;color:#fff;margin:0 0 16px">{{ t.sizeTitle }}</h2>
       <div style="display:flex;flex-direction:column;gap:14px">
         <sc-for list="{{ t.sizes }}" as="sz" hint-placeholder-count="3">
-          <div style="padding:20px 22px;border-radius:14px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1)">
+          <div style="padding:20px 22px;border-radius:14px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1)">
             <strong style="color:#61FFD0">{{ sz.strong }}</strong><span style="color:#fff"> — {{ sz.tag }}</span> {{ sz.body }}
           </div>
         </sc-for>

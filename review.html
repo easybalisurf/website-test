@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<template id="__bundler_thumbnail" data-bg-color="#0B3E56"><svg viewBox="0 0 80 56" xmlns="http://www.w3.org/2000/svg"><rect width="80" height="56" fill="#0B3E56"/><text x="40" y="34" font-family="sans-serif" font-size="22" fill="#F1C24A" text-anchor="middle">★</text></svg></template>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Antonio:wght@500;600;700&amp;family=Oswald:wght@500;600;700&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="theme.css">
+<style>
+  *{box-sizing:border-box}
+  html{background:var(--eb-bg-solid)}
+  body{margin:0;background:var(--eb-bg);color:#FFFFFFBD;font-family:'Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased;min-height:100vh}
+  a{color:#61FFD0;text-decoration:none}
+  a:hover{color:#8affe0}
+  html[lang="ru"] [style*="Antonio"]{font-family:'Oswald',sans-serif !important}
+  textarea{font-family:'Inter',sans-serif}
+</style>
+</helmet>
+<div style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:32px 20px">
+  <div style="width:100%;max-width:520px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);border-radius:24px;box-shadow:0 24px 70px rgba(0,0,0,.45);padding:40px 34px">
+
+    <sc-if value="{{ isDone }}" hint-placeholder-val="{{ false }}">
+      <div style="text-align:center">
+        <div style="width:64px;height:64px;margin:0 auto 20px;border-radius:50%;background:linear-gradient(120deg,#7DFFC4,#61FFD0 42%,#3FD9E6);color:#08100d;display:flex;align-items:center;justify-content:center;font-size:32px">✓</div>
+        <h1 style="font-family:'Antonio',sans-serif;font-weight:700;font-size:34px;color:#fff;margin:0 0 10px">{{ t.thanksTitle }}</h1>
+        <p style="font-size:15px;line-height:1.6;margin:0 auto;max-width:34ch">{{ t.thanksBody }}</p>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isForm }}" hint-placeholder-val="{{ true }}">
+      <div>
+        <p style="font-family:'Inter';color:#F1C24A;font-size:13px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;margin:0">{{ t.eyebrow }}</p>
+        <h1 style="font-family:'Antonio',sans-serif;font-weight:700;font-size:clamp(30px,7vw,44px);line-height:1.02;color:#fff;margin:10px 0 0">{{ t.title }}</h1>
+        <p style="font-size:15px;line-height:1.6;margin:14px 0 0;max-width:44ch">{{ t.lead }}</p>
+
+        <div style="display:flex;gap:8px;justify-content:center;margin:28px 0 6px">
+          <sc-for list="{{ stars }}" as="s" hint-placeholder-count="5">
+            <button type="button" onClick="{{ s.pick }}" aria-label="{{ s.n }}" style="{{ s.style }}">★</button>
+          </sc-for>
+        </div>
+        <p style="text-align:center;font-size:13px;color:#FFFFFF99;margin:0 0 22px;min-height:18px">{{ ratingLabel }}</p>
+
+        <textarea value="{{ text }}" onInput="{{ onText }}" rows="5" placeholder="{{ t.placeholder }}" style="width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);border-radius:14px;padding:14px 15px;color:#fff;font-size:15px;line-height:1.5;outline:none;resize:vertical"></textarea>
+
+        <sc-if value="{{ err }}" hint-placeholder-val="{{ false }}">
+          <p style="font-size:13px;color:#FFB454;margin:12px 2px 0">{{ err }}</p>
+        </sc-if>
+
+        <button type="button" disabled="{{ sending }}" onClick="{{ submit }}" style="{{ submitStyle }}">{{ submitLabel }}</button>
+        <p style="font-size:12px;line-height:1.5;color:#FFFFFF66;margin:14px 2px 0;text-align:center">{{ t.note }}</p>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isInvalid }}" hint-placeholder-val="{{ false }}">
+      <div style="text-align:center">
+        <h1 style="font-family:'Antonio',sans-serif;font-weight:700;font-size:30px;color:#fff;margin:0 0 10px">{{ t.invalidTitle }}</h1>
+        <p style="font-size:15px;line-height:1.6;margin:0 auto;max-width:34ch">{{ t.invalidBody }}</p>
+      </div>
+    </sc-if>
+
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  BOT = 'https://admin-bot-production-b400.up.railway.app';
+  TEXT = {
+    en: { eyebrow:'Your session', title:'How did it go?', lead:'Tap the stars and leave a few words — it takes 20 seconds and helps other riders find the right coach.',
+      placeholder:'What stood out? Your coach, the spot, the vibe…', submit:'Submit review', sending:'Sending…',
+      note:'Only your first name and star rating may appear on our site. No contact details are ever shown.',
+      ratings:['','Poor','Fair','Good','Great','Amazing'],
+      thanksTitle:'Thank you! 🤙', thanksBody:'Your review is in — we really appreciate it. See you back in the water.',
+      invalidTitle:'Link expired', invalidBody:'This review link is invalid or already used. If you think that\u2019s a mistake, just reply to our email.',
+      errRating:'Please pick a star rating first.', errSend:'Something went wrong — please try again in a moment.' },
+    ru: { eyebrow:'Ваше занятие', title:'Как всё прошло?', lead:'Поставьте звёзды и напишите пару слов — это займёт 20 секунд и поможет другим райдерам выбрать тренера.',
+      placeholder:'Что понравилось? Тренер, спот, атмосфера…', submit:'Отправить отзыв', sending:'Отправляем…',
+      note:'На сайте может появиться только ваше имя и оценка. Контактные данные никогда не показываются.',
+      ratings:['','Слабо','Нормально','Хорошо','Отлично','Восторг'],
+      thanksTitle:'Спасибо! 🤙', thanksBody:'Отзыв получен — очень ценим. Увидимся в воде.',
+      invalidTitle:'Ссылка недействительна', invalidBody:'Ссылка на отзыв неверна или уже использована. Если это ошибка — просто ответьте на наше письмо.',
+      errRating:'Сначала выберите оценку в звёздах.', errSend:'Что-то пошло не так — попробуйте ещё раз через мгновение.' }
+  };
+  state = { rating: 0, hover: 0, text: '', sending: false, done: false, err: '', o: '', t: '', lang: 'en' };
+  componentDidMount() {
+    const q = new URLSearchParams(window.location.search);
+    const lang = ['en', 'ru'].includes(q.get('lang')) ? q.get('lang') : 'en';
+    const r = parseInt(q.get('rating'), 10);
+    document.documentElement.lang = lang;
+    this.setState({ o: q.get('o') || '', t: q.get('t') || '', lang, rating: (r >= 1 && r <= 5) ? r : 0 });
+  }
+  submit = () => {
+    const T = this.TEXT[this.state.lang] || this.TEXT.en;
+    if (!(this.state.rating >= 1)) { this.setState({ err: T.errRating }); return; }
+    this.setState({ sending: true, err: '' });
+    fetch(this.BOT + '/review', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ o: this.state.o, t: this.state.t, rating: this.state.rating, text: this.state.text })
+    }).then(r => {
+      if (r.ok || r.status === 409) { this.setState({ done: true }); return; }
+      throw new Error('http ' + r.status);
+    }).catch(() => this.setState({ sending: false, err: T.errSend }));
+  };
+  renderVals() {
+    const T = this.TEXT[this.state.lang] || this.TEXT.en;
+    const invalid = !this.state.o || !this.state.t;
+    const shown = this.state.hover || this.state.rating;
+    const GRAD = 'linear-gradient(120deg,#7DFFC4,#61FFD0 42%,#3FD9E6)';
+    return {
+      t: T,
+      isInvalid: invalid,
+      isDone: !invalid && this.state.done,
+      isForm: !invalid && !this.state.done,
+      text: this.state.text,
+      onText: e => this.setState({ text: e.target.value }),
+      sending: this.state.sending,
+      err: this.state.err,
+      ratingLabel: shown ? T.ratings[shown] : '',
+      stars: [1, 2, 3, 4, 5].map(n => ({
+        n,
+        pick: () => this.setState({ rating: n, err: '' }),
+        style: 'background:none;border:none;cursor:pointer;font-size:40px;line-height:1;padding:0 2px;transition:transform .12s,color .12s;color:' + (n <= shown ? '#F1C24A' : 'rgba(255,255,255,.22)')
+      })),
+      submitLabel: this.state.sending ? T.sending : T.submit,
+      submitStyle: 'width:100%;margin-top:20px;background:' + GRAD + ';color:#08100d;font-weight:600;font-size:16px;padding:15px;border:none;border-radius:100px;cursor:' + (this.state.sending ? 'not-allowed' : 'pointer') + ';opacity:' + (this.state.sending ? '.6' : '1')
+    };
+  }
+}
+</script>
+</body>
+</html>

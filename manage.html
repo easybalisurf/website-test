@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<template id="__bundler_thumbnail" data-bg-color="#0B3E56"><svg viewBox="0 0 80 56" xmlns="http://www.w3.org/2000/svg"><rect width="80" height="56" fill="#0B3E56"/><text x="40" y="36" font-family="sans-serif" font-size="26" fill="#61FFD0" text-anchor="middle">⚙</text></svg></template>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Antonio:wght@500;600;700&amp;family=Oswald:wght@500;600;700&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="theme.css">
+<style>
+  *{box-sizing:border-box}
+  html{background:var(--eb-bg-solid)}
+  body{margin:0;background:var(--eb-bg);color:#FFFFFFBD;font-family:'Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased;min-height:100vh}
+  a{color:#61FFD0;text-decoration:none}
+  a:hover{color:#8affe0}
+  html[lang="ru"] [style*="Antonio"]{font-family:'Oswald',sans-serif !important}
+  select,input{font-family:'Inter',sans-serif}
+</style>
+</helmet>
+<div style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:32px 20px">
+  <div style="width:100%;max-width:540px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);border-radius:24px;box-shadow:0 24px 70px rgba(0,0,0,.45);padding:36px 30px">
+
+    <sc-if value="{{ isLoading }}" hint-placeholder-val="{{ true }}">
+      <p style="text-align:center;color:#FFFFFF99;margin:20px 0">{{ t.loading }}</p>
+    </sc-if>
+
+    <sc-if value="{{ isInvalid }}" hint-placeholder-val="{{ false }}">
+      <div style="text-align:center">
+        <h1 style="font-family:'Antonio',sans-serif;font-weight:700;font-size:30px;color:#fff;margin:0 0 10px">{{ t.invalidTitle }}</h1>
+        <p style="font-size:15px;line-height:1.6;margin:0 auto;max-width:36ch">{{ t.invalidBody }}</p>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isReady }}" hint-placeholder-val="{{ false }}">
+      <div>
+        <p style="font-family:'Inter';color:#61FFD0;font-size:13px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;margin:0">{{ t.eyebrow }} #{{ o.id }}</p>
+        <h1 style="font-family:'Antonio',sans-serif;font-weight:700;font-size:clamp(28px,6vw,40px);line-height:1.02;color:#fff;margin:8px 0 0">{{ t.title }}</h1>
+        <div style="display:inline-flex;align-items:center;gap:8px;margin-top:12px;padding:6px 14px;border-radius:100px;background:{{ statusBg }};color:{{ statusColor }};font-size:13px;font-weight:600">{{ statusText }}</div>
+
+        <div style="margin-top:20px;border:1px solid rgba(255,255,255,.12);border-radius:16px;overflow:hidden">
+          <sc-for list="{{ sessionRows }}" as="s" hint-placeholder-count="1">
+            <div style="display:flex;justify-content:space-between;gap:12px;padding:14px 16px;border-bottom:1px solid rgba(255,255,255,.08)">
+              <span style="color:#fff;font-weight:500">{{ s.when }}</span>
+              <span style="color:#FFFFFF99">{{ s.spot }}</span>
+            </div>
+          </sc-for>
+        </div>
+
+        <sc-if value="{{ flash }}" hint-placeholder-val="{{ false }}">
+          <div style="margin-top:18px;padding:14px 16px;border-radius:12px;background:{{ flashBg }};color:{{ flashColor }};font-size:14px;line-height:1.5">{{ flash }}</div>
+        </sc-if>
+
+        <sc-if value="{{ showActions }}" hint-placeholder-val="{{ true }}">
+          <div>
+            <sc-if value="{{ o.policy.reschedulePending }}" hint-placeholder-val="{{ false }}">
+              <div style="margin-top:18px;padding:14px 16px;border-radius:12px;background:rgba(255,180,84,.1);border:1px solid rgba(255,180,84,.3);color:#FFCF8F;font-size:14px;line-height:1.5">{{ t.pendingNote }}</div>
+            </sc-if>
+
+            <sc-if value="{{ o.policy.canReschedule }}" hint-placeholder-val="{{ false }}">
+              <div style="margin-top:22px">
+                <div style="font-size:12px;letter-spacing:.5px;text-transform:uppercase;color:#FFFFFF99;margin-bottom:12px">{{ t.rescheduleTitle }}</div>
+                <div style="display:flex;gap:10px;flex-wrap:wrap">
+                  <input type="date" min="{{ minDate }}" value="{{ newDate }}" onChange="{{ onDate }}" style="{{ inputStyle }}">
+                  <select value="{{ newWindow }}" onChange="{{ onWindow }}" style="{{ inputStyle }}">
+                    <sc-for list="{{ windows }}" as="w" hint-placeholder-count="4"><option style="color:#000">{{ w }}</option></sc-for>
+                  </select>
+                </div>
+                <sc-if value="{{ o.policy.rescheduleNeedsCoachConfirm }}" hint-placeholder-val="{{ false }}">
+                  <p style="font-size:12px;line-height:1.5;color:#FFB454;margin:10px 2px 0">{{ t.coachConfirmNote }}</p>
+                </sc-if>
+                <button type="button" disabled="{{ busy }}" onClick="{{ doReschedule }}" style="{{ primaryBtn }}">{{ t.rescheduleBtn }}</button>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ o.policy.canCancel }}" hint-placeholder-val="{{ false }}">
+              <div style="margin-top:26px;padding-top:22px;border-top:1px solid rgba(255,255,255,.1)">
+                <p style="font-size:13px;line-height:1.55;color:#FFFFFF99;margin:0 0 12px">{{ cancelNote }}</p>
+                <sc-if value="{{ confirmCancel }}" hint-placeholder-val="{{ false }}">
+                  <div style="display:flex;gap:10px;flex-wrap:wrap">
+                    <button type="button" disabled="{{ busy }}" onClick="{{ reallyCancel }}" style="{{ dangerBtn }}">{{ t.confirmCancelBtn }}</button>
+                    <button type="button" onClick="{{ abortCancel }}" style="{{ ghostBtn }}">{{ t.keepBtn }}</button>
+                  </div>
+                </sc-if>
+                <sc-if value="{{ notConfirming }}" hint-placeholder-val="{{ true }}">
+                  <button type="button" onClick="{{ askCancel }}" style="{{ ghostDangerBtn }}">{{ t.cancelBtn }}</button>
+                </sc-if>
+              </div>
+            </sc-if>
+          </div>
+        </sc-if>
+
+        <p style="font-size:12px;line-height:1.5;color:#FFFFFF66;margin:20px 2px 0;text-align:center">{{ t.help }}</p>
+      </div>
+    </sc-if>
+
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  BOT = 'https://admin-bot-production-b400.up.railway.app';
+  WINDOWS = ['08:00 – 10:00', '10:00 – 12:00', '12:00 – 14:00', '14:00 – 16:00'];
+  TEXT = {
+    en: { loading:'Loading your booking…', eyebrow:'Booking', title:'Manage your booking',
+      invalidTitle:'Link expired', invalidBody:'This link is invalid or has expired. If you think that\u2019s a mistake, reply to your confirmation email.',
+      rescheduleTitle:'Move to another day', rescheduleBtn:'Request new time', rescheduleBtnFree:'Move session',
+      coachConfirmNote:'This is within 24 hours of your session, so your coach will confirm the new time on WhatsApp — your current session stays booked until then.',
+      pendingNote:'Your reschedule request is awaiting coach confirmation. Your original session stays booked until it\u2019s confirmed.',
+      cancelBtn:'Cancel booking', confirmCancelBtn:'Yes, cancel', keepBtn:'Keep booking',
+      cancelFree:'You can cancel for free and your deposit will be refunded.',
+      cancelNoRefund:'This session is within 24 hours — cancelling now forfeits your deposit.',
+      help:'Need help? Just reply to your confirmation email.',
+      okReschedule:'Session moved — see your email for confirmation.', okRequest:'Request sent — we\u2019ll email you once your coach confirms.',
+      okCancelRefund:'Booking cancelled. Your deposit will be refunded.', okCancelNoRefund:'Booking cancelled.',
+      err:'Something went wrong — please try again.',
+      stActive:'Active', stConfirmed:'Confirmed', stPending:'Awaiting coach', stCancelled:'Cancelled', stRefund:'Refund pending', stCompleted:'Completed' },
+    ru: { loading:'Загружаем вашу бронь…', eyebrow:'Бронь', title:'Управление бронью',
+      invalidTitle:'Ссылка недействительна', invalidBody:'Ссылка неверна или устарела. Если это ошибка — ответьте на письмо с подтверждением.',
+      rescheduleTitle:'Перенести на другой день', rescheduleBtn:'Запросить новое время', rescheduleBtnFree:'Перенести занятие',
+      coachConfirmNote:'До занятия меньше 24 часов, поэтому тренер подтвердит новое время в WhatsApp — текущее занятие остаётся в силе до подтверждения.',
+      pendingNote:'Запрос на перенос ожидает подтверждения тренера. Исходное занятие остаётся в силе до подтверждения.',
+      cancelBtn:'Отменить бронь', confirmCancelBtn:'Да, отменить', keepBtn:'Оставить',
+      cancelFree:'Вы можете отменить бесплатно, депозит будет возвращён.',
+      cancelNoRefund:'До занятия меньше 24 часов — при отмене депозит не возвращается.',
+      help:'Нужна помощь? Просто ответьте на письмо с подтверждением.',
+      okReschedule:'Занятие перенесено — подтверждение придёт на почту.', okRequest:'Запрос отправлен — сообщим по почте, когда тренер подтвердит.',
+      okCancelRefund:'Бронь отменена. Депозит будет возвращён.', okCancelNoRefund:'Бронь отменена.',
+      err:'Что-то пошло не так — попробуйте ещё раз.',
+      stActive:'Активна', stConfirmed:'Подтверждена', stPending:'Ждём тренера', stCancelled:'Отменена', stRefund:'Возврат в обработке', stCompleted:'Завершена' }
+  };
+  state = { phase: 'loading', o: null, lang: 'en', o_id: '', t: '', newDate: '', newWindow: '', busy: false, confirmCancel: false, flash: '', flashKind: '' };
+  componentDidMount() {
+    const q = new URLSearchParams(window.location.search);
+    const lang = ['en', 'ru'].includes(q.get('lang')) ? q.get('lang') : 'en';
+    document.documentElement.lang = lang;
+    const o_id = q.get('o') || '', t = q.get('t') || '';
+    this.setState({ lang, o_id, t, newWindow: this.WINDOWS[0] });
+    if (!o_id || !t) { this.setState({ phase: 'invalid' }); return; }
+    this.load();
+  }
+  load() {
+    fetch(`${this.BOT}/booking/${this.state.o_id}?t=${encodeURIComponent(this.state.t)}`)
+      .then(r => r.ok ? r.json() : Promise.reject(new Error('http ' + r.status)))
+      .then(o => this.setState({ o, phase: 'ready' }))
+      .catch(() => this.setState({ phase: 'invalid' }));
+  }
+  post(path, body, okFlash) {
+    this.setState({ busy: true, flash: '' });
+    fetch(`${this.BOT}/booking/${this.state.o_id}/${path}`, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ t: this.state.t, ...body })
+    }).then(r => r.json().then(d => ({ ok: r.ok, d })))
+      .then(({ ok, d }) => {
+        const T = this.TEXT[this.state.lang];
+        if (!ok) { this.setState({ busy: false, flash: T.err, flashKind: 'err' }); return; }
+        this.setState({ busy: false, confirmCancel: false, flash: okFlash(d), flashKind: 'ok' });
+        this.load();
+      }).catch(() => this.setState({ busy: false, flash: this.TEXT[this.state.lang].err, flashKind: 'err' }));
+  }
+  doReschedule = () => {
+    const s = [{ date: this.state.newDate || this.state.minDate, timeWindow: this.state.newWindow || this.WINDOWS[0], spot: '' }];
+    const T = this.TEXT[this.state.lang];
+    this.post('reschedule', { sessions: s }, d => d.mode === 'confirmed' ? T.okReschedule : T.okRequest);
+  };
+  reallyCancel = () => {
+    const T = this.TEXT[this.state.lang];
+    this.post('cancel', {}, d => d.refund ? T.okCancelRefund : T.okCancelNoRefund);
+  };
+  renderVals() {
+    const T = this.TEXT[this.state.lang];
+    const o = this.state.o;
+    const GRAD = 'linear-gradient(120deg,#7DFFC4,#61FFD0 42%,#3FD9E6)';
+    const inputStyle = 'flex:1;min-width:130px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);border-radius:12px;padding:12px 13px;color:#fff;font-size:15px;outline:none';
+    const today = new Date(Date.now() + 8 * 3600000).toISOString().slice(0, 10);
+    let statusText = T.stActive, statusColor = '#61FFD0', statusBg = 'rgba(97,255,208,.12)';
+    if (o) {
+      const st = o.status;
+      if (st === 'confirmed' || st === 'taken') { statusText = T.stConfirmed; }
+      else if (st === 'cancelled') { statusText = T.stCancelled; statusColor = '#FF9B9B'; statusBg = 'rgba(255,120,120,.12)'; }
+      else if (st === 'deposit_refund_pending') { statusText = T.stRefund; statusColor = '#FFCF8F'; statusBg = 'rgba(255,180,84,.12)'; }
+      else if (st === 'completed') { statusText = T.stCompleted; statusColor = '#B8CDBC'; statusBg = 'rgba(255,255,255,.08)'; }
+      if (o.policy && o.policy.reschedulePending) { statusText = T.stPending; statusColor = '#FFCF8F'; statusBg = 'rgba(255,180,84,.12)'; }
+    }
+    return {
+      t: T, o,
+      isLoading: this.state.phase === 'loading',
+      isInvalid: this.state.phase === 'invalid',
+      isReady: this.state.phase === 'ready' && !!o,
+      statusText, statusColor, statusBg,
+      sessionRows: o ? (o.sessions || []).map(s => ({ when: this.fmt(s), spot: s.spot || '' })) : [],
+      showActions: o && o.policy && (o.policy.canCancel || o.policy.canReschedule || o.policy.reschedulePending),
+      minDate: today,
+      newDate: this.state.newDate,
+      newWindow: this.state.newWindow,
+      windows: this.WINDOWS,
+      onDate: e => this.setState({ newDate: e.target.value }),
+      onWindow: e => this.setState({ newWindow: e.target.value }),
+      busy: this.state.busy,
+      confirmCancel: this.state.confirmCancel,
+      notConfirming: !this.state.confirmCancel,
+      askCancel: () => this.setState({ confirmCancel: true }),
+      abortCancel: () => this.setState({ confirmCancel: false }),
+      doReschedule: this.doReschedule,
+      reallyCancel: this.reallyCancel,
+      cancelNote: o && o.policy ? (o.policy.cancelFreeRefund ? T.cancelFree : T.cancelNoRefund) : '',
+      flash: this.state.flash,
+      flashBg: this.state.flashKind === 'err' ? 'rgba(255,120,120,.12)' : 'rgba(97,255,208,.1)',
+      flashColor: this.state.flashKind === 'err' ? '#FF9B9B' : '#61FFD0',
+      inputStyle,
+      primaryBtn: 'width:100%;margin-top:16px;background:' + GRAD + ';color:#08100d;font-weight:600;font-size:15px;padding:14px;border:none;border-radius:100px;cursor:' + (this.state.busy ? 'not-allowed' : 'pointer') + ';opacity:' + (this.state.busy ? '.6' : '1'),
+      dangerBtn: 'flex:1;background:#E5484D;color:#fff;font-weight:600;font-size:15px;padding:13px 20px;border:none;border-radius:100px;cursor:pointer;opacity:' + (this.state.busy ? '.6' : '1'),
+      ghostBtn: 'flex:none;background:transparent;border:1px solid rgba(255,255,255,.3);color:#fff;font-weight:500;font-size:14px;padding:13px 20px;border-radius:100px;cursor:pointer',
+      ghostDangerBtn: 'background:transparent;border:1px solid rgba(229,72,77,.5);color:#FF9B9B;font-weight:500;font-size:14px;padding:12px 22px;border-radius:100px;cursor:pointer'
+    };
+  }
+  fmt(s) {
+    const m = String(s.date || '').match(/^(\d{4})-(\d{2})-(\d{2})/);
+    const mo = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    const d = m ? `${m[3]} ${mo[Number(m[2]) - 1]} ${m[1]}` : s.date;
+    return `${d} · ${s.window || ''}`.trim();
+  }
+}
+</script>
+</body>
+</html>
