@@ -48,7 +48,7 @@
   input[type="date"]::-webkit-calendar-picker-indicator{position:absolute;right:0;top:0;width:100%;height:100%;opacity:0;margin:0;cursor:pointer}
   input[type="date"]::-webkit-inner-spin-button,input[type="date"]::-webkit-clear-button{display:none;-webkit-appearance:none}
   input[type="date"]{position:relative}
-  input:focus,select:focus,textarea:focus{outline:none;border-color:#61FFD0!important;box-shadow:0 0 0 3px rgba(97,255,208,.18)}
+  input:focus,select:focus,textarea:focus{outline:none;border-color:#61FFD0!important}
   @keyframes floatUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
   @keyframes slowZoom{from{transform:scale(1.08)}to{transform:scale(1)}}
   @keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
@@ -122,10 +122,6 @@
   <div class="wrap nav-inner" style="max-width:1280px;margin:0 auto;padding:env(safe-area-inset-top) 32px 0;height:calc(74px + env(safe-area-inset-top));display:flex;align-items:center;justify-content:space-between">
     <a href="#hero" style="display:flex;align-items:center;gap:12px;color:{{ navInk }}">
       <eb-logo size="24px" animated="false"></eb-logo>
-      <span onClick="{{ onPlaceClick }}" style="display:inline-flex;align-items:center;gap:7px;background:transparent;border:1px solid rgba(255,255,255,.2);border-radius:100px;color:{{ navInk }};font-family:'Inter';font-size:13px;font-weight:500;padding:9px 14px;white-space:nowrap">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11Z"/><circle cx="12" cy="10" r="2.6"/></svg>
-        {{ placeName }}
-      </span>
     </a>
 
     <!-- desktop nav -->
@@ -401,7 +397,7 @@
     <h2 style="{{ h2Style }};text-align:center;margin:12px auto 48px">{{ t.faq.h2 }}</h2>
     <div style="display:flex;flex-direction:column;gap:14px">
       <sc-for list="{{ faqs }}" as="q" hint-placeholder-count="5">
-        <div style="border:1px solid rgba(255,255,255,.14);border-radius:16px;background:rgba(255,255,255,.045);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);box-shadow:inset 0 1px 0 rgba(255,255,255,.12);overflow:hidden">
+        <div style="border:1px solid rgba(255,255,255,.14);border-radius:16px;background:rgba(255,255,255,.045);overflow:hidden">
           <button onClick="{{ q.toggle }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:20px;background:transparent;border:none;cursor:pointer;text-align:left;padding:24px 26px;color:#fff;font-family:'Antonio',sans-serif;font-weight:600;font-size:20px;line-height:1.15">
             {{ q.question }}
             <span style="{{ q.iconStyle }}">+</span>
@@ -724,9 +720,9 @@
             <div style="margin-top:20px">
               <div style="font-size:12px;letter-spacing:.5px;text-transform:uppercase;color:#FFFFFF99;margin-bottom:10px">{{ payWith }}</div>
               <div style="display:flex;gap:10px;flex-wrap:wrap">
-                <div style="width:100%;display:flex;align-items:center;justify-content:center;gap:10px;padding:16px;border-radius:12px;background:rgba(97,255,208,.06);border:1px solid rgba(97,255,208,.16);position:relative;cursor:pointer;transition:border-color .2s" style-hover="border-color:rgba(97,255,208,.45)">
-                  <span style="display:inline-flex;align-items:center;padding:4px 8px;border-radius:7px;background:#FFFFFF"><span style="font-family:Arial,Helvetica,sans-serif;font-weight:800;font-style:italic;font-size:16px;letter-spacing:-.3px;line-height:1"><span style="color:#253B80">Pay</span><span style="color:#179BD7">Pal</span></span></span>
-                  <span style="flex:none;width:18px;height:18px;border-radius:50%;background:#0B9B6A;color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;line-height:1">✓</span>
+                <div onClick="{{ selectPaypal }}" style="{{ paypalTileStyle }}">
+                  <span style="display:inline-flex;align-items:center;padding:4px 8px;border-radius:7px;background:#FFFFFF"><span style="font-family:Arial,Helvetica,sans-serif;font-weight:800;font-style:italic;font-size:14px;letter-spacing:-.3px;line-height:1"><span style="color:#253B80">Pay</span><span style="color:#179BD7">Pal</span></span></span>
+                  <span style="flex:none;width:16px;height:16px;border-radius:50%;background:#0B9B6A;color:#fff;display:flex;align-items:center;justify-content:center;font-size:10px;line-height:1">✓</span>
                 </div>
               </div>
             </div>
@@ -790,6 +786,7 @@ class Component extends DCLogic {
     submitted: false,
     slotTaken: false,
     agreed: false,
+    paymentMethod: 'paypal', // required field — defaults to the only option today; future methods join this same tile row
     catalogStatus: 'loading', // loading | ok | fail — booking form is hidden on 'fail'
     openFaq: 0,
     howVisible: {},
@@ -1504,8 +1501,8 @@ class Component extends DCLogic {
       bookSoon: (() => { if (!chosenSlot) return false; const st = (chosenSlot.split(/[–-]/)[0] || '08:00').trim(); const p = targetDate.split('-').map(Number); const tp = st.split(':').map(Number); const startUtc = Date.UTC(p[0], p[1] - 1, p[2], tp[0], tp[1]) - 8 * 3600000; return (startUtc - Date.now()) < 24 * 3600000 && (startUtc - Date.now()) > 0; })(),
       soonWarnMsg: sm.soonWarn || '',
       bookDisabled: !(!!chosenSlot && !chosenFull && anyFree),
-      bookBtnStyle: 'flex:none;font-weight:600;font-size:15px;padding:14px 26px;border:none;border-radius:100px;transition:transform .2s,box-shadow .2s;' + ((!!chosenSlot && !chosenFull && anyFree) ? 'background:linear-gradient(120deg,#7DFFC4,#61FFD0 42%,#3FD9E6);color:#08100d;cursor:pointer' : 'background:rgba(255,255,255,.12);color:#FFFFFF66;cursor:not-allowed'),
-      bookBtnHover: (!!chosenSlot && !chosenFull && anyFree) ? 'box-shadow:0 10px 34px rgba(97,255,208,.4);transform:translateY(-1px)' : '',
+      bookBtnStyle: 'flex:none;font-weight:600;font-size:15px;padding:14px 26px;border:none;border-radius:100px;transition:filter .2s;' + ((!!chosenSlot && !chosenFull && anyFree) ? 'background:linear-gradient(120deg,#7DFFC4,#61FFD0 42%,#3FD9E6);color:#08100d;cursor:pointer' : 'background:rgba(255,255,255,.12);color:#FFFFFF66;cursor:not-allowed'),
+      bookBtnHover: (!!chosenSlot && !chosenFull && anyFree) ? 'filter:brightness(1.05)' : '',
       bookLabel: (() => { const dp2 = targetDate.split('-').map(Number); const dl = new Date(Date.UTC(dp2[0], dp2[1] - 1, dp2[2])).toLocaleDateString(locale, { day: 'numeric', month: 'short', timeZone: 'UTC' }); return chosenFull ? (sm.slotFull || 'No coaches free — pick another window') : chosenSlot ? (sm.bookDate || 'Book {date}').replace('{date}', dl) : (sm.pickSlot || 'Select a time slot'); })(),
       spots: pool.map(s => ({ name: s.name, style: spotChip(active.name === s.name), pick: () => this.setEx('spot', s.name) })),
       slots: slots.map(s => ({ ...s, full: !!s.full, fullLabel: s.full ? (sm.slotFullTag || 'Full') : '', style: slotRow(chosenSlot === s.time) + (s.full ? ';opacity:.42;cursor:not-allowed;filter:grayscale(.5)' : ''), pick: s.full ? (() => {}) : (() => this.setState(st => ({ explore: { ...st.explore, slot: s.time, spot: st.explore.spot || active.name } }))) }))
@@ -1556,8 +1553,8 @@ class Component extends DCLogic {
     const footHead = "font-size:12px;letter-spacing:.6px;text-transform:uppercase;color:#61FFD0;margin-bottom:16px;font-weight:600";
     const footLink = "display:block;font-size:14px;color:#FFFFFFBD;margin-bottom:11px;transition:color .2s;width:max-content";
 
-    const glassCard = "background:linear-gradient(180deg,rgba(255,255,255,.13),rgba(255,255,255,.06));backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.16);box-shadow:0 20px 60px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.22)";
-    const glassPanel = "background:linear-gradient(180deg,rgba(255,255,255,.10),rgba(255,255,255,.045));backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.14);border-radius:18px;box-shadow:0 10px 40px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.18)";
+    const glassCard = "background:linear-gradient(180deg,rgba(255,255,255,.13),rgba(255,255,255,.06));border:1px solid rgba(255,255,255,.16)";
+    const glassPanel = "background:linear-gradient(180deg,rgba(255,255,255,.10),rgba(255,255,255,.045));border:1px solid rgba(255,255,255,.14);border-radius:18px";
 
     const CERT_BADGES = [
       { name: 'ISA', full: 'International Surfing Association' },
@@ -1653,7 +1650,7 @@ class Component extends DCLogic {
     const step = this.state.step;
     const ad = this.state.addons;
     const GRAD = 'linear-gradient(120deg,#7DFFC4,#61FFD0 42%,#3FD9E6)';
-    const nextBtn = 'flex:1;background:' + GRAD + ';color:#08100d;font-weight:600;font-size:15px;padding:13px 24px;border:none;border-radius:100px;cursor:pointer;transition:transform .2s,box-shadow .2s';
+    const nextBtn = 'flex:1;background:' + GRAD + ';color:#08100d;font-weight:600;font-size:15px;padding:13px 24px;border:none;border-radius:100px;cursor:pointer;transition:filter .2s';
     const backBtn = 'flex:none;background:transparent;border:1px solid rgba(255,255,255,.3);color:#fff;font-weight:500;font-size:14px;padding:13px 20px;border-radius:100px;cursor:pointer';
     const addonPrice = "font-family:'Antonio',sans-serif;font-weight:600;font-size:16px;color:#61FFD0;white-space:nowrap";
     const addonStyle = (chk) => ({
@@ -1716,7 +1713,7 @@ class Component extends DCLogic {
       navStyle: this.state.menuOpen
         ? "position:fixed;top:0;left:0;right:0;z-index:70;background:transparent;border-bottom:1px solid transparent;transition:all .35s"
         : this.state.scrolled
-        ? "position:fixed;top:0;left:0;right:0;z-index:70;background:linear-gradient(180deg,rgba(18,22,27,.86),rgba(18,22,27,.7));backdrop-filter:blur(10px) saturate(115%);-webkit-backdrop-filter:blur(10px) saturate(115%);border-bottom:1px solid rgba(255,255,255,.09);box-shadow:0 8px 40px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.1);transition:background .35s,box-shadow .35s,border-color .35s"
+        ? "position:fixed;top:0;left:0;right:0;z-index:70;background:rgba(12,36,54,.5);backdrop-filter:blur(14px) saturate(140%);-webkit-backdrop-filter:blur(14px) saturate(140%);border-bottom:1px solid rgba(255,255,255,.09);transition:background .35s,border-color .35s"
         : "position:fixed;top:0;left:0;right:0;z-index:70;background:transparent;border-bottom:1px solid transparent;transition:background .35s,border-color .35s",
       eyebrow: subhead, subhead, subheadDark, h2Style, h2Dark, inputStyle, selectStyle, textareaStyle, fieldLabel, footHead, footLink, glassCard, glassPanel,
 
@@ -1751,7 +1748,7 @@ class Component extends DCLogic {
 
       toggleMenu: () => this.setState(s => ({ menuOpen: !s.menuOpen })),
       closeMenu: () => this.setState({ menuOpen: false }),
-      drawerStyle: "position:fixed;inset:0;z-index:65;background:rgba(18,22,27,.97);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;transition:opacity .3s,visibility .3s;opacity:" + (this.state.menuOpen ? '1' : '0') + ";visibility:" + (this.state.menuOpen ? 'visible' : 'hidden'),
+      drawerStyle: "position:fixed;inset:0;z-index:65;background:rgba(18,34,44,.42);backdrop-filter:blur(22px) saturate(160%);-webkit-backdrop-filter:blur(22px) saturate(160%);display:flex;align-items:center;justify-content:center;transition:opacity .3s,visibility .3s;opacity:" + (this.state.menuOpen ? '1' : '0') + ";visibility:" + (this.state.menuOpen ? 'visible' : 'hidden'),
       drawerLink: "font-family:'Inter',sans-serif;font-weight:600;font-size:26px;letter-spacing:-.2px;color:#fff;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.08);transition:color .2s,opacity .35s ease,transform .35s ease",
       drawerLink0: "font-family:'Inter',sans-serif;font-weight:600;font-size:26px;letter-spacing:-.2px;color:#fff;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.08);transition:color .2s,opacity .35s ease,transform .35s ease;transition-delay:" + (this.state.menuOpen ? '.05s' : '0s') + ";opacity:" + (this.state.menuOpen ? '1' : '0') + ";transform:translateY(" + (this.state.menuOpen ? '0' : '10px') + ")",
       drawerLink1: "font-family:'Inter',sans-serif;font-weight:600;font-size:26px;letter-spacing:-.2px;color:#fff;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.08);transition:color .2s,opacity .35s ease,transform .35s ease;transition-delay:" + (this.state.menuOpen ? '.1s' : '0s') + ";opacity:" + (this.state.menuOpen ? '1' : '0') + ";transform:translateY(" + (this.state.menuOpen ? '0' : '10px') + ")",
@@ -1772,7 +1769,7 @@ class Component extends DCLogic {
       })),
       reviewsLoop: (() => { const base = (this.state.liveReviews && this.state.liveReviews.length) ? this.state.liveReviews : L.rev.list; return this.state.isTouch ? [...base] : [...base, ...base]; })().map(r => ({
         ...r,
-        cardStyle: 'flex:none;width:340px;max-width:82vw;padding:30px;border:1px solid rgba(11,62,86,.07);border-radius:18px;background:#FBF7EE;box-shadow:0 8px 22px -18px rgba(11,62,86,.35)' + (this.state.isTouch ? ';scroll-snap-align:center' : '')
+        cardStyle: 'flex:none;width:340px;max-width:82vw;padding:30px;border:1px solid rgba(11,62,86,.07);border-radius:18px;background:#FBF7EE' + (this.state.isTouch ? ';scroll-snap-align:center' : '')
       })),
       revScrollStyle: this.state.isTouch ? 'overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;scroll-snap-type:x mandatory;padding:2px 22px 10px;scrollbar-width:none' : '',
       revTrackStyle: 'display:flex;gap:22px;width:max-content' + (this.state.isTouch ? ';animation:none' : ''),
@@ -1819,6 +1816,8 @@ class Component extends DCLogic {
       unavailableBody: this.state.lang === 'ru' ? 'Онлайн-бронирование через сайт временно недоступно. Пожалуйста, попробуйте позже.' : 'Online booking is temporarily unavailable. Please try again later.',
       okLine: L.book.okBodyA + (first ? (', ' + first) : '') + L.book.okBodyB,
       payWith: this.state.lang === 'ru' ? 'Способ оплаты' : 'Payment method',
+      selectPaypal: () => this.setState({ paymentMethod: 'paypal' }),
+      paypalTileStyle: 'flex:0 1 25%;min-width:150px;display:flex;align-items:center;justify-content:center;gap:8px;padding:16px 14px;border-radius:12px;background:rgba(97,255,208,.06);cursor:pointer;transition:border-color .2s;border:1px solid ' + (this.state.paymentMethod === 'paypal' ? '#61FFD0' : 'rgba(97,255,208,.16)'),
       priceEst, priceNote,
 
       // wizard
@@ -1920,13 +1919,13 @@ class Component extends DCLogic {
         const agreed = !!this.state.agreed;
         const rows = (f.sessions || []).slice(0, sessionsCount).filter(s => s.date && s.slot);
         const greyed = ';background:rgba(255,255,255,.12);color:#FFFFFF66;cursor:not-allowed';
-        if (sessionsCount < 2 || rows.length < sessionsCount || !f.spot) return { multiInfeasible: false, submitBtnStyle: nextBtn + (agreed ? '' : greyed), submitBlocked: !agreed };
+        if (sessionsCount < 2 || rows.length < sessionsCount || !f.spot) return { multiInfeasible: false, submitBtnStyle: nextBtn + ((agreed && this.state.paymentMethod) ? '' : greyed), submitBlocked: !agreed || !this.state.paymentMethod };
         const levelSlug = ['first-timer', 'beginner', 'intermediate', 'advanced'][lvlIdx] || 'first-timer';
         const langCode = { English: 'en', Russian: 'ru', 'Английский': 'en', 'Русский': 'ru' }[f.instructorLang] || '';
         const sig = discKey + '|' + levelSlug + '|' + langCode + '|' + f.spot + '|' + rows.map(s => s.date + '@' + s.slot).join(',');
         this.checkMultiFeasibility(sig, { sport: discKey, level: levelSlug, lang: langCode, sessions: rows.map(s => ({ date: s.date, timeWindow: s.slot, spot: f.spot })) });
         const feas = (this.state.multiFeas || {})[sig];
-        return { multiInfeasible: feas === false, submitBtnStyle: nextBtn + ((feas === false || !agreed) ? greyed : ''), submitBlocked: feas === false || !agreed };
+        return { multiInfeasible: feas === false, submitBtnStyle: nextBtn + ((feas === false || !agreed || !this.state.paymentMethod) ? greyed : ''), submitBlocked: feas === false || !agreed || !this.state.paymentMethod };
       })(),
       agreed: !!this.state.agreed,
       toggleAgree: () => this.setState(s => ({ agreed: !s.agreed })),
@@ -2026,7 +2025,7 @@ class Component extends DCLogic {
         this.submitOrderToAdminBot(f, summary, baseNum, totalNum, headcount, sessionsWithAddons);
         const el = document.getElementById('book'); if (el) window.scrollTo({ top: el.offsetTop - 40, behavior: 'smooth' });
       },
-      reset: () => this.setState(s => ({ submitted: false, slotTaken: false, agreed: false, step: 1, addons: { media:false, rental:false, transferTo:false, transferBack:false }, transferToFrom:'', transferBackFrom:'', form: { ...s.form, sessionCount: '1', sessions: [{ date:'', slot:'' }] } })),
+      reset: () => this.setState(s => ({ submitted: false, slotTaken: false, agreed: false, paymentMethod: 'paypal', step: 1, addons: { media:false, rental:false, transferTo:false, transferBack:false }, transferToFrom:'', transferBackFrom:'', form: { ...s.form, sessionCount: '1', sessions: [{ date:'', slot:'' }] } })),
 
     };
   }

@@ -71,7 +71,7 @@ html:not([lang="en"]) [style*="Antonio"]{font-family:var(--eb-font-head-ru)!impo
 
 /* ---- Optional component layer (secondary pages) ---- */
 .eb-page{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:32px 20px}
-.eb-card{width:100%;max-width:540px;background:var(--eb-surface-2);border:1px solid var(--eb-border);border-radius:var(--eb-radius);box-shadow:var(--eb-shadow);padding:36px 30px}
+.eb-card{width:100%;max-width:540px;background:var(--eb-surface-2);border:1px solid var(--eb-border);border-radius:var(--eb-radius);padding:36px 30px}
 .eb-eyebrow{font-family:var(--eb-font-body);color:var(--eb-accent);font-size:13px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;margin:0}
 .eb-h1{font-family:var(--eb-font-head);font-weight:700;line-height:1.02;color:var(--eb-text-strong);margin:8px 0 0}
 .eb-btn{background:var(--eb-grad);color:var(--eb-accent-ink);font-weight:600;font-size:15px;padding:14px 24px;border:none;border-radius:100px;cursor:pointer;transition:filter .2s}
