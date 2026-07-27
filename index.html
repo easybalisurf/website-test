@@ -94,6 +94,7 @@
     .footer-grid{grid-template-columns:1fr 1fr!important;gap:34px 24px!important}
     .wrap{padding-left:22px!important;padding-right:22px!important}
     .sec-pad{padding-top:74px!important;padding-bottom:74px!important}
+    #book .sec-pad{padding-bottom:40px!important}
   }
   @media(max-width:380px){
     .form-2col{grid-template-columns:1fr!important}
@@ -102,7 +103,6 @@
     #hero{min-height:auto!important;align-items:flex-start!important}
     #heroContent h1{font-size:clamp(30px,7vw,56px)!important;max-width:20ch!important}
     #heroContent p{margin-top:14px!important}
-    #heroContent > div:last-child{margin-top:20px!important}
   }
   @media(max-width:560px){
     .form-2col{gap:12px!important}
@@ -110,8 +110,10 @@
     .perks-grid{grid-template-columns:1fr!important}
     .how-connector{display:none!important}
     .hero-mini{gap:22px!important}
+    #heroContent{padding-bottom:20px!important}
     .cond-grid{grid-template-columns:repeat(2,1fr)!important}
-    .finder-panel{padding:20px 18px!important;margin-top:30px!important}
+    .finder-panel{padding:20px 18px!important;margin-top:30px!important;margin-left:-22px!important;margin-right:-22px!important;width:calc(100% + 44px)!important}
+    .book-glass{padding:20px 16px!important;margin-left:-22px!important;margin-right:-22px!important;width:calc(100% + 44px)!important}
     .sec-pad{padding-top:64px!important;padding-bottom:64px!important}
   }
 </style>
@@ -174,11 +176,11 @@
 </div>
 
 <!-- ============ HERO ============ -->
-<header id="hero" data-screen-label="Hero" style="position:relative;min-height:100vh;display:flex;align-items:center;overflow:hidden;padding-top:calc(74px + env(safe-area-inset-top))">
+<header id="hero" data-screen-label="Hero" style="position:relative;min-height:100vh;display:flex;align-items:center;overflow:visible;padding-top:calc(74px + env(safe-area-inset-top));padding-bottom:48px">
   <div id="heroBgLayer" style="position:absolute;inset:0;background:linear-gradient(180deg,#0E3A63 0%,#1E6FA8 50%,#176394 80%,#145E86 100%)"></div>
   
   <div id="heroContent" class="wrap" style="position:relative;width:100%;max-width:1280px;margin:0 auto;padding:0 32px 90px;pointer-events:none;will-change:transform,opacity">
-    <h1 ref="{{ heroRef }}" style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:clamp(36px,7vw,92px);line-height:1.06;letter-spacing:-1px;color:#fff;margin:14px 0 0;max-width:15ch;animation:floatUp .9s .2s ease-out both">
+    <h1 ref="{{ heroRef }}" style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:clamp(36px,7vw,92px);line-height:1.06;letter-spacing:-1px;color:#fff;margin:44px 0 0;max-width:15ch;animation:floatUp .9s .2s ease-out both">
       <sc-for list="{{ heroChars }}" as="hw" hint-placeholder-count="8">
         <sc-if value="{{ hw.space }}" hint-placeholder-val="{{ false }}"><span>&#160;</span></sc-if>
         <sc-if value="{{ hw.chars }}" hint-placeholder-val="{{ true }}">
@@ -195,6 +197,14 @@
       <a href="#book" style="display:inline-flex;align-items:center;gap:9px;background:linear-gradient(120deg,#7DFFC4,#61FFD0 42%,#3FD9E6);color:#08100d;font-weight:600;font-size:15px;padding:16px 30px;border-radius:100px;transition:filter .2s" style-hover="filter:brightness(1.05)">{{ t.hero.ctaBook }}</a>
       <a href="#why" style="display:inline-flex;align-items:center;gap:7px;color:#fff;font-weight:500;font-size:15px;padding:16px 6px;transition:color .2s,gap .2s" style-hover="color:#61FFD0;gap:11px">{{ t.hero.ctaExplore }}</a>
     </div>
+    <div style="display:flex;align-items:baseline;flex-wrap:wrap;gap:6px 12px;margin-top:64px;pointer-events:auto;animation:floatUp 1.2s .6s ease-out both">
+      <span style="font-size:11px;letter-spacing:.4px;text-transform:uppercase;color:#FFFFFF80;white-space:nowrap">{{ t.certs.label }}</span>
+      <div style="display:flex;align-items:baseline;flex-wrap:wrap;gap:6px 14px">
+        <sc-for list="{{ certBadges }}" as="c" hint-placeholder-count="4">
+          <span title="{{ c.full }}" style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:13px;letter-spacing:.5px;color:#FFFFFFD0;white-space:nowrap">{{ c.name }}</span>
+        </sc-for>
+      </div>
+    </div>
   </div>
 </header>
 
@@ -204,9 +214,11 @@
 <section id="forecast" data-screen-label="Forecast" style="position:relative;background:var(--eb-bg-3)">
   <div class="wrap sec-pad fc-grid" style="max-width:1280px;margin:0 auto;padding:56px 32px 100px;position:relative;z-index:1;display:grid;grid-template-columns:1fr 1.05fr;gap:64px;align-items:center">
    <div>
-    <p style="{{ subhead }}">{{ t.finder.sub }}</p>
-    <h2 style="{{ h2Style }};margin:12px 0 0">{{ t.finder.h2 }}</h2>
-    <p style="max-width:44ch;margin:18px 0 0;font-size:16px;line-height:1.6">{{ t.finder.lead }}</p>
+    <div id="fc-heading-fade" style="will-change:opacity">
+     <h2 style="{{ h2Style }}">{{ t.finder.h2 }}</h2>
+     <p style="max-width:44ch;margin:18px 0 0;font-size:16px;line-height:1.6">{{ t.finder.lead }}</p>
+     <p style="margin:14px 0 0;font-size:13px"><a href="{{ guideHref }}" style="font-weight:500;color:#61FFD0">{{ t.finder.guideLink }} →</a></p>
+    </div>
    </div>
    <div>
     <!-- unified recommendation panel -->
@@ -290,12 +302,10 @@
           </sc-if>
         </div>
       </div>
-
-      <p style="margin:14px 0 0;font-size:13px"><a href="{{ guideHref }}" style="font-weight:500;color:#61FFD0">{{ t.finder.guideLink }} →</a></p>
       </div>
 
       <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:22px;padding-top:20px;border-top:1px solid rgba(255,255,255,.1)">
-        <p style="font-size:12px;line-height:1.5;color:#FFFFFF99;margin:0;max-width:44ch">{{ t.smart.disclaimer }}</p>
+        <p style="font-size:12px;line-height:1.5;color:#FFFFFF99;margin:0;max-width:44ch">{{ t.smart.disclaimer }}<br><span style="opacity:.7">{{ t.smart.disclaimerSrc }}</span></p>
         <button type="button" disabled="{{ reco.bookDisabled }}" onClick="{{ bookThis }}" style="{{ reco.bookBtnStyle }}" style-hover="{{ reco.bookBtnHover }}">{{ reco.bookLabel }}</button>
       </div>
     </div>
@@ -305,7 +315,7 @@
 </section>
 
 <!-- ============ WHY US ============ -->
-<section id="why" data-navtheme="light" data-screen-label="Why us" style="position:relative;overflow:hidden;background:var(--eb-bg-light);color:#33383A">
+<section id="why" data-navtheme="light" data-screen-label="Why us" style="position:relative;overflow:hidden;min-height:100vh;display:flex;align-items:center;background:var(--eb-bg-light);color:#33383A">
 
   <div class="wrap sec-pad" style="position:relative;max-width:1280px;margin:0 auto;padding:110px 32px">
     <div style="max-width:680px">
@@ -328,7 +338,7 @@
 </section>
 
 <!-- ============ HOW IT WORKS ============ -->
-<section id="how" data-screen-label="How it works" style="background:var(--eb-bg)">
+<section id="how" data-screen-label="How it works" style="position:relative;min-height:100vh;display:flex;align-items:center;background:var(--eb-bg)">
   <div class="wrap sec-pad" style="max-width:1280px;margin:0 auto;padding:100px 32px">
     <p style="{{ subhead }};text-align:center">{{ t.how.sub }}</p>
     <h2 style="{{ h2Style }};text-align:center;margin:12px auto 0">{{ t.how.h2 }}</h2>
@@ -348,7 +358,7 @@
 </section>
 
 <!-- ============ TESTIMONIALS MARQUEE ============ -->
-<section data-navtheme="light" data-screen-label="Testimonials" style="padding:88px 0 56px;overflow:hidden;background:var(--eb-bg-light);color:#33383A">
+<section data-navtheme="light" data-screen-label="Testimonials" style="position:relative;padding:88px 0 56px;overflow:hidden;min-height:100vh;display:flex;flex-direction:column;justify-content:center;background:var(--eb-bg-light);color:#33383A">
   <p style="{{ subheadDark }};text-align:center">{{ t.rev.sub }}</p>
   <h2 style="{{ h2Dark }};text-align:center;margin:12px auto 48px">{{ t.rev.h2 }}</h2>
   <div class="rev-scroll" style="{{ revScrollStyle }}">
@@ -371,7 +381,7 @@
 </section>
 
 <!-- ============ FAQ ============ -->
-<section id="faq" data-screen-label="FAQ" style="background:var(--eb-bg-2)">
+<section id="faq" data-screen-label="FAQ" style="position:relative;min-height:100vh;display:flex;align-items:center;background:var(--eb-bg-2)">
   <div class="wrap sec-pad" style="max-width:1280px;margin:0 auto;padding:64px 32px 100px">
    <div>
     <p style="{{ subhead }};text-align:center">{{ t.faq.sub }}</p>
@@ -395,17 +405,16 @@
 </section>
 
 <!-- ============ BOOKING FORM ============ -->
-<section id="book" data-screen-label="Booking" style="position:relative;overflow:hidden;background:var(--eb-bg)">
+<section id="book" data-screen-label="Booking" style="position:relative;overflow:hidden;min-height:100vh;background:var(--eb-bg)">
 
-  <div class="wrap sec-pad book-grid" style="position:relative;max-width:1280px;margin:0 auto;padding:100px 32px;display:grid;grid-template-columns:1fr 1.05fr;gap:64px;align-items:center">
+  <div class="wrap sec-pad book-grid" style="position:relative;max-width:1280px;margin:0 auto;padding:100px 32px 28px;display:grid;grid-template-columns:1fr 1.05fr;gap:64px;align-items:start">
     <div>
-      <p style="{{ subhead }}">{{ t.book.sub }}</p>
-      <h2 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:clamp(36px,5vw,70px);line-height:.95;letter-spacing:-.5px;color:#fff;margin:12px 0 0">{{ t.book.h1a }}<br><span style="color:#61FFD0">{{ t.book.h1b }}</span></h2>
+      <h2 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:clamp(36px,5vw,70px);line-height:.95;letter-spacing:-.5px;color:#fff;margin:0">{{ t.book.h1a }}<br><span style="color:#61FFD0">{{ t.book.h1b }}</span></h2>
       <p style="font-size:17px;line-height:1.65;max-width:44ch;margin:24px 0 0">{{ t.book.lead }}</p>
     </div>
 
     <sc-if value="{{ submitted }}" hint-placeholder-val="{{ false }}">
-      <div style="{{ glassCard }};border-radius:24px;padding:56px 44px;text-align:center;animation:floatUp .5s ease-out both">
+      <div class="book-glass" style="{{ glassCard }};border-radius:24px;padding:56px 44px;text-align:center;animation:floatUp .5s ease-out both">
         <div style="width:66px;height:66px;margin:0 auto 22px;border-radius:50%;background:linear-gradient(120deg,#7DFFC4,#61FFD0 42%,#3FD9E6);color:#08100d;display:flex;align-items:center;justify-content:center;font-size:34px;animation:checkPop .5s .1s cubic-bezier(.2,.9,.3,1) both">✓</div>
         <h3 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:34px;color:#fff;margin:0 0 12px;animation:floatUp .5s .2s ease-out both">{{ t.book.okTitle }}</h3>
         <p style="font-size:16px;line-height:1.6;margin:0 auto;max-width:40ch;animation:floatUp .5s .28s ease-out both">{{ okLine }}</p>
@@ -415,7 +424,7 @@
     </sc-if>
 
     <sc-if value="{{ slotTaken }}" hint-placeholder-val="{{ false }}">
-      <div style="{{ glassCard }};border-radius:24px;padding:48px 40px;text-align:center;animation:floatUp .5s ease-out both">
+      <div class="book-glass" style="{{ glassCard }};border-radius:24px;padding:48px 40px;text-align:center;animation:floatUp .5s ease-out both">
         <div style="width:60px;height:60px;margin:0 auto 20px;border-radius:50%;background:rgba(255,180,84,.12);border:1px solid rgba(255,180,84,.4);display:flex;align-items:center;justify-content:center"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#FFB454" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
         <h3 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:28px;color:#fff;margin:0 0 12px">{{ slotTakenTitle }}</h3>
         <p style="font-size:16px;line-height:1.6;margin:0 auto;max-width:40ch;color:#FFFFFFCC">{{ slotTakenBody }}</p>
@@ -424,7 +433,7 @@
     </sc-if>
 
     <sc-if value="{{ catalogUnavailable }}" hint-placeholder-val="{{ false }}">
-      <div style="{{ glassCard }};border-radius:24px;padding:48px 40px;text-align:center">
+      <div class="book-glass" style="{{ glassCard }};border-radius:24px;padding:48px 40px;text-align:center">
         <div style="width:60px;height:60px;margin:0 auto 20px;border-radius:50%;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#61FFD0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12c2 0 2-2 4-2s2 2 4 2 2-2 4-2 2 2 4 2 2-2 4-2"/><path d="M2 17c2 0 2-2 4-2s2 2 4 2 2-2 4-2 2 2 4 2 2-2 4-2"/></svg></div>
         <h3 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:28px;color:#fff;margin:0 0 12px">{{ unavailableTitle }}</h3>
         <p style="font-size:16px;line-height:1.6;margin:0 auto;max-width:36ch;color:#FFFFFFCC">{{ unavailableBody }}</p>
@@ -432,7 +441,7 @@
     </sc-if>
 
     <sc-if value="{{ showForm }}" hint-placeholder-val="{{ true }}">
-      <form onSubmit="{{ submit }}" style="{{ glassCard }};border-radius:24px;padding:34px">
+      <form onSubmit="{{ submit }}" class="book-glass" style="{{ glassCard }};border-radius:24px;padding:34px">
         <input type="text" name="company" value="{{ form.hp }}" onChange="{{ onHp }}" autoComplete="off" tabIndex="-1" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0" />
         <div style="display:flex;align-items:center;gap:10px;margin-bottom:26px">
           <sc-for list="{{ wizSteps }}" as="st" hint-placeholder-count="3">
@@ -739,8 +748,8 @@
 <!-- /contrast sections -->
 
 <!-- ============ FOOTER ============ -->
-<footer style="position:relative;background:var(--eb-bg);overflow:hidden;border-top:1px solid rgba(255,255,255,.08)">
-  <div class="wrap footer-grid" style="position:relative;max-width:1280px;margin:0 auto;padding:78px 32px 40px;display:grid;grid-template-columns:1.6fr 1fr 1fr;gap:40px;align-items:start">
+<footer style="position:relative;z-index:8;background:var(--eb-bg);overflow:hidden">
+  <div class="wrap footer-grid" style="position:relative;max-width:1280px;margin:0 auto;padding:48px 32px 40px;display:grid;grid-template-columns:1.6fr 1fr 1fr;gap:40px;align-items:start">
     <div>
       <eb-logo size="20px" animated="false"></eb-logo>
       <p style="font-size:13px;margin:16px 0 0;color:#FFFFFF80">© 2026 {{ t.foot.rights }}</p>
@@ -773,7 +782,10 @@ class Component extends DCLogic {
   // STATE
   // ============================================================
   state = {
+    heroExpanded: false,
     scrolled: false,
+    navPinned: false,
+    navPinTop: 0,
     activeSection: '',
     navOnLight: false,
     submitted: false,
@@ -1012,7 +1024,16 @@ class Component extends DCLogic {
         const sp = parseFloat(el.dataset.speed || '0.1');
         if (el._baseCenter == null) { const r = el.getBoundingClientRect(); el._baseCenter = r.top + window.scrollY + r.height / 2; }
         const delta = (window.scrollY + vh / 2) - el._baseCenter;
-        el.style.transform = 'translate3d(0,' + (delta * sp).toFixed(1) + 'px,0)';
+        const shift = delta * sp;
+        el.style.transform = 'translate3d(0,' + shift.toFixed(1) + 'px,0)';
+        if (el.dataset.fadeTarget) {
+          const t = document.querySelector(el.dataset.fadeTarget);
+          if (t) {
+            const rise = Math.max(0, -shift); // only fades as the panel rides UP over the text above it
+            const op = 1 - Math.min(1, rise / 90);
+            t.style.opacity = op.toFixed(2);
+          }
+        }
       });
       // Hero content scrolls normally (no parallax shift / fade) so the hand-off into the
       // Forecast section reads like every other section boundary.
@@ -1033,6 +1054,11 @@ class Component extends DCLogic {
     this._onScroll = () => {
       const s = window.scrollY > 40;
       if (s !== this.state.scrolled) this.setState({ scrolled: s });
+      const bookEl = document.getElementById('book');
+      if (bookEl) {
+        const pinned = (window.scrollY + 74) >= (bookEl.getBoundingClientRect().top + window.scrollY);
+        if (pinned !== this.state.navPinned) this.setState({ navPinned: pinned, navPinTop: bookEl.offsetTop });
+      }
       // Active-section tracking: the section whose top is nearest above the nav line.
       const line = 90;
       let active = '';
@@ -1728,10 +1754,21 @@ class Component extends DCLogic {
       t: L,
       navStyle: this.state.menuOpen
         ? "position:fixed;top:0;left:0;right:0;z-index:70;background:transparent;border-bottom:1px solid transparent;transition:all .35s"
+        : this.state.navPinned
+        ? "position:absolute;top:" + (this.state.navPinTop - 74) + "px;left:0;right:0;z-index:70;background:rgba(12,36,54,.5);backdrop-filter:blur(14px) saturate(140%);-webkit-backdrop-filter:blur(14px) saturate(140%);border-bottom:1px solid rgba(255,255,255,.08)"
         : this.state.scrolled
         ? "position:fixed;top:0;left:0;right:0;z-index:70;background:rgba(12,36,54,.5);backdrop-filter:blur(14px) saturate(140%);-webkit-backdrop-filter:blur(14px) saturate(140%);border-bottom:1px solid rgba(255,255,255,.09);transition:background .35s,border-color .35s"
         : "position:fixed;top:0;left:0;right:0;z-index:70;background:transparent;border-bottom:1px solid transparent;transition:background .35s,border-color .35s",
       eyebrow: subhead, subhead, subheadDark, h2Style, h2Dark, inputStyle, selectStyle, textareaStyle, fieldLabel, footHead, footLink, glassCard, glassPanel,
+      heroExpanded: this.state.heroExpanded,
+      toggleHeroExpand: () => this.setState(s => ({ heroExpanded: !s.heroExpanded })),
+      heroExpandChevStyle: this.state.heroExpanded ? 'rotate(180deg)' : 'rotate(0deg)',
+      heroToggleLabel: this.state.heroExpanded
+        ? (this.state.lang === 'ru' ? 'Скрыть' : 'Hide')
+        : (this.state.lang === 'ru' ? 'Найти сессию' : 'Find your session'),
+      heroToggleBtnStyle: this.state.heroExpanded
+        ? 'display:flex;align-items:center;justify-content:center;gap:9px;width:100%;margin-top:14px;padding:16px;border:1px solid rgba(255,255,255,.14);border-radius:100px;background:rgba(255,255,255,.06);color:#fff;font-size:15px;font-weight:600;transition:filter .2s'
+        : 'display:flex;align-items:center;justify-content:center;gap:9px;width:100%;margin-top:14px;padding:16px;border:none;border-radius:100px;background:linear-gradient(120deg,#7DFFC4,#61FFD0 42%,#3FD9E6);color:#08100d;font-size:15px;font-weight:600;transition:filter .2s',
 
       curLangName: (LANGS.find(l => l.c === this.state.lang) || LANGS[0]).n,
       navInk,
