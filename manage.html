@@ -11,7 +11,7 @@
 <helmet>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-<link href="https://fonts.googleapis.com/css2?family=Antonio:wght@500;600;700&amp;family=Oswald:wght@500;600;700&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Antonio:wght@500;600;700&amp;family=Oswald:wght@500;600;700&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
 <link rel="stylesheet" href="theme.css">
 <style>
   *{box-sizing:border-box}
@@ -19,7 +19,6 @@
   body{margin:0;background:var(--eb-bg);color:#FFFFFFBD;font-family:'Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased;min-height:100vh}
   a{color:#61FFD0;text-decoration:none}
   a:hover{color:#8affe0}
-  html[lang="ru"] [style*="Antonio"]{font-family:'Oswald',sans-serif !important}
   select,input{font-family:'Inter',sans-serif}
 </style>
 </helmet>
@@ -32,7 +31,7 @@
 
     <sc-if value="{{ isInvalid }}" hint-placeholder-val="{{ false }}">
       <div style="text-align:center">
-        <h1 style="font-family:'Antonio',sans-serif;font-weight:700;font-size:30px;color:#fff;margin:0 0 10px">{{ t.invalidTitle }}</h1>
+        <h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:30px;color:#fff;margin:0 0 10px">{{ t.invalidTitle }}</h1>
         <p style="font-size:15px;line-height:1.6;margin:0 auto;max-width:36ch">{{ t.invalidBody }}</p>
       </div>
     </sc-if>
@@ -40,7 +39,7 @@
     <sc-if value="{{ isReady }}" hint-placeholder-val="{{ false }}">
       <div>
         <p style="font-family:'Inter';color:#61FFD0;font-size:13px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;margin:0">{{ t.eyebrow }} #{{ o.id }}</p>
-        <h1 style="font-family:'Antonio',sans-serif;font-weight:700;font-size:clamp(28px,6vw,40px);line-height:1.02;color:#fff;margin:8px 0 0">{{ t.title }}</h1>
+        <h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:clamp(28px,6vw,40px);line-height:1.02;color:#fff;margin:8px 0 0">{{ t.title }}</h1>
         <div style="display:inline-flex;align-items:center;gap:8px;margin-top:12px;padding:6px 14px;border-radius:100px;background:{{ statusBg }};color:{{ statusColor }};font-size:13px;font-weight:600">{{ statusText }}</div>
 
         <div style="margin-top:20px;border:1px solid rgba(255,255,255,.12);border-radius:16px;overflow:hidden">

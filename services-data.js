@@ -26,7 +26,7 @@ window.SERVICES_DATA = {
   // rental is per person per rental day; deposit = approx. refundable security deposit per rented set (not charged upfront).
   sessionPricing: {
     surf: {
-      standard: { base: 80, extraPerson: 55, extraPct: 70, rental: 20, deposit: 100 },
+      standard: { base: 80, extraPerson: 55, extraPct: 70, rental: 20, deposit: 100, rentalEnabled: true, mediaEnabled: true, transfersEnabled: true, rentalDiscountPct: 0, mediaDiscountPct: 0 },
       advanced: { base: 90, extraPerson: 65, extraPct: 72 }
     },
     kite: { base: 140, extraPerson: 100, extraPct: 70, rental: 45, deposit: 400 },

@@ -22,7 +22,8 @@
   --eb-bg:#0C2436;
   --eb-bg-solid:#0C2436;
   --eb-bg-2:#0B3E56;         /* alternate dark section — for section rhythm */
-  --eb-bg-light:#E4D6B0;     /* warm sand accent section (Why us, Testimonials) — softened to cut contrast vs navy */
+  --eb-bg-3:#0E3050;         /* deep slate-teal alternate — Forecast section */
+  --eb-bg-light:#D7DCDD;     /* neutral light-grey accent section (Why us, Testimonials) */
   --eb-surface:rgba(255,255,255,.05);
   --eb-surface-2:linear-gradient(180deg,rgba(255,255,255,.09),rgba(255,255,255,.04));
   --eb-border:rgba(255,255,255,.14);
@@ -35,8 +36,7 @@
   --eb-text-mute:#FFFFFF66;
 
   /* Type */
-  --eb-font-head:'Antonio',sans-serif;
-  --eb-font-head-ru:'Oswald',sans-serif;
+  --eb-font-head:'Plus Jakarta Sans',sans-serif;
   --eb-font-body:'Inter',system-ui,sans-serif;
 
   /* Shape & depth (soft, minimal) */
@@ -60,14 +60,20 @@ a{color:var(--eb-accent);text-decoration:none}
 a:hover{color:#8affe0}
 ::selection{background:var(--eb-accent);color:var(--eb-accent-ink)}
 
-/* Russian (and any non-English) heads swap to the condensed fallback */
-html[lang="ru"] [style*="Antonio"],
-html:not([lang="en"]) [style*="Antonio"]{font-family:var(--eb-font-head-ru)!important}
+/* Plus Jakarta Sans has native Cyrillic support — no per-language font swap needed. */
+
 
 @keyframes ebFloatUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
 
-/* Static by directive — no motion anywhere across the product. */
+/* Static by directive — no motion anywhere across the product, except the testimonials
+   marquee (functional continuous scroll) and the fluid step-progress connector (shows active
+   progress, not decoration). */
 *,*::before,*::after{animation:none!important}
+.rev-track,.rev-track *{animation:revert!important}
+.wiz-pulse{animation:ebPulse 2.2s ease-in-out infinite!important}
+.wiz-sweep{animation:ebFlow 2.5s linear infinite!important}
+@keyframes ebFlow{0%{background-position:0% 50%}100%{background-position:200% 50%}}
+@keyframes ebPulse{0%,100%{box-shadow:0 0 0 0 rgba(97,255,208,.5)}50%{box-shadow:0 0 0 6px rgba(97,255,208,0)}}
 
 /* ---- Optional component layer (secondary pages) ---- */
 .eb-page{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:32px 20px}

@@ -15,7 +15,7 @@
 <helmet>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-<link href="https://fonts.googleapis.com/css2?family=Antonio:wght@400;500;600;700&amp;family=Oswald:wght@400;500;600;700&amp;family=Righteous&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Oswald:wght@400;500;600;700&amp;family=Righteous&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
 <script src="./i18n.js"></script>
 <link rel="stylesheet" href="theme.css">
 <script src="brand.js"></script>
@@ -25,7 +25,6 @@
   a{color:#61FFD0;text-decoration:none}
   a:hover{color:#8affe0}
   ::selection{background:#61FFD0;color:#08100d}
-  html[lang="ru"] [style*="Antonio"]{font-family:'Oswald',sans-serif !important}
 </style>
 </helmet>
 
@@ -43,14 +42,14 @@
   <main style="max-width:900px;margin:0 auto;padding:70px 32px 100px">
     <div style="max-width:680px">
       <p style="font-family:'Inter',sans-serif;color:#61FFD0;font-size:14px;font-weight:500;letter-spacing:.4px;text-transform:uppercase;margin:0">{{ care.sub }}</p>
-      <h1 style="font-family:'Antonio',sans-serif;font-weight:700;font-size:clamp(30px,5vw,46px);line-height:1.05;letter-spacing:-.5px;color:#fff;margin:14px 0 0">{{ care.h2 }}</h1>
+      <h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:clamp(30px,5vw,46px);line-height:1.05;letter-spacing:-.5px;color:#fff;margin:14px 0 0">{{ care.h2 }}</h1>
       <p style="font-size:16px;line-height:1.7;margin:22px 0 0;max-width:62ch">{{ care.lead }}</p>
     </div>
 
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(258px,1fr));gap:20px;margin-top:52px">
       <sc-for list="{{ items }}" as="c" hint-placeholder-count="3">
         <div style="display:flex;flex-direction:column;padding:30px 26px;border:1px solid rgba(97,255,208,.16);border-radius:18px;background:rgba(255,255,255,.05)">
-          <h3 style="font-family:'Antonio',sans-serif;font-weight:600;font-size:23px;color:#fff;margin:0 0 10px;line-height:1.12">{{ c.title }}</h3>
+          <h3 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:23px;color:#fff;margin:0 0 10px;line-height:1.12">{{ c.title }}</h3>
           <p style="font-size:15px;line-height:1.65;margin:0;flex:1;color:#FFFFFFCC">{{ c.body }}</p>
           <sc-if value="{{ c.hasLink }}" hint-placeholder-val="{{ false }}">
             <a href="{{ c.href }}" target="_blank" rel="noopener" style="margin-top:16px;font-size:14px;font-weight:600;color:#61FFD0;width:max-content" style-hover="color:#8affe0">{{ c.link }} →</a>

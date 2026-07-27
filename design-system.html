@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -11,7 +11,7 @@
 <helmet>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-<link href="https://fonts.googleapis.com/css2?family=Antonio:wght@400;500;600;700&amp;family=Oswald:wght@500;600;700&amp;family=Righteous&amp;family=Inter:wght@300;400;500;600&amp;family=Baloo+2:wght@600;700;800&amp;family=Quicksand:wght@600;700&amp;family=Nunito:wght@700;800&amp;family=Poppins:wght@600;700;800&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Oswald:wght@500;600;700&amp;family=Righteous&amp;family=Inter:wght@300;400;500;600&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;family=Manrope:wght@600;700;800&amp;display=swap" rel="stylesheet">
 <link rel="stylesheet" href="theme.css">
 <script src="brand.js"></script>
 <style>
@@ -22,53 +22,29 @@
 <div style="padding:64px 0 100px">
   <div class="ds-sec">
     <p style="font-family:'Inter';color:var(--eb-accent);font-size:13px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;margin:0">Design system</p>
-    <h1 style="font-family:'Antonio',sans-serif;font-weight:700;font-size:clamp(36px,6vw,64px);line-height:1;color:#fff;margin:8px 0 0">EasyBali.surf — visual spec</h1>
+    <h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:clamp(36px,6vw,64px);line-height:1;color:#fff;margin:8px 0 0">EasyBali.surf — visual spec</h1>
     <p style="font-size:15px;line-height:1.6;margin:14px 0 0;max-width:60ch">One source of truth. Edit <b style="color:#fff">theme.css</b> (tokens) and <b style="color:#fff">brand.js</b> (logo) and every page updates at once.</p>
   </div>
 
   <!-- LOGO -->
   <div class="ds-sec" style="margin-top:56px">
-    <h2 style="font-family:'Antonio';font-weight:600;color:#fff;font-size:24px;margin:0 0 6px">Logo</h2>
-    <p style="margin:0 0 20px;font-size:14px;color:var(--eb-text-dim)">The single placeholder — <code style="color:var(--eb-accent)">&lt;eb-logo&gt;</code>. Single-line by default (nav, footer, body); pass <code style="color:var(--eb-accent)">square="true"</code> for the two-line favicon/avatar lockup. Never rebuilt by hand.</p>
+    <h2 style="font-family:'Plus Jakarta Sans';font-weight:700;letter-spacing:-.5px;color:#fff;font-size:24px;margin:0 0 6px">Logo</h2>
+    <p style="margin:0 0 20px;font-size:14px;color:var(--eb-text-dim)">The single placeholder — <code style="color:var(--eb-accent)">&lt;eb-logo&gt;</code>. Used everywhere: nav, footer, body, favicon, avatar. Never rebuilt by hand.</p>
     <div style="display:flex;flex-wrap:wrap;gap:22px;align-items:stretch">
       <div style="flex:2;min-width:280px;padding:44px 34px;border:1px solid var(--eb-border);border-radius:var(--eb-radius-md);background:var(--eb-surface);display:flex;flex-direction:column;gap:14px;justify-content:center;align-items:center">
-        <eb-logo size="38px"></eb-logo>
-        <span style="font-size:12px;color:var(--eb-text-mute)">Default — nav, footer, body</span>
+        <eb-logo size="32px"></eb-logo>
+        <span style="font-size:12px;color:var(--eb-text-mute)">The one wordmark — nav, footer, body, favicon, avatar</span>
       </div>
-      <div style="flex:1;min-width:200px;padding:44px 34px;border:1px solid var(--eb-border);border-radius:var(--eb-radius-md);background:var(--eb-surface);display:flex;flex-direction:column;gap:14px;justify-content:center;align-items:center">
-        <eb-logo square="true" size="34px"></eb-logo>
-        <span style="font-size:12px;color:var(--eb-text-mute)">square="true" — favicon, avatar</span>
-      </div>
+    </div>
+    <div style="margin-top:20px;padding:18px 20px;border-radius:var(--eb-radius-sm);background:rgba(97,255,208,.06);border:1px solid rgba(97,255,208,.2)">
+      <p style="margin:0;font-size:13px;line-height:1.6;color:var(--eb-text-dim)">Headlines and logo both use <b style="color:#fff">Plus Jakarta Sans</b> — shares Inter's proportions/aperture, so headline and body read as one family; full Cyrillic support.</p>
     </div>
   </div>
-
-  <!-- ALTERNATIVE LOGO CONCEPTS -->
-  <div class="ds-sec" style="margin-top:56px">
-    <h2 style="font-family:'Antonio';font-weight:600;color:#fff;font-size:24px;margin:0 0 6px">Other logo concepts explored</h2>
-    <p style="margin:0 0 20px;font-size:14px;color:var(--eb-text-dim)">Rounded, friendly geometric-sans alternatives considered alongside the canonical mark above (concept #2 was adopted — see Logo). Kept here for reference.</p>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px">
-
-      <div style="padding:36px 30px;border:1px solid var(--eb-border);border-radius:var(--eb-radius-md);background:var(--eb-surface);display:flex;flex-direction:column;align-items:center;gap:16px">
-        <span style="display:inline-flex;align-items:baseline;gap:1px;font-family:'Nunito',sans-serif;font-weight:800;font-size:30px;letter-spacing:-.5px;color:#fff">easy<span style="color:var(--eb-accent)">bali</span><span style="font-weight:700;font-size:.55em;color:var(--eb-text-dim)">.surf</span></span>
-        <span style="font-size:12px;color:var(--eb-text-mute)">1 — Nunito, lowercase, two-tone + muted .surf suffix</span>
-      </div>
-
-      <div style="padding:36px 30px;border:1px solid var(--eb-border);border-radius:var(--eb-radius-md);background:var(--eb-surface);display:flex;flex-direction:column;align-items:center;gap:16px">
-        <span style="display:inline-flex;align-items:baseline;gap:1px;background:rgba(255,255,255,.06);border-radius:12px;padding:10px 16px 10px 18px;font-family:'Baloo 2',sans-serif;font-weight:700;font-size:22px;color:#fff">easybali<span style="font-weight:600;font-size:.7em;color:var(--eb-accent)">.surf</span></span>
-        <span style="font-size:12px;color:var(--eb-text-mute)">3 — Baloo 2 badge lockup, plain .surf suffix</span>
-      </div>
-
-      <div style="padding:36px 30px;border:1px solid var(--eb-border);border-radius:var(--eb-radius-md);background:var(--eb-surface);display:flex;flex-direction:column;align-items:center;gap:16px">
-        <span style="display:inline-flex;align-items:baseline;gap:1px;font-family:'Quicksand',sans-serif;font-weight:700;font-size:27px;color:#fff">Easy<span style="color:var(--eb-accent)">Bali</span><span style="font-weight:600;color:var(--eb-text-dim);font-size:.7em">.surf</span></span>
-        <span style="font-size:12px;color:var(--eb-text-mute)">4 — Quicksand Titlecase, muted domain suffix</span>
-      </div>
-
-    </div>
   </div>
 
   <!-- COLORS -->
   <div class="ds-sec" style="margin-top:56px">
-    <h2 style="font-family:'Antonio';font-weight:600;color:#fff;font-size:24px;margin:0 0 20px">Color tokens</h2>
+    <h2 style="font-family:'Plus Jakarta Sans';font-weight:700;letter-spacing:-.5px;color:#fff;font-size:24px;margin:0 0 20px">Color tokens</h2>
     <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px">
       <sc-for list="{{ colors }}" as="c" hint-placeholder-count="8">
         <div style="border:1px solid var(--eb-border-soft);border-radius:var(--eb-radius-sm);overflow:hidden;background:var(--eb-surface)">
@@ -84,7 +60,7 @@
 
   <!-- TYPE -->
   <div class="ds-sec" style="margin-top:56px">
-    <h2 style="font-family:'Antonio';font-weight:600;color:#fff;font-size:24px;margin:0 0 20px">Type scale</h2>
+    <h2 style="font-family:'Plus Jakarta Sans';font-weight:700;letter-spacing:-.5px;color:#fff;font-size:24px;margin:0 0 20px">Type scale</h2>
     <div style="display:flex;flex-direction:column;gap:18px;border:1px solid var(--eb-border-soft);border-radius:var(--eb-radius-md);padding:26px;background:var(--eb-surface)">
       <sc-for list="{{ typeRows }}" as="ty" hint-placeholder-count="5">
         <div style="display:flex;align-items:baseline;gap:18px;flex-wrap:wrap;border-bottom:1px solid var(--eb-border-soft);padding-bottom:14px">
@@ -100,7 +76,7 @@
   <!-- SPACING + RADIUS -->
   <div class="ds-sec" style="margin-top:56px;display:grid;grid-template-columns:1fr 1fr;gap:22px">
     <div style="border:1px solid var(--eb-border-soft);border-radius:var(--eb-radius-md);padding:26px;background:var(--eb-surface)">
-      <h2 style="font-family:'Antonio';font-weight:600;color:#fff;font-size:22px;margin:0 0 18px">Spacing</h2>
+      <h2 style="font-family:'Plus Jakarta Sans';font-weight:700;letter-spacing:-.5px;color:#fff;font-size:22px;margin:0 0 18px">Spacing</h2>
       <div style="display:flex;flex-direction:column;gap:12px">
         <sc-for list="{{ spacing }}" as="sp" hint-placeholder-count="5">
           <div style="display:flex;align-items:center;gap:14px">
@@ -111,7 +87,7 @@
       </div>
     </div>
     <div style="border:1px solid var(--eb-border-soft);border-radius:var(--eb-radius-md);padding:26px;background:var(--eb-surface)">
-      <h2 style="font-family:'Antonio';font-weight:600;color:#fff;font-size:22px;margin:0 0 18px">Radius</h2>
+      <h2 style="font-family:'Plus Jakarta Sans';font-weight:700;letter-spacing:-.5px;color:#fff;font-size:22px;margin:0 0 18px">Radius</h2>
       <div style="display:flex;gap:18px;flex-wrap:wrap;align-items:flex-end">
         <sc-for list="{{ radii }}" as="rd" hint-placeholder-count="3">
           <div style="text-align:center">
@@ -125,7 +101,7 @@
 
   <!-- COMPONENTS -->
   <div class="ds-sec" style="margin-top:56px">
-    <h2 style="font-family:'Antonio';font-weight:600;color:#fff;font-size:24px;margin:0 0 20px">Components</h2>
+    <h2 style="font-family:'Plus Jakarta Sans';font-weight:700;letter-spacing:-.5px;color:#fff;font-size:24px;margin:0 0 20px">Components</h2>
     <div style="display:flex;flex-wrap:wrap;gap:16px;align-items:center;border:1px solid var(--eb-border-soft);border-radius:var(--eb-radius-md);padding:30px;background:var(--eb-surface)">
       <button class="eb-btn">Primary button</button>
       <button class="eb-btn-ghost">Ghost button</button>
@@ -136,7 +112,7 @@
 
   <!-- FORECAST OBJECTS & STATES -->
   <div class="ds-sec" style="margin-top:56px">
-    <h2 style="font-family:'Antonio';font-weight:600;color:#fff;font-size:24px;margin:0 0 6px">Forecast panel — objects &amp; states</h2>
+    <h2 style="font-family:'Plus Jakarta Sans';font-weight:700;letter-spacing:-.5px;color:#fff;font-size:24px;margin:0 0 6px">Forecast panel — objects &amp; states</h2>
     <p style="margin:0 0 20px;font-size:14px;color:var(--eb-text-dim)">Every interactive element in the live-forecast finder, with its states.</p>
     <div style="border:1px solid var(--eb-border-soft);border-radius:var(--eb-radius-md);padding:26px;background:var(--eb-surface);display:flex;flex-direction:column;gap:26px">
 
@@ -170,7 +146,7 @@
                 <sc-if value="{{ c.isDown }}" hint-placeholder-val="{{ false }}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#61FFD0" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M6 13l6 6 6-6"/></svg></sc-if>
                 <sc-if value="{{ c.isMid }}" hint-placeholder-val="{{ false }}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#61FFD0" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18"/><path d="M7 8l5-5 5 5"/><path d="M7 16l5 5 5-5"/></svg></sc-if>
               </div>
-              <div style="font-family:'Antonio';font-weight:600;font-size:19px;color:#fff;margin-top:7px;line-height:1">{{ c.val }}</div>
+              <div style="font-family:'Plus Jakarta Sans';font-weight:600;font-size:19px;color:#fff;margin-top:7px;line-height:1">{{ c.val }}</div>
               <div style="font-size:10px;letter-spacing:.3px;text-transform:uppercase;color:#FFFFFF80;margin-top:4px">{{ c.label }}</div>
             </div>
           </sc-for>
@@ -205,7 +181,7 @@
 
   <!-- FORM FIELDS & STATES -->
   <div class="ds-sec" style="margin-top:56px">
-    <h2 style="font-family:'Antonio';font-weight:600;color:#fff;font-size:24px;margin:0 0 6px">Booking form — fields &amp; states</h2>
+    <h2 style="font-family:'Plus Jakarta Sans';font-weight:700;letter-spacing:-.5px;color:#fff;font-size:24px;margin:0 0 6px">Booking form — fields &amp; states</h2>
     <p style="margin:0 0 20px;font-size:14px;color:var(--eb-text-dim)">Inputs, selects, toggles and buttons used across the 3-step booking wizard.</p>
     <div style="border:1px solid var(--eb-border-soft);border-radius:var(--eb-radius-md);padding:26px;background:var(--eb-surface);display:flex;flex-direction:column;gap:26px">
 
@@ -225,6 +201,18 @@
             <span style="font-family:'Inter',sans-serif;font-size:12px;font-weight:600;color:#FFFFFF80">Details</span>
           </div>
         </div>
+      </div>
+
+      <div>
+        <p class="ds-label">Step indicator — fluid animation (progress connector)</p>
+        <div class="wiz-flow" style="display:flex;align-items:center;gap:0;max-width:520px">
+          <span class="wiz-pulse" style="flex:none;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Inter',sans-serif;font-weight:600;font-size:13px;color:#08100d;background:var(--eb-grad)">1</span>
+          <span class="wiz-sweep" style="flex:1;height:3px;margin:0 8px;border-radius:2px;background:linear-gradient(90deg,#61FFD0,#3FD9E6,#61FFD0);background-size:200% 100%"></span>
+          <span style="flex:none;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Inter',sans-serif;font-weight:600;font-size:13px;color:#08100d;background:var(--eb-grad)">2</span>
+          <span style="flex:1;height:3px;margin:0 8px;border-radius:2px;background:rgba(255,255,255,.14)"></span>
+          <span style="flex:none;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Inter',sans-serif;font-weight:600;font-size:13px;color:#FFFFFF80;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.16)">3</span>
+        </div>
+        <p style="margin:10px 0 0;font-size:12px;color:var(--eb-text-mute)">Active dot pulses; a liquid gradient sweeps along the connector toward the next step. Exempted from the site's no-motion rule via <code style="color:var(--eb-accent)">.wiz-flow</code> — functional progress cue, not decoration.</p>
       </div>
 
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px">
@@ -286,7 +274,7 @@
 
   <!-- NAV & BURGER STATES -->
   <div class="ds-sec" style="margin-top:56px">
-    <h2 style="font-family:'Antonio';font-weight:600;color:#fff;font-size:24px;margin:0 0 6px">Nav &amp; burger — states</h2>
+    <h2 style="font-family:'Plus Jakarta Sans';font-weight:700;letter-spacing:-.5px;color:#fff;font-size:24px;margin:0 0 6px">Nav &amp; burger — states</h2>
     <p style="margin:0 0 20px;font-size:14px;color:var(--eb-text-dim)">Header adapts to what's behind it: transparent over the hero, solid once scrolled, dark ink over light sections.</p>
     <div style="display:flex;flex-direction:column;gap:20px">
 
@@ -322,11 +310,11 @@
       <div>
         <p class="ds-label">Over light section — dark ink</p>
         <div style="border-radius:var(--eb-radius-md);overflow:hidden;border:1px solid var(--eb-border-soft)">
-          <div style="display:flex;align-items:center;justify-content:space-between;padding:16px 22px;background:#F5EFDF">
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:16px 22px;background:#D7DCDD">
             <span style="display:inline-flex;padding:8px 14px;border-radius:12px;background:#0C2436"><eb-logo size="22px"></eb-logo></span>
             <div style="display:flex;gap:22px;align-items:center">
-              <span style="font-size:14px;color:#33474C">Forecast</span>
-              <span style="font-size:14px;color:#33474C">Why us</span>
+              <span style="font-size:14px;color:#22282A">Forecast</span>
+              <span style="font-size:14px;color:#22282A">Why us</span>
               <span style="display:inline-flex;padding:9px 18px;border-radius:100px;background:#0C2436;color:#fff;font-size:14px;font-weight:600">Book</span>
             </div>
           </div>
@@ -353,18 +341,18 @@
 
   <!-- REVIEW CARDS -->
   <div class="ds-sec" style="margin-top:56px">
-    <h2 style="font-family:'Antonio';font-weight:600;color:#fff;font-size:24px;margin:0 0 6px">Review cards</h2>
+    <h2 style="font-family:'Plus Jakarta Sans';font-weight:700;letter-spacing:-.5px;color:#fff;font-size:24px;margin:0 0 6px">Review cards</h2>
     <p style="margin:0 0 20px;font-size:14px;color:var(--eb-text-dim)">Testimonial card used in the marquee (light section) — star rating, quote, initial avatar, name &amp; origin. Every review is moderated in the bot before it appears.</p>
-    <div style="border-radius:var(--eb-radius-md);padding:30px;background:#F5EFDF;display:flex;gap:20px;flex-wrap:wrap">
+    <div style="border-radius:var(--eb-radius-md);padding:30px;background:#D7DCDD;display:flex;gap:20px;flex-wrap:wrap">
       <sc-for list="{{ reviewCards }}" as="r" hint-placeholder-count="2">
-        <div style="flex:none;width:320px;max-width:100%;padding:30px;border:1px solid rgba(11,62,86,.07);border-radius:18px;background:#FBF7EE">
-          <div style="color:#0B6E7A;font-size:15px;letter-spacing:2px">{{ r.stars }}</div>
-          <p style="font-size:16px;line-height:1.6;color:#33474C;margin:16px 0 20px">"{{ r.text }}"</p>
+        <div style="flex:none;width:320px;max-width:100%;padding:30px;border:1px solid rgba(34,40,42,.08);border-radius:18px;background:#D7DCDD">
+          <div style="color:#3A6B6E;font-size:15px;letter-spacing:2px">{{ r.stars }}</div>
+          <p style="font-size:16px;line-height:1.6;color:#33383A;margin:16px 0 20px">"{{ r.text }}"</p>
           <div style="display:flex;align-items:center;gap:12px">
-            <span style="width:38px;height:38px;border-radius:50%;background:rgba(14,124,140,.10);border:1px solid rgba(14,124,140,.30);display:flex;align-items:center;justify-content:center;font-family:'Antonio';color:#0E7C8C;font-weight:700">{{ r.init }}</span>
+            <span style="width:38px;height:38px;border-radius:50%;background:rgba(58,107,110,.10);border:1px solid rgba(58,107,110,.30);display:flex;align-items:center;justify-content:center;font-family:'Plus Jakarta Sans';color:#0E7C8C;font-weight:700">{{ r.init }}</span>
             <div>
-              <div style="font-size:14px;color:#0B3E56;font-weight:600">{{ r.name }}</div>
-              <div style="font-size:12px;color:#6A7B81">{{ r.from }}</div>
+              <div style="font-size:14px;color:#22282A;font-weight:600">{{ r.name }}</div>
+              <div style="font-size:12px;color:#6D7577">{{ r.from }}</div>
             </div>
           </div>
         </div>
@@ -374,7 +362,7 @@
 
   <!-- TOASTS & ALERTS -->
   <div class="ds-sec" style="margin-top:56px">
-    <h2 style="font-family:'Antonio';font-weight:600;color:#fff;font-size:24px;margin:0 0 6px">Toasts &amp; alerts</h2>
+    <h2 style="font-family:'Plus Jakarta Sans';font-weight:700;letter-spacing:-.5px;color:#fff;font-size:24px;margin:0 0 6px">Toasts &amp; alerts</h2>
     <p style="margin:0 0 20px;font-size:14px;color:var(--eb-text-dim)">Inline flash messages (form / manage page) and banner alerts. Success mint, error red, warning amber, neutral info.</p>
     <div style="border:1px solid var(--eb-border-soft);border-radius:var(--eb-radius-md);padding:26px;background:var(--eb-surface);display:flex;flex-direction:column;gap:26px">
 
@@ -425,14 +413,14 @@
 
   <!-- LANDING SECTIONS -->
   <div class="ds-sec" style="margin-top:56px">
-    <h2 style="font-family:'Antonio';font-weight:600;color:#fff;font-size:24px;margin:0 0 6px">Landing sections</h2>
+    <h2 style="font-family:'Plus Jakarta Sans';font-weight:700;letter-spacing:-.5px;color:#fff;font-size:24px;margin:0 0 6px">Landing sections</h2>
     <p style="margin:0 0 20px;font-size:14px;color:var(--eb-text-dim)">The full page in order, each with the background token it uses — the alternating rhythm of the site. Edit a token in <code style="color:var(--eb-accent)">theme.css</code> to restyle every matching section at once.</p>
     <div style="display:flex;flex-direction:column;gap:12px">
       <sc-for list="{{ sections }}" as="sec" hint-placeholder-count="8">
         <div style="display:flex;align-items:center;gap:16px;border:1px solid var(--eb-border-soft);border-radius:var(--eb-radius-md);padding:18px 20px;background:var(--eb-surface)">
           <span style="flex:none;width:52px;height:52px;border-radius:10px;border:1px solid rgba(255,255,255,.14);background:{{ sec.bg }}"></span>
           <div style="flex:1;min-width:0">
-            <div style="font-family:'Antonio';font-weight:600;font-size:19px;color:#fff;line-height:1.1">{{ sec.name }}</div>
+            <div style="font-family:'Plus Jakarta Sans';font-weight:600;font-size:19px;color:#fff;line-height:1.1">{{ sec.name }}</div>
             <div style="font-size:13px;color:var(--eb-text-dim);margin-top:3px">{{ sec.note }}</div>
           </div>
           <span style="flex:none;font-family:monospace;font-size:11px;color:var(--eb-text-mute)">{{ sec.token }}</span>
@@ -454,14 +442,15 @@ class Component extends DCLogic {
         { name: 'Danger', token: '--eb-danger', css: '#E5484D' },
         { name: 'Background', token: '--eb-bg', css: '#0C2436' },
         { name: 'Background alt', token: '--eb-bg-2', css: '#0B3E56' },
-        { name: 'Light section', token: '--eb-bg-light', css: '#F5EFDF' },
+        { name: 'Forecast bg', token: '--eb-bg-3', css: '#0E3050' },
+        { name: 'Light section', token: '--eb-bg-light', css: '#D7DCDD' },
         { name: 'Surface', token: '--eb-surface', css: 'rgba(255,255,255,.06)' },
         { name: 'Border', token: '--eb-border', css: 'rgba(255,255,255,.14)' },
         { name: 'Text', token: '--eb-text', css: '#FFFFFFBD' }
       ],
       typeRows: [
-        { meta: 'Antonio 700 · h1', sample: 'Ride the best breaks', style: "font-family:'Antonio',sans-serif;font-weight:700;font-size:44px;line-height:1;color:#fff" },
-        { meta: 'Antonio 600 · h2', sample: 'Section heading', style: "font-family:'Antonio',sans-serif;font-weight:600;font-size:28px;color:#fff" },
+        { meta: 'Plus Jakarta Sans 800 · h1', sample: 'Ride the best breaks', style: "font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;letter-spacing:-1px;font-size:44px;line-height:1;color:#fff" },
+        { meta: 'Plus Jakarta Sans 800 · h2', sample: 'Section heading', style: "font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;letter-spacing:-.5px;font-size:28px;color:#fff" },
         { meta: 'Inter 600 · eyebrow', sample: 'EYEBROW LABEL', style: "font-family:'Inter';font-weight:600;font-size:13px;letter-spacing:.5px;text-transform:uppercase;color:#61FFD0" },
         { meta: 'Inter 400 · body', sample: 'Body copy for paragraphs and descriptions across the site.', style: "font-family:'Inter';font-weight:400;font-size:16px;color:#FFFFFFBD" },
         { meta: 'Inter 400 · small', sample: 'Fine print and helper text.', style: "font-family:'Inter';font-weight:400;font-size:13px;color:#FFFFFF80" }
@@ -495,10 +484,10 @@ class Component extends DCLogic {
       ],
       sections: [
         { name: 'Hero', note: 'Time-of-day sky gradient · title + one CTA + Why us link', bg: 'linear-gradient(180deg,#0E3A63,#176394)', token: 'hero sky' },
-        { name: 'Forecast', note: 'Live spot finder + condition tiles', bg: '#0B3E56', token: '--eb-bg-2' },
-        { name: 'Why us', note: 'Mission + perks (light accent)', bg: '#E4D6B0', token: '--eb-bg-light' },
+        { name: 'Forecast', note: 'Live spot finder + condition tiles', bg: '#0E3050', token: '--eb-bg-3' },
+        { name: 'Why us', note: 'Mission + perks (light accent)', bg: '#D7DCDD', token: '--eb-bg-light' },
         { name: 'How it works', note: '3 steps', bg: '#0C2436', token: '--eb-bg' },
-        { name: 'Testimonials', note: 'Review marquee (light accent)', bg: '#E4D6B0', token: '--eb-bg-light' },
+        { name: 'Testimonials', note: 'Review marquee (light accent)', bg: '#D7DCDD', token: '--eb-bg-light' },
         { name: 'FAQ', note: 'Accordion', bg: '#0B3E56', token: '--eb-bg-2' },
         { name: 'Booking', note: '3-step wizard + summary + PayPal', bg: '#0C2436', token: '--eb-bg' },
         { name: 'Footer', note: 'Logo + nav columns + © line', bg: '#0C2436', token: '--eb-bg' }

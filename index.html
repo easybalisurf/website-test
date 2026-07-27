@@ -21,7 +21,7 @@
 <helmet>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-<link href="https://fonts.googleapis.com/css2?family=Antonio:wght@400;500;600;700&amp;family=Oswald:wght@400;500;600;700&amp;family=Audiowide&amp;family=Righteous&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Oswald:wght@400;500;600;700&amp;family=Righteous&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
 <!-- Content/data split for easy editing:
      i18n.js          — all site + booking-wizard copy, per language (edit here to add a language or change any text)
      services-data.js — session pricing, add-on fees, transfer geo, surf-spot database (edit here to add service packages / spots)
@@ -38,9 +38,6 @@
   a:hover{color:#8affe0}
   ::selection{background:#61FFD0;color:#08100d}
   input,select,textarea{font-family:'Inter',sans-serif}
-  /* Antonio has no Cyrillic glyphs — browsers fall back to an oversized generic serif in Russian.
-     Oswald is a condensed sans matching Antonio's proportions and supports Cyrillic. */
-  html[lang="ru"] [style*="Antonio"]{font-family:'Oswald',sans-serif !important}
   input[type="date"]{color-scheme:dark}
   /* Kill the native date chevron/spinner (Android Chrome & Safari render their own arrow next
      to our calendar icon → double arrow). Tap-to-open is handled by showPicker() onClick. */
@@ -67,7 +64,7 @@
   .hero-char{display:inline-block;transform-origin:center bottom;animation:heroSwell 15s ease-in-out infinite}
   html:not([lang="en"]) .hero-char{animation:none!important}
   @keyframes heroSwell{0%{transform:translateY(0)}2%{transform:translateY(-0.17em)}4.5%{transform:translateY(0.05em)}7%{transform:translateY(0)}100%{transform:translateY(0)}}
-  .rev-track{animation:marquee 42s linear infinite}
+  .rev-track{animation:marquee 42s linear infinite!important}
   @keyframes waveDriftA{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
   @keyframes waveDriftB{0%{transform:translateX(-50%)}100%{transform:translateX(0)}}
   @keyframes foamBob{0%,100%{transform:translateY(0);opacity:.9}50%{transform:translateY(3px);opacity:.5}}
@@ -79,6 +76,9 @@
   @media(prefers-reduced-motion:reduce){.waveFoam,.wsA,.wsB,.wvOrnA,.wvOrnB{animation:none!important}}
   @media(hover:hover) and (pointer:fine){ .rev-track:hover{animation-play-state:paused} }
   .rev-scroll::-webkit-scrollbar{display:none}
+  .book-grid,.fc-grid{min-width:0}
+  .book-grid > div,.fc-grid > div{min-width:0}
+  .faq-grid > div{min-width:0}
   .nav-burger{display:none}
   @media(max-width:880px){
     .nav-desktop{display:none!important}
@@ -88,7 +88,9 @@
     .stats-grid{grid-template-columns:repeat(2,1fr)!important;gap:32px 16px!important}
     .coaches-head{flex-direction:column!important;align-items:flex-start!important}
     .book-grid{grid-template-columns:1fr!important;gap:38px!important}
+    .fc-grid{grid-template-columns:1fr!important;gap:32px!important}
     .fc-top{grid-template-columns:1fr!important;gap:22px!important}
+    .faq-grid{grid-template-columns:1fr!important}
     .footer-grid{grid-template-columns:1fr 1fr!important;gap:34px 24px!important}
     .wrap{padding-left:22px!important;padding-right:22px!important}
     .sec-pad{padding-top:74px!important;padding-bottom:74px!important}
@@ -176,7 +178,7 @@
   <div id="heroBgLayer" style="position:absolute;inset:0;background:linear-gradient(180deg,#0E3A63 0%,#1E6FA8 50%,#176394 80%,#145E86 100%)"></div>
   
   <div id="heroContent" class="wrap" style="position:relative;width:100%;max-width:1280px;margin:0 auto;padding:0 32px 90px;pointer-events:none;will-change:transform,opacity">
-    <h1 ref="{{ heroRef }}" style="font-family:'Antonio',sans-serif;font-weight:700;font-size:clamp(36px,8vw,118px);line-height:1.06;letter-spacing:-1px;color:#fff;margin:14px 0 0;max-width:15ch;animation:floatUp .9s .2s ease-out both">
+    <h1 ref="{{ heroRef }}" style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:clamp(36px,7vw,92px);line-height:1.06;letter-spacing:-1px;color:#fff;margin:14px 0 0;max-width:15ch;animation:floatUp .9s .2s ease-out both">
       <sc-for list="{{ heroChars }}" as="hw" hint-placeholder-count="8">
         <sc-if value="{{ hw.space }}" hint-placeholder-val="{{ false }}"><span>&#160;</span></sc-if>
         <sc-if value="{{ hw.chars }}" hint-placeholder-val="{{ true }}">
@@ -199,15 +201,16 @@
 <!-- ============ CONTRAST SECTIONS (deliberate alternating tones) ============ -->
 
 <!-- ============ SMART FORECAST / SPOT FINDER ============ -->
-<section id="forecast" data-screen-label="Forecast" style="position:relative;background:var(--eb-bg-2)">
-  <div class="wrap sec-pad" style="max-width:1280px;margin:0 auto;padding:100px 32px;position:relative;z-index:1">
-   <div style="max-width:860px;margin:0 auto">
-    <p style="{{ subhead }};text-align:center">{{ t.finder.sub }}</p>
-    <h2 style="{{ h2Style }};text-align:center;margin:12px auto 0">{{ t.finder.h2 }}</h2>
-    <p style="max-width:52ch;margin:18px auto 0;text-align:center;font-size:16px;line-height:1.6">{{ t.finder.lead }}</p>
-
+<section id="forecast" data-screen-label="Forecast" style="position:relative;background:var(--eb-bg-3)">
+  <div class="wrap sec-pad fc-grid" style="max-width:1280px;margin:0 auto;padding:56px 32px 100px;position:relative;z-index:1;display:grid;grid-template-columns:1fr 1.05fr;gap:64px;align-items:center">
+   <div>
+    <p style="{{ subhead }}">{{ t.finder.sub }}</p>
+    <h2 style="{{ h2Style }};margin:12px 0 0">{{ t.finder.h2 }}</h2>
+    <p style="max-width:44ch;margin:18px 0 0;font-size:16px;line-height:1.6">{{ t.finder.lead }}</p>
+   </div>
+   <div>
     <!-- unified recommendation panel -->
-    <div class="finder-panel" style="{{ glassPanel }};padding:28px;margin-top:40px">
+    <div class="finder-panel" style="{{ glassPanel }};padding:28px">
       <!-- discipline + level dropdowns -->
       <div style="display:flex;flex-wrap:wrap;gap:16px">
         <label style="{{ fieldLabel }};flex:1;min-width:130px">{{ t.book.fSport }}
@@ -227,7 +230,7 @@
       <div style="margin-top:24px">
         <div style="font-size:11px;letter-spacing:.4px;text-transform:uppercase;color:#FFFFFF80;margin-bottom:8px">{{ t.smart.spotLabel }}</div>
         <div style="display:flex;align-items:baseline;gap:10px;flex-wrap:wrap">
-          <span style="font-family:'Antonio';font-weight:700;font-size:36px;color:#61FFD0;line-height:.95">{{ reco.active.name }}</span>
+          <span style="font-family:'Plus Jakarta Sans';font-weight:700;font-size:36px;color:#61FFD0;line-height:.95">{{ reco.active.name }}</span>
           <span style="font-size:13px;color:#FFFFFFBD">{{ reco.active.region }}</span>
         </div>
         <div style="{{ wxStatus.pill }}"><span style="{{ wxStatus.dot }}"></span>{{ wxStatus.label }}</div>
@@ -241,12 +244,11 @@
       <!-- STEP 2 — pick a day (quality dot only; wave/wind detail lives per time slot) -->
       <div style="margin-top:24px">
         <div style="font-size:11px;letter-spacing:.4px;text-transform:uppercase;color:#FFFFFF80;margin-bottom:8px">{{ t.smart.week }}</div>
-        <div style="font-size:11px;color:#FFFFFF99;margin:-4px 0 10px">{{ t.smart.dotHint }}</div>
         <div class="week-strip" onScroll="{{ onWeekScroll }}" onTouchStart="{{ onWeekTouchStart }}" onTouchEnd="{{ onWeekTouchEnd }}" onTouchCancel="{{ onWeekTouchEnd }}" style="display:flex;gap:7px;overflow-x:auto;-webkit-overflow-scrolling:touch;scroll-behavior:auto;padding-bottom:4px;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 14px,#000 calc(100% - 14px),transparent 100%);mask-image:linear-gradient(90deg,transparent 0,#000 14px,#000 calc(100% - 14px),transparent 100%)">
           <sc-for list="{{ reco.week }}" as="d" hint-placeholder-count="7">
             <button type="button" onClick="{{ d.pick }}" style="{{ d.style }}">
               <div style="font-size:10px;letter-spacing:.3px;text-transform:uppercase;color:#FFFFFF99">{{ d.label }}</div>
-              <div style="font-family:'Antonio';font-weight:600;font-size:18px;color:#fff;line-height:1.1;margin-top:2px">{{ d.dnum }}</div>
+              <div style="font-family:'Plus Jakarta Sans';font-weight:600;font-size:18px;color:#fff;line-height:1.1;margin-top:2px">{{ d.dnum }}</div>
               <div style="{{ d.dotStyle }}"></div>
             </button>
           </sc-for>
@@ -260,14 +262,22 @@
           <sc-for list="{{ reco.slots }}" as="s" hint-placeholder-count="4">
             <button type="button" onClick="{{ s.pick }}" style="{{ s.style }}">
               <span style="display:flex;align-items:center;gap:10px">
-                <span style="{{ s.dotStyle }}"></span>
-                <span style="font-family:'Antonio';font-weight:600;font-size:17px;color:#fff">{{ s.time }}</span>
+                <span style="font-family:'Plus Jakarta Sans';font-weight:600;font-size:14px;color:#fff">{{ s.time }}</span>
               </span>
               <span style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;justify-content:flex-end">
                 <sc-if value="{{ s.full }}" hint-placeholder-val="{{ false }}">
                   <span style="font-size:11px;font-weight:600;letter-spacing:.3px;text-transform:uppercase;padding:3px 9px;border-radius:100px;background:rgba(255,255,255,.12);color:#FFFFFFB0">{{ s.fullLabel }}</span>
                 </sc-if>
-                <span style="font-size:12px;color:#FFFFFFBD">{{ s.wave }} · {{ s.wind }} · {{ s.tide }}</span>
+                <span style="font-size:12px;color:#FFFFFFBD;display:flex;align-items:center;gap:10px">
+                  <span>{{ s.wave }}</span>
+                  <span style="display:inline-flex;align-items:center;gap:3px"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#61FFD0" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" style="transform:rotate({{ s.windDeg }}deg);flex:none"><path d="M12 19V5"/><path d="M6 11l6-6 6 6"/></svg>{{ s.wind }}</span>
+                  <span style="display:inline-flex;align-items:center;gap:3px">
+                    <sc-if value="{{ s.tideUp }}" hint-placeholder-val="{{ false }}"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#61FFD0" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="M6 11l6-6 6 6"/></svg></sc-if>
+                    <sc-if value="{{ s.tideDown }}" hint-placeholder-val="{{ false }}"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#61FFD0" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M6 13l6 6 6-6"/></svg></sc-if>
+                    <sc-if value="{{ s.tideMid }}" hint-placeholder-val="{{ false }}"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#61FFD0" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18"/><path d="M7 8l5-5 5 5"/><path d="M7 16l5 5 5-5"/></svg></sc-if>
+                    {{ s.tide }}
+                  </span>
+                </span>
                 <span style="{{ s.badge }}">{{ s.quality }}</span>
               </span>
             </button>
@@ -281,37 +291,7 @@
         </div>
       </div>
 
-      <!-- Selected-window conditions — revealed only after a slot is picked, so the panel
-           isn't a wall of numbers up front (progressive disclosure). -->
-      <sc-if value="{{ reco.showConds }}" hint-placeholder-val="{{ false }}">
-      <div style="font-size:11px;letter-spacing:.4px;text-transform:uppercase;color:#FFFFFF80;margin:20px 0 8px">{{ t.smart.condTitle }}</div>
-      <div class="cond-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:0">
-        <sc-for list="{{ reco.conds }}" as="c" hint-placeholder-count="3">
-          <div style="text-align:center;padding:14px 8px;border-radius:12px;background:rgba(97,255,208,.06);border:1px solid rgba(97,255,208,.16)">
-            <div style="display:flex;align-items:center;justify-content:center;height:20px">
-              <sc-if value="{{ c.isWave }}" hint-placeholder-val="{{ false }}">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#61FFD0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 17c1.5 1.5 3 1.5 4.5 0s3-1.5 4.5 0 3 1.5 4.5 0 3-1.5 4.5 0"/><path d="M2 12c1.5 1.5 3 1.5 4.5 0s3-1.5 4.5 0 3 1.5 4.5 0 3-1.5 4.5 0" opacity=".55"/></svg>
-              </sc-if>
-              <sc-if value="{{ c.isWind }}" hint-placeholder-val="{{ false }}">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#61FFD0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8h11a3 3 0 1 0-2.6-4.5"/><path d="M2 13h15a3 3 0 1 1-2.6 4.5"/><path d="M2 18h8a2.2 2.2 0 1 1-1.9 3.3"/></svg>
-              </sc-if>
-              <sc-if value="{{ c.isTideUp }}" hint-placeholder-val="{{ false }}">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#61FFD0" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="M6 11l6-6 6 6"/></svg>
-              </sc-if>
-              <sc-if value="{{ c.isTideDown }}" hint-placeholder-val="{{ false }}">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#61FFD0" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M6 13l6 6 6-6"/></svg>
-              </sc-if>
-              <sc-if value="{{ c.isTideMid }}" hint-placeholder-val="{{ false }}">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#61FFD0" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18"/><path d="M7 8l5-5 5 5"/><path d="M7 16l5 5 5-5"/></svg>
-              </sc-if>
-            </div>
-            <div style="font-family:'Antonio';font-weight:600;font-size:19px;color:#fff;margin-top:7px;line-height:1">{{ c.val }}</div>
-            <div style="font-size:10px;letter-spacing:.3px;text-transform:uppercase;color:#FFFFFF80;margin-top:4px">{{ c.label }}</div>
-          </div>
-        </sc-for>
-      </div>
       <p style="margin:14px 0 0;font-size:13px"><a href="{{ guideHref }}" style="font-weight:500;color:#61FFD0">{{ t.finder.guideLink }} →</a></p>
-      </sc-if>
       </div>
 
       <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:22px;padding-top:20px;border-top:1px solid rgba(255,255,255,.1)">
@@ -320,11 +300,12 @@
       </div>
     </div>
    </div>
+   </div>
   </div>
 </section>
 
 <!-- ============ WHY US ============ -->
-<section id="why" data-navtheme="light" data-screen-label="Why us" style="position:relative;overflow:hidden;background:var(--eb-bg-light);color:#33474C">
+<section id="why" data-navtheme="light" data-screen-label="Why us" style="position:relative;overflow:hidden;background:var(--eb-bg-light);color:#33383A">
 
   <div class="wrap sec-pad" style="position:relative;max-width:1280px;margin:0 auto;padding:110px 32px">
     <div style="max-width:680px">
@@ -334,9 +315,9 @@
       <div class="perks-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:34px 28px;margin-top:38px">
         <sc-for list="{{ perks }}" as="p" hint-placeholder-count="4">
           <div style="display:flex;gap:18px;align-items:flex-start">
-            <span style="flex:none;width:44px;height:44px;border-radius:12px;background:rgba(14,124,140,.08);border:1px solid rgba(14,124,140,.30);display:flex;align-items:center;justify-content:center;color:#0E7C8C">{{ p.icon }}</span>
+            <span style="flex:none;width:44px;height:44px;border-radius:12px;background:rgba(58,107,110,.08);border:1px solid rgba(58,107,110,.30);display:flex;align-items:center;justify-content:center;color:#3A6B6E">{{ p.icon }}</span>
             <div>
-              <h4 style="font-family:'Antonio',sans-serif;font-weight:600;font-size:22px;color:#0B3E56;margin:2px 0 6px;line-height:1.05">{{ p.title }}</h4>
+              <h4 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:22px;color:#22282A;margin:2px 0 6px;line-height:1.05">{{ p.title }}</h4>
               <p style="font-size:15px;line-height:1.6;margin:0;max-width:44ch">{{ p.body }}</p>
             </div>
           </div>
@@ -356,8 +337,8 @@
         <div ref="{{ st.ref }}" style="{{ st.wrapStyle }}">
           <sc-if value="{{ st.showConnector }}" hint-placeholder-val="{{ false }}"><span class="how-connector" style="position:absolute;top:50%;right:-24px;transform:translateY(-50%);color:rgba(97,255,208,.4);font-size:20px;z-index:1">→</span></sc-if>
         <div style="position:relative;padding:34px 28px;border:1px solid rgba(255,255,255,.16);border-radius:18px;background:rgba(255,255,255,.05);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(14px)">
-            <div style="font-family:'Antonio',sans-serif;font-weight:700;font-size:64px;color:rgba(97,255,208,.32);line-height:.8">{{ st.n }}</div>
-            <h4 style="font-family:'Antonio',sans-serif;font-weight:600;font-size:24px;color:#fff;margin:16px 0 8px;line-height:1.05">{{ st.title }}</h4>
+            <div style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:64px;color:rgba(97,255,208,.32);line-height:.8">{{ st.n }}</div>
+            <h4 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:24px;color:#fff;margin:16px 0 8px;line-height:1.05">{{ st.title }}</h4>
             <p style="font-size:15px;line-height:1.6;margin:0">{{ st.body }}</p>
           </div>
         </div>
@@ -367,7 +348,7 @@
 </section>
 
 <!-- ============ TESTIMONIALS MARQUEE ============ -->
-<section data-navtheme="light" data-screen-label="Testimonials" style="padding:88px 0 56px;overflow:hidden;background:var(--eb-bg-light);color:#33474C">
+<section data-navtheme="light" data-screen-label="Testimonials" style="padding:88px 0 56px;overflow:hidden;background:var(--eb-bg-light);color:#33383A">
   <p style="{{ subheadDark }};text-align:center">{{ t.rev.sub }}</p>
   <h2 style="{{ h2Dark }};text-align:center;margin:12px auto 48px">{{ t.rev.h2 }}</h2>
   <div class="rev-scroll" style="{{ revScrollStyle }}">
@@ -375,12 +356,12 @@
     <sc-for list="{{ reviewsLoop }}" as="r" hint-placeholder-count="6">
       <div style="{{ r.cardStyle }}">
         <div style="color:#0B6E7A;font-size:15px;letter-spacing:2px">★★★★★</div>
-        <p style="font-size:16px;line-height:1.6;color:#33474C;margin:16px 0 20px">"{{ r.text }}"</p>
+        <p style="font-size:16px;line-height:1.6;color:#33383A;margin:16px 0 20px">"{{ r.text }}"</p>
         <div style="display:flex;align-items:center;gap:12px">
-          <span style="width:38px;height:38px;border-radius:50%;background:rgba(14,124,140,.10);border:1px solid rgba(14,124,140,.30);display:flex;align-items:center;justify-content:center;font-family:'Antonio';color:#0E7C8C;font-weight:700">{{ r.init }}</span>
+          <span style="width:38px;height:38px;border-radius:50%;background:rgba(58,107,110,.10);border:1px solid rgba(58,107,110,.30);display:flex;align-items:center;justify-content:center;font-family:'Plus Jakarta Sans';color:#3A6B6E;font-weight:700">{{ r.init }}</span>
           <div>
-            <div style="font-size:14px;color:#0B3E56;font-weight:600">{{ r.name }}</div>
-            <div style="font-size:12px;color:#6A7B81">{{ r.from }}</div>
+            <div style="font-size:14px;color:#22282A;font-weight:600">{{ r.name }}</div>
+            <div style="font-size:12px;color:#6D7577">{{ r.from }}</div>
           </div>
         </div>
       </div>
@@ -392,22 +373,23 @@
 <!-- ============ FAQ ============ -->
 <section id="faq" data-screen-label="FAQ" style="background:var(--eb-bg-2)">
   <div class="wrap sec-pad" style="max-width:1280px;margin:0 auto;padding:64px 32px 100px">
-   <div style="max-width:900px;margin:0 auto">
+   <div>
     <p style="{{ subhead }};text-align:center">{{ t.faq.sub }}</p>
     <h2 style="{{ h2Style }};text-align:center;margin:12px auto 48px">{{ t.faq.h2 }}</h2>
-    <div style="display:flex;flex-direction:column;gap:14px">
-      <sc-for list="{{ faqs }}" as="q" hint-placeholder-count="5">
+    <div class="faq-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:16px 20px;align-items:start">
+      <sc-for list="{{ faqs }}" as="q" hint-placeholder-count="6">
         <div style="border:1px solid rgba(255,255,255,.14);border-radius:16px;background:rgba(255,255,255,.045);overflow:hidden">
-          <button onClick="{{ q.toggle }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:20px;background:transparent;border:none;cursor:pointer;text-align:left;padding:24px 26px;color:#fff;font-family:'Antonio',sans-serif;font-weight:600;font-size:20px;line-height:1.15">
+          <button onClick="{{ q.toggle }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:20px;background:transparent;border:none;cursor:pointer;text-align:left;padding:22px 24px;color:#fff;font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:18px;line-height:1.2">
             {{ q.question }}
             <span style="{{ q.iconStyle }}">+</span>
           </button>
           <div style="{{ q.panelStyle }}">
-            <p style="font-size:15px;line-height:1.65;margin:0;padding:0 26px 24px;max-width:64ch">{{ q.answer }}</p>
+            <p style="font-size:15px;line-height:1.65;margin:0;padding:0 24px 22px;max-width:64ch">{{ q.answer }}</p>
           </div>
         </div>
       </sc-for>
     </div>
+    <p style="text-align:center;font-size:14px;margin:32px 0 0;color:#FFFFFF99">{{ t.faq.contactNote }}<a href="mailto:hello@easybali.surf" style="color:#61FFD0">{{ t.faq.contactEmail }}</a>{{ t.faq.contactNoteEnd }}</p>
    </div>
   </div>
 </section>
@@ -418,14 +400,14 @@
   <div class="wrap sec-pad book-grid" style="position:relative;max-width:1280px;margin:0 auto;padding:100px 32px;display:grid;grid-template-columns:1fr 1.05fr;gap:64px;align-items:center">
     <div>
       <p style="{{ subhead }}">{{ t.book.sub }}</p>
-      <h2 style="font-family:'Antonio',sans-serif;font-weight:700;font-size:clamp(36px,5vw,70px);line-height:.95;letter-spacing:-.5px;color:#fff;margin:12px 0 0">{{ t.book.h1a }}<br><span style="color:#61FFD0">{{ t.book.h1b }}</span></h2>
+      <h2 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:clamp(36px,5vw,70px);line-height:.95;letter-spacing:-.5px;color:#fff;margin:12px 0 0">{{ t.book.h1a }}<br><span style="color:#61FFD0">{{ t.book.h1b }}</span></h2>
       <p style="font-size:17px;line-height:1.65;max-width:44ch;margin:24px 0 0">{{ t.book.lead }}</p>
     </div>
 
     <sc-if value="{{ submitted }}" hint-placeholder-val="{{ false }}">
       <div style="{{ glassCard }};border-radius:24px;padding:56px 44px;text-align:center;animation:floatUp .5s ease-out both">
         <div style="width:66px;height:66px;margin:0 auto 22px;border-radius:50%;background:linear-gradient(120deg,#7DFFC4,#61FFD0 42%,#3FD9E6);color:#08100d;display:flex;align-items:center;justify-content:center;font-size:34px;animation:checkPop .5s .1s cubic-bezier(.2,.9,.3,1) both">✓</div>
-        <h3 style="font-family:'Antonio',sans-serif;font-weight:600;font-size:34px;color:#fff;margin:0 0 12px;animation:floatUp .5s .2s ease-out both">{{ t.book.okTitle }}</h3>
+        <h3 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:34px;color:#fff;margin:0 0 12px;animation:floatUp .5s .2s ease-out both">{{ t.book.okTitle }}</h3>
         <p style="font-size:16px;line-height:1.6;margin:0 auto;max-width:40ch;animation:floatUp .5s .28s ease-out both">{{ okLine }}</p>
         <p style="font-size:13px;line-height:1.5;margin:12px auto 0;max-width:38ch;color:#FFFFFF80;animation:floatUp .5s .34s ease-out both">{{ t.book.okMatchNote }}</p>
         <button onClick="{{ reset }}" style="margin-top:28px;background:transparent;border:1px solid rgba(255,255,255,.35);color:#fff;padding:12px 26px;border-radius:100px;font-size:14px;font-weight:500;cursor:pointer;animation:floatUp .5s .35s ease-out both">{{ t.book.okBtn }}</button>
@@ -435,7 +417,7 @@
     <sc-if value="{{ slotTaken }}" hint-placeholder-val="{{ false }}">
       <div style="{{ glassCard }};border-radius:24px;padding:48px 40px;text-align:center;animation:floatUp .5s ease-out both">
         <div style="width:60px;height:60px;margin:0 auto 20px;border-radius:50%;background:rgba(255,180,84,.12);border:1px solid rgba(255,180,84,.4);display:flex;align-items:center;justify-content:center"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#FFB454" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
-        <h3 style="font-family:'Antonio',sans-serif;font-weight:600;font-size:28px;color:#fff;margin:0 0 12px">{{ slotTakenTitle }}</h3>
+        <h3 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:28px;color:#fff;margin:0 0 12px">{{ slotTakenTitle }}</h3>
         <p style="font-size:16px;line-height:1.6;margin:0 auto;max-width:40ch;color:#FFFFFFCC">{{ slotTakenBody }}</p>
         <button onClick="{{ reset }}" style="margin-top:28px;background:transparent;border:1px solid rgba(255,255,255,.35);color:#fff;padding:12px 26px;border-radius:100px;font-size:14px;font-weight:500;cursor:pointer">{{ slotTakenBtn }}</button>
       </div>
@@ -444,14 +426,14 @@
     <sc-if value="{{ catalogUnavailable }}" hint-placeholder-val="{{ false }}">
       <div style="{{ glassCard }};border-radius:24px;padding:48px 40px;text-align:center">
         <div style="width:60px;height:60px;margin:0 auto 20px;border-radius:50%;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#61FFD0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12c2 0 2-2 4-2s2 2 4 2 2-2 4-2 2 2 4 2 2-2 4-2"/><path d="M2 17c2 0 2-2 4-2s2 2 4 2 2-2 4-2 2 2 4 2 2-2 4-2"/></svg></div>
-        <h3 style="font-family:'Antonio',sans-serif;font-weight:600;font-size:28px;color:#fff;margin:0 0 12px">{{ unavailableTitle }}</h3>
+        <h3 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:28px;color:#fff;margin:0 0 12px">{{ unavailableTitle }}</h3>
         <p style="font-size:16px;line-height:1.6;margin:0 auto;max-width:36ch;color:#FFFFFFCC">{{ unavailableBody }}</p>
       </div>
     </sc-if>
 
     <sc-if value="{{ showForm }}" hint-placeholder-val="{{ true }}">
       <form onSubmit="{{ submit }}" style="{{ glassCard }};border-radius:24px;padding:34px">
-        <!-- stepper -->
+        <input type="text" name="company" value="{{ form.hp }}" onChange="{{ onHp }}" autoComplete="off" tabIndex="-1" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0" />
         <div style="display:flex;align-items:center;gap:10px;margin-bottom:26px">
           <sc-for list="{{ wizSteps }}" as="st" hint-placeholder-count="3">
             <div style="display:flex;align-items:center;gap:9px;flex:1;min-width:0">
@@ -464,13 +446,13 @@
         <!-- STEP 1 · SESSION -->
         <sc-if value="{{ isStep1 }}" hint-placeholder-val="{{ true }}">
           <div>
-            <div class="form-2col" style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
-              <label style="{{ fieldLabel }}">{{ t.book.fSport }}
+            <div class="form-2col" style="display:flex;flex-wrap:wrap;gap:16px">
+              <label style="{{ fieldLabel }};flex:1;min-width:130px">{{ t.book.fSport }}
                 <select value="{{ form.sport }}" onChange="{{ onSport }}" style="{{ selectStyle }}">
                   <sc-for list="{{ sportOpts }}" as="o" hint-placeholder-count="4"><option style="color:#000">{{ o }}</option></sc-for>
                 </select>
               </label>
-              <label style="{{ fieldLabel }}">{{ t.book.fLevel }}
+              <label style="{{ fieldLabel }};flex:1;min-width:130px">{{ t.book.fLevel }}
                 <select value="{{ form.level }}" onChange="{{ onLevel }}" style="{{ selectStyle }}">
                   <sc-for list="{{ levelOpts }}" as="o" hint-placeholder-count="4"><option style="color:#000">{{ o }}</option></sc-for>
                 </select>
@@ -539,7 +521,7 @@
               </div>
               <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-top:14px;padding-top:14px;border-top:1px solid rgba(255,255,255,.12)">
                 <span style="font-size:13px;letter-spacing:.4px;text-transform:uppercase;color:#FFFFFF99">{{ w.total }}</span>
-                <span style="font-family:'Antonio',sans-serif;font-weight:700;font-size:36px;color:#fff;line-height:1">{{ orderTotal }}</span>
+                <span style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:36px;color:#fff;line-height:1">{{ orderTotal }}</span>
               </div>
               <div style="display:flex;justify-content:space-between;gap:12px;margin-top:8px">
                 <span style="font-size:12px;color:#FFFFFF80">{{ depositLabel }}</span>
@@ -558,10 +540,11 @@
         <sc-if value="{{ isStep2 }}" hint-placeholder-val="{{ false }}">
           <div>
             <div style="display:flex;flex-direction:column;gap:12px">
+              <sc-if value="{{ rentalAvail }}" hint-placeholder-val="{{ true }}">
               <div>
                 <div onClick="{{ toggleRental }}" style="{{ aRental.row }}">
                   <span style="{{ aRental.box }}">{{ aRental.mark }}</span>
-                  <span style="flex:1;font-size:15px;color:#fff">{{ w.rental }}</span>
+                  <span style="flex:1;font-size:15px;color:#fff">{{ rentalLabel }}</span>
                   <span style="{{ addonPrice }}">{{ rentalPrice }} {{ w.perDay }}</span>
                 </div>
                 <sc-if value="{{ rentalOpen }}" hint-placeholder-val="{{ false }}">
@@ -574,6 +557,7 @@
                   <p style="font-size:12px;line-height:1.5;color:#FFB454;margin:8px 2px 0">⚠ {{ depositNote }}</p>
                 </sc-if>
               </div>
+              </sc-if>
               <sc-if value="{{ transfersAvail }}" hint-placeholder-val="{{ false }}">
               <div>
                 <div onClick="{{ toggleTT }}" style="{{ aTT.row }}">
@@ -611,6 +595,7 @@
               <sc-if value="{{ noTransfers }}" hint-placeholder-val="{{ false }}">
                 <p style="font-size:12px;line-height:1.5;color:#FFFFFF80;margin:2px 2px 0">{{ w.transferLocked }}</p>
               </sc-if>
+              <sc-if value="{{ mediaAvail }}" hint-placeholder-val="{{ true }}">
               <div>
                 <div onClick="{{ toggleMedia }}" style="{{ aMedia.row }}">
                   <span style="{{ aMedia.box }}">{{ aMedia.mark }}</span>
@@ -628,6 +613,7 @@
                   </div>
                 </sc-if>
               </div>
+              </sc-if>
             </div>
             <div style="margin-top:22px;padding:18px;border-radius:16px;background:rgba(97,255,208,.07);border:1px solid rgba(97,255,208,.25)">
               <div style="font-size:12px;letter-spacing:.5px;text-transform:uppercase;color:#61FFD0;font-weight:600;margin-bottom:14px">{{ w.summaryTitle }}</div>
@@ -640,7 +626,7 @@
               </div>
               <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-top:14px;padding-top:14px;border-top:1px solid rgba(255,255,255,.12)">
                 <span style="font-size:13px;letter-spacing:.4px;text-transform:uppercase;color:#FFFFFF99">{{ w.total }}</span>
-                <span style="font-family:'Antonio',sans-serif;font-weight:700;font-size:36px;color:#fff;line-height:1">{{ orderTotal }}</span>
+                <span style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:36px;color:#fff;line-height:1">{{ orderTotal }}</span>
               </div>
               <div style="display:flex;justify-content:space-between;gap:12px;margin-top:8px">
                 <span style="font-size:12px;color:#FFFFFF80">{{ depositLabel }}</span>
@@ -702,7 +688,7 @@
               </div>
               <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-top:14px;padding-top:14px;border-top:1px solid rgba(255,255,255,.12)">
                 <span style="font-size:13px;letter-spacing:.4px;text-transform:uppercase;color:#FFFFFF99">{{ w.total }}</span>
-                <span style="font-family:'Antonio',sans-serif;font-weight:700;font-size:36px;color:#fff;line-height:1">{{ orderTotal }}</span>
+                <span style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:36px;color:#fff;line-height:1">{{ orderTotal }}</span>
               </div>
               <div style="display:flex;justify-content:space-between;gap:12px;margin-top:8px">
                 <span style="font-size:12px;color:#FFFFFF80">{{ depositLabel }}</span>
@@ -717,12 +703,18 @@
               <span style="{{ agreeBoxStyle }}">✓</span>
               <span>{{ t.book.fineA }}<a href="{{ termsHref }}" style="color:#61FFD0" onClick="{{ stopProp }}">{{ t.book.fineLink }}</a>{{ t.book.fineB }}</span>
             </label>
+            <label onClick="{{ togglePrivacy }}" style="display:flex;align-items:flex-start;gap:10px;margin-top:10px;cursor:pointer;font-size:13px;line-height:1.5;color:#FFFFFFB0">
+              <span style="{{ privacyBoxStyle }}">✓</span>
+              <span>{{ t.book.privacyA }}<a href="{{ privacyHref }}" style="color:#61FFD0" onClick="{{ stopProp }}">{{ t.book.privacyLink }}</a>{{ t.book.privacyB }}</span>
+            </label>
             <div style="margin-top:20px">
               <div style="font-size:12px;letter-spacing:.5px;text-transform:uppercase;color:#FFFFFF99;margin-bottom:10px">{{ payWith }}</div>
               <div style="display:flex;gap:10px;flex-wrap:wrap">
                 <div onClick="{{ selectPaypal }}" style="{{ paypalTileStyle }}">
-                  <span style="display:inline-flex;align-items:center;padding:4px 8px;border-radius:7px;background:#FFFFFF"><span style="font-family:Arial,Helvetica,sans-serif;font-weight:800;font-style:italic;font-size:14px;letter-spacing:-.3px;line-height:1"><span style="color:#253B80">Pay</span><span style="color:#179BD7">Pal</span></span></span>
-                  <span style="flex:none;width:16px;height:16px;border-radius:50%;background:#0B9B6A;color:#fff;display:flex;align-items:center;justify-content:center;font-size:10px;line-height:1">✓</span>
+                  <span style="width:18px;height:18px;border-radius:50%;border:1.5px solid {{ paypalDotBorder }};display:flex;align-items:center;justify-content:center;flex:none">
+                    <sc-if value="{{ paypalSelected }}" hint-placeholder-val="{{ true }}"><span style="width:9px;height:9px;border-radius:50%;background:#61FFD0"></span></sc-if>
+                  </span>
+                  <span style="font-family:Arial,Helvetica,sans-serif;font-weight:700;font-style:italic;font-size:15px;letter-spacing:-.2px;color:#fff">PayPal</span>
                 </div>
               </div>
             </div>
@@ -731,7 +723,7 @@
               <button type="submit" disabled="{{ submitBlocked }}" style="{{ submitBtnStyle }}">{{ submitLabel }}</button>
             </div>
             <sc-if value="{{ multiInfeasible }}" hint-placeholder-val="{{ false }}">
-              <p style="font-size:12px;text-align:center;margin:12px 0 0;color:#FFD9A8">{{ multiInfeasibleMsg }}</p>
+              <p style="font-size:12px;text-align:center;margin:12px 0 0;color:#FFB454">{{ multiInfeasibleMsg }}</p>
             </sc-if>
             <sc-if value="{{ reco.bookSoon }}" hint-placeholder-val="{{ false }}">
               <p style="font-size:12px;text-align:center;line-height:1.5;margin:12px auto 0;max-width:42ch;color:#FFB454">{{ reco.soonWarnMsg }}</p>
@@ -758,6 +750,7 @@
       <div>
         <div style="{{ footHead }}">{{ t.foot.company }}</div>
         <a href="{{ termsHref }}" style="{{ footLink }}" style-hover="color:#61FFD0">{{ t.foot.terms }}</a>
+        <a href="{{ privacyHref }}" style="{{ footLink }}" style-hover="color:#61FFD0">{{ t.foot.privacy }}</a>
         <a href="Instructors.dc.html" style="{{ footLink }}" style-hover="color:#61FFD0">{{ t.foot.forInstructors }}</a>
         <a href="{{ guideHref }}" style="{{ footLink }}" style-hover="color:#61FFD0">{{ t.foot.guide }}</a>
         <a href="{{ commitmentHref }}" style="{{ footLink }}" style-hover="color:#61FFD0">{{ t.foot.commitment }}</a>
@@ -994,14 +987,15 @@ class Component extends DCLogic {
     obs.observe(el);
   };
   componentDidMount() {
+    this._formMountedAt = Date.now();
     this._raf = null;
     this._wxFail = {};
     // macOS-style time-of-day sky in the hero (bottom always settles into the ocean color #0C3D57 the seam wave uses)
     const hr = new Date().getHours();
-    const sky = (hr >= 5 && hr < 8) ? 'linear-gradient(180deg,#131A36 0%,#4A3A5C 42%,#C08A63 70%,#0C3D57 100%)'
-      : (hr >= 8 && hr < 17) ? 'linear-gradient(180deg,#0E3A63 0%,#1E6FA8 52%,#155B7A 78%,#0C3D57 100%)'
-      : (hr >= 17 && hr < 21) ? 'linear-gradient(180deg,#22224E 0%,#6E3A55 48%,#C76B4A 70%,#0C3D57 100%)'
-      : 'linear-gradient(180deg,#050914 0%,#0A1B33 55%,#0C3D57 100%)';
+    const sky = (hr >= 5 && hr < 8) ? 'linear-gradient(180deg,#131A36 0%,#4A3A5C 42%,#C08A63 70%,#0E3050 100%)'
+      : (hr >= 8 && hr < 17) ? 'linear-gradient(180deg,#0E3A63 0%,#1E6FA8 52%,#155B7A 78%,#0E3050 100%)'
+      : (hr >= 17 && hr < 21) ? 'linear-gradient(180deg,#22224E 0%,#6E3A55 48%,#C76B4A 70%,#0E3050 100%)'
+      : 'linear-gradient(180deg,#050914 0%,#0A1B33 55%,#0E3050 100%)';
     const hb = document.getElementById('heroBgLayer');
     if (hb) hb.style.background = sky;
     this.setState({ isTouch: !window.matchMedia('(hover:hover) and (pointer:fine)').matches });
@@ -1249,7 +1243,7 @@ class Component extends DCLogic {
   }
 
   set(k, v) { this.setState(s => ({ form: { ...s.form, [k]: v } })); }
-  setEx(k, v) { this.setState(s => { const patch = { [k]: v }; if (k === 'sport' || k === 'level') { patch.spot = ''; patch.slot = ''; } return { explore: { ...s.explore, ...patch } }; }); }
+  setEx(k, v) { this.setState(s => { const patch = { [k]: v }; if (k === 'sport' || k === 'level' || k === 'date' || k === 'spot') { patch.slot = ''; } if (k === 'sport' || k === 'level') { patch.spot = ''; } return { explore: { ...s.explore, ...patch } }; }); }
 
   // ============================================================
   // MISC HELPERS (seeded rng, date math, logo gradient)
@@ -1358,11 +1352,22 @@ class Component extends DCLogic {
   }
   addDaysStr(str, k) { const p = str.split('-').map(Number); const dt = new Date(Date.UTC(p[0], p[1] - 1, p[2] + k)); return dt.toISOString().slice(0, 10); }
 
+  // Slot windows for the day: 2h blocks between the bot-configured working hours (default 8–16).
+  getSlotDefs() {
+    const wh = (window.SERVICES_DATA && window.SERVICES_DATA.workHours) || { open: 8, close: 16 };
+    const slots = [], hours = [];
+    for (let h = wh.open; h < wh.close; h += 2) {
+      const pad = n => String(n).padStart(2, '0');
+      slots.push(`${pad(h)}:00 – ${pad(h + 2)}:00`);
+      hours.push(pad(h));
+    }
+    return { slots, hours };
+  }
+  compass(deg) { return ['N','NNE','NE','ENE','E','ESE','SE','SSE','S','SSW','SW','WSW','W','WNW','NW','NNW'][Math.round(((deg % 360) / 22.5)) % 16]; }
   buildReco(sportIdx, levelIdx, dateStr, sm, chosenSpot, chosenSlot, wx, locale) {
     const { primary, pool, sportKey } = this.orderedSpots(sportIdx, levelIdx, dateStr);
     const active = pool.find(s => s.name === chosenSpot) || primary;
-    const baseSlots = ['08:00 – 10:00', '10:00 – 12:00', '12:00 – 14:00', '14:00 – 16:00'];
-    const hoursH = ['08', '10', '12', '14'];
+    const { slots: baseSlots, hours: hoursH } = this.getSlotDefs();
     const levelCenter = sportKey === 'surf' ? [0.7, 1.0, 1.4, 2.0][levelIdx] : 0.5;
     const sf = active.shore;
     const spotSeed = (() => { let h = 0; const n = active.name; for (let i = 0; i < n.length; i++) h = (h * 31 + n.charCodeAt(i)) >>> 0; return h; })();
@@ -1393,7 +1398,7 @@ class Component extends DCLogic {
         const diff = Math.abs(((dir - offFrom + 540) % 360) - 180);
         let wc; if (spd < 6) wc = 3; else if (diff < 50) wc = 0; else if (diff < 125) wc = 1; else wc = 2;
         let score = (wc === 0 ? 3 : wc === 3 ? 1.6 : wc === 1 ? 1.6 : 0.3) + Math.max(0, 1 - Math.abs(wave - levelCenter) / 1.2) * 2.2;
-        return { wave, windLabel: sm.wind[wc], windKt: Math.round(spd), tide, score };
+        return { wave, windLabel: sm.wind[wc], windKt: Math.round(spd), windDeg: Math.round(dir), tide, score };
       });
       return { per, sst: sst == null ? 28 : sst, live: true };
     };
@@ -1411,7 +1416,9 @@ class Component extends DCLogic {
         const wave = base + rnd() * rng;
         const wc = windSeq[i];
         const score = (wc === 0 ? 3 : wc === 3 ? 1.6 : wc === 1 ? 1.6 : 0.3) + Math.max(0, 1 - Math.abs(wave - levelCenter) / 1.2) * 2.2;
-        return { wave, windLabel: sm.wind[wc], windKt: Math.round(7 + rnd() * 12), tide: sm.tide[(i + trot) % 3], score };
+        const offFrom = (sf + 180) % 360;
+        const windDeg = Math.round(((wc === 0 ? offFrom : wc === 1 ? offFrom + 90 : wc === 2 ? sf : offFrom + 45) + 360) % 360);
+        return { wave, windLabel: sm.wind[wc], windKt: Math.round(7 + rnd() * 12), windDeg, tide: sm.tide[(i + trot) % 3], score };
       });
       return { per, sst: 27 + Math.round(rnd() * 2), live: false };
     };
@@ -1456,12 +1463,13 @@ class Component extends DCLogic {
       const sc = per[i].score;
       const qi = sc >= 4.3 ? 0 : sc >= 3.2 ? 1 : sc >= 2.0 ? 2 : 3;
       return {
-        time, qi, oi: i, startH: hoursH[i], quality: sm.q[qi], wave: per[i].wave.toFixed(1) + ' m', wind: per[i].windLabel, tide: per[i].tide,
+        time, qi, oi: i, startH: hoursH[i], quality: sm.q[qi], wave: per[i].wave.toFixed(1) + ' m', wind: per[i].windLabel, windDeg: per[i].windDeg || 0, tide: per[i].tide,
+        tideUp: sm.tide.indexOf(per[i].tide) === 2, tideDown: sm.tide.indexOf(per[i].tide) === 0, tideMid: sm.tide.indexOf(per[i].tide) === 1,
         dotStyle: 'width:9px;height:9px;border-radius:50%;background:' + dotC[qi],
         badge: 'font-size:11px;font-weight:600;letter-spacing:.3px;text-transform:uppercase;padding:3px 9px;border-radius:100px;background:' + badgeBg[qi] + ';color:' + badgeFg[qi]
       };
     });
-    slots.sort((a, b) => a.qi - b.qi || per[b.oi].score - per[a.oi].score);
+    slots.sort((a, b) => a.oi - b.oi);
     // Same "≥1h before start" cutoff the booking form enforces — keep the two in sync.
     const bn = this.baliNow();
     if (targetDate === bn.dateStr) slots = slots.filter(sl => (sl.startH - bn.hour) >= 1);
@@ -1481,9 +1489,9 @@ class Component extends DCLogic {
     const selPer = selSlot ? per[selSlot.oi] : null;
     const tideIdx = selPer ? Math.max(0, sm.tide.indexOf(selPer.tide)) : 0;
     const conds = selPer ? [
-      { isWave: true, label: sm.condWaves, val: selPer.wave.toFixed(1) + ' m' },
-      { isWind: true, label: sm.condWind, val: selPer.windKt + ' kt' },
-      { isTideDown: tideIdx === 0, isTideMid: tideIdx === 1, isTideUp: tideIdx === 2, label: sm.condTide, val: selPer.tide }
+      { isWave: true, label: sm.condWaves, valLine1: selPer.wave.toFixed(1) + ' m', valLine2: '' },
+      { isWind: true, label: sm.condWind, valLine1: selPer.windKt + ' kt', valLine2: selPer.windLabel.toLowerCase(), windRotate: (selPer.windDeg || 0) },
+      { isTideDown: tideIdx === 0, isTideMid: tideIdx === 1, isTideUp: tideIdx === 2, label: sm.condTide, valLine1: selPer.tide, valLine2: '' }
     ] : [];
 
     const spotChip = (sel) => 'background:' + (sel ? '#61FFD0' : 'rgba(255,255,255,.05)') + ';color:' + (sel ? '#08100d' : '#fff') + ';border:1px solid ' + (sel ? '#61FFD0' : 'rgba(255,255,255,.16)') + ';border-radius:100px;padding:8px 15px;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s';
@@ -1540,9 +1548,9 @@ class Component extends DCLogic {
     const L = D[this.state.lang] || D.en;
     const f = this.state.form;
     const subhead = "font-family:'Inter',sans-serif;color:#7CFFDA;font-size:14px;font-weight:600;letter-spacing:.4px;text-transform:uppercase;margin:0;text-shadow:0 1px 4px rgba(0,0,0,.55)";
-    const h2Style = "font-family:'Antonio',sans-serif;font-weight:700;font-size:clamp(34px,4.5vw,62px);line-height:.98;letter-spacing:-.5px;color:#fff;margin:12px 0 0;max-width:16ch";
-    const subheadDark = "font-family:'Inter',sans-serif;color:#0E7C8C;font-size:14px;font-weight:600;letter-spacing:.4px;text-transform:uppercase;margin:0";
-    const h2Dark = "font-family:'Antonio',sans-serif;font-weight:700;font-size:clamp(34px,4.5vw,62px);line-height:.98;letter-spacing:-.5px;color:#0B3E56;margin:12px 0 0;max-width:16ch";
+    const h2Style = "font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:clamp(34px,4.5vw,62px);line-height:.98;letter-spacing:-.5px;color:#fff;margin:12px 0 0;max-width:16ch";
+    const subheadDark = "font-family:'Inter',sans-serif;color:#3A6B6E;font-size:14px;font-weight:600;letter-spacing:.4px;text-transform:uppercase;margin:0";
+    const h2Dark = "font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:clamp(34px,4.5vw,62px);line-height:.98;letter-spacing:-.5px;color:#22282A;margin:12px 0 0;max-width:16ch";
     const inputStyle = "width:100%;height:50px;box-sizing:border-box;margin-top:8px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.16);border-radius:12px;padding:0 15px;color:#fff;font-family:'Inter',sans-serif;font-size:15px;line-height:1;outline:none;-webkit-appearance:none;appearance:none";
     const selectStyle = inputStyle + ";background-image:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='7' viewBox='0 0 11 7'%3E%3Cpath d='M1 1l4.5 4.5L10 1' stroke='%2361FFD0' stroke-width='1.6' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\");background-repeat:no-repeat;background-position:right 15px center;padding-right:36px";
     // Native date input: no appearance:none / display:flex here — both break the native tap-to-open
@@ -1553,7 +1561,7 @@ class Component extends DCLogic {
     const footHead = "font-size:12px;letter-spacing:.6px;text-transform:uppercase;color:#61FFD0;margin-bottom:16px;font-weight:600";
     const footLink = "display:block;font-size:14px;color:#FFFFFFBD;margin-bottom:11px;transition:color .2s;width:max-content";
 
-    const glassCard = "background:linear-gradient(180deg,rgba(255,255,255,.13),rgba(255,255,255,.06));border:1px solid rgba(255,255,255,.16)";
+    const glassCard = "background:linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,.025));border:1px solid rgba(255,255,255,.14)";
     const glassPanel = "background:linear-gradient(180deg,rgba(255,255,255,.10),rgba(255,255,255,.045));border:1px solid rgba(255,255,255,.14);border-radius:18px";
 
     const CERT_BADGES = [
@@ -1649,27 +1657,31 @@ class Component extends DCLogic {
     const W = this.wizDict()[this.state.lang] || this.wizDict().en;
     const step = this.state.step;
     const ad = this.state.addons;
+    const rentalLabel = [f.sport, W.rental].filter(Boolean).join(' ');
     const GRAD = 'linear-gradient(120deg,#7DFFC4,#61FFD0 42%,#3FD9E6)';
     const nextBtn = 'flex:1;background:' + GRAD + ';color:#08100d;font-weight:600;font-size:15px;padding:13px 24px;border:none;border-radius:100px;cursor:pointer;transition:filter .2s';
     const backBtn = 'flex:none;background:transparent;border:1px solid rgba(255,255,255,.3);color:#fff;font-weight:500;font-size:14px;padding:13px 20px;border-radius:100px;cursor:pointer';
-    const addonPrice = "font-family:'Antonio',sans-serif;font-weight:600;font-size:16px;color:#61FFD0;white-space:nowrap";
+    const addonPrice = "font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:16px;color:#61FFD0;white-space:nowrap";
+    const sessions = f.sessions || [{date:'',slot:''}];
+    const firstSlotted = sessions.find(s => s.slot);
+    const transfersAvail = !!(f.spot && f.spot.trim() && firstSlotted) && equipTier.transfersEnabled !== false;
+    const rentalAvail = equipTier.rentalEnabled !== false;
+    const mediaAvail = equipTier.mediaEnabled !== false;
+    const noAddons = !rentalAvail && !mediaAvail && !transfersAvail;
     const addonStyle = (chk) => ({
       row: 'display:flex;align-items:center;gap:14px;padding:15px 16px;border-radius:14px;cursor:pointer;user-select:none;transition:background .2s,border-color .2s;background:' + (chk ? 'rgba(97,255,208,.12)' : 'rgba(255,255,255,.04)') + ';border:1px solid ' + (chk ? 'rgba(97,255,208,.55)' : 'rgba(255,255,255,.1)'),
       box: 'flex:none;width:24px;height:24px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#08100d;transition:background .2s,border-color .2s;background:' + (chk ? GRAD : 'transparent') + ';border:1px solid ' + (chk ? 'transparent' : 'rgba(255,255,255,.3)'),
       mark: chk ? '✓' : ''
     });
-    const wizSteps = [W.s1, W.s2, W.s3].map((nm, i) => {
-      const num = i + 1, on = num <= step;
+    const wizSteps = (noAddons ? [W.s1, W.s3] : [W.s1, W.s2, W.s3]).map((nm, i) => {
+      const num = i + 1, on = num <= (noAddons && step === 3 ? 2 : step);
       return {
         num: String(num), name: nm,
-        dot: "flex:none;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Inter',sans-serif;font-weight:600;font-size:13px;" + (on ? 'color:#08100d;background:' + GRAD + ';' : 'color:#FFFFFF80;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.16);'),
-        label: "font-family:'Inter',sans-serif;font-size:12px;font-weight:600;letter-spacing:.2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:" + (num === step ? '#fff' : '#FFFFFF80')
+        dot: "flex:none;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Inter',sans-serif;font-weight:600;font-size:13px;" + (on ? 'color:#fff;background:rgba(97,255,208,.16);border:1px solid rgba(97,255,208,.4);' : 'color:#FFFFFF80;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.16);'),
+        label: "font-family:'Inter',sans-serif;font-size:12px;font-weight:600;letter-spacing:.2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:" + (num === (noAddons && step === 3 ? 2 : step) ? '#fff' : '#FFFFFF80')
       };
     });
 
-    const sessions = f.sessions || [{date:'',slot:''}];
-    const firstSlotted = sessions.find(s => s.slot);
-    const transfersAvail = !!(f.spot && f.spot.trim() && firstSlotted);
     const destName = f.spot || reco.active.name;
     // Transfers are billed per CALENDAR DAY, not per session — two sessions booked on the
     // same date only need one round trip to the spot, not two.
@@ -1682,14 +1694,18 @@ class Component extends DCLogic {
     const rentalQty = headcount === 1 ? 1 : Math.min(Math.max(1, this.state.rentalQty ?? headcount), headcount);
     const mediaSessions = (this.state.mediaSessions || []).filter(n => n < sessionsCount);
     const mediaCount = ad.media ? (mediaSessions.length || sessionsCount) : 0; // default: all sessions until user narrows it down
-    const addM = ad.media ? SVC.addonPricing.media * mediaCount : 0, addR = ad.rental ? rentalRate * rentalQty * sessionsCount : 0;
+    // Per-day discount (set per service in the bot): % off the rental/media unit price for each
+    // additional day/session booked — same idea as the base-session multi-day discount.
+    const rentalUnit = rentalRate * Math.max(0, 1 - ((equipTier.rentalDiscountPct || 0) / 100) * (sessionsCount - 1));
+    const mediaUnit = SVC.addonPricing.media * Math.max(0, 1 - ((equipTier.mediaDiscountPct || 0) / 100) * Math.max(0, mediaCount - 1));
+    const addM = ad.media ? mediaUnit * mediaCount : 0, addR = ad.rental ? rentalUnit * rentalQty * sessionsCount : 0;
     const totalNum = baseNum + addM + addR + ttNum + tbNum;
     const sportName = f.sport || L.book.sportOpts[0];
     const daySuffix = sessionsCount > 1 ? ' ×' + sessionsCount : '';
     const sessionLabel = [W.private, sportName, W.sessionWord].filter(Boolean).join(' ')
       + ' (' + (sessionsCount > 1 ? sessionsCount + 'x2h' : '2h') + ') x ' + headcount + ' ' + (headcount === 1 ? W.personWord : W.peopleWord);
     const summary = [{ label: sessionLabel, amount: '$' + baseNum, textColor: '#61FFD0', textWeight: '600', amountWeight: '700' }];
-    if (ad.rental) summary.push({ type:'rental', label: W.rental + ' ' + rentalQty + ' ' + (rentalQty === 1 ? W.personWord : W.peopleWord) + ' ×' + sessionsCount + ' (2h)', amount: '$' + (rentalRate * rentalQty * sessionsCount) , textColor:'#FFFFFFCC', textWeight:'400', amountWeight:'500' });
+    if (ad.rental) summary.push({ type:'rental', label: rentalLabel + ' ' + rentalQty + ' ' + (rentalQty === 1 ? W.personWord : W.peopleWord) + ' ×' + sessionsCount + ' (2h)', amount: '$' + (rentalUnit * rentalQty * sessionsCount) , textColor:'#FFFFFFCC', textWeight:'400', amountWeight:'500' });
     if (transfersAvail && ad.transferTo && this.state.transferToFrom) summary.push({ type:'transferTo', label: W.transferRoute.replace('{a}', this.state.transferToFrom).replace('{b}', destName) + (transferDaysCount > 1 ? ' x' + transferDaysCount : ''), amount: '$' + ttNum , textColor:'#FFFFFFCC', textWeight:'400', amountWeight:'500' });
     if (transfersAvail && ad.transferBack && this.state.transferBackFrom) summary.push({ type:'transferBack', label: W.transferRoute.replace('{a}', destName).replace('{b}', this.state.transferBackFrom) + (transferDaysCount > 1 ? ' x' + transferDaysCount : ''), amount: '$' + tbNum , textColor:'#FFFFFFCC', textWeight:'400', amountWeight:'500' });
     if (ad.media) summary.push({ type:'media', label: W.media + (sessionsCount > 1 ? ' ×' + mediaCount : ''), amount: '$' + addM , textColor:'#FFFFFFCC', textWeight:'400', amountWeight:'500' });
@@ -1700,10 +1716,10 @@ class Component extends DCLogic {
     const sessionsWithAddons = sessions.map((s, i) => {
       const lines = [];
       if (s.date && s.slot) {
-        if (ad.rental) lines.push({ type:'rental', label: W.rental + ' ' + rentalQty + ' ' + (rentalQty === 1 ? W.personWord : W.peopleWord) + ' (2h)', amount: rentalRate * rentalQty });
+        if (ad.rental) lines.push({ type:'rental', label: rentalLabel + ' ' + rentalQty + ' ' + (rentalQty === 1 ? W.personWord : W.peopleWord) + ' (2h)', amount: rentalUnit * rentalQty });
         if (transfersAvail && ad.transferTo && this.state.transferToFrom) lines.push({ type:'transferTo', label: W.transferRoute.replace('{a}', this.state.transferToFrom).replace('{b}', destName), amount: ttOne });
         if (transfersAvail && ad.transferBack && this.state.transferBackFrom) lines.push({ type:'transferBack', label: W.transferRoute.replace('{a}', destName).replace('{b}', this.state.transferBackFrom), amount: tbOne });
-        if (ad.media && (!mediaSessions.length || mediaSessions.includes(i))) lines.push({ type:'media', label: W.media, amount: SVC.addonPricing.media });
+        if (ad.media && (!mediaSessions.length || mediaSessions.includes(i))) lines.push({ type:'media', label: W.media, amount: mediaUnit });
       }
       return { date: s.date, timeWindow: s.slot, spot: f.spot, addons: lines };
     });
@@ -1769,7 +1785,7 @@ class Component extends DCLogic {
       })),
       reviewsLoop: (() => { const base = (this.state.liveReviews && this.state.liveReviews.length) ? this.state.liveReviews : L.rev.list; return this.state.isTouch ? [...base] : [...base, ...base]; })().map(r => ({
         ...r,
-        cardStyle: 'flex:none;width:340px;max-width:82vw;padding:30px;border:1px solid rgba(11,62,86,.07);border-radius:18px;background:#FBF7EE' + (this.state.isTouch ? ';scroll-snap-align:center' : '')
+        cardStyle: 'flex:none;width:340px;max-width:82vw;padding:30px;border:1px solid rgba(34,40,42,.08);border-radius:18px;background:#FFFFFF' + (this.state.isTouch ? ';scroll-snap-align:center' : '')
       })),
       revScrollStyle: this.state.isTouch ? 'overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;scroll-snap-type:x mandatory;padding:2px 22px 10px;scrollbar-width:none' : '',
       revTrackStyle: 'display:flex;gap:22px;width:max-content' + (this.state.isTouch ? ';animation:none' : ''),
@@ -1792,6 +1808,7 @@ class Component extends DCLogic {
       onWeekTouchEnd: () => { this._weekTouching = false; },
       guideHref: 'Surf Guide.dc.html?lang=' + this.state.lang,
       termsHref: 'Terms of Service.dc.html?lang=' + this.state.lang,
+      privacyHref: 'Privacy Policy.dc.html?lang=' + this.state.lang,
       commitmentHref: 'Commitment.dc.html?lang=' + this.state.lang,
 
       faqs: L.faq.list.map((item, i) => {
@@ -1817,14 +1834,16 @@ class Component extends DCLogic {
       okLine: L.book.okBodyA + (first ? (', ' + first) : '') + L.book.okBodyB,
       payWith: this.state.lang === 'ru' ? 'Способ оплаты' : 'Payment method',
       selectPaypal: () => this.setState({ paymentMethod: 'paypal' }),
-      paypalTileStyle: 'flex:0 1 25%;min-width:150px;display:flex;align-items:center;justify-content:center;gap:8px;padding:16px 14px;border-radius:12px;background:rgba(97,255,208,.06);cursor:pointer;transition:border-color .2s;border:1px solid ' + (this.state.paymentMethod === 'paypal' ? '#61FFD0' : 'rgba(97,255,208,.16)'),
+      paypalTileStyle: 'display:flex;align-items:center;gap:10px;padding:14px 16px;border-radius:12px;background:rgba(255,255,255,.05);cursor:pointer;border:1.5px solid ' + (this.state.paymentMethod === 'paypal' ? '#61FFD0' : 'rgba(255,255,255,.16)'),
+      paypalSelected: this.state.paymentMethod === 'paypal',
+      paypalDotBorder: this.state.paymentMethod === 'paypal' ? '#61FFD0' : 'rgba(255,255,255,.4)',
       priceEst, priceNote,
 
       // wizard
       logoChars: this.buildLogoChars(onLight),
       heroChars: this.buildHeroChars(L.hero.h1a, L.hero.h1accent, L.hero.h1b, this.state.lang !== 'en'),
       heroRef: el => { this.heroRef = el; if (el) setTimeout(this.measureHeroLines, 60); },
-      w: W, wizSteps, nextBtn, backBtn, addonPrice,
+      w: W, rentalLabel, wizSteps, nextBtn, backBtn, addonPrice,
       isStep1: step === 1, isStep2: step === 2, isStep3: step === 3,
       next: () => {
         if (this.state.step === 1) {
@@ -1845,8 +1864,8 @@ class Component extends DCLogic {
           // Block advancing if any chosen date has NO free coach in any window (availability probe).
           const lvSlug = ['first-timer', 'beginner', 'intermediate', 'advanced'][lvlIdx] || 'first-timer';
           const nowB = this.baliNow();
-          const SLOTSN = ['08:00 – 10:00', '10:00 – 12:00', '12:00 – 14:00', '14:00 – 16:00'];
-          const SLOTH = { '08:00 – 10:00': 8, '10:00 – 12:00': 10, '12:00 – 14:00': 12, '14:00 – 16:00': 14 };
+          const SLOTSN = this.getSlotDefs().slots;
+          const SLOTH = {}; SLOTSN.forEach(s => { SLOTH[s] = parseInt(s.slice(0, 2), 10); });
           let noCoachIdx = -1;
           for (let i = 0; i < sessionsCount; i++) {
             const av = rows[i] && rows[i].date ? (this.state.avail || {})[discKey + '|' + lvSlug + '|' + rows[i].date] : null;
@@ -1861,11 +1880,12 @@ class Component extends DCLogic {
           if (ad.transferTo && !this.state.transferToFrom) { this.setState(s => ({ touched: { ...s.touched, ttFrom: true } })); return; }
           if (ad.transferBack && !this.state.transferBackFrom) { this.setState(s => ({ touched: { ...s.touched, tbFrom: true } })); return; }
         }
-        this.gotoStep(Math.min(3, this.state.step + 1));
+        this.gotoStep(noAddons ? 3 : Math.min(3, this.state.step + 1));
       },
-      back: () => this.gotoStep(Math.max(1, this.state.step - 1)),
+      back: () => this.gotoStep(noAddons && this.state.step === 3 ? 1 : Math.max(1, this.state.step - 1)),
       aMedia: addonStyle(ad.media), aRental: addonStyle(ad.rental),
       aTT: addonStyle(ad.transferTo), aTB: addonStyle(ad.transferBack),
+      rentalAvail, mediaAvail,
       toggleMedia: () => this.setState(s => ({ addons: { ...s.addons, media: !s.addons.media } })),
       mediaOpen: ad.media && sessionsCount > 1,
       mediaSessionOpts: Array.from({ length: sessionsCount }, (_, idx) => {
@@ -1902,8 +1922,8 @@ class Component extends DCLogic {
       ttSelectStyle: selectStyle + ((this.state.touched.ttFrom && ad.transferTo && !this.state.transferToFrom) ? ';border-color:#FFB454;background:rgba(255,180,84,.07)' : ''),
       tbSelectStyle: selectStyle + ((this.state.touched.tbFrom && ad.transferBack && !this.state.transferBackFrom) ? ';border-color:#FFB454;background:rgba(255,180,84,.07)' : ''),
       transferOpts: Object.keys(this.transferOrigins()),
-      rentalPrice: '$' + rentalRate,
-      mediaPrice: '$' + SVC.addonPricing.media + (sessionsCount > 1 ? ' ' + W.perDay : ''),
+      rentalPrice: '$' + Math.round(rentalUnit) + (sessionsCount > 1 && equipTier.rentalDiscountPct ? ' ' + W.perDay : ''),
+      mediaPrice: '$' + Math.round(mediaUnit) + (sessionsCount > 1 ? ' ' + W.perDay : ''),
       // Checkbox rows show the price of a SINGLE transfer leg (ttOne/tbOne) — the summary
       // below is where the ×transferDaysCount multiplication is actually shown.
       ttPrice: ad.transferTo ? (this.state.transferToFrom ? '$' + ttOne + ' · ~' + this.transferEtaMin(this.state.transferToFrom, destName) + ' ' + (W.minAbbr || 'min') : '—') : '',
@@ -1917,6 +1937,7 @@ class Component extends DCLogic {
       // we treat it as feasible so a slow/broken probe never blocks a real booking.
       ...(() => {
         const agreed = !!this.state.agreed;
+        const privacyAgreed = !!this.state.privacyAgreed;
         const rows = (f.sessions || []).slice(0, sessionsCount).filter(s => s.date && s.slot);
         const greyed = ';background:rgba(255,255,255,.12);color:#FFFFFF66;cursor:not-allowed';
         if (sessionsCount < 2 || rows.length < sessionsCount || !f.spot) return { multiInfeasible: false, submitBtnStyle: nextBtn + ((agreed && this.state.paymentMethod) ? '' : greyed), submitBlocked: !agreed || !this.state.paymentMethod };
@@ -1925,12 +1946,15 @@ class Component extends DCLogic {
         const sig = discKey + '|' + levelSlug + '|' + langCode + '|' + f.spot + '|' + rows.map(s => s.date + '@' + s.slot).join(',');
         this.checkMultiFeasibility(sig, { sport: discKey, level: levelSlug, lang: langCode, sessions: rows.map(s => ({ date: s.date, timeWindow: s.slot, spot: f.spot })) });
         const feas = (this.state.multiFeas || {})[sig];
-        return { multiInfeasible: feas === false, submitBtnStyle: nextBtn + ((feas === false || !agreed || !this.state.paymentMethod) ? greyed : ''), submitBlocked: feas === false || !agreed || !this.state.paymentMethod };
+        return { multiInfeasible: feas === false, submitBtnStyle: nextBtn + ((feas === false || !agreed || !privacyAgreed || !this.state.paymentMethod) ? greyed : ''), submitBlocked: feas === false || !agreed || !privacyAgreed || !this.state.paymentMethod };
       })(),
       agreed: !!this.state.agreed,
       toggleAgree: () => this.setState(s => ({ agreed: !s.agreed })),
+      privacyAgreed: !!this.state.privacyAgreed,
+      togglePrivacy: () => this.setState(s => ({ privacyAgreed: !s.privacyAgreed })),
       stopProp: e => { e.stopPropagation(); },
       agreeBoxStyle: 'flex:none;width:20px;height:20px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:13px;transition:all .18s;border:' + (this.state.agreed ? '1px solid #61FFD0;background:#61FFD0;color:#08100d' : '1.5px solid rgba(255,255,255,.35);background:transparent;color:transparent'),
+      privacyBoxStyle: 'flex:none;width:20px;height:20px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:13px;transition:all .18s;border:' + (this.state.privacyAgreed ? '1px solid #61FFD0;background:#61FFD0;color:#08100d' : '1.5px solid rgba(255,255,255,.35);background:transparent;color:transparent'),
       multiInfeasibleMsg: W.multiBusy || (this.state.lang === 'ru'
         ? 'Нет одного тренера, свободного на все выбранные занятия. Измените даты или время.'
         : 'No single coach is free for all selected sessions. Try different dates or times.'),
@@ -1951,8 +1975,8 @@ class Component extends DCLogic {
       sessionCountOpts: ['1','2','3','4','5'],
       showCoachNote: (parseInt(this.state.form.sessionCount, 10) || 1) > 1,
       sessionRows: (() => {
-        const SLOTS = ['08:00 – 10:00', '10:00 – 12:00', '12:00 – 14:00', '14:00 – 16:00'];
-        const SLOT_START_HOUR = { '08:00 – 10:00': 8, '10:00 – 12:00': 10, '12:00 – 14:00': 12, '14:00 – 16:00': 14 };
+        const SLOTS = this.getSlotDefs().slots;
+        const SLOT_START_HOUR = {}; SLOTS.forEach(s => { SLOT_START_HOUR[s] = parseInt(s.slice(0, 2), 10); });
         const bali = this.baliNow();
         const activeSessions = sessions.slice(0, sessionsCount);
         const fLevelSlug = ['first-timer', 'beginner', 'intermediate', 'advanced'][lvlIdx] || 'first-timer';
@@ -2008,9 +2032,14 @@ class Component extends DCLogic {
       onPeople: e => this.set('people', e.target.value),
       onNote: e => this.set('note', e.target.value),
       onSpotField: e => this.set('spot', e.target.value),
+      onHp: e => this.set('hp', e.target.value),
       submit: e => {
         e.preventDefault();
-        if (!this.state.agreed) { this.setState({ agreeTouched: true }); return; }
+        // Anti-spam: honeypot field bots fill in but humans never see, plus a minimum
+        // time-on-page — a real person can't fill this form in under 3 seconds.
+        if (f.hp) return;
+        if (Date.now() - (this._formMountedAt || 0) < 3000) return;
+        if (!this.state.agreed || !this.state.privacyAgreed) { this.setState({ agreeTouched: true }); return; }
         const okName = this.validName(f.name), okEmail = this.validEmail(f.email), okPhone = this.validPhone(f.phone), okAge = f.age === '' || this.validAge(f.age);
         if (!okName || !okEmail || !okPhone || !okAge) { this.setState({ touched: { name: true, email: true, phone: true, age: true } }); return; }
         // Block a multi-day booking that no single coach can cover (probe already ran in renderVals).

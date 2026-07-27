@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Terms of Service — EasyBali.Surf</title>
-<meta name="description" content="Terms of Service for EasyBali.Surf surf, kite, wing foil and SUP coaching bookings in Bali.">
+<title>Privacy Policy — EasyBali.Surf</title>
+<meta name="description" content="Privacy Policy for EasyBali.Surf — how we collect and use personal data for surf, kite, wing foil and SUP coaching bookings in Bali.">
 <meta name="robots" content="index, follow">
-<link rel="canonical" href="https://easybali.surf/terms-of-service.html">
+<link rel="canonical" href="https://easybali.surf/privacy-policy.html">
 <script src="./support.js"></script>
 </head>
 <body>
@@ -71,12 +71,12 @@ class Component extends DCLogic {
   // language the visitor was on when they clicked through (via ?lang= on the link).
   urlLang() {
     const v = typeof window !== 'undefined' ? new URLSearchParams(window.location.search).get('lang') : null;
-    return (window.TERMS_TEXT && window.TERMS_TEXT[v]) ? v : 'en';
+    return (window.PRIVACY_TEXT && window.PRIVACY_TEXT[v]) ? v : 'en';
   }
   renderVals() {
     const lang = this.urlLang();
     if (typeof document !== 'undefined') document.documentElement.lang = lang;
-    const D = window.TERMS_TEXT || {};
+    const D = window.PRIVACY_TEXT || {};
     const t = D[lang] || D.en;
     return {
       t,

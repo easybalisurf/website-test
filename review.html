@@ -11,7 +11,7 @@
 <helmet>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-<link href="https://fonts.googleapis.com/css2?family=Antonio:wght@500;600;700&amp;family=Oswald:wght@500;600;700&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Antonio:wght@500;600;700&amp;family=Oswald:wght@500;600;700&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
 <link rel="stylesheet" href="theme.css">
 <style>
   *{box-sizing:border-box}
@@ -19,7 +19,6 @@
   body{margin:0;background:var(--eb-bg);color:#FFFFFFBD;font-family:'Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased;min-height:100vh}
   a{color:#61FFD0;text-decoration:none}
   a:hover{color:#8affe0}
-  html[lang="ru"] [style*="Antonio"]{font-family:'Oswald',sans-serif !important}
   textarea{font-family:'Inter',sans-serif}
 </style>
 </helmet>
@@ -29,11 +28,11 @@
     <sc-if value="{{ isDone }}" hint-placeholder-val="{{ false }}">
       <div style="text-align:center">
         <div style="width:64px;height:64px;margin:0 auto 20px;border-radius:50%;background:linear-gradient(120deg,#7DFFC4,#61FFD0 42%,#3FD9E6);color:#08100d;display:flex;align-items:center;justify-content:center;font-size:32px">✓</div>
-        <h1 style="font-family:'Antonio',sans-serif;font-weight:700;font-size:34px;color:#fff;margin:0 0 10px">{{ t.thanksTitle }}</h1>
+        <h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:34px;color:#fff;margin:0 0 10px">{{ t.thanksTitle }}</h1>
         <p style="font-size:15px;line-height:1.6;margin:0 auto;max-width:34ch">{{ t.thanksBody }}</p>
         <sc-if value="{{ showGoogle }}" hint-placeholder-val="{{ false }}">
           <div style="margin-top:26px;padding-top:24px;border-top:1px solid rgba(255,255,255,.12);text-align:left">
-            <h2 style="font-family:'Antonio',sans-serif;font-weight:600;font-size:22px;color:#fff;margin:0 0 8px;text-align:center">{{ t.googleTitle }}</h2>
+            <h2 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:22px;color:#fff;margin:0 0 8px;text-align:center">{{ t.googleTitle }}</h2>
             <p style="font-size:14px;line-height:1.6;margin:0 0 14px;text-align:center;color:#FFFFFFCC">{{ t.googleBody }}</p>
             <div style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);border-radius:12px;padding:13px 14px;font-size:14px;line-height:1.5;color:#fff;max-height:120px;overflow:auto">{{ text }}</div>
             <button type="button" onClick="{{ copyReview }}" style="width:100%;margin-top:12px;background:transparent;border:1px solid rgba(255,255,255,.3);color:#fff;font-weight:500;font-size:14px;padding:12px;border-radius:100px;cursor:pointer">{{ copyLabel }}</button>
@@ -47,7 +46,7 @@
     <sc-if value="{{ isForm }}" hint-placeholder-val="{{ true }}">
       <div>
         <p style="font-family:'Inter';color:#F1C24A;font-size:13px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;margin:0">{{ t.eyebrow }}</p>
-        <h1 style="font-family:'Antonio',sans-serif;font-weight:700;font-size:clamp(30px,7vw,44px);line-height:1.02;color:#fff;margin:10px 0 0">{{ t.title }}</h1>
+        <h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:clamp(30px,7vw,44px);line-height:1.02;color:#fff;margin:10px 0 0">{{ t.title }}</h1>
         <p style="font-size:15px;line-height:1.6;margin:14px 0 0;max-width:44ch">{{ t.lead }}</p>
 
         <div style="display:flex;gap:8px;justify-content:center;margin:28px 0 6px">
@@ -70,7 +69,7 @@
 
     <sc-if value="{{ isInvalid }}" hint-placeholder-val="{{ false }}">
       <div style="text-align:center">
-        <h1 style="font-family:'Antonio',sans-serif;font-weight:700;font-size:30px;color:#fff;margin:0 0 10px">{{ t.invalidTitle }}</h1>
+        <h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:30px;color:#fff;margin:0 0 10px">{{ t.invalidTitle }}</h1>
         <p style="font-size:15px;line-height:1.6;margin:0 auto;max-width:34ch">{{ t.invalidBody }}</p>
       </div>
     </sc-if>
