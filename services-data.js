@@ -27,11 +27,12 @@ window.SERVICES_DATA = {
   sessionPricing: {
     surf: {
       standard: { base: 80, extraPerson: 55, extraPct: 70, rental: 20, deposit: 100, rentalEnabled: true, mediaEnabled: true, transfersEnabled: true, rentalDiscountPct: 0, mediaDiscountPct: 0 },
-      advanced: { base: 90, extraPerson: 65, extraPct: 72 }
+      advanced: { base: 90, extraPerson: 65, extraPct: 72 },
+      durationHours: 2
     },
-    kite: { base: 140, extraPerson: 100, extraPct: 70, rental: 45, deposit: 400 },
-    wing: { base: 160, extraPerson: 115, extraPct: 72, rental: 40, deposit: 350 },
-    sup:  { base: 70,  extraPerson: 50,  extraPct: 70, rental: 15, deposit: 80 }
+    kite: { base: 140, extraPerson: 100, extraPct: 70, rental: 45, deposit: 400, durationHours: 2 },
+    wing: { base: 160, extraPerson: 115, extraPct: 72, rental: 40, deposit: 350, durationHours: 2 },
+    sup:  { base: 70,  extraPerson: 50,  extraPct: 70, rental: 15, deposit: 80, durationHours: 2 }
   },
   // Multi-session discount: price per session decreases linearly with each additional session (1–5 sessions).
   // "standard" applies to every non-advanced booking (all disciplines); "advanced" is surf-only (levelOpts index 3).
@@ -41,9 +42,11 @@ window.SERVICES_DATA = {
     standard: { baseRate: 1/14, extraRate: 0.1 },
     advanced: { baseRate: 0.0625, extraRate: 1/12 }
   },
-  // Flat add-on fee per 2h session (not scaled by headcount) — combined photo + video + drone footage & edit
+  // Flat add-on fee per 2h session (not scaled by headcount) — combined photo + video + drone footage & edit.
+  // transferMarkupPct = % added on top of the average Grab fare estimate for transfers.
   addonPricing: {
-    media: 200
+    media: 200,
+    transferMarkupPct: 20
   },
   // Pick-up areas for transfers, with rough [lat, lon] — used to estimate transfer price vs. a destination spot
   transferOrigins: {

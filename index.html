@@ -443,6 +443,11 @@
     <sc-if value="{{ showForm }}" hint-placeholder-val="{{ true }}">
       <form onSubmit="{{ submit }}" class="book-glass" style="{{ glassCard }};border-radius:24px;padding:34px">
         <input type="text" name="company" value="{{ form.hp }}" onChange="{{ onHp }}" autoComplete="off" tabIndex="-1" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0" />
+        <sc-if value="{{ slotStaleWarning }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;align-items:center;gap:10px;padding:12px 16px;border-radius:12px;background:rgba(255,180,84,.1);border:1px solid rgba(255,180,84,.35);margin-bottom:20px;font-size:13px;line-height:1.5;color:#FFD9A8">
+            <span style="width:6px;height:6px;border-radius:50%;background:#FFB454;flex:none"></span>{{ slotStaleWarningMsg }}
+          </div>
+        </sc-if>
         <div style="display:flex;align-items:center;gap:10px;margin-bottom:26px">
           <sc-for list="{{ wizSteps }}" as="st" hint-placeholder-count="3">
             <div style="display:flex;align-items:center;gap:9px;flex:1;min-width:0">
@@ -557,7 +562,7 @@
                   <span style="{{ addonPrice }}">{{ rentalPrice }} {{ w.perDay }}</span>
                 </div>
                 <sc-if value="{{ rentalOpen }}" hint-placeholder-val="{{ false }}">
-                  <div style="display:flex;align-items:center;justify-content:space-between;gap:14px;margin-top:10px;padding:12px 14px;border-radius:12px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1)">
+                  <div style="display:flex;align-items:center;justify-content:space-between;gap:14px;margin-top:10px;margin-left:34px;width:calc(100% - 34px);padding:12px 14px;border-radius:12px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1)">
                     <span style="font-size:13px;color:#FFFFFFBD">{{ w.rentalQty }}</span>
                     <select value="{{ rentalQty }}" onChange="{{ onRentalQty }}" style="width:auto;margin:0;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);border-radius:10px;padding:8px 12px;color:#fff;font-size:14px;outline:none">
                       <sc-for list="{{ rentalQtyOpts }}" as="n" hint-placeholder-count="4"><option style="color:#000">{{ n }}</option></sc-for>
@@ -571,11 +576,11 @@
               <div>
                 <div onClick="{{ toggleTT }}" style="{{ aTT.row }}">
                   <span style="{{ aTT.box }}">{{ aTT.mark }}</span>
-                  <span style="flex:1;font-size:15px;color:#fff">{{ w.transferTo }}</span>
+                  <span style="flex:1;font-size:15px;color:#fff">{{ transferToLabel }}</span>
                   <span style="{{ addonPrice }}">{{ ttPrice }}</span>
                 </div>
                 <sc-if value="{{ ttOpen }}" hint-placeholder-val="{{ false }}">
-                  <label style="{{ fieldLabel }};margin-top:10px">{{ w.fromLabel }}
+                  <label style="{{ fieldLabel }};margin-top:10px;margin-left:34px;width:calc(100% - 34px)">{{ w.fromLabel }}
                     <select value="{{ ttFrom }}" onChange="{{ onTTFrom }}" style="{{ ttSelectStyle }}">
                       <option value="" style="color:#000">{{ w.fromPlaceholder }}</option>
                       <sc-for list="{{ transferOpts }}" as="o" hint-placeholder-count="6"><option style="color:#000">{{ o }}</option></sc-for>
@@ -591,7 +596,7 @@
                   <span style="{{ addonPrice }}">{{ tbPrice }}</span>
                 </div>
                 <sc-if value="{{ tbOpen }}" hint-placeholder-val="{{ false }}">
-                  <label style="{{ fieldLabel }};margin-top:10px">{{ w.dropLabel }}
+                  <label style="{{ fieldLabel }};margin-top:10px;margin-left:34px;width:calc(100% - 34px)">{{ w.dropLabel }}
                     <select value="{{ tbFrom }}" onChange="{{ onTBFrom }}" style="{{ tbSelectStyle }}">
                       <option value="" style="color:#000">{{ w.fromPlaceholder }}</option>
                       <sc-for list="{{ transferOpts }}" as="o" hint-placeholder-count="6"><option style="color:#000">{{ o }}</option></sc-for>
@@ -612,7 +617,7 @@
                   <span style="{{ addonPrice }}">{{ mediaPrice }}</span>
                 </div>
                 <sc-if value="{{ mediaOpen }}" hint-placeholder-val="{{ false }}">
-                  <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:10px;padding:12px 14px;border-radius:12px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1)">
+                  <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:10px;margin-left:34px;width:calc(100% - 34px);padding:12px 14px;border-radius:12px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1)">
                     <span style="flex:1 0 100%;font-size:13px;color:#FFFFFFBD">{{ w.mediaWhich }}</span>
                     <sc-for list="{{ mediaSessionOpts }}" as="ms" hint-placeholder-count="1">
                       <label onClick="{{ ms.toggle }}" style="{{ ms.chipStyle }}">
@@ -935,13 +940,15 @@ class Component extends DCLogic {
     }
     return spot.region || '';
   }
-  // Grab-average fare for the route +20% (USD, whole dollars)
+  // Grab-average fare for the route + configurable markup (USD, whole dollars) — markup % is set
+  // once in the bot's Add-ons menu and read from window.SERVICES_DATA.addonPricing.
   transferPrice(originName, destName) {
     if (!originName) return 0;
     const o = this.transferOrigins()[originName]; if (!o) return 0;
     const km = this.haversine(o, this.spotCoord(destName)) * 1.3; // straight-line → road
     const avgGrab = 1.5 + km * 0.5;
-    return Math.max(3, Math.round(avgGrab * 1.2));
+    const markupPct = (window.SERVICES_DATA.addonPricing && window.SERVICES_DATA.addonPricing.transferMarkupPct) ?? 20;
+    return Math.max(3, Math.round(avgGrab * (1 + markupPct / 100)));
   }
   // Live USD→IDR rate, cached in localStorage for 6h so we don't refetch on every render/reload.
   // Falls back to a hardcoded rate if the fetch fails or hasn't resolved yet.
@@ -1018,6 +1025,20 @@ class Component extends DCLogic {
     window.addEventListener('resize', this._onHeroResize);
     this._wxTries = {};
     this._wxReq = null;
+    // Re-probe availability for any date the client already picked every 20s while they're still
+    // filling the form — catches another client grabbing the same slot before this one submits.
+    this._availPoll = setInterval(() => {
+      if (this.state.submitted || this.state.slotTaken) return;
+      const f = this.state.form;
+      const L = (window.SITE_TEXT || {})[this.state.lang] || {};
+      const disciplineKeys = ['surf','kite','wing','sup'];
+      let sIdx = (L.book && L.book.sportOpts ? L.book.sportOpts.indexOf(f.sport) : -1); if (sIdx < 0) sIdx = 0;
+      const discKey = disciplineKeys[sIdx];
+      let lIdx = (L.book && L.book.levelOpts ? L.book.levelOpts.indexOf(f.level) : -1); if (lIdx < 0) lIdx = 0;
+      const levelSlug = ['first-timer', 'beginner', 'intermediate', 'advanced'][lIdx] || 'first-timer';
+      const dates = [...new Set((f.sessions || []).map(s => s.date).filter(Boolean))];
+      dates.forEach(d => this.fetchAvailability(discKey, levelSlug, d, true));
+    }, 20000);
     this._parallax = () => {
       const y = window.scrollY, vh = window.innerHeight;
       document.querySelectorAll('.prlx').forEach(el => {
@@ -1129,6 +1150,7 @@ class Component extends DCLogic {
   componentWillUnmount() {
     window.removeEventListener('scroll', this._onScroll);
     window.removeEventListener('resize', this._onHeroResize);
+    if (this._availPoll) clearInterval(this._availPoll);
     clearTimeout(this._heroResizeT);
     document.removeEventListener('mousedown', this._onDoc);
   }
@@ -1165,9 +1187,52 @@ class Component extends DCLogic {
       }
       return best;
     };
-    const ordered = pool.map((s, i) => ({ s, i, sc: scoreSpot(s) }))
-      .sort((a, b) => b.sc - a.sc || a.i - b.i).map(o => o.s);
+    const ordered = pool.map((s, i) => ({ s, i, sc: scoreSpot(s), live: this.spotGoodSlotCount(s, key, levelIdx) }))
+      .sort((a, b) => {
+        // Rank by real 7-day forecast quality (count of Good+ slots) once it's loaded; spots
+        // without live data yet fall back to the synthetic today-only heuristic so the list
+        // doesn't jump around before the forecast API resolves.
+        if (a.live != null && b.live != null && a.live !== b.live) return b.live - a.live;
+        if (a.live != null && b.live == null) return -1;
+        if (a.live == null && b.live != null) return 1;
+        return b.sc - a.sc || a.i - b.i;
+      }).map(o => o.s);
     return { primary: ordered[0], alts: ordered.slice(1, 3), pool: ordered, sportKey: key };
+  }
+
+  // Counts how many time windows across the next 7 days score "Good" or better for this spot +
+  // level, using the same live marine/wind data & thresholds as the forecast panel itself. Returns
+  // null (unranked) if the live forecast for this spot hasn't loaded yet — see maybeFetch().
+  spotGoodSlotCount(spot, sportKey, levelIdx) {
+    const today = this.todayStr();
+    const key = spot.lat + ',' + spot.lon + ',' + today;
+    const wx = this.state.wx && this.state.wx[key];
+    if (!wx || !wx.marine || !wx.wind) return null;
+    const M = wx.marine, W = wx.wind;
+    if (!(M.time && M.wave_height && W.time && W.wind_speed_10m)) return null;
+    const levelCenter = sportKey === 'surf' ? [0.7, 1.0, 1.4, 2.0][levelIdx] : 0.5;
+    const { hours: hoursH } = this.getSlotDefs(this.sportDuration(sportKey));
+    const offFrom = (spot.shore + 180) % 360;
+    let good = 0, any = false;
+    for (let k = 0; k < 7; k++) {
+      const date = this.addDaysStr(today, k);
+      const dayIdx = []; for (let i = 0; i < M.time.length; i++) { if ((M.time[i] || '').slice(0, 10) === date) dayIdx.push(i); }
+      if (!dayIdx.length) continue;
+      any = true;
+      const idxM = hh => { for (const i of dayIdx) { if ((M.time[i] || '').slice(11, 13) === hh) return i; } return dayIdx[0]; };
+      const idxW = hh => { for (let i = 0; i < W.time.length; i++) { if ((W.time[i] || '').slice(0, 13) === date + 'T' + hh) return i; } return -1; };
+      hoursH.forEach(hh => {
+        const mi = idxM(hh), wi = idxW(hh);
+        const wave = typeof M.wave_height[mi] === 'number' ? M.wave_height[mi] : levelCenter;
+        const spd = (wi >= 0 && typeof W.wind_speed_10m[wi] === 'number') ? W.wind_speed_10m[wi] : 8;
+        const dir = (wi >= 0 && typeof W.wind_direction_10m[wi] === 'number') ? W.wind_direction_10m[wi] : 0;
+        const diff = Math.abs(((dir - offFrom + 540) % 360) - 180);
+        let wc; if (spd < 6) wc = 3; else if (diff < 50) wc = 0; else if (diff < 125) wc = 1; else wc = 2;
+        const score = (wc === 0 ? 3 : wc === 3 ? 1.6 : wc === 1 ? 1.6 : 0.3) + Math.max(0, 1 - Math.abs(wave - levelCenter) / 1.2) * 2.2;
+        if (score >= 3.2) good++;
+      });
+    }
+    return any ? good : null;
   }
 
   activeSpot(ex) { const r = this.orderedSpots(ex.sport, ex.level, ex.date); return r.pool.find(s => s.name === ex.spot) || r.primary; }
@@ -1195,20 +1260,50 @@ class Component extends DCLogic {
       })
       .catch(() => { this.setState({ catalogStatus: 'fail' }); }); // endpoint down → hide the booking form
   }
-  // Per-slot instructor availability for the forecast. Booleans only (never counts). Guarded one
-  // request per sport|level|date; on any failure we leave every window bookable — a probe error
+  // Per-slot instructor availability for the forecast. Booleans only (never counts). Guarded to
+  // one request per sport|level|date at a time, but re-probed after AVAIL_TTL so a date/time
+  // picker showing an already-fetched date always reflects current bookings, not a stale snapshot
+  // from earlier in the session. On any failure we leave every window bookable — a probe error
   // must NEVER block a real booking.
-  fetchAvailability(sportKey, levelSlug, date) {
+  fetchAvailability(sportKey, levelSlug, date, force) {
     if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) return;
     const key = sportKey + '|' + (levelSlug || '') + '|' + date;
     this._availReq = this._availReq || {};
-    if (this._availReq[key]) return;
+    this._availAt = this._availAt || {};
+    const AVAIL_TTL = 45000;
+    const stale = !this._availAt[key] || (Date.now() - this._availAt[key]) > AVAIL_TTL;
+    if (this._availReq[key] && !force && !stale) return;
     this._availReq[key] = true;
+    this._availAt[key] = Date.now();
     const url = 'https://admin-bot-production-b400.up.railway.app/availability?sport=' + encodeURIComponent(sportKey) + '&level=' + encodeURIComponent(levelSlug || '') + '&date=' + date;
     fetch(url)
       .then(r => r.ok ? r.json() : Promise.reject(new Error('http')))
-      .then(data => { if (data && data.slots) this.setState(s => ({ avail: { ...(s.avail || {}), [key]: data.slots } })); })
+      .then(data => {
+        if (data && data.slots) {
+          this.setState(s => ({ avail: { ...(s.avail || {}), [key]: data.slots } }));
+          this.checkChosenSlotsStillFree(sportKey, date, data.slots);
+        }
+      })
       .catch(() => { this._availReq[key] = false; }); // allow a retry next render; keep slots bookable
+  }
+  // If a background re-probe shows a slot the client already picked just got taken, clear it and
+  // surface an immediate inline warning instead of letting them find out only at submit time.
+  checkChosenSlotsStillFree(sportKey, date, slots) {
+    if (this.state.submitted || this.state.slotTaken) return;
+    const f = this.state.form;
+    const L = (window.SITE_TEXT || {})[this.state.lang] || {};
+    const disciplineKeys = ['surf','kite','wing','sup'];
+    let sIdx = (L.book && L.book.sportOpts ? L.book.sportOpts.indexOf(f.sport) : -1); if (sIdx < 0) sIdx = 0;
+    if (disciplineKeys[sIdx] !== sportKey) return;
+    const rows = f.sessions || [];
+    let stale = false;
+    rows.forEach((row, i) => {
+      if (row.date === date && row.slot && slots[row.slot] === false) {
+        stale = true;
+        this.setSessionField(i, 'slot', '');
+      }
+    });
+    if (stale) this.setState({ slotStaleWarning: true });
   }
   // Multi-day feasibility: is there ONE coach free for the whole set? Guarded per set-signature;
   // on any failure we treat it as feasible (never block a real booking on a probe error).
@@ -1378,14 +1473,21 @@ class Component extends DCLogic {
   }
   addDaysStr(str, k) { const p = str.split('-').map(Number); const dt = new Date(Date.UTC(p[0], p[1] - 1, p[2] + k)); return dt.toISOString().slice(0, 10); }
 
-  // Slot windows for the day: 2h blocks between the bot-configured working hours (default 8–16).
-  getSlotDefs() {
+  // Session length is per-discipline (set in the bot's service editor) — a private lesson can be
+  // 2h, 3h, etc.; slot windows step by that duration instead of a fixed 2h block.
+  sportDuration(sportKey) {
+    const sp = (window.SERVICES_DATA.sessionPricing || {})[sportKey];
+    return sp ? Number(sp.durationHours) || 2 : 2;
+  }
+  getSlotDefs(durationHours) {
     const wh = (window.SERVICES_DATA && window.SERVICES_DATA.workHours) || { open: 8, close: 16 };
+    const durH = durationHours || 2;
+    const stepMin = Math.round(durH * 60);
     const slots = [], hours = [];
-    for (let h = wh.open; h < wh.close; h += 2) {
-      const pad = n => String(n).padStart(2, '0');
-      slots.push(`${pad(h)}:00 – ${pad(h + 2)}:00`);
-      hours.push(pad(h));
+    const fmt = m => { const h = Math.floor(m / 60), mm = m % 60; return String(h).padStart(2, '0') + ':' + String(mm).padStart(2, '0'); };
+    for (let startMin = wh.open * 60; startMin + stepMin <= wh.close * 60; startMin += stepMin) {
+      slots.push(`${fmt(startMin)} – ${fmt(startMin + stepMin)}`);
+      hours.push(String(Math.floor(startMin / 60)).padStart(2, '0'));
     }
     return { slots, hours };
   }
@@ -1393,7 +1495,7 @@ class Component extends DCLogic {
   buildReco(sportIdx, levelIdx, dateStr, sm, chosenSpot, chosenSlot, wx, locale) {
     const { primary, pool, sportKey } = this.orderedSpots(sportIdx, levelIdx, dateStr);
     const active = pool.find(s => s.name === chosenSpot) || primary;
-    const { slots: baseSlots, hours: hoursH } = this.getSlotDefs();
+    const { slots: baseSlots, hours: hoursH } = this.getSlotDefs(this.sportDuration(sportKey));
     const levelCenter = sportKey === 'surf' ? [0.7, 1.0, 1.4, 2.0][levelIdx] : 0.5;
     const sf = active.shore;
     const spotSeed = (() => { let h = 0; const n = active.name; for (let i = 0; i < n.length; i++) h = (h * 31 + n.charCodeAt(i)) >>> 0; return h; })();
@@ -1709,6 +1811,7 @@ class Component extends DCLogic {
     });
 
     const destName = f.spot || reco.active.name;
+    const transferToLabel = destName ? W.transferTo.replace('{spot}', destName) : W.transferToGeneric;
     // Transfers are billed per CALENDAR DAY, not per session — two sessions booked on the
     // same date only need one round trip to the spot, not two.
     const transferDaysCount = new Set(sessions.filter(s => s.date && s.slot).map(s => s.date)).size || 1;
@@ -1728,10 +1831,11 @@ class Component extends DCLogic {
     const totalNum = baseNum + addM + addR + ttNum + tbNum;
     const sportName = f.sport || L.book.sportOpts[0];
     const daySuffix = sessionsCount > 1 ? ' ×' + sessionsCount : '';
+    const durH = this.sportDuration(discKey); const durTag = (durH % 1 === 0 ? durH : durH.toFixed(1)) + 'h';
     const sessionLabel = [W.private, sportName, W.sessionWord].filter(Boolean).join(' ')
-      + ' (' + (sessionsCount > 1 ? sessionsCount + 'x2h' : '2h') + ') x ' + headcount + ' ' + (headcount === 1 ? W.personWord : W.peopleWord);
+      + ' (' + (sessionsCount > 1 ? sessionsCount + 'x' + durTag : durTag) + ') x ' + headcount + ' ' + (headcount === 1 ? W.personWord : W.peopleWord);
     const summary = [{ label: sessionLabel, amount: '$' + baseNum, textColor: '#61FFD0', textWeight: '600', amountWeight: '700' }];
-    if (ad.rental) summary.push({ type:'rental', label: rentalLabel + ' ' + rentalQty + ' ' + (rentalQty === 1 ? W.personWord : W.peopleWord) + ' ×' + sessionsCount + ' (2h)', amount: '$' + (rentalUnit * rentalQty * sessionsCount) , textColor:'#FFFFFFCC', textWeight:'400', amountWeight:'500' });
+    if (ad.rental) summary.push({ type:'rental', label: rentalLabel + ' ' + rentalQty + ' ' + (rentalQty === 1 ? W.personWord : W.peopleWord) + ' ×' + sessionsCount + ' (' + durTag + ')', amount: '$' + (rentalUnit * rentalQty * sessionsCount) , textColor:'#FFFFFFCC', textWeight:'400', amountWeight:'500' });
     if (transfersAvail && ad.transferTo && this.state.transferToFrom) summary.push({ type:'transferTo', label: W.transferRoute.replace('{a}', this.state.transferToFrom).replace('{b}', destName) + (transferDaysCount > 1 ? ' x' + transferDaysCount : ''), amount: '$' + ttNum , textColor:'#FFFFFFCC', textWeight:'400', amountWeight:'500' });
     if (transfersAvail && ad.transferBack && this.state.transferBackFrom) summary.push({ type:'transferBack', label: W.transferRoute.replace('{a}', destName).replace('{b}', this.state.transferBackFrom) + (transferDaysCount > 1 ? ' x' + transferDaysCount : ''), amount: '$' + tbNum , textColor:'#FFFFFFCC', textWeight:'400', amountWeight:'500' });
     if (ad.media) summary.push({ type:'media', label: W.media + (sessionsCount > 1 ? ' ×' + mediaCount : ''), amount: '$' + addM , textColor:'#FFFFFFCC', textWeight:'400', amountWeight:'500' });
@@ -1742,7 +1846,7 @@ class Component extends DCLogic {
     const sessionsWithAddons = sessions.map((s, i) => {
       const lines = [];
       if (s.date && s.slot) {
-        if (ad.rental) lines.push({ type:'rental', label: rentalLabel + ' ' + rentalQty + ' ' + (rentalQty === 1 ? W.personWord : W.peopleWord) + ' (2h)', amount: rentalUnit * rentalQty });
+        if (ad.rental) lines.push({ type:'rental', label: rentalLabel + ' ' + rentalQty + ' ' + (rentalQty === 1 ? W.personWord : W.peopleWord) + ' (' + durTag + ')', amount: rentalUnit * rentalQty });
         if (transfersAvail && ad.transferTo && this.state.transferToFrom) lines.push({ type:'transferTo', label: W.transferRoute.replace('{a}', this.state.transferToFrom).replace('{b}', destName), amount: ttOne });
         if (transfersAvail && ad.transferBack && this.state.transferBackFrom) lines.push({ type:'transferBack', label: W.transferRoute.replace('{a}', destName).replace('{b}', this.state.transferBackFrom), amount: tbOne });
         if (ad.media && (!mediaSessions.length || mediaSessions.includes(i))) lines.push({ type:'media', label: W.media, amount: mediaUnit });
@@ -1862,6 +1966,10 @@ class Component extends DCLogic {
       notSubmitted: !this.state.submitted,
       catalogUnavailable: this.state.catalogStatus === 'fail' && !this.state.submitted && !this.state.slotTaken,
       showForm: !this.state.submitted && !this.state.slotTaken && this.state.catalogStatus !== 'fail',
+      slotStaleWarning: !!this.state.slotStaleWarning,
+      slotStaleWarningMsg: this.state.lang === 'ru'
+        ? 'Пока вы заполняли форму, кто-то забронировал одно из выбранных окон. Мы сняли его — выберите другое время.'
+        : 'While you were filling this in, someone else booked one of your chosen windows. We cleared it — please pick another time.',
       slotTaken: !!this.state.slotTaken,
       slotTakenTitle: this.state.lang === 'ru' ? 'Упс — слот уже заняли' : 'Oops — that slot was just taken',
       slotTakenBody: this.state.lang === 'ru' ? 'Пока вы заполняли форму, свободный тренер на это окно закончился. Депозит НЕ списан. Выберите, пожалуйста, соседнее время или день.' : 'While you were filling in the form, the last free coach for this window got booked. You have NOT been charged. Please pick a neighbouring time or day.',
@@ -1901,7 +2009,7 @@ class Component extends DCLogic {
           // Block advancing if any chosen date has NO free coach in any window (availability probe).
           const lvSlug = ['first-timer', 'beginner', 'intermediate', 'advanced'][lvlIdx] || 'first-timer';
           const nowB = this.baliNow();
-          const SLOTSN = this.getSlotDefs().slots;
+          const SLOTSN = this.getSlotDefs(this.sportDuration(discKey)).slots;
           const SLOTH = {}; SLOTSN.forEach(s => { SLOTH[s] = parseInt(s.slice(0, 2), 10); });
           let noCoachIdx = -1;
           for (let i = 0; i < sessionsCount; i++) {
@@ -1921,7 +2029,7 @@ class Component extends DCLogic {
       },
       back: () => this.gotoStep(noAddons && this.state.step === 3 ? 1 : Math.max(1, this.state.step - 1)),
       aMedia: addonStyle(ad.media), aRental: addonStyle(ad.rental),
-      aTT: addonStyle(ad.transferTo), aTB: addonStyle(ad.transferBack),
+      aTT: addonStyle(ad.transferTo), aTB: addonStyle(ad.transferBack), transferToLabel,
       rentalAvail, mediaAvail,
       toggleMedia: () => this.setState(s => ({ addons: { ...s.addons, media: !s.addons.media } })),
       mediaOpen: ad.media && sessionsCount > 1,
@@ -2012,7 +2120,7 @@ class Component extends DCLogic {
       sessionCountOpts: ['1','2','3','4','5'],
       showCoachNote: (parseInt(this.state.form.sessionCount, 10) || 1) > 1,
       sessionRows: (() => {
-        const SLOTS = this.getSlotDefs().slots;
+        const SLOTS = this.getSlotDefs(this.sportDuration(discKey)).slots;
         const SLOT_START_HOUR = {}; SLOTS.forEach(s => { SLOT_START_HOUR[s] = parseInt(s.slice(0, 2), 10); });
         const bali = this.baliNow();
         const activeSessions = sessions.slice(0, sessionsCount);
@@ -2036,7 +2144,7 @@ class Component extends DCLogic {
             label: (W.sessionLine || 'Session') + ' ' + (i + 1),
             date: row.date, slot: row.slot, minDate: bali.dateStr,
             onDate: e => { this.setSessionField(i, 'date', e.target.value); this.setState(s => ({ touched: { ...s.touched, dateAt: { ...(s.touched.dateAt||{}), [i]: true } } })); },
-            onSlot: e => { this.setSessionField(i, 'slot', e.target.value); this.setState(s => ({ touched: { ...s.touched, slotAt: { ...(s.touched.slotAt||{}), [i]: true } } })); },
+            onSlot: e => { this.setSessionField(i, 'slot', e.target.value); this.setState(s => ({ touched: { ...s.touched, slotAt: { ...(s.touched.slotAt||{}), [i]: true } }, slotStaleWarning: false })); },
             err: dateMsg,
             dateInputStyle: dateInputBase + (dateBad ? ';border-color:#FFB454' : ''),
             slotErr: slotErr ? (W.errSlot || 'Please choose a time window') : '',
@@ -2091,7 +2199,7 @@ class Component extends DCLogic {
         this.submitOrderToAdminBot(f, summary, baseNum, totalNum, headcount, sessionsWithAddons);
         const el = document.getElementById('book'); if (el) window.scrollTo({ top: el.offsetTop - 40, behavior: 'smooth' });
       },
-      reset: () => this.setState(s => ({ submitted: false, slotTaken: false, agreed: false, paymentMethod: 'paypal', step: 1, addons: { media:false, rental:false, transferTo:false, transferBack:false }, transferToFrom:'', transferBackFrom:'', form: { ...s.form, sessionCount: '1', sessions: [{ date:'', slot:'' }] } })),
+      reset: () => { this._availReq = {}; this.setState(s => ({ submitted: false, slotTaken: false, agreed: false, paymentMethod: 'paypal', step: 1, slotStaleWarning: false, avail: {}, addons: { media:false, rental:false, transferTo:false, transferBack:false }, transferToFrom:'', transferBackFrom:'', form: { ...s.form, sessionCount: '1', sessions: [{ date:'', slot:'' }] } })); },
 
     };
   }
