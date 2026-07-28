@@ -301,11 +301,12 @@
             <div style="padding:16px 14px;border-radius:14px;background:rgba(255,180,84,.09);border:1px solid rgba(255,180,84,.35);font-size:13px;color:#FFD9A8;text-align:center">{{ reco.noCoachesMsg }}</div>
           </sc-if>
         </div>
+        <p style="font-size:11px;line-height:1.5;color:#FFFFFF80;margin:10px 0 0;opacity:.7">{{ t.smart.disclaimerSrc }}</p>
       </div>
       </div>
 
       <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:22px;padding-top:20px;border-top:1px solid rgba(255,255,255,.1)">
-        <p style="font-size:12px;line-height:1.5;color:#FFFFFF99;margin:0;max-width:44ch">{{ t.smart.disclaimer }}<br><span style="opacity:.7">{{ t.smart.disclaimerSrc }}</span></p>
+        <p style="font-size:12px;line-height:1.5;color:#FFFFFF99;margin:0;max-width:44ch">{{ t.smart.disclaimer }}</p>
         <button type="button" disabled="{{ reco.bookDisabled }}" onClick="{{ bookThis }}" style="{{ reco.bookBtnStyle }}" style-hover="{{ reco.bookBtnHover }}">{{ reco.bookLabel }}</button>
       </div>
     </div>
@@ -472,7 +473,9 @@
                 </select>
               </label>
             </div>
-            <p style="font-size:12px;line-height:1.5;color:#FFB454;margin:12px 2px 0">{{ w.levelHonest }}</p>
+            <sc-if value="{{ showLevelHonest }}" hint-placeholder-val="{{ false }}">
+              <p style="font-size:12px;line-height:1.5;color:#FFB454;margin:12px 2px 0">{{ w.levelHonest }}</p>
+            </sc-if>
             <label style="{{ fieldLabel }};margin-top:16px">{{ t.book.fSpot }}
               <select required="" value="{{ form.spot }}" onChange="{{ onSpotField }}" style="{{ spotSelectStyle }}">
                 <option value="" style="color:#000">—</option>
@@ -628,6 +631,25 @@
                 </sc-if>
               </div>
               </sc-if>
+              <sc-for list="{{ customAddonRows }}" as="ca" hint-placeholder-count="0">
+                <div>
+                  <div onClick="{{ ca.toggle }}" style="{{ ca.row }}">
+                    <span style="{{ ca.box }}">{{ ca.mark }}</span>
+                    <span style="flex:1;font-size:15px;color:#fff">{{ ca.label }}</span>
+                    <span style="{{ addonPrice }}">{{ ca.priceLabel }}</span>
+                  </div>
+                  <sc-if value="{{ ca.open }}" hint-placeholder-val="{{ false }}">
+                    <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:10px;margin-left:34px;width:calc(100% - 34px);padding:12px 14px;border-radius:12px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1)">
+                      <span style="flex:1 0 100%;font-size:13px;color:#FFFFFFBD">{{ w.mediaWhich }}</span>
+                      <sc-for list="{{ ca.sessionOpts }}" as="ms" hint-placeholder-count="1">
+                        <label onClick="{{ ms.toggle }}" style="{{ ms.chipStyle }}">
+                          <span style="{{ ms.box }}">{{ ms.mark }}</span>{{ ms.label }}
+                        </label>
+                      </sc-for>
+                    </div>
+                  </sc-if>
+                </div>
+              </sc-for>
             </div>
             <div style="margin-top:22px;padding:18px;border-radius:16px;background:rgba(97,255,208,.07);border:1px solid rgba(97,255,208,.25)">
               <div style="font-size:12px;letter-spacing:.5px;text-transform:uppercase;color:#61FFD0;font-weight:600;margin-bottom:14px">{{ w.summaryTitle }}</div>
@@ -1819,7 +1841,9 @@ class Component extends DCLogic {
     const tbOne = transfersAvail && ad.transferBack && this.state.transferBackFrom ? this.transferPrice(this.state.transferBackFrom, destName) : 0;
     const ttNum = ttOne * transferDaysCount, tbNum = tbOne * transferDaysCount;
     const baseNum = perSessionBase * sessionsCount + perSessionExtra * sessionsCount * (headcount - 1);
-    const rentalRate = equipTier.rental;
+    // Per-spot rental override (set in the bot's Spots screen) beats the service default.
+    const chosenSpotObj = f.spot ? this.orderedSpots(sIdx, lvlIdx, null).pool.find(s => s.name === f.spot) : null;
+    const rentalRate = (chosenSpotObj && chosenSpotObj.rentalOverride != null) ? chosenSpotObj.rentalOverride : equipTier.rental;
     const rentalQty = headcount === 1 ? 1 : Math.min(Math.max(1, this.state.rentalQty ?? headcount), headcount);
     const mediaSessions = (this.state.mediaSessions || []).filter(n => n < sessionsCount);
     const mediaCount = ad.media ? (mediaSessions.length || sessionsCount) : 0; // default: all sessions until user narrows it down
@@ -1827,8 +1851,20 @@ class Component extends DCLogic {
     // additional day/session booked — same idea as the base-session multi-day discount.
     const rentalUnit = rentalRate * Math.max(0, 1 - ((equipTier.rentalDiscountPct || 0) / 100) * (sessionsCount - 1));
     const mediaUnit = SVC.addonPricing.media * Math.max(0, 1 - ((equipTier.mediaDiscountPct || 0) / 100) * Math.max(0, mediaCount - 1));
+    // Custom add-ons (super-admin CRUD, Add-ons menu) — same flat-fee + which-sessions pattern as media.
+    const customAddonsList = SVC.customAddons || [];
+    const caState = this.state.customAddons || {};
+    const caSessState = this.state.customAddonSessions || {};
+    const customAddonCalc = customAddonsList.map(ca => {
+      const on = !!caState[ca.key];
+      const picked = (caSessState[ca.key] || []).filter(n => n < sessionsCount);
+      const count = on ? (picked.length || sessionsCount) : 0;
+      const unit = ca.price * Math.max(0, 1 - ((ca.discountPct || 0) / 100) * Math.max(0, count - 1));
+      return { ca, on, picked, count, unit, amount: on ? unit * count : 0 };
+    });
+    const addCustom = customAddonCalc.reduce((s, c) => s + c.amount, 0);
     const addM = ad.media ? mediaUnit * mediaCount : 0, addR = ad.rental ? rentalUnit * rentalQty * sessionsCount : 0;
-    const totalNum = baseNum + addM + addR + ttNum + tbNum;
+    const totalNum = baseNum + addM + addR + ttNum + tbNum + addCustom;
     const sportName = f.sport || L.book.sportOpts[0];
     const daySuffix = sessionsCount > 1 ? ' ×' + sessionsCount : '';
     const durH = this.sportDuration(discKey); const durTag = (durH % 1 === 0 ? durH : durH.toFixed(1)) + 'h';
@@ -1839,6 +1875,7 @@ class Component extends DCLogic {
     if (transfersAvail && ad.transferTo && this.state.transferToFrom) summary.push({ type:'transferTo', label: W.transferRoute.replace('{a}', this.state.transferToFrom).replace('{b}', destName) + (transferDaysCount > 1 ? ' x' + transferDaysCount : ''), amount: '$' + ttNum , textColor:'#FFFFFFCC', textWeight:'400', amountWeight:'500' });
     if (transfersAvail && ad.transferBack && this.state.transferBackFrom) summary.push({ type:'transferBack', label: W.transferRoute.replace('{a}', destName).replace('{b}', this.state.transferBackFrom) + (transferDaysCount > 1 ? ' x' + transferDaysCount : ''), amount: '$' + tbNum , textColor:'#FFFFFFCC', textWeight:'400', amountWeight:'500' });
     if (ad.media) summary.push({ type:'media', label: W.media + (sessionsCount > 1 ? ' ×' + mediaCount : ''), amount: '$' + addM , textColor:'#FFFFFFCC', textWeight:'400', amountWeight:'500' });
+    customAddonCalc.filter(c => c.on).forEach(c => summary.push({ type: c.ca.key, label: (this.state.lang === 'ru' ? c.ca.labelRu : c.ca.labelEn) + (sessionsCount > 1 ? ' ×' + c.count : ''), amount: '$' + Math.round(c.amount), textColor:'#FFFFFFCC', textWeight:'400', amountWeight:'500' }));
 
     // Per-session addon breakdown (for the admin bot's order card, which nests addons under
     // each session date rather than showing one flat aggregated list) — same per-day rates
@@ -1850,6 +1887,9 @@ class Component extends DCLogic {
         if (transfersAvail && ad.transferTo && this.state.transferToFrom) lines.push({ type:'transferTo', label: W.transferRoute.replace('{a}', this.state.transferToFrom).replace('{b}', destName), amount: ttOne });
         if (transfersAvail && ad.transferBack && this.state.transferBackFrom) lines.push({ type:'transferBack', label: W.transferRoute.replace('{a}', destName).replace('{b}', this.state.transferBackFrom), amount: tbOne });
         if (ad.media && (!mediaSessions.length || mediaSessions.includes(i))) lines.push({ type:'media', label: W.media, amount: mediaUnit });
+        customAddonCalc.filter(c => c.on).forEach(c => {
+          if (!c.picked.length || c.picked.includes(i)) lines.push({ type: c.ca.key, label: this.state.lang === 'ru' ? c.ca.labelRu : c.ca.labelEn, amount: Math.round(c.unit) });
+        });
       }
       return { date: s.date, timeWindow: s.slot, spot: f.spot, addons: lines };
     });
@@ -1928,7 +1968,7 @@ class Component extends DCLogic {
         ...r,
         cardStyle: 'flex:none;width:340px;max-width:82vw;padding:30px;border:1px solid rgba(34,40,42,.08);border-radius:18px;background:#FFFFFF' + (this.state.isTouch ? ';scroll-snap-align:center' : '')
       })),
-      revScrollStyle: this.state.isTouch ? 'overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;scroll-snap-type:x mandatory;padding:2px 22px 10px;scrollbar-width:none' : '',
+      revScrollStyle: this.state.isTouch ? 'overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;scroll-snap-type:x proximity;padding:2px 22px 10px;scrollbar-width:none' : '',
       revTrackStyle: 'display:flex;gap:22px;width:max-content' + (this.state.isTouch ? ';animation:none' : ''),
       certBadges: CERT_BADGES,
       careItems: (L.care && L.care.items ? L.care.items : []).map((it, i) => ({ ...it, hasLink: !!it.href, icWater: i === 0, icLeaf: i === 1, icHeart: i === 2 })),
@@ -1936,6 +1976,7 @@ class Component extends DCLogic {
       levelOpts: L.book.levelOpts,
       spotPool: this.orderedSpots(sIdx, lvlIdx, null).pool.map(s => s.name),
       spotErr: (this.state.touched.spot && !f.spot) ? (W.errSpot || 'Please choose a spot') : '',
+      showLevelHonest: lvlIdx >= 2,
       spotSelectStyle: selectStyle + ((this.state.touched.spot && !f.spot) ? ';border-color:#FFB454;background:rgba(255,180,84,.07)' : ''),
       instructorLangOpts: (window.SERVICES_DATA && Array.isArray(window.SERVICES_DATA.languages) && window.SERVICES_DATA.languages.length)
         ? window.SERVICES_DATA.languages.map(l => l.label)
@@ -2044,6 +2085,33 @@ class Component extends DCLogic {
             const base = (s.mediaSessions || []).length ? s.mediaSessions : Array.from({ length: sessionsCount }, (_, k) => k);
             const set = base.includes(idx) ? base.filter(n => n !== idx) : [...base, idx];
             return { mediaSessions: set.length ? set : [idx] }; // never let it go fully empty
+          })
+        };
+      }),
+      customAddonRows: customAddonCalc.map(c => {
+        const label = this.state.lang === 'ru' ? c.ca.labelRu : c.ca.labelEn;
+        const st = addonStyle(c.on);
+        const priceUnit = c.ca.price * Math.max(0, 1 - ((c.ca.discountPct || 0) / 100) * Math.max(0, (c.picked.length || sessionsCount) - 1));
+        return {
+          ...st,
+          label,
+          priceLabel: '$' + Math.round(priceUnit) + (sessionsCount > 1 && c.ca.discountPct ? ' ' + W.perDay : ''),
+          open: c.on && sessionsCount > 1,
+          toggle: () => this.setState(s => ({ customAddons: { ...(s.customAddons || {}), [c.ca.key]: !c.on } })),
+          sessionOpts: Array.from({ length: sessionsCount }, (_, idx) => {
+            const checked = c.picked.length ? c.picked.includes(idx) : true;
+            return {
+              label: (W.sessionLine || 'Session') + ' ' + (idx + 1),
+              box: 'width:16px;height:16px;border-radius:5px;border:1.5px solid ' + (checked ? '#61FFD0' : 'rgba(255,255,255,.35)') + ';background:' + (checked ? '#61FFD0' : 'transparent') + ';display:inline-flex;align-items:center;justify-content:center;font-size:11px;color:#08100d;margin-right:7px',
+              mark: checked ? '✓' : '',
+              chipStyle: 'display:flex;align-items:center;font-size:13px;color:#fff;cursor:pointer;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:100px;padding:6px 12px 6px 8px',
+              toggle: () => this.setState(s => {
+                const base = (s.customAddonSessions || {})[c.ca.key];
+                const cur = (base && base.length) ? base : Array.from({ length: sessionsCount }, (_, k) => k);
+                const set = cur.includes(idx) ? cur.filter(n => n !== idx) : [...cur, idx];
+                return { customAddonSessions: { ...(s.customAddonSessions || {}), [c.ca.key]: set.length ? set : [idx] } };
+              })
+            };
           })
         };
       }),
