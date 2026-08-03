@@ -78,7 +78,6 @@
   .rev-scroll::-webkit-scrollbar{display:none}
   .book-grid,.fc-grid{min-width:0}
   .book-grid > div,.fc-grid > div{min-width:0}
-  .faq-grid > div{min-width:0}
   .nav-burger{display:none}
   @media(max-width:880px){
     .nav-desktop{display:none!important}
@@ -90,7 +89,6 @@
     .book-grid{grid-template-columns:1fr!important;gap:38px!important}
     .fc-grid{grid-template-columns:1fr!important;gap:32px!important}
     .fc-top{grid-template-columns:1fr!important;gap:22px!important}
-    .faq-grid{grid-template-columns:1fr!important}
     .footer-grid{grid-template-columns:1fr 1fr!important;gap:34px 24px!important}
     .wrap{padding-left:22px!important;padding-right:22px!important}
     .sec-pad{padding-top:74px!important;padding-bottom:74px!important}
@@ -176,7 +174,7 @@
 </div>
 
 <!-- ============ HERO ============ -->
-<header id="hero" data-screen-label="Hero" style="position:relative;min-height:100vh;display:flex;align-items:center;overflow:visible;padding-top:calc(74px + env(safe-area-inset-top));padding-bottom:48px">
+<header id="hero" data-screen-label="Hero" style="position:relative;min-height:auto;display:flex;align-items:center;overflow:visible;padding-top:calc(120px + env(safe-area-inset-top));padding-bottom:120px">
   <div id="heroBgLayer" style="position:absolute;inset:0;background:linear-gradient(180deg,#0E3A63 0%,#1E6FA8 50%,#176394 80%,#145E86 100%)"></div>
   
   <div id="heroContent" class="wrap" style="position:relative;width:100%;max-width:1280px;margin:0 auto;padding:0 32px 90px;pointer-events:none;will-change:transform,opacity">
@@ -212,7 +210,7 @@
 
 <!-- ============ SMART FORECAST / SPOT FINDER ============ -->
 <section id="forecast" data-screen-label="Forecast" style="position:relative;background:var(--eb-bg-3)">
-  <div class="wrap sec-pad fc-grid" style="max-width:1280px;margin:0 auto;padding:56px 32px 100px;position:relative;z-index:1;display:grid;grid-template-columns:1fr 1.05fr;gap:64px;align-items:center">
+  <div class="wrap sec-pad fc-grid" style="max-width:1280px;margin:0 auto;padding:56px 32px 100px;position:relative;z-index:1;display:grid;grid-template-columns:1fr 1.05fr;gap:64px;align-items:center;min-height:820px">
    <div>
     <div id="fc-heading-fade" style="will-change:opacity">
      <h2 style="{{ h2Style }}">{{ t.finder.h2 }}</h2>
@@ -387,15 +385,15 @@
    <div>
     <p style="{{ subhead }};text-align:center">{{ t.faq.sub }}</p>
     <h2 style="{{ h2Style }};text-align:center;margin:12px auto 48px">{{ t.faq.h2 }}</h2>
-    <div class="faq-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:16px 20px;align-items:start">
+    <div class="faq-grid" style="max-width:820px;margin:0 auto;border-top:1px solid rgba(255,255,255,.14)">
       <sc-for list="{{ faqs }}" as="q" hint-placeholder-count="6">
-        <div style="border:1px solid rgba(255,255,255,.14);border-radius:16px;background:rgba(255,255,255,.045);overflow:hidden">
-          <button onClick="{{ q.toggle }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:20px;background:transparent;border:none;cursor:pointer;text-align:left;padding:22px 24px;color:#fff;font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:18px;line-height:1.2">
+        <div style="border-bottom:1px solid rgba(255,255,255,.14)">
+          <button onClick="{{ q.toggle }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:20px;background:transparent;border:none;cursor:pointer;text-align:left;padding:26px 4px;color:#fff;font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:18px;line-height:1.2">
             {{ q.question }}
             <span style="{{ q.iconStyle }}">+</span>
           </button>
           <div style="{{ q.panelStyle }}">
-            <p style="font-size:15px;line-height:1.65;margin:0;padding:0 24px 22px;max-width:64ch">{{ q.answer }}</p>
+            <p style="font-size:15px;line-height:1.65;margin:0;padding:0 4px 26px;max-width:64ch;color:#FFFFFFCC">{{ q.answer }}</p>
           </div>
         </div>
       </sc-for>
@@ -608,9 +606,6 @@
                   </label>
                 </sc-if>
               </div>
-              </sc-if>
-              <sc-if value="{{ noTransfers }}" hint-placeholder-val="{{ false }}">
-                <p style="font-size:12px;line-height:1.5;color:#FFFFFF80;margin:2px 2px 0">{{ w.transferLocked }}</p>
               </sc-if>
               <sc-if value="{{ mediaAvail }}" hint-placeholder-val="{{ true }}">
               <div>
@@ -963,14 +958,34 @@ class Component extends DCLogic {
     return spot.region || '';
   }
   // Grab-average fare for the route + configurable markup (USD, whole dollars) — markup % is set
-  // once in the bot's Add-ons menu and read from window.SERVICES_DATA.addonPricing.
+  // once in the bot's Add-ons menu and read from window.SERVICES_DATA.addonPricing. Distance uses
+  // a real road-route km from OSRM (free public router, no key) when available; falls back to the
+  // haversine*1.3 estimate instantly so the price never blocks on a slow/failed fetch.
+  transferRoadKm(originName, destName) {
+    const o = this.transferOrigins()[originName]; if (!o) return 0;
+    const d = this.spotCoord(destName);
+    const key = originName + '|' + destName;
+    this._roadKm = this._roadKm || {};
+    if (this._roadKm[key] == null && !this._roadKmReq?.[key]) {
+      this._roadKmReq = this._roadKmReq || {};
+      this._roadKmReq[key] = true;
+      fetch(`https://router.project-osrm.org/route/v1/driving/${o[1]},${o[0]};${d[1]},${d[0]}?overview=false`)
+        .then(r => r.ok ? r.json() : Promise.reject())
+        .then(j => {
+          const m = j?.routes?.[0]?.distance;
+          if (typeof m === 'number') { this._roadKm[key] = m / 1000; this.forceUpdate(); }
+        })
+        .catch(() => {}); // keep using the haversine estimate on failure
+    }
+    return this._roadKm[key] != null ? this._roadKm[key] : this.haversine(o, d) * 1.3;
+  }
   transferPrice(originName, destName) {
     if (!originName) return 0;
-    const o = this.transferOrigins()[originName]; if (!o) return 0;
-    const km = this.haversine(o, this.spotCoord(destName)) * 1.3; // straight-line → road
+    if (!this.transferOrigins()[originName]) return 0;
+    const km = this.transferRoadKm(originName, destName);
     const avgGrab = 1.5 + km * 0.5;
     const markupPct = (window.SERVICES_DATA.addonPricing && window.SERVICES_DATA.addonPricing.transferMarkupPct) ?? 20;
-    return Math.max(3, Math.round(avgGrab * (1 + markupPct / 100)));
+    return Math.max(5, Math.round((avgGrab * (1 + markupPct / 100)) / 5) * 5);
   }
   // Live USD→IDR rate, cached in localStorage for 6h so we don't refetch on every render/reload.
   // Falls back to a hardcoded rate if the fetch fails or hasn't resolved yet.
@@ -994,8 +1009,8 @@ class Component extends DCLogic {
   // Rough drive-time estimate for the route (road-adjusted distance / ~28km/h average Bali traffic speed).
   transferEtaMin(originName, destName) {
     if (!originName) return 0;
-    const o = this.transferOrigins()[originName]; if (!o) return 0;
-    const km = this.haversine(o, this.spotCoord(destName)) * 1.3;
+    if (!this.transferOrigins()[originName]) return 0;
+    const km = this.transferRoadKm(originName, destName);
     return Math.max(10, Math.round((km / 28) * 60 / 5) * 5); // rounded to nearest 5 min
   }
 
@@ -1047,20 +1062,6 @@ class Component extends DCLogic {
     window.addEventListener('resize', this._onHeroResize);
     this._wxTries = {};
     this._wxReq = null;
-    // Re-probe availability for any date the client already picked every 20s while they're still
-    // filling the form — catches another client grabbing the same slot before this one submits.
-    this._availPoll = setInterval(() => {
-      if (this.state.submitted || this.state.slotTaken) return;
-      const f = this.state.form;
-      const L = (window.SITE_TEXT || {})[this.state.lang] || {};
-      const disciplineKeys = ['surf','kite','wing','sup'];
-      let sIdx = (L.book && L.book.sportOpts ? L.book.sportOpts.indexOf(f.sport) : -1); if (sIdx < 0) sIdx = 0;
-      const discKey = disciplineKeys[sIdx];
-      let lIdx = (L.book && L.book.levelOpts ? L.book.levelOpts.indexOf(f.level) : -1); if (lIdx < 0) lIdx = 0;
-      const levelSlug = ['first-timer', 'beginner', 'intermediate', 'advanced'][lIdx] || 'first-timer';
-      const dates = [...new Set((f.sessions || []).map(s => s.date).filter(Boolean))];
-      dates.forEach(d => this.fetchAvailability(discKey, levelSlug, d, true));
-    }, 20000);
     this._parallax = () => {
       const y = window.scrollY, vh = window.innerHeight;
       document.querySelectorAll('.prlx').forEach(el => {
@@ -1303,29 +1304,9 @@ class Component extends DCLogic {
       .then(data => {
         if (data && data.slots) {
           this.setState(s => ({ avail: { ...(s.avail || {}), [key]: data.slots } }));
-          this.checkChosenSlotsStillFree(sportKey, date, data.slots);
         }
       })
       .catch(() => { this._availReq[key] = false; }); // allow a retry next render; keep slots bookable
-  }
-  // If a background re-probe shows a slot the client already picked just got taken, clear it and
-  // surface an immediate inline warning instead of letting them find out only at submit time.
-  checkChosenSlotsStillFree(sportKey, date, slots) {
-    if (this.state.submitted || this.state.slotTaken) return;
-    const f = this.state.form;
-    const L = (window.SITE_TEXT || {})[this.state.lang] || {};
-    const disciplineKeys = ['surf','kite','wing','sup'];
-    let sIdx = (L.book && L.book.sportOpts ? L.book.sportOpts.indexOf(f.sport) : -1); if (sIdx < 0) sIdx = 0;
-    if (disciplineKeys[sIdx] !== sportKey) return;
-    const rows = f.sessions || [];
-    let stale = false;
-    rows.forEach((row, i) => {
-      if (row.date === date && row.slot && slots[row.slot] === false) {
-        stale = true;
-        this.setSessionField(i, 'slot', '');
-      }
-    });
-    if (stale) this.setState({ slotStaleWarning: true });
   }
   // Multi-day feasibility: is there ONE coach free for the whole set? Guarded per set-signature;
   // on any failure we treat it as feasible (never block a real booking on a probe error).
@@ -1849,17 +1830,18 @@ class Component extends DCLogic {
     const mediaCount = ad.media ? (mediaSessions.length || sessionsCount) : 0; // default: all sessions until user narrows it down
     // Per-day discount (set per service in the bot): % off the rental/media unit price for each
     // additional day/session booked — same idea as the base-session multi-day discount.
-    const rentalUnit = rentalRate * Math.max(0, 1 - ((equipTier.rentalDiscountPct || 0) / 100) * (sessionsCount - 1));
-    const mediaUnit = SVC.addonPricing.media * Math.max(0, 1 - ((equipTier.mediaDiscountPct || 0) / 100) * Math.max(0, mediaCount - 1));
-    // Custom add-ons (super-admin CRUD, Add-ons menu) — same flat-fee + which-sessions pattern as media.
-    const customAddonsList = SVC.customAddons || [];
+    const rentalUnit = round5(rentalRate * Math.max(0, 1 - ((equipTier.rentalDiscountPct || 0) / 100) * (sessionsCount - 1)));
+    const mediaUnit = round5(SVC.addonPricing.media * Math.max(0, 1 - ((equipTier.mediaDiscountPct || 0) / 100) * Math.max(0, mediaCount - 1)));
+    // Custom add-ons (super-admin CRUD, Add-ons menu) — priced PER SPORT (discKey); only media is
+    // a single global price. Same flat-fee + which-sessions pattern as media.
+    const customAddonsList = (SVC.customAddons || []).filter(ca => ca.perDiscipline && ca.perDiscipline[discKey]).map(ca => ({ key: ca.key, labelEn: ca.labelEn, labelRu: ca.labelRu, price: ca.perDiscipline[discKey].price, discountPct: ca.perDiscipline[discKey].discountPct }));
     const caState = this.state.customAddons || {};
     const caSessState = this.state.customAddonSessions || {};
     const customAddonCalc = customAddonsList.map(ca => {
       const on = !!caState[ca.key];
       const picked = (caSessState[ca.key] || []).filter(n => n < sessionsCount);
       const count = on ? (picked.length || sessionsCount) : 0;
-      const unit = ca.price * Math.max(0, 1 - ((ca.discountPct || 0) / 100) * Math.max(0, count - 1));
+      const unit = round5(ca.price * Math.max(0, 1 - ((ca.discountPct || 0) / 100) * Math.max(0, count - 1)));
       return { ca, on, picked, count, unit, amount: on ? unit * count : 0 };
     });
     const addCustom = customAddonCalc.reduce((s, c) => s + c.amount, 0);
@@ -2091,7 +2073,7 @@ class Component extends DCLogic {
       customAddonRows: customAddonCalc.map(c => {
         const label = this.state.lang === 'ru' ? c.ca.labelRu : c.ca.labelEn;
         const st = addonStyle(c.on);
-        const priceUnit = c.ca.price * Math.max(0, 1 - ((c.ca.discountPct || 0) / 100) * Math.max(0, (c.picked.length || sessionsCount) - 1));
+        const priceUnit = round5(c.ca.price * Math.max(0, 1 - ((c.ca.discountPct || 0) / 100) * Math.max(0, (c.picked.length || sessionsCount) - 1)));
         return {
           ...st,
           label,

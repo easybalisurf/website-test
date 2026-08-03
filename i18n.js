@@ -24,7 +24,7 @@ window.SITE_TEXT = {
             { n:'1', title:'Certified & legally working', body:'ISA & IKO certified coaches — every one either local or a foreign pro working legally on the island.' },
             { n:'2', title:'Matched to your real level', body:'We ask upfront so your coach can pick a spot and pace that keeps you safe, not just entertained.' },
             { n:'3', title:'Private only, max 2', body:'No group classes — ever. Just you (or up to 2 together) with your coach, so nothing about your safety gets missed in a crowd.' },
-            { n:'4', title:'Protected if plans change', body:'Bad conditions or no coach available — your deposit is refunded automatically, no chasing anyone for it.' },
+            { n:'4', title:'Automatic refund', body:'Bad conditions or no coach available — your deposit is refunded automatically, no chasing anyone for it.' },
           ] },
         how: { sub:'Simple as it gets', h2:'Booking in three steps',
           steps: [
