@@ -55,6 +55,8 @@
   @keyframes logoWave{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
   @keyframes checkPop{0%{transform:scale(0.4);opacity:0}60%{transform:scale(1.15);opacity:1}100%{transform:scale(1);opacity:1}}
   @keyframes recoFade{from{opacity:.35}to{opacity:1}}
+  @keyframes panelExpand{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
+  @keyframes panelCollapse{from{opacity:1;transform:translateY(0)}to{opacity:0;transform:translateY(-8px)}}
   @keyframes livePulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.3;transform:scale(.55)}}
   @keyframes condShimmer{0%,100%{opacity:1}50%{opacity:.45}}
   nav{perspective:900px}
@@ -173,55 +175,18 @@
   </div>
 </div>
 
-<!-- ============ HERO ============ -->
-<header id="hero" data-screen-label="Hero" style="position:relative;min-height:auto;display:flex;align-items:center;overflow:visible;padding-top:calc(120px + env(safe-area-inset-top));padding-bottom:120px">
-  <div id="heroBgLayer" style="position:absolute;inset:0;background:linear-gradient(180deg,#0E3A63 0%,#1E6FA8 50%,#176394 80%,#145E86 100%)"></div>
+<!-- ============ HERO — the live forecast/booking tool IS the hero (variant 1a) ============ -->
+<header id="hero" data-screen-label="Hero" style="position:relative;min-height:100vh;display:flex;align-items:center;overflow:visible;padding-top:calc(120px + env(safe-area-inset-top));padding-bottom:120px">
+  <div id="heroBgLayer" style="position:absolute;inset:0;background:linear-gradient(180deg,#0E3A63 0%,#1E6FA8 50%,#176394 80%,#145E86 100%);background-size:100% 100vh;background-repeat:no-repeat;background-position:top"></div>
   
-  <div id="heroContent" class="wrap" style="position:relative;width:100%;max-width:1280px;margin:0 auto;padding:0 32px 90px;pointer-events:none;will-change:transform,opacity">
-    <h1 ref="{{ heroRef }}" style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:clamp(36px,7vw,92px);line-height:1.06;letter-spacing:-1px;color:#fff;margin:44px 0 0;max-width:15ch;animation:floatUp .9s .2s ease-out both">
-      <sc-for list="{{ heroChars }}" as="hw" hint-placeholder-count="8">
-        <sc-if value="{{ hw.space }}" hint-placeholder-val="{{ false }}"><span>&#160;</span></sc-if>
-        <sc-if value="{{ hw.chars }}" hint-placeholder-val="{{ true }}">
-          <span class="hero-word" style="display:inline-block;white-space:nowrap">
-            <sc-for list="{{ hw.chars }}" as="hc" hint-placeholder-count="5"><span class="hero-char" style="{{ hc.style }}">{{ hc.ch }}</span></sc-for>
-          </span>
-        </sc-if>
-      </sc-for>
-    </h1>
-    <p style="max-width:52ch;font-size:clamp(15px,2.2vw,18px);line-height:1.6;color:#FFFFFFBD;margin:26px 0 0;animation:floatUp 1s .35s ease-out both">
-      {{ t.hero.lead }}
-    </p>
-    <div style="display:flex;flex-wrap:wrap;gap:14px;margin-top:36px;pointer-events:auto;animation:floatUp 1.1s .5s ease-out both">
-      <a href="#book" style="display:inline-flex;align-items:center;gap:9px;background:linear-gradient(120deg,#7DFFC4,#61FFD0 42%,#3FD9E6);color:#08100d;font-weight:600;font-size:15px;padding:16px 30px;border-radius:100px;transition:filter .2s" style-hover="filter:brightness(1.05)">{{ t.hero.ctaBook }}</a>
-      <a href="#why" style="display:inline-flex;align-items:center;gap:7px;color:#fff;font-weight:500;font-size:15px;padding:16px 6px;transition:color .2s,gap .2s" style-hover="color:#61FFD0;gap:11px">{{ t.hero.ctaExplore }}</a>
-    </div>
-    <div style="display:flex;align-items:baseline;flex-wrap:wrap;gap:6px 12px;margin-top:64px;pointer-events:auto;animation:floatUp 1.2s .6s ease-out both">
-      <span style="font-size:11px;letter-spacing:.4px;text-transform:uppercase;color:#FFFFFF80;white-space:nowrap">{{ t.certs.label }}</span>
-      <div style="display:flex;align-items:baseline;flex-wrap:wrap;gap:6px 14px">
-        <sc-for list="{{ certBadges }}" as="c" hint-placeholder-count="4">
-          <span title="{{ c.full }}" style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:13px;letter-spacing:.5px;color:#FFFFFFD0;white-space:nowrap">{{ c.name }}</span>
-        </sc-for>
-      </div>
-    </div>
-  </div>
-</header>
-
-<!-- ============ CONTRAST SECTIONS (deliberate alternating tones) ============ -->
-
-<!-- ============ SMART FORECAST / SPOT FINDER ============ -->
-<section id="forecast" data-screen-label="Forecast" style="position:relative;background:var(--eb-bg-3)">
-  <div class="wrap sec-pad fc-grid" style="max-width:1280px;margin:0 auto;padding:56px 32px 100px;position:relative;z-index:1;display:grid;grid-template-columns:1fr 1.05fr;gap:64px;align-items:center;min-height:820px">
+  <div id="heroContent" class="wrap fc-grid" style="position:relative;width:100%;max-width:1280px;margin:0 auto;padding:0 32px 90px;pointer-events:auto;display:grid;grid-template-columns:1fr 1.05fr;gap:64px;align-items:center">
    <div>
-    <div id="fc-heading-fade" style="will-change:opacity">
-     <h2 style="{{ h2Style }}">{{ t.finder.h2 }}</h2>
-     <p style="max-width:44ch;margin:18px 0 0;font-size:16px;line-height:1.6">{{ t.finder.lead }}</p>
-     <p style="margin:14px 0 0;font-size:13px"><a href="{{ guideHref }}" style="font-weight:500;color:#61FFD0">{{ t.finder.guideLink }} →</a></p>
-    </div>
+    <p style="{{ subhead }}">Bali · water sports coaching</p>
+    <h2 style="{{ h2Style }};animation:floatUp .9s .2s ease-out both">Book a private coach</h2>
+    <p style="max-width:44ch;margin:18px 0 0;font-size:16px;line-height:1.6;color:#FFFFFFBD;animation:floatUp 1s .35s ease-out both">Certified coaches, matched to live wind, tide and swell — pick your level, see the best window, book direct.</p>
    </div>
    <div>
-    <!-- unified recommendation panel -->
-    <div class="finder-panel" style="{{ glassPanel }};padding:28px">
-      <!-- discipline + level dropdowns -->
+    <div class="finder-panel" style="{{ glassPanel }};padding:28px;animation:floatUp 1.1s .3s ease-out both">
       <div style="display:flex;flex-wrap:wrap;gap:16px">
         <label style="{{ fieldLabel }};flex:1;min-width:130px">{{ t.book.fSport }}
           <select value="{{ exSportVal }}" onChange="{{ onExSport }}" style="{{ selectStyle }}">
@@ -234,9 +199,8 @@
           </select>
         </label>
       </div>
-
-      <!-- active spot + selectable spots -->
-      <div key="{{ recoKey }}" style="animation:recoFade .3s ease">
+      <sc-if value="{{ levelPicked }}" hint-placeholder-val="{{ false }}">
+      <div key="{{ recoKey }}" style="animation:panelExpand .35s ease-out both">
       <div style="margin-top:24px">
         <div style="font-size:11px;letter-spacing:.4px;text-transform:uppercase;color:#FFFFFF80;margin-bottom:8px">{{ t.smart.spotLabel }}</div>
         <div style="display:flex;align-items:baseline;gap:10px;flex-wrap:wrap">
@@ -250,8 +214,6 @@
           </sc-for>
         </div>
       </div>
-
-      <!-- STEP 2 — pick a day (quality dot only; wave/wind detail lives per time slot) -->
       <div style="margin-top:24px">
         <div style="font-size:11px;letter-spacing:.4px;text-transform:uppercase;color:#FFFFFF80;margin-bottom:8px">{{ t.smart.week }}</div>
         <div class="week-strip" onScroll="{{ onWeekScroll }}" onTouchStart="{{ onWeekTouchStart }}" onTouchEnd="{{ onWeekTouchEnd }}" onTouchCancel="{{ onWeekTouchEnd }}" style="display:flex;gap:7px;overflow-x:auto;-webkit-overflow-scrolling:touch;scroll-behavior:auto;padding-bottom:4px;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 14px,#000 calc(100% - 14px),transparent 100%);mask-image:linear-gradient(90deg,transparent 0,#000 14px,#000 calc(100% - 14px),transparent 100%)">
@@ -264,8 +226,6 @@
           </sc-for>
         </div>
       </div>
-
-      <!-- STEP 3 — pick a time window; each row shows THAT slot's own wave · wind · tide -->
       <div style="margin-top:22px">
         <div style="font-size:11px;letter-spacing:.4px;text-transform:uppercase;color:#FFFFFF80;margin-bottom:8px">{{ t.smart.slotLabel }}</div>
         <div style="display:flex;flex-direction:column;gap:8px">
@@ -300,18 +260,39 @@
           </sc-if>
         </div>
         <p style="font-size:11px;line-height:1.5;color:#FFFFFF80;margin:10px 0 0;opacity:.7">{{ t.smart.disclaimerSrc }}</p>
+        <p style="margin:10px 0 0;font-size:13px"><a href="{{ guideHref }}" style="font-weight:500;color:#61FFD0">{{ t.finder.guideLink }} →</a></p>
       </div>
       </div>
-
       <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:22px;padding-top:20px;border-top:1px solid rgba(255,255,255,.1)">
-        <p style="font-size:12px;line-height:1.5;color:#FFFFFF99;margin:0;max-width:44ch">{{ t.smart.disclaimer }}</p>
+        <button type="button" onClick="{{ collapseResults }}" style="font-size:13px;color:#FFFFFFBD;font-weight:500;background:none;border:none;padding:0;cursor:pointer;display:flex;align-items:center;gap:5px" style-hover="color:#61FFD0"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M18 15l-6-6-6 6"/></svg>Collapse</button>
         <button type="button" disabled="{{ reco.bookDisabled }}" onClick="{{ bookThis }}" style="{{ reco.bookBtnStyle }}" style-hover="{{ reco.bookBtnHover }}">{{ reco.bookLabel }}</button>
+      </div>
+      <p style="font-size:12px;line-height:1.5;color:#FFFFFF99;margin:10px 0 0">{{ t.smart.disclaimer }}</p>
+      </sc-if>
+      <sc-if value="{{ levelNotPicked }}" hint-placeholder-val="{{ true }}">
+        <div style="display:flex;align-items:center;gap:16px;margin-top:20px;animation:panelExpand .3s ease-out both">
+          <button type="button" onClick="{{ revealResults }}" style="padding:16px 30px;border:none;border-radius:100px;background:linear-gradient(120deg,#7DFFC4,#61FFD0 42%,#3FD9E6);color:#08100d;font-weight:600;font-size:15px;cursor:pointer">Find my session</button>
+          <a href="#how" style="font-size:13px;color:#FFFFFFBD;font-weight:500;white-space:nowrap" style-hover="color:#61FFD0">How it works</a>
+        </div>
+      </sc-if>
+    </div>
+    <div style="display:flex;align-items:baseline;flex-wrap:wrap;gap:6px 12px;margin-top:26px">
+      <span style="font-size:11px;letter-spacing:.4px;text-transform:uppercase;color:#FFFFFF80;white-space:nowrap">{{ t.certs.label }}</span>
+      <div style="display:flex;align-items:baseline;flex-wrap:wrap;gap:6px 14px">
+        <sc-for list="{{ certBadges }}" as="c" hint-placeholder-count="4">
+          <span title="{{ c.full }}" style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:13px;letter-spacing:.5px;color:#FFFFFFD0;white-space:nowrap">{{ c.name }}</span>
+        </sc-for>
       </div>
     </div>
    </div>
-   </div>
   </div>
-</section>
+</header>
+
+<!-- ============ CONTRAST SECTIONS (deliberate alternating tones) ============ -->
+
+<!-- ============ FORECAST ANCHOR — panel now lives in the hero (variant 1a); this section stays
+     only so #forecast nav links still land somewhere sensible. ============ -->
+<section id="forecast" data-screen-label="Forecast (anchor)" style="position:relative"></section>
 
 <!-- ============ WHY US ============ -->
 <section id="why" data-navtheme="light" data-screen-label="Why us" style="position:relative;overflow:hidden;min-height:100vh;display:flex;align-items:center;background:var(--eb-bg-light);color:#33383A">
@@ -547,7 +528,7 @@
                 <span style="font-size:12px;color:#FFFFFFBD">{{ remainderDue }}</span>
               </div>
             </div>
-            <button type="button" onClick="{{ next }}" style="{{ nextBtn }};margin-top:20px">{{ w.next }}</button>
+            <button type="button" onClick="{{ next }}" style="{{ nextBtn }};margin-top:20px;display:block;margin-left:auto">{{ w.next }}</button>
           </div>
         </sc-if>
 
@@ -668,7 +649,7 @@
                 <span style="font-size:12px;color:#FFFFFFBD">{{ remainderDue }}</span>
               </div>
             </div>
-            <div style="display:flex;gap:12px;margin-top:20px">
+            <div style="display:flex;gap:12px;margin-top:20px;justify-content:flex-end">
               <button type="button" onClick="{{ back }}" style="{{ backBtn }}">{{ w.back }}</button>
               <button type="button" onClick="{{ next }}" style="{{ nextBtn }}">{{ w.next }}</button>
             </div>
@@ -749,7 +730,7 @@
                 </div>
               </div>
             </div>
-            <div style="display:flex;gap:12px;margin-top:20px">
+            <div style="display:flex;gap:12px;margin-top:20px;justify-content:flex-end">
               <button type="button" onClick="{{ back }}" style="{{ backBtn }}">{{ w.back }}</button>
               <button type="submit" disabled="{{ submitBlocked }}" style="{{ submitBtnStyle }}">{{ submitLabel }}</button>
             </div>
@@ -1367,7 +1348,7 @@ class Component extends DCLogic {
   }
 
   set(k, v) { this.setState(s => ({ form: { ...s.form, [k]: v } })); }
-  setEx(k, v) { this.setState(s => { const patch = { [k]: v }; if (k === 'sport' || k === 'level' || k === 'date' || k === 'spot') { patch.slot = ''; } if (k === 'sport' || k === 'level') { patch.spot = ''; } return { explore: { ...s.explore, ...patch } }; }); }
+  setEx(k, v) { this.setState(s => { const patch = { [k]: v }; if (k === 'sport' || k === 'level' || k === 'date' || k === 'spot') { patch.slot = ''; } if (k === 'sport' || k === 'level') { patch.spot = ''; } if (k === 'level') patch.levelPicked = true; return { explore: { ...s.explore, ...patch } }; }); }
 
   // ============================================================
   // MISC HELPERS (seeded rng, date math, logo gradient)
@@ -1790,7 +1771,7 @@ class Component extends DCLogic {
     const ad = this.state.addons;
     const rentalLabel = [f.sport, W.rental].filter(Boolean).join(' ');
     const GRAD = 'linear-gradient(120deg,#7DFFC4,#61FFD0 42%,#3FD9E6)';
-    const nextBtn = 'flex:1;background:' + GRAD + ';color:#08100d;font-weight:600;font-size:15px;padding:13px 24px;border:none;border-radius:100px;cursor:pointer;transition:filter .2s';
+    const nextBtn = 'flex:none;background:' + GRAD + ';color:#08100d;font-weight:600;font-size:15px;padding:13px 24px;border:none;border-radius:100px;cursor:pointer;transition:filter .2s';
     const backBtn = 'flex:none;background:transparent;border:1px solid rgba(255,255,255,.3);color:#fff;font-weight:500;font-size:14px;padding:13px 20px;border-radius:100px;cursor:pointer';
     const addonPrice = "font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:16px;color:#61FFD0;white-space:nowrap";
     const sessions = f.sessions || [{date:'',slot:''}];
@@ -1967,6 +1948,10 @@ class Component extends DCLogic {
       openDatePicker: e => { if (e.target.showPicker) { try { e.target.showPicker(); } catch (err) {} } },
       reco,
       recoKey: JSON.stringify(this.state.explore), wxStatus, condAnim, exSportVal, exLevelVal, onExSport, onExLevel, bookThis,
+      levelPicked: !!ex.levelPicked,
+      levelNotPicked: !ex.levelPicked,
+      revealResults: () => this.setState(s => ({ explore: { ...s.explore, levelPicked: true } })),
+      collapseResults: () => this.setState(s => ({ explore: { ...s.explore, levelPicked: false } })),
       onWeekScroll: e => { this._weekScroll = e.target.scrollLeft; },
       onWeekTouchStart: () => { this._weekTouching = true; },
       onWeekTouchEnd: () => { this._weekTouching = false; },
