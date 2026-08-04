@@ -64,8 +64,7 @@
   .nav-inner{transform-style:preserve-3d;backface-visibility:hidden}
   .logo-mark{display:inline-flex;align-items:baseline}
   .logo-char{display:inline-block;transform-origin:center bottom;animation:heroSwell 15s ease-in-out infinite}
-  .hero-char{display:inline-block;transform-origin:center bottom;animation:heroSwell 15s ease-in-out infinite}
-  html:not([lang="en"]) .hero-char{animation:none!important}
+  .hero-char{display:inline-block;transform-origin:center bottom}
   @keyframes heroSwell{0%{transform:translateY(0)}2%{transform:translateY(-0.17em)}4.5%{transform:translateY(0.05em)}7%{transform:translateY(0)}100%{transform:translateY(0)}}
   .rev-track{animation:marquee 42s linear infinite!important}
   @keyframes waveDriftA{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
@@ -113,7 +112,8 @@
     .hero-mini{gap:22px!important}
     #heroContent{padding-bottom:20px!important}
     .cond-grid{grid-template-columns:repeat(2,1fr)!important}
-    .finder-panel{padding:20px 18px!important;margin-top:30px!important;margin-left:-22px!important;margin-right:-22px!important;width:calc(100% + 44px)!important}
+    .finder-panel{padding:20px 18px!important;margin-top:12px!important;margin-left:-22px!important;margin-right:-22px!important;width:calc(100% + 44px)!important}
+    .finder-label{padding-left:0!important;margin-left:-4px!important}
     .slot-row{flex-direction:column!important;align-items:stretch!important;gap:6px!important}
     .slot-row-top{justify-content:space-between!important}
     .slot-row-meta{justify-content:flex-start!important}
@@ -136,7 +136,6 @@
 
     <!-- desktop nav -->
     <div class="nav-desktop" style="display:flex;align-items:center;gap:28px">
-      <a href="#forecast" style="{{ navLinkForecast }}" style-hover="color:#61FFD0">{{ t.nav.forecast }}</a>
       <a href="#why" style="{{ navLinkWhy }}" style-hover="color:#61FFD0">{{ t.nav.why }}</a>
       <a href="#how" style="{{ navLinkHow }}" style-hover="color:#61FFD0">{{ t.nav.how }}</a>
       <a href="#faq" style="{{ navLinkFaq }}" style-hover="color:#61FFD0">FAQ</a>
@@ -168,7 +167,6 @@
 <!-- mobile drawer -->
 <div style="{{ drawerStyle }}">
   <div style="display:flex;flex-direction:column;gap:8px;padding:0 26px;width:100%;max-width:420px">
-    <a href="#forecast" onClick="{{ closeMenu }}" style="{{ drawerLink0 }}" style-hover="color:#61FFD0">{{ t.nav.forecast }}</a>
     <a href="#why" onClick="{{ closeMenu }}" style="{{ drawerLink1 }}" style-hover="color:#61FFD0">{{ t.nav.why }}</a>
     <a href="#how" onClick="{{ closeMenu }}" style="{{ drawerLink2 }}" style-hover="color:#61FFD0">{{ t.nav.how }}</a>
     <a href="#faq" onClick="{{ closeMenu }}" style="{{ drawerLink3 }}" style-hover="color:#61FFD0">FAQ</a>
@@ -182,37 +180,39 @@
 </div>
 
 <!-- ============ HERO — the live forecast/booking tool IS the hero (variant 1a) ============ -->
-<header id="hero" data-screen-label="Hero" style="position:relative;min-height:100vh;background:#0E3050;display:flex;align-items:center;overflow:visible;padding-top:calc(120px + env(safe-area-inset-top));padding-bottom:120px">
+<header id="hero" data-screen-label="Hero" style="position:relative;min-height:100vh;background:#0E3050;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:visible;padding-top:calc(120px + env(safe-area-inset-top));padding-bottom:120px">
   <div style="position:absolute;inset:0;background-image:url('https://images.unsplash.com/photo-1502680390469-be75c86b636f?fm=jpg&q=60&w=1600&auto=format&fit=crop&ixlib=rb-4.1.0');background-size:cover;background-position:center 60%"></div>
   <div id="heroBgLayer" style="position:absolute;inset:0;background:rgba(8,26,40,.6)"></div>
   
-  <div id="heroContent" class="wrap fc-grid" style="position:relative;width:100%;max-width:1280px;margin:0 auto;padding:0 32px 90px;pointer-events:auto;display:grid;grid-template-columns:1fr 1.05fr;gap:64px;align-items:center">
+  <div id="heroContent" class="wrap fc-grid" style="position:relative;width:100%;max-width:1280px;margin:0 auto;padding:0 32px 90px;pointer-events:auto;display:grid;grid-template-columns:1fr 1.05fr;gap:64px;align-items:center;flex:none">
    <div>
-    <h2 style="{{ h2Style }}">{{ t.finder.h2 }}</h2>
+    <h2 style="{{ h2Style }}"><sc-for list="{{ h2Chars }}" as="w" hint-placeholder-count="4"><sc-if value="{{ w.space }}" hint-placeholder-val="{{ false }}"> </sc-if><span style="display:inline-block"><sc-for list="{{ w.chars }}" as="c" hint-placeholder-count="4"><span class="hero-char" data-idx="{{ c.idx }}" data-still="{{ c.still }}" style="{{ c.style }}">{{ c.ch }}</span></sc-for></span></sc-for></h2>
     <p style="max-width:44ch;margin:18px 0 0;font-size:16px;line-height:1.6;color:#FFFFFFBD">{{ t.finder.lead }}</p>
    </div>
    <div id="forecast">
+    <p class="finder-label" style="font-size:11px;letter-spacing:.4px;text-transform:uppercase;color:#61FFD0;font-weight:600;margin:0 0 12px;padding-left:28px">{{ t.finder.panelLabel }}</p>
     <div class="finder-panel" style="{{ heroPanel }};padding:28px">
-      <p style="font-size:11px;letter-spacing:.4px;text-transform:uppercase;color:#22282A;font-weight:600;margin:0 0 16px">{{ t.finder.panelLabel }}</p>
       <div style="display:flex;flex-wrap:wrap;align-items:flex-end;gap:16px">
-        <label style="{{ heroFieldLabel }};flex:1;min-width:130px">{{ t.book.fSport }}
+        <label style="{{ heroFieldLabel }};flex:1;min-width:96px">{{ t.book.fSport }}
           <select value="{{ exSportVal }}" onChange="{{ onExSport }}" style="{{ heroSelectStyle }}">
             <sc-for list="{{ sportOpts }}" as="o" hint-placeholder-count="4"><option style="color:#000">{{ o }}</option></sc-for>
           </select>
         </label>
-        <label style="{{ heroFieldLabel }};flex:1;min-width:130px">{{ t.book.fLevel }}
+        <label style="{{ heroFieldLabel }};flex:1;min-width:96px">{{ t.book.fLevel }}
           <select value="{{ exLevelVal }}" onChange="{{ onExLevel }}" style="{{ heroSelectStyle }}">
             <sc-for list="{{ levelOpts }}" as="o" hint-placeholder-count="4"><option style="color:#000">{{ o }}</option></sc-for>
           </select>
         </label>
         <sc-if value="{{ levelNotPicked }}" hint-placeholder-val="{{ true }}">
           <button type="button" onClick="{{ revealResults }}" aria-label="{{ t.finder.findBtn }}" style="width:44px;height:44px;flex:none;display:flex;align-items:center;justify-content:center;border:none;border-radius:50%;background:linear-gradient(120deg,#7DFFC4,#61FFD0 42%,#3FD9E6);color:#08100d;cursor:pointer;transition:filter .15s" style-hover="filter:brightness(1.08)">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M6 13l6 6 6-6"/></svg>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
           </button>
         </sc-if>
       </div>
-      <sc-if value="{{ levelPicked }}" hint-placeholder-val="{{ false }}">
-      <div key="{{ recoKey }}" style="animation:panelExpand .35s ease both">
+      <div style="display:grid;grid-template-rows:{{ resultsRows }};transition:grid-template-rows .4s cubic-bezier(.4,0,.2,1)">
+      <div style="overflow:hidden;min-height:0">
+      <sc-if value="{{ showResults }}" hint-placeholder-val="{{ false }}">
+      <div key="{{ recoKey }}" style="{{ resultsAnimStyle }}">
       <div style="margin-top:24px">
         <div style="font-size:11px;letter-spacing:.4px;text-transform:uppercase;color:rgba(23,33,31,.55);margin-bottom:8px">{{ t.smart.spotLabel }}</div>
         <div style="display:flex;align-items:baseline;gap:10px;flex-wrap:wrap">
@@ -277,21 +277,23 @@
       </div>
       </div>
       <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:22px;padding-top:20px;border-top:1px solid rgba(11,62,86,.14)">
-        <button type="button" onClick="{{ collapseResults }}" style="font-size:13px;color:rgba(23,33,31,.65);font-weight:500;background:none;border:none;padding:0;cursor:pointer;display:flex;align-items:center;gap:5px" style-hover="color:#0B8F82"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M18 15l-6-6-6 6"/></svg>{{ t.finder.collapseBtn }}</button>
         <button type="button" data-book-cta disabled="{{ reco.bookDisabled }}" onClick="{{ bookThis }}" style="{{ reco.bookBtnStyle }}" style-hover="{{ reco.bookBtnHover }}">{{ reco.bookLabel }}</button>
+        <button type="button" onClick="{{ collapseResults }}" aria-label="{{ t.finder.collapseBtn }}" style="font-size:13px;color:rgba(23,33,31,.65);font-weight:500;background:none;border:none;padding:0;cursor:pointer;display:flex;align-items:center;gap:6px" style-hover="color:#0B8F82">{{ t.finder.collapseBtn }}<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-6 6 6"/></svg></button>
       </div>
       <p style="font-size:12px;line-height:1.5;color:rgba(23,33,31,.55);margin:10px 0 0">{{ t.smart.disclaimer }}</p>
       </sc-if>
-    </div>
-    <div style="display:flex;align-items:baseline;flex-wrap:wrap;gap:6px 12px;margin-top:26px">
-      <span style="font-size:11px;letter-spacing:.4px;text-transform:uppercase;color:#FFFFFF80;white-space:nowrap">{{ t.certs.label }}</span>
-      <div style="display:flex;align-items:baseline;flex-wrap:wrap;gap:6px 14px">
-        <sc-for list="{{ certBadges }}" as="c" hint-placeholder-count="4">
-          <span title="{{ c.full }}" style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:13px;letter-spacing:.5px;color:#FFFFFFD0;white-space:nowrap">{{ c.name }}</span>
-        </sc-for>
+      </div>
       </div>
     </div>
    </div>
+  </div>
+  <div class="wrap" style="position:relative;width:100%;max-width:1280px;margin:0 auto;padding:0 32px;display:flex;align-items:baseline;flex-wrap:wrap;gap:6px 12px;flex:none">
+    <span style="font-size:11px;letter-spacing:.4px;text-transform:uppercase;color:#FFFFFF80;white-space:nowrap">{{ t.certs.label }}</span>
+    <div style="display:flex;align-items:baseline;flex-wrap:wrap;gap:6px 14px">
+      <sc-for list="{{ certBadges }}" as="c" hint-placeholder-count="4">
+        <span title="{{ c.full }}" style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:13px;letter-spacing:.5px;color:#FFFFFFD0;white-space:nowrap">{{ c.name }}</span>
+      </sc-for>
+    </div>
   </div>
 </header>
 
@@ -1034,6 +1036,30 @@ class Component extends DCLogic {
       }
     };
     document.addEventListener('mousedown', this._onDocClick);
+    // Per-letter hero-title wave: driven directly in JS (not CSS animation) so it can't be
+    // clobbered by the sitewide `animation:none!important` reset used to kill decorative motion.
+    this._waveStart = performance.now() / 1000;
+    this._waveStops = [[0, 0], [0.02, -0.17], [0.045, 0.05], [0.07, 0], [1, 0]];
+    this._waveFrac = (frac) => {
+      const st = this._waveStops;
+      for (let i = 0; i < st.length - 1; i++) {
+        const [f0, v0] = st[i], [f1, v1] = st[i + 1];
+        if (frac >= f0 && frac <= f1) { const lt = f1 > f0 ? (frac - f0) / (f1 - f0) : 0; return v0 + (v1 - v0) * lt; }
+      }
+      return 0;
+    };
+    this._waveTick = () => {
+      const t = performance.now() / 1000 - this._waveStart;
+      document.querySelectorAll('.hero-char').forEach(el => {
+        if (el.dataset.still === 'true') return;
+        const idx = parseFloat(el.dataset.idx || '0');
+        const delay = 3 + idx * 0.08;
+        const off = t < delay ? 0 : this._waveFrac(((t - delay) % 15) / 15);
+        el.style.transform = 'translateY(' + off.toFixed(3) + 'em)';
+      });
+      this._waveRaf = requestAnimationFrame(this._waveTick);
+    };
+    this._waveRaf = requestAnimationFrame(this._waveTick);
     this._formMountedAt = Date.now();
     this._raf = null;
     this._wxFail = {};
@@ -1168,6 +1194,7 @@ class Component extends DCLogic {
     if (this._availPoll) clearInterval(this._availPoll);
     clearTimeout(this._heroResizeT);
     document.removeEventListener('mousedown', this._onDoc);
+    if (this._waveRaf) cancelAnimationFrame(this._waveRaf);
   }
 
   // ============================================================
@@ -1454,12 +1481,37 @@ class Component extends DCLogic {
           // title over ~1.4s, then all letters rest flat for the remainder of the 9s cycle.
           // First crest starts at 3s — right as the reader reaches "waves." — then loops on the 9s cycle.
           const delay = (3 + idx * 0.08).toFixed(3);
-          return { ch: c.ch, style: 'color:' + c.color + ';display:inline-block;transform-origin:center bottom;animation-delay:' + delay + 's' + (still ? ';animation:none' : '') };
+          return { ch: c.ch, style: 'color:' + c.color + ';display:inline-block;transform-origin:center bottom', idx, still: !!still };
         })
       };
     });
   }
-  // Current date + fractional hour in Bali time (WITA, UTC+8)
+  // Same per-letter "seen through water" wave as the old H1, adapted for the single-string H2 headline.
+  // accentWord (matched case-insensitively) renders in the brand teal, forced UPPERCASE.
+  buildH2Chars(text, accentWord, still) {
+    const lower = (text || '').toLowerCase();
+    const aw = (accentWord || '').toLowerCase();
+    const start = aw ? lower.indexOf(aw) : -1;
+    const end = start >= 0 ? start + aw.length : -1;
+    const words = [];
+    let cur = null;
+    [...(text || '')].forEach((ch, pos) => {
+      const inAccent = start >= 0 && pos >= start && pos < end;
+      if (ch === ' ') { cur = null; words.push({ space: true }); }
+      else { if (!cur) { cur = { chars: [] }; words.push(cur); } cur.chars.push({ ch, accent: inAccent }); }
+    });
+    let i = 0;
+    return words.map(w => {
+      if (w.space) return { space: true };
+      return {
+        chars: w.chars.map(c => {
+          const idx = i++;
+          const delay = (3 + idx * 0.08).toFixed(3);
+          return { ch: c.ch, style: 'display:inline-block;transform-origin:center bottom;' + (c.accent ? 'color:#61FFD0;' : ''), idx, still: !!still };
+        })
+      };
+    });
+  }
   baliNow() {
     const now = new Date();
     const b = new Date(now.getTime() + now.getTimezoneOffset() * 60000 + 8 * 3600000);
@@ -1632,7 +1684,7 @@ class Component extends DCLogic {
       bookSoon: (() => { if (!chosenSlot) return false; const st = (chosenSlot.split(/[–-]/)[0] || '08:00').trim(); const p = targetDate.split('-').map(Number); const tp = st.split(':').map(Number); const startUtc = Date.UTC(p[0], p[1] - 1, p[2], tp[0], tp[1]) - 8 * 3600000; return (startUtc - Date.now()) < 24 * 3600000 && (startUtc - Date.now()) > 0; })(),
       soonWarnMsg: sm.soonWarn || '',
       bookDisabled: !(!!chosenSlot && !chosenFull && anyFree),
-      bookBtnStyle: 'flex:none;font-weight:600;font-size:15px;padding:14px 26px;border:none;border-radius:100px;transition:filter .2s;' + ((!!chosenSlot && !chosenFull && anyFree) ? 'background:linear-gradient(120deg,#7DFFC4,#61FFD0 42%,#3FD9E6);color:#08100d;cursor:pointer' : 'background:rgba(11,62,86,.1);color:rgba(23,33,31,.35);cursor:not-allowed'),
+      bookBtnStyle: 'flex:none;font-weight:600;font-size:15px;padding:14px 26px;border:none;border-radius:100px;transition:filter .2s;' + ((!!chosenSlot && !chosenFull && anyFree) ? 'background:#61FFD0;color:#08100d;cursor:pointer' : 'background:rgba(11,62,86,.1);color:rgba(23,33,31,.35);cursor:not-allowed'),
       bookBtnHover: '',
       bookLabel: (() => { const dp2 = targetDate.split('-').map(Number); const dl = new Date(Date.UTC(dp2[0], dp2[1] - 1, dp2[2])).toLocaleDateString(locale, { day: 'numeric', month: 'short', timeZone: 'UTC' }); return chosenFull ? (sm.slotFull || 'No coaches free — pick another window') : chosenSlot ? (sm.bookDate || 'Book {date}').replace('{date}', dl) : (sm.pickSlot || 'Select a time slot'); })(),
       spots: pool.map(s => ({ name: s.name, style: spotChip(active.name === s.name), pick: () => this.setEx('spot', s.name) })),
@@ -1687,7 +1739,7 @@ class Component extends DCLogic {
     const glassCard = "background:linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,.025));border:1px solid rgba(255,255,255,.14)";
     const glassPanel = "background:linear-gradient(180deg,rgba(255,255,255,.16),rgba(255,255,255,.07));border:1px solid rgba(255,255,255,.22);border-radius:18px;backdrop-filter:blur(20px) saturate(140%);-webkit-backdrop-filter:blur(20px) saturate(140%);box-shadow:0 12px 40px rgba(0,0,0,.18)";
     // Flat, solid, high-contrast hero panel theme (booking.com-style) — used only by the hero finder card.
-    const heroPanel = "background:linear-gradient(180deg,rgba(255,255,255,.82),rgba(255,255,255,.74));border:1px solid rgba(255,255,255,.55);border-radius:18px;box-shadow:0 20px 50px rgba(0,0,0,.3);backdrop-filter:blur(20px) saturate(140%);-webkit-backdrop-filter:blur(20px) saturate(140%)";
+    const heroPanel = "background:linear-gradient(180deg,rgba(255,255,255,.9),rgba(255,255,255,.82));border:1px solid rgba(255,255,255,.3);border-radius:18px;backdrop-filter:blur(20px) saturate(140%);-webkit-backdrop-filter:blur(20px) saturate(140%)";
     const heroInputStyle = "width:100%;height:50px;box-sizing:border-box;margin-top:8px;background:#F2F5F5;border:1px solid rgba(10,30,40,.14);border-radius:12px;padding:0 15px;color:#17211F;font-family:'Inter',sans-serif;font-size:15px;line-height:1;outline:none;-webkit-appearance:none;appearance:none";
     const heroSelectStyle = heroInputStyle + ";background-image:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='7' viewBox='0 0 11 7'%3E%3Cpath d='M1 1l4.5 4.5L10 1' stroke='%230B3E56' stroke-width='1.6' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\");background-repeat:no-repeat;background-position:right 15px center;padding-right:36px";
     const heroFieldLabel = "display:block;font-size:13px;letter-spacing:.4px;color:#22282A;text-transform:uppercase;font-weight:600";
@@ -1977,8 +2029,11 @@ class Component extends DCLogic {
       sportChevStyle: chevStyle(sportMenuOpen), levelChevStyle: chevStyle(levelMenuOpen),
       levelPicked: !!ex.levelPicked,
       levelNotPicked: !ex.levelPicked,
+      showResults: ex.levelPicked || !!this.state.resultsClosing,
+      resultsRows: ex.levelPicked ? '1fr' : '0fr',
+      resultsAnimStyle: this.state.resultsClosing ? 'animation:panelCollapse .3s ease both' : 'animation:panelExpand .35s ease both',
       revealResults: () => { this.setState(s => ({ explore: { ...s.explore, levelPicked: true } })); setTimeout(() => { const el = document.querySelector('.finder-panel'); if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 100, behavior: 'smooth' }); }, 50); },
-      collapseResults: () => { this.setState(s => ({ explore: { ...s.explore, levelPicked: false } })); window.scrollTo({ top: 0, behavior: 'smooth' }); },
+      collapseResults: () => { this.setState({ resultsClosing: true }); setTimeout(() => { this.setState(s => ({ explore: { ...s.explore, levelPicked: false }, resultsClosing: false })); }, 300); window.scrollTo({ top: 0, behavior: 'smooth' }); },
       onWeekScroll: e => { this._weekScroll = e.target.scrollLeft; },
       onWeekTouchStart: () => { this._weekTouching = true; },
       onWeekTouchEnd: () => { this._weekTouching = false; },
@@ -2022,6 +2077,7 @@ class Component extends DCLogic {
       // wizard
       logoChars: this.buildLogoChars(onLight),
       heroChars: this.buildHeroChars(L.hero.h1a, L.hero.h1accent, L.hero.h1b, this.state.lang !== 'en'),
+      h2Chars: this.buildH2Chars(L.finder.h2, L.finder.h2AccentWord, this.state.lang !== 'en'),
       heroRef: el => { this.heroRef = el; if (el) setTimeout(this.measureHeroLines, 60); },
       w: W, rentalLabel, wizSteps, nextBtn, backBtn, addonPrice,
       isStep1: step === 1, isStep2: step === 2, isStep3: step === 3,
