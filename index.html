@@ -46,7 +46,7 @@
   input[type="date"]::-webkit-calendar-picker-indicator{position:absolute;right:0;top:0;width:100%;height:100%;opacity:0;margin:0;cursor:pointer}
   input[type="date"]::-webkit-inner-spin-button,input[type="date"]::-webkit-clear-button{display:none;-webkit-appearance:none}
   input[type="date"]{position:relative}
-  input:focus,select:focus,textarea:focus{outline:none;border-color:#61FFD0!important}
+  input:focus,select:focus,textarea:focus{outline:none;border-color:var(--eb-accent)!important}
   @keyframes floatUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
   @keyframes slowZoom{from{transform:scale(1.08)}to{transform:scale(1)}}
   @keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
@@ -60,6 +60,10 @@
   @keyframes panelCollapse{from{opacity:1;transform:translateY(0)}to{opacity:0;transform:translateY(-8px)}}
   @keyframes livePulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.3;transform:scale(.55)}}
   @keyframes condShimmer{0%,100%{opacity:1}50%{opacity:.45}}
+  @keyframes wizPulse{0%,100%{box-shadow:0 0 0 0 rgba(97,255,208,.45)}50%{box-shadow:0 0 0 5px rgba(97,255,208,0)}}
+  @keyframes wizSweep{from{background-position:0 0}to{background-position:-200% 0}}
+  .wiz-pulse.wiz-on{animation:wizPulse 1.8s ease-in-out infinite}
+  .wiz-sweep{animation:wizSweep 1.4s linear infinite}
   nav{perspective:900px}
   .nav-inner{transform-style:preserve-3d;backface-visibility:hidden}
   .logo-mark{display:inline-flex;align-items:baseline}
@@ -108,7 +112,7 @@
     .form-2col{gap:12px!important}
     .footer-grid{grid-template-columns:1fr!important}
     .perks-grid{grid-template-columns:1fr!important}
-    .how-connector{display:none!important}
+    .how-connector{top:auto!important;left:50%!important;right:auto!important;bottom:-24px!important;transform:translateX(-50%) rotate(90deg)!important}
     .hero-mini{gap:22px!important}
     #heroContent{padding-bottom:20px!important}
     .cond-grid{grid-template-columns:repeat(2,1fr)!important}
@@ -180,9 +184,7 @@
 </div>
 
 <!-- ============ HERO — the live forecast/booking tool IS the hero (variant 1a) ============ -->
-<header id="hero" data-screen-label="Hero" style="position:relative;min-height:100vh;background:#0E3050;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:visible;padding-top:calc(120px + env(safe-area-inset-top));padding-bottom:120px">
-  <div style="position:absolute;inset:0;background-image:url('https://images.unsplash.com/photo-1502680390469-be75c86b636f?fm=jpg&q=60&w=1600&auto=format&fit=crop&ixlib=rb-4.1.0');background-size:cover;background-position:center 60%"></div>
-  <div id="heroBgLayer" style="position:absolute;inset:0;background:rgba(8,26,40,.6)"></div>
+<header id="hero" data-screen-label="Hero" style="position:relative;min-height:100vh;background:var(--eb-bg-2);display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:visible;padding-top:calc(120px + env(safe-area-inset-top));padding-bottom:120px">
   
   <div id="heroContent" class="wrap fc-grid" style="position:relative;width:100%;max-width:1280px;margin:0 auto;padding:0 32px 90px;pointer-events:auto;display:grid;grid-template-columns:1fr 1.05fr;gap:64px;align-items:center;flex:none">
    <div>
@@ -204,7 +206,7 @@
           </select>
         </label>
         <sc-if value="{{ levelNotPicked }}" hint-placeholder-val="{{ true }}">
-          <button type="button" onClick="{{ revealResults }}" aria-label="{{ t.finder.findBtn }}" style="width:44px;height:44px;flex:none;display:flex;align-items:center;justify-content:center;border:none;border-radius:50%;background:linear-gradient(120deg,#7DFFC4,#61FFD0 42%,#3FD9E6);color:#08100d;cursor:pointer;transition:filter .15s" style-hover="filter:brightness(1.08)">
+          <button type="button" onClick="{{ revealResults }}" aria-label="{{ t.finder.findBtn }}" style="width:44px;height:44px;flex:none;display:flex;align-items:center;justify-content:center;border:none;border-radius:50%;background:#61FFD0;color:#08100d;cursor:pointer;transition:filter .15s" style-hover="filter:brightness(1.08)">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
           </button>
         </sc-if>
@@ -214,10 +216,10 @@
       <sc-if value="{{ showResults }}" hint-placeholder-val="{{ false }}">
       <div key="{{ recoKey }}" style="{{ resultsAnimStyle }}">
       <div style="margin-top:24px">
-        <div style="font-size:11px;letter-spacing:.4px;text-transform:uppercase;color:rgba(23,33,31,.55);margin-bottom:8px">{{ t.smart.spotLabel }}</div>
+        <div style="font-size:11px;letter-spacing:.4px;text-transform:uppercase;color:#FFFFFF80;margin-bottom:8px">{{ t.smart.spotLabel }}</div>
         <div style="display:flex;align-items:baseline;gap:10px;flex-wrap:wrap">
-          <span style="font-family:'Plus Jakarta Sans';font-weight:700;font-size:36px;color:#17211F;line-height:.95">{{ reco.active.name }}</span>
-          <span style="font-size:13px;color:rgba(23,33,31,.6)">{{ reco.active.region }}</span>
+          <span style="font-family:'Plus Jakarta Sans';font-weight:700;font-size:36px;color:#fff;line-height:.95">{{ reco.active.name }}</span>
+          <span style="font-size:13px;color:rgba(255,255,255,.6)">{{ reco.active.region }}</span>
         </div>
         <div style="{{ wxStatus.pill }}"><span style="{{ wxStatus.dot }}"></span>{{ wxStatus.label }}</div>
         <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap">
@@ -227,37 +229,37 @@
         </div>
       </div>
       <div style="margin-top:24px">
-        <div style="font-size:11px;letter-spacing:.4px;text-transform:uppercase;color:rgba(23,33,31,.55);margin-bottom:8px">{{ t.smart.week }}</div>
+        <div style="font-size:11px;letter-spacing:.4px;text-transform:uppercase;color:#FFFFFF80;margin-bottom:8px">{{ t.smart.week }}</div>
         <div class="week-strip" onScroll="{{ onWeekScroll }}" onTouchStart="{{ onWeekTouchStart }}" onTouchEnd="{{ onWeekTouchEnd }}" onTouchCancel="{{ onWeekTouchEnd }}" style="display:flex;gap:7px;overflow-x:auto;-webkit-overflow-scrolling:touch;scroll-behavior:auto;padding-bottom:4px;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 14px,#000 calc(100% - 14px),transparent 100%);mask-image:linear-gradient(90deg,transparent 0,#000 14px,#000 calc(100% - 14px),transparent 100%)">
           <sc-for list="{{ reco.week }}" as="d" hint-placeholder-count="7">
             <button type="button" onClick="{{ d.pick }}" style="{{ d.style }}">
-              <div style="font-size:10px;letter-spacing:.3px;text-transform:uppercase;color:rgba(23,33,31,.6)">{{ d.label }}</div>
-              <div style="font-family:'Plus Jakarta Sans';font-weight:600;font-size:18px;color:#17211F;line-height:1.1;margin-top:2px">{{ d.dnum }}</div>
+              <div style="font-size:10px;letter-spacing:.3px;text-transform:uppercase;color:rgba(255,255,255,.6)">{{ d.label }}</div>
+              <div style="font-family:'Plus Jakarta Sans';font-weight:600;font-size:18px;color:#fff;line-height:1.1;margin-top:2px">{{ d.dnum }}</div>
               <div style="{{ d.dotStyle }}"></div>
             </button>
           </sc-for>
         </div>
       </div>
       <div style="margin-top:22px">
-        <div style="font-size:11px;letter-spacing:.4px;text-transform:uppercase;color:rgba(23,33,31,.55);margin-bottom:8px">{{ t.smart.slotLabel }}</div>
+        <div style="font-size:11px;letter-spacing:.4px;text-transform:uppercase;color:#FFFFFF80;margin-bottom:8px">{{ t.smart.slotLabel }}</div>
         <div style="display:flex;flex-direction:column;gap:8px">
           <sc-for list="{{ reco.slots }}" as="s" hint-placeholder-count="4">
             <button type="button" onClick="{{ s.pick }}" class="slot-row" style="{{ s.style }}">
               <span class="slot-row-top" style="display:flex;align-items:center;gap:10px">
-                <span style="font-family:'Plus Jakarta Sans';font-weight:600;font-size:14px;color:#17211F">{{ s.time }}</span>
+                <span style="font-family:'Plus Jakarta Sans';font-weight:600;font-size:14px;color:#fff">{{ s.time }}</span>
                 <span class="slot-row-badge-mobile" style="{{ s.badge }};display:none">{{ s.quality }}</span>
               </span>
               <span class="slot-row-meta" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;justify-content:flex-end">
                 <sc-if value="{{ s.full }}" hint-placeholder-val="{{ false }}">
-                  <span style="font-size:11px;font-weight:600;letter-spacing:.3px;text-transform:uppercase;padding:3px 9px;border-radius:100px;background:rgba(11,62,86,.08);color:rgba(23,33,31,.6)">{{ s.fullLabel }}</span>
+                  <span style="font-size:11px;font-weight:600;letter-spacing:.3px;text-transform:uppercase;padding:3px 9px;border-radius:100px;background:rgba(255,255,255,.1);color:rgba(255,255,255,.6)">{{ s.fullLabel }}</span>
                 </sc-if>
-                <span style="font-size:12px;color:rgba(23,33,31,.65);display:flex;align-items:center;gap:10px">
+                <span style="font-size:12px;color:rgba(255,255,255,.65);display:flex;align-items:center;gap:10px">
                   <span>{{ s.wave }}</span>
-                  <span style="display:inline-flex;align-items:center;gap:3px"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#0B8F82" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" style="transform:rotate({{ s.windDeg }}deg);flex:none"><path d="M12 19V5"/><path d="M6 11l6-6 6 6"/></svg>{{ s.wind }}</span>
+                  <span style="display:inline-flex;align-items:center;gap:3px"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#61FFD0" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" style="transform:rotate({{ s.windDeg }}deg);flex:none"><path d="M12 19V5"/><path d="M6 11l6-6 6 6"/></svg>{{ s.wind }}</span>
                   <span style="display:inline-flex;align-items:center;gap:3px">
-                    <sc-if value="{{ s.tideUp }}" hint-placeholder-val="{{ false }}"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0B8F82" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="M6 11l6-6 6 6"/></svg></sc-if>
-                    <sc-if value="{{ s.tideDown }}" hint-placeholder-val="{{ false }}"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0B8F82" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M6 13l6 6 6-6"/></svg></sc-if>
-                    <sc-if value="{{ s.tideMid }}" hint-placeholder-val="{{ false }}"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0B8F82" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18"/><path d="M7 8l5-5 5 5"/><path d="M7 16l5 5 5-5"/></svg></sc-if>
+                    <sc-if value="{{ s.tideUp }}" hint-placeholder-val="{{ false }}"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#61FFD0" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="M6 11l6-6 6 6"/></svg></sc-if>
+                    <sc-if value="{{ s.tideDown }}" hint-placeholder-val="{{ false }}"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#61FFD0" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M6 13l6 6 6-6"/></svg></sc-if>
+                    <sc-if value="{{ s.tideMid }}" hint-placeholder-val="{{ false }}"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#61FFD0" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18"/><path d="M7 8l5-5 5 5"/><path d="M7 16l5 5 5-5"/></svg></sc-if>
                     {{ s.tide }}
                   </span>
                 </span>
@@ -266,28 +268,28 @@
             </button>
           </sc-for>
           <sc-if value="{{ reco.noSlots }}" hint-placeholder-val="{{ false }}">
-            <div style="padding:16px 14px;border-radius:14px;background:rgba(11,62,86,.035);border:1px dashed rgba(11,62,86,.22);font-size:13px;color:rgba(23,33,31,.6);text-align:center">{{ reco.noWinMsg }}</div>
+            <div style="padding:16px 14px;border-radius:14px;background:rgba(255,255,255,.04);border:1px dashed rgba(255,255,255,.22);font-size:13px;color:rgba(255,255,255,.6);text-align:center">{{ reco.noWinMsg }}</div>
           </sc-if>
           <sc-if value="{{ reco.allFull }}" hint-placeholder-val="{{ false }}">
             <div style="padding:16px 14px;border-radius:14px;background:rgba(255,180,84,.09);border:1px solid rgba(255,180,84,.35);font-size:13px;color:#FFD9A8;text-align:center">{{ reco.noCoachesMsg }}</div>
           </sc-if>
         </div>
-        <p style="font-size:11px;line-height:1.5;color:rgba(23,33,31,.55);margin:10px 0 0;opacity:.7">{{ t.smart.disclaimerSrc }}</p>
-        <p style="margin:10px 0 0;font-size:13px"><a href="{{ guideHref }}" style="font-weight:600;color:#0C2436">{{ t.finder.guideLink }} →</a></p>
+        <p style="font-size:11px;line-height:1.5;color:#FFFFFF80;margin:10px 0 0;opacity:.7">{{ t.smart.disclaimerSrc }}</p>
+        <p style="margin:10px 0 0;font-size:13px"><a href="{{ guideHref }}" style="font-weight:600;color:#61FFD0">{{ t.finder.guideLink }} →</a></p>
       </div>
       </div>
-      <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:22px;padding-top:20px;border-top:1px solid rgba(11,62,86,.14)">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:22px;padding-top:20px;border-top:1px solid rgba(255,255,255,.14)">
         <button type="button" data-book-cta disabled="{{ reco.bookDisabled }}" onClick="{{ bookThis }}" style="{{ reco.bookBtnStyle }}" style-hover="{{ reco.bookBtnHover }}">{{ reco.bookLabel }}</button>
-        <button type="button" onClick="{{ collapseResults }}" aria-label="{{ t.finder.collapseBtn }}" style="font-size:13px;color:rgba(23,33,31,.65);font-weight:500;background:none;border:none;padding:0;cursor:pointer;display:flex;align-items:center;gap:6px" style-hover="color:#0B8F82">{{ t.finder.collapseBtn }}<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-6 6 6"/></svg></button>
+        <button type="button" onClick="{{ collapseResults }}" aria-label="{{ t.finder.collapseBtn }}" style="font-size:13px;color:rgba(255,255,255,.65);font-weight:500;background:none;border:none;padding:0;cursor:pointer;display:flex;align-items:center;gap:6px" style-hover="color:#0B8F82">{{ t.finder.collapseBtn }}<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-6 6 6"/></svg></button>
       </div>
-      <p style="font-size:12px;line-height:1.5;color:rgba(23,33,31,.55);margin:10px 0 0">{{ t.smart.disclaimer }}</p>
+      <p style="font-size:12px;line-height:1.5;color:#FFFFFF80;margin:10px 0 0">{{ t.smart.disclaimer }}</p>
       </sc-if>
       </div>
       </div>
     </div>
    </div>
   </div>
-  <div class="wrap" style="position:relative;width:100%;max-width:1280px;margin:0 auto;padding:0 32px;display:flex;align-items:baseline;flex-wrap:wrap;gap:6px 12px;flex:none">
+  <div class="wrap" style="position:relative;width:100%;max-width:1280px;margin:0 auto;padding:0 32px;display:flex;align-items:baseline;flex-wrap:wrap;gap:6px 12px;flex:none;margin-top:44px">
     <span style="font-size:11px;letter-spacing:.4px;text-transform:uppercase;color:#FFFFFF80;white-space:nowrap">{{ t.certs.label }}</span>
     <div style="display:flex;align-items:baseline;flex-wrap:wrap;gap:6px 14px">
       <sc-for list="{{ certBadges }}" as="c" hint-placeholder-count="4">
@@ -300,20 +302,20 @@
 <!-- ============ CONTRAST SECTIONS (deliberate alternating tones) ============ -->
 
 <!-- ============ WHY US ============ -->
-<section id="why" data-navtheme="light" data-screen-label="Why us" style="position:relative;overflow:hidden;min-height:100vh;display:flex;align-items:center;background:var(--eb-bg-light);color:#33383A">
+<section id="why" data-navtheme="dark" data-screen-label="Why us" style="position:relative;overflow:hidden;min-height:100vh;display:flex;align-items:center;background:var(--eb-bg);color:#fff">
 
   <div class="wrap sec-pad" style="position:relative;max-width:1280px;margin:0 auto;padding:110px 32px">
     <div style="max-width:680px">
-      <p style="{{ subheadDark }}">{{ t.why.sub }}</p>
-      <h2 style="{{ h2Dark }}">{{ t.why.h2 }}</h2>
-      <p style="font-size:16px;line-height:1.65;margin:18px 0 0;max-width:52ch;color:#55676D">{{ t.why.mission }}</p>
+      <p style="{{ subhead }}">{{ t.why.sub }}</p>
+      <h2 style="{{ h2Style }}">{{ t.why.h2 }}</h2>
+      <p style="font-size:16px;line-height:1.65;margin:18px 0 0;max-width:52ch;color:rgba(255,255,255,.7)">{{ t.why.mission }}</p>
       <div class="perks-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:34px 28px;margin-top:38px">
         <sc-for list="{{ perks }}" as="p" hint-placeholder-count="4">
           <div style="display:flex;gap:18px;align-items:flex-start">
-            <span style="flex:none;width:44px;height:44px;border-radius:12px;background:rgba(58,107,110,.08);border:1px solid rgba(58,107,110,.30);display:flex;align-items:center;justify-content:center;color:#3A6B6E">{{ p.icon }}</span>
+            <span style="flex:none;width:44px;height:44px;border-radius:12px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.22);display:flex;align-items:center;justify-content:center;color:#7CFFDA">{{ p.icon }}</span>
             <div>
-              <h4 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:22px;color:#22282A;margin:2px 0 6px;line-height:1.05">{{ p.title }}</h4>
-              <p style="font-size:15px;line-height:1.6;margin:0;max-width:44ch">{{ p.body }}</p>
+              <h4 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:22px;color:#fff;margin:2px 0 6px;line-height:1.05">{{ p.title }}</h4>
+              <p style="font-size:15px;line-height:1.6;margin:0;max-width:44ch;color:rgba(255,255,255,.65)">{{ p.body }}</p>
             </div>
           </div>
         </sc-for>
@@ -323,18 +325,19 @@
 </section>
 
 <!-- ============ HOW IT WORKS ============ -->
-<section id="how" data-screen-label="How it works" style="position:relative;min-height:100vh;display:flex;align-items:center;background:var(--eb-bg)">
+<section id="how" data-screen-label="How it works" style="position:relative;min-height:100vh;display:flex;align-items:center;background:var(--eb-bg-2)">
   <div class="wrap sec-pad" style="max-width:1280px;margin:0 auto;padding:100px 32px">
     <p style="{{ subhead }};text-align:center">{{ t.how.sub }}</p>
     <h2 style="{{ h2Style }};text-align:center;margin:12px auto 0">{{ t.how.h2 }}</h2>
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:24px;margin-top:56px">
       <sc-for list="{{ steps }}" as="st" hint-placeholder-count="3">
         <div ref="{{ st.ref }}" style="{{ st.wrapStyle }}">
-          <sc-if value="{{ st.showConnector }}" hint-placeholder-val="{{ false }}"><span class="how-connector" style="position:absolute;top:50%;right:-24px;transform:translateY(-50%);color:rgba(97,255,208,.4);font-size:20px;z-index:1">→</span></sc-if>
+          <sc-if value="{{ st.showConnector }}" hint-placeholder-val="{{ false }}"><span class="how-connector" style="position:absolute;top:50%;right:-24px;transform:translateY(-50%);color:#61FFD0;font-size:20px;z-index:1">→</span></sc-if>
         <div style="position:relative;padding:34px 28px;border:1px solid rgba(255,255,255,.16);border-radius:18px;background:rgba(255,255,255,.05);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(14px)">
             <div style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:64px;color:rgba(97,255,208,.32);line-height:.8">{{ st.n }}</div>
             <h4 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:24px;color:#fff;margin:16px 0 8px;line-height:1.05">{{ st.title }}</h4>
             <p style="font-size:15px;line-height:1.6;margin:0">{{ st.body }}</p>
+            <sc-if value="{{ st.body2 }}" hint-placeholder-val="{{ false }}"><p style="font-size:15px;line-height:1.6;margin:10px 0 0">{{ st.body2 }}</p></sc-if>
           </div>
         </div>
       </sc-for>
@@ -366,25 +369,25 @@
 </section>
 
 <!-- ============ FAQ ============ -->
-<section id="faq" data-screen-label="FAQ" style="position:relative;min-height:100vh;display:flex;align-items:center;background:var(--eb-bg-2)">
+<section id="faq" data-navtheme="light" data-screen-label="FAQ" style="position:relative;min-height:100vh;display:flex;align-items:center;background:#fff">
   <div class="wrap sec-pad" style="max-width:1280px;margin:0 auto;padding:64px 32px 100px">
    <div>
-    <p style="{{ subhead }};text-align:center">{{ t.faq.sub }}</p>
-    <h2 style="{{ h2Style }};text-align:center;margin:12px auto 48px">{{ t.faq.h2 }}</h2>
-    <div class="faq-grid" style="max-width:820px;margin:0 auto;border-top:1px solid rgba(255,255,255,.14)">
+    <p style="{{ subheadDark }};text-align:center">{{ t.faq.sub }}</p>
+    <h2 style="{{ h2Dark }};text-align:center;margin:12px auto 48px">{{ t.faq.h2 }}</h2>
+    <div class="faq-grid" style="max-width:820px;margin:0 auto;border-top:1px solid rgba(11,62,86,.16)">
       <sc-for list="{{ faqs }}" as="q" hint-placeholder-count="6">
-        <div style="border-bottom:1px solid rgba(255,255,255,.14)">
-          <button onClick="{{ q.toggle }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:20px;background:transparent;border:none;cursor:pointer;text-align:left;padding:26px 4px;color:#fff;font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:18px;line-height:1.2">
+        <div style="border-bottom:1px solid rgba(11,62,86,.16)">
+          <button onClick="{{ q.toggle }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:20px;background:transparent;border:none;cursor:pointer;text-align:left;padding:26px 4px;color:#17211F;font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:18px;line-height:1.2">
             {{ q.question }}
             <span style="{{ q.iconStyle }}">+</span>
           </button>
           <div style="{{ q.panelStyle }}">
-            <p style="font-size:15px;line-height:1.65;margin:0;padding:0 4px 26px;max-width:64ch;color:#FFFFFFCC">{{ q.answer }}</p>
+            <p style="font-size:15px;line-height:1.65;margin:0;padding:0 4px 26px;max-width:64ch;color:rgba(23,33,31,.72)">{{ q.answer }}</p>
           </div>
         </div>
       </sc-for>
     </div>
-    <p style="text-align:center;font-size:14px;margin:32px 0 0;color:#FFFFFF99">{{ t.faq.contactNote }}<a href="mailto:hello@easybali.surf" style="color:#61FFD0">{{ t.faq.contactEmail }}</a>{{ t.faq.contactNoteEnd }}</p>
+    <p style="text-align:center;font-size:14px;margin:32px 0 0;color:rgba(23,33,31,.55)">{{ t.faq.contactNote }}<a href="mailto:hello@easybali.surf" style="color:#0B8F82">{{ t.faq.contactEmail }}</a>{{ t.faq.contactNoteEnd }}</p>
    </div>
   </div>
 </section>
@@ -435,10 +438,11 @@
         </sc-if>
         <div style="display:flex;align-items:center;gap:10px;margin-bottom:26px">
           <sc-for list="{{ wizSteps }}" as="st" hint-placeholder-count="3">
-            <div style="display:flex;align-items:center;gap:9px;flex:1;min-width:0">
-              <span style="{{ st.dot }}">{{ st.num }}</span>
+            <div style="display:flex;align-items:center;gap:6px;flex:1;min-width:0">
+              <span class="{{ st.dotClass }}" style="{{ st.dot }}">{{ st.num }}</span>
               <span style="{{ st.label }}">{{ st.name }}</span>
             </div>
+            <sc-if value="{{ st.showConnector }}" hint-placeholder-val="{{ false }}"><span class="{{ st.connectorClass }}" style="{{ st.connectorStyle }}"></span></sc-if>
           </sc-for>
         </div>
 
@@ -494,7 +498,7 @@
                     <label style="{{ fieldLabel }}">{{ t.book.fDate }}
                       <div style="position:relative">
                         <input required="" type="date" min="{{ row.minDate }}" value="{{ row.date }}" onInput="{{ row.onDate }}" onBlur="{{ row.onDate }}" onClick="{{ openDatePicker }}" style="{{ row.dateInputStyle }}">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#61FFD0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="position:absolute;right:15px;top:50%;transform:translateY(-50%);pointer-events:none"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18M8 3v4M16 3v4"/></svg>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3FD9E6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="position:absolute;right:15px;top:50%;transform:translateY(-50%);pointer-events:none"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18M8 3v4M16 3v4"/></svg>
                       </div>
                       <sc-if value="{{ row.err }}" hint-placeholder-val="{{ false }}"><span style="display:flex;align-items:center;gap:6px;font-size:12px;color:#FFB454;margin-top:7px;font-weight:400;text-transform:none;letter-spacing:0"><span style="width:4px;height:4px;border-radius:50%;background:#FFB454;flex:none"></span>{{ row.err }}</span></sc-if>
                     </label>
@@ -756,7 +760,7 @@
 <!-- /contrast sections -->
 
 <!-- ============ FOOTER ============ -->
-<footer style="position:relative;z-index:8;background:var(--eb-bg);overflow:hidden">
+<footer style="position:relative;z-index:8;background:var(--eb-bg-2);overflow:hidden">
   <div class="wrap footer-grid" style="position:relative;max-width:1280px;margin:0 auto;padding:48px 32px 40px;display:grid;grid-template-columns:1.6fr 1fr 1fr;gap:40px;align-items:start">
     <div>
       <eb-logo size="20px" animated="false"></eb-logo>
@@ -1445,10 +1449,12 @@ class Component extends DCLogic {
         return svg(e('circle', { key: 'a', cx: 12, cy: 9, r: 5.5 }), e('path', { key: 'b', d: 'M8.8 13.5 7.5 21l4.5-2.6L16.5 21l-1.3-7.5' }));
       case 1: // right spot — map pin
         return svg(e('path', { key: 'a', d: 'M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11Z' }), e('circle', { key: 'b', cx: 12, cy: 10, r: 2.6 }));
-      case 2: // private, max 3 — people
+      case 2: // private, max 2 by law — people
         return svg(e('circle', { key: 'a', cx: 9, cy: 8.5, r: 3.2 }), e('path', { key: 'b', d: 'M3.5 19.5c0-3 2.5-5 5.5-5s5.5 2 5.5 5' }), e('path', { key: 'c', d: 'M15.5 5.6a3.2 3.2 0 0 1 0 5.8M17.8 14.9c1.9.7 3.2 2.3 3.2 4.6' }));
-      default: // add-ons — camera
-        return svg(e('path', { key: 'a', d: 'M4 8h3l1.5-2.5h7L17 8h3a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1Z' }), e('circle', { key: 'b', cx: 12, cy: 13, r: 3.4 }));
+      case 3: // automatic refund — shield check
+        return svg(e('path', { key: 'a', d: 'M12 3.5 5 6.2v5.3c0 4.8 3 8 7 9.5 4-1.5 7-4.7 7-9.5V6.2Z' }), e('path', { key: 'b', d: 'M9 12l2 2 4-4.2' }));
+      default:
+        return null;
     }
   }
   buildHeroChars(h1a, h1accent, h1b, still) {
@@ -1605,7 +1611,7 @@ class Component extends DCLogic {
     const per = md ? md.per : null, sst = md ? md.sst : null, live = !!(md && md.live);
     const noData = !per;
 
-    const dotC = ['#61FFD0', '#bfffe9', '#a3b3ac', '#6f8a80'];
+    const dotC = ['#0B8F82', '#61FFD0', '#9AA8A2', '#5C726A'];
     // 7-day strip
     const week = [];
     for (let k = 0; k < 7; k++) {
@@ -1620,16 +1626,16 @@ class Component extends DCLogic {
         label: dt.toLocaleDateString(locale, { weekday: 'short', timeZone: 'UTC' }),
         dnum: String(dt.getUTCDate()),
         // grey hollow dot when there's no live data for that day
-        dotStyle: 'width:8px;height:8px;border-radius:50%;margin:6px auto 0;' + (dqi < 0 ? 'background:transparent;border:1.5px solid rgba(11,62,86,.3)' : 'background:' + dotC[dqi]),
-        style: 'flex:none;width:66px;scroll-snap-align:start;text-align:center;cursor:pointer;padding:10px 4px 11px;border-radius:14px;background:' + (sel ? 'rgba(11,143,130,.14)' : 'rgba(11,62,86,.045)') + ';border:1px solid ' + (sel ? 'rgba(11,143,130,.5)' : 'rgba(11,62,86,.14)') + ';transition:all .2s',
+        dotStyle: 'width:8px;height:8px;border-radius:50%;margin:6px auto 0;' + (dqi < 0 ? 'background:transparent;border:1.5px solid rgba(255,255,255,.3)' : 'background:' + dotC[dqi]),
+        style: 'flex:none;width:66px;scroll-snap-align:start;text-align:center;cursor:pointer;padding:10px 4px 11px;border-radius:14px;background:' + (sel ? 'rgba(97,255,208,.14)' : 'rgba(255,255,255,.045)') + ';border:1px solid ' + (sel ? 'rgba(97,255,208,.5)' : 'rgba(255,255,255,.14)') + ';transition:all .2s',
         pick: () => this.setEx('date', ds)
       });
     }
 
     const order = noData ? [] : per.map((p, i) => ({ i, s: p.score })).sort((a, b) => b.s - a.s);
     const rankOf = {}; order.forEach((o, r) => { rankOf[o.i] = r; });
-    const badgeBg = ['rgba(11,143,130,.16)', 'rgba(11,62,86,.09)', 'rgba(11,62,86,.06)', 'rgba(11,62,86,.045)'];
-    const badgeFg = ['#0B8F82', '#17211F', 'rgba(23,33,31,.72)', 'rgba(23,33,31,.5)'];
+    const badgeBg = ['rgba(97,255,208,.16)', 'rgba(255,255,255,.09)', 'rgba(255,255,255,.06)', 'rgba(255,255,255,.045)'];
+    const badgeFg = ['#61FFD0', '#fff', 'rgba(255,255,255,.72)', 'rgba(255,255,255,.5)'];
 
     let slots = noData ? [] : baseSlots.map((time, i) => {
       // ABSOLUTE quality from the slot's own score — NOT a relative rank among the day's 4 windows.
@@ -1669,8 +1675,8 @@ class Component extends DCLogic {
       { isTideDown: tideIdx === 0, isTideMid: tideIdx === 1, isTideUp: tideIdx === 2, label: sm.condTide, valLine1: selPer.tide, valLine2: '' }
     ] : [];
 
-    const spotChip = (sel) => 'background:' + (sel ? '#61FFD0' : 'rgba(11,62,86,.05)') + ';color:' + (sel ? '#08100d' : '#17211F') + ';border:1px solid ' + (sel ? '#61FFD0' : 'rgba(11,62,86,.16)') + ';border-radius:100px;padding:8px 15px;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s';
-    const slotRow = (sel) => 'display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;text-align:left;cursor:pointer;padding:12px 14px;border-radius:14px;background:' + (sel ? 'rgba(11,143,130,.12)' : 'rgba(11,62,86,.04)') + ';border:1px solid ' + (sel ? 'rgba(11,143,130,.5)' : 'rgba(11,62,86,.12)') + ';transition:all .2s';
+    const spotChip = (sel) => 'background:' + (sel ? '#61FFD0' : 'rgba(255,255,255,.05)') + ';color:' + (sel ? '#08100d' : '#fff') + ';border:1px solid ' + (sel ? '#61FFD0' : 'rgba(255,255,255,.16)') + ';border-radius:100px;padding:8px 15px;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s';
+    const slotRow = (sel) => 'display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;text-align:left;cursor:pointer;padding:12px 14px;border-radius:14px;background:' + (sel ? 'rgba(97,255,208,.12)' : 'rgba(255,255,255,.04)') + ';border:1px solid ' + (sel ? 'rgba(97,255,208,.5)' : 'rgba(255,255,255,.12)') + ';transition:all .2s';
 
     return {
       active: { ...active, region: this.regionFor(active) }, primary, week, conds,
@@ -1739,10 +1745,10 @@ class Component extends DCLogic {
     const glassCard = "background:linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,.025));border:1px solid rgba(255,255,255,.14)";
     const glassPanel = "background:linear-gradient(180deg,rgba(255,255,255,.16),rgba(255,255,255,.07));border:1px solid rgba(255,255,255,.22);border-radius:18px;backdrop-filter:blur(20px) saturate(140%);-webkit-backdrop-filter:blur(20px) saturate(140%);box-shadow:0 12px 40px rgba(0,0,0,.18)";
     // Flat, solid, high-contrast hero panel theme (booking.com-style) — used only by the hero finder card.
-    const heroPanel = "background:linear-gradient(180deg,rgba(255,255,255,.9),rgba(255,255,255,.82));border:1px solid rgba(255,255,255,.3);border-radius:18px;backdrop-filter:blur(20px) saturate(140%);-webkit-backdrop-filter:blur(20px) saturate(140%)";
-    const heroInputStyle = "width:100%;height:50px;box-sizing:border-box;margin-top:8px;background:#F2F5F5;border:1px solid rgba(10,30,40,.14);border-radius:12px;padding:0 15px;color:#17211F;font-family:'Inter',sans-serif;font-size:15px;line-height:1;outline:none;-webkit-appearance:none;appearance:none";
-    const heroSelectStyle = heroInputStyle + ";background-image:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='7' viewBox='0 0 11 7'%3E%3Cpath d='M1 1l4.5 4.5L10 1' stroke='%230B3E56' stroke-width='1.6' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\");background-repeat:no-repeat;background-position:right 15px center;padding-right:36px";
-    const heroFieldLabel = "display:block;font-size:13px;letter-spacing:.4px;color:#22282A;text-transform:uppercase;font-weight:600";
+    const heroPanel = glassCard + ";border-radius:18px";
+    const heroInputStyle = inputStyle;
+    const heroSelectStyle = selectStyle;
+    const heroFieldLabel = "display:block;font-size:13px;letter-spacing:.4px;color:#FFFFFFBD;text-transform:uppercase;font-weight:600";
 
     const CERT_BADGES = [
       { name: 'ISA', full: 'International Surfing Association' },
@@ -1863,11 +1869,19 @@ class Component extends DCLogic {
       checked: chk
     });
     const wizSteps = (noAddons ? [W.s1, W.s3] : [W.s1, W.s2, W.s3]).map((nm, i) => {
-      const num = i + 1, on = num <= (noAddons && step === 3 ? 2 : step);
+      const num = i + 1, curStep = (noAddons && step === 3 ? 2 : step), on = num <= curStep, isCurrent = num === curStep;
+      const total = noAddons ? 2 : 3;
+      const nextOn = num < curStep; // connector after a fully-completed step lights solid; after the current step it sweeps; otherwise dim
       return {
         num: String(num), name: nm,
-        dot: "flex:none;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Inter',sans-serif;font-weight:600;font-size:13px;" + (on ? 'color:#fff;background:rgba(97,255,208,.16);border:1px solid rgba(97,255,208,.4);' : 'color:#FFFFFF80;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.16);'),
-        label: "font-family:'Inter',sans-serif;font-size:12px;font-weight:600;letter-spacing:.2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:" + (num === (noAddons && step === 3 ? 2 : step) ? '#fff' : '#FFFFFF80')
+        dotClass: isCurrent ? 'wiz-pulse wiz-on' : '',
+        dot: "flex:none;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Inter',sans-serif;font-weight:600;font-size:12px;" + (on ? 'color:#fff;background:rgba(97,255,208,.16);border:1px solid rgba(97,255,208,.4);' : 'color:#FFFFFF80;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.16);'),
+        label: "font-family:'Inter',sans-serif;font-size:11px;font-weight:600;letter-spacing:.1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:" + (isCurrent ? '#fff' : '#FFFFFF80'),
+        showConnector: num < total,
+        connectorClass: isCurrent ? 'wiz-sweep' : '',
+        connectorStyle: 'flex:0 0 14px;height:3px;margin:0 4px;border-radius:2px;' + (isCurrent
+          ? 'background-image:linear-gradient(90deg,#61FFD0,#3FD9E6,#61FFD0);background-size:200% 100%'
+          : nextOn ? 'background:rgba(97,255,208,.4)' : 'background:rgba(255,255,255,.14)')
       };
     });
 
@@ -2047,7 +2061,7 @@ class Component extends DCLogic {
         return {
           question: item.q, answer: item.a,
           toggle: () => this.setState(s => ({ openFaq: s.openFaq === i ? -1 : i })),
-          iconStyle: "flex:none;width:30px;height:30px;border-radius:50%;background:rgba(97,255,208,.14);color:#61FFD0;display:flex;align-items:center;justify-content:center;font-size:22px;font-family:'Inter',sans-serif;font-weight:300;transition:transform .3s;transform:rotate(" + (open ? '45deg' : '0deg') + ")",
+          iconStyle: "flex:none;width:30px;height:30px;border-radius:50%;background:rgba(11,143,130,.12);color:#0B8F82;display:flex;align-items:center;justify-content:center;font-size:22px;font-family:'Inter',sans-serif;font-weight:300;transition:transform .3s;transform:rotate(" + (open ? '45deg' : '0deg') + ")",
           panelStyle: "overflow:hidden;transition:max-height .35s ease,opacity .3s;max-height:" + (open ? '320px' : '0') + ";opacity:" + (open ? '1' : '0'),
         };
       }),
