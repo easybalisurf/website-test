@@ -188,7 +188,7 @@
 
 <!-- ============ HERO — the live forecast/booking tool IS the hero (variant 1a) ============ -->
 <header id="hero" data-screen-label="Hero" style="position:relative;min-height:100vh;background:var(--eb-bg-2);display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:visible;padding-top:calc(120px + env(safe-area-inset-top));padding-bottom:120px">
-  <div style="position:absolute;inset:0;background-image:url('https://images.unsplash.com/photo-1541617219835-3689726fa8e7?fm=jpg&q=74&w=1600&auto=format&fit=crop&ixlib=rb-4.1.0');background-size:cover;background-attachment:fixed;background-position:center 55%"></div>
+  <div style="position:absolute;inset:0;background-image:url('https://images.unsplash.com/photo-1498330177096-689e3fb901ca?fm=jpg&q=74&w=1600&auto=format&fit=crop&ixlib=rb-4.1.0');background-size:cover;background-attachment:fixed;background-position:center 55%"></div>
   <div id="heroBgLayer" style="position:absolute;inset:0;background:var(--eb-bg-2);opacity:.55"></div>
   
   <div id="heroContent" class="wrap fc-grid" style="position:relative;width:100%;max-width:1280px;margin:0 auto;padding:0 32px 90px;pointer-events:auto;display:grid;grid-template-columns:1fr 1.05fr;gap:64px;align-items:center;flex:none">
@@ -294,7 +294,7 @@
     </div>
    </div>
   </div>
-  <div class="wrap" style="position:relative;width:100%;max-width:1280px;margin:0 auto;padding:0 32px;display:flex;align-items:baseline;flex-wrap:wrap;gap:6px 12px;flex:none;margin-top:88px">
+  <div class="wrap" style="position:relative;width:100%;max-width:1280px;margin:0 auto;padding:0 32px;display:flex;align-items:baseline;flex-wrap:wrap;gap:6px 12px;flex:none;margin-top:44px">
     <span style="font-size:11px;letter-spacing:.4px;text-transform:uppercase;color:#FFFFFF80;white-space:nowrap">{{ t.certs.label }}</span>
     <div style="display:flex;align-items:baseline;flex-wrap:wrap;gap:6px 14px">
       <sc-for list="{{ certBadges }}" as="c" hint-placeholder-count="4">
@@ -1743,7 +1743,7 @@ class Component extends DCLogic {
     const glassCard = "background:linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,.025));border:1px solid rgba(255,255,255,.14)";
     const glassPanel = "background:linear-gradient(180deg,rgba(255,255,255,.16),rgba(255,255,255,.07));border:1px solid rgba(255,255,255,.22);border-radius:18px;backdrop-filter:blur(20px) saturate(140%);-webkit-backdrop-filter:blur(20px) saturate(140%);box-shadow:0 12px 40px rgba(0,0,0,.18)";
     // Flat, solid, high-contrast hero panel theme (booking.com-style) — used only by the hero finder card.
-    const heroPanel = "background:transparent;border:1px solid rgba(255,255,255,.25);border-radius:18px;backdrop-filter:blur(40px);-webkit-backdrop-filter:blur(40px)";
+    const heroPanel = "background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.25);border-radius:18px;backdrop-filter:blur(40px);-webkit-backdrop-filter:blur(40px)";
     const heroInputStyle = inputStyle;
     const heroSelectStyle = selectStyle;
     const heroFieldLabel = "display:block;font-size:13px;letter-spacing:.4px;color:#FFFFFFBD;text-transform:uppercase;font-weight:600";
