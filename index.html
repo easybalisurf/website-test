@@ -108,6 +108,9 @@
     #heroContent h1{font-size:clamp(30px,7vw,56px)!important;max-width:20ch!important}
     #heroContent p{margin-top:14px!important}
   }
+  @media(min-width:561px){
+    .finder-panel{backdrop-filter:blur(20px)!important;-webkit-backdrop-filter:blur(20px)!important}
+  }
   @media(max-width:560px){
     .form-2col{gap:12px!important}
     .footer-grid{grid-template-columns:1fr!important}
@@ -185,6 +188,8 @@
 
 <!-- ============ HERO — the live forecast/booking tool IS the hero (variant 1a) ============ -->
 <header id="hero" data-screen-label="Hero" style="position:relative;min-height:100vh;background:var(--eb-bg-2);display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:visible;padding-top:calc(120px + env(safe-area-inset-top));padding-bottom:120px">
+  <div style="position:absolute;inset:0;background-image:url('https://images.unsplash.com/photo-1541617219835-3689726fa8e7?fm=jpg&q=74&w=1600&auto=format&fit=crop&ixlib=rb-4.1.0');background-size:cover;background-attachment:fixed;background-position:center 55%"></div>
+  <div id="heroBgLayer" style="position:absolute;inset:0;background:var(--eb-bg-2);opacity:.55"></div>
   
   <div id="heroContent" class="wrap fc-grid" style="position:relative;width:100%;max-width:1280px;margin:0 auto;padding:0 32px 90px;pointer-events:auto;display:grid;grid-template-columns:1fr 1.05fr;gap:64px;align-items:center;flex:none">
    <div>
@@ -289,7 +294,7 @@
     </div>
    </div>
   </div>
-  <div class="wrap" style="position:relative;width:100%;max-width:1280px;margin:0 auto;padding:0 32px;display:flex;align-items:baseline;flex-wrap:wrap;gap:6px 12px;flex:none;margin-top:44px">
+  <div class="wrap" style="position:relative;width:100%;max-width:1280px;margin:0 auto;padding:0 32px;display:flex;align-items:baseline;flex-wrap:wrap;gap:6px 12px;flex:none;margin-top:88px">
     <span style="font-size:11px;letter-spacing:.4px;text-transform:uppercase;color:#FFFFFF80;white-space:nowrap">{{ t.certs.label }}</span>
     <div style="display:flex;align-items:baseline;flex-wrap:wrap;gap:6px 14px">
       <sc-for list="{{ certBadges }}" as="c" hint-placeholder-count="4">
@@ -347,9 +352,10 @@
 
 <!-- ============ TESTIMONIALS MARQUEE ============ -->
 <section data-navtheme="light" data-screen-label="Testimonials" style="position:relative;padding:88px 0 56px;overflow:hidden;min-height:100vh;display:flex;flex-direction:column;justify-content:center;background:var(--eb-bg-light);color:#33383A">
-  <p style="{{ subheadDark }};text-align:center">{{ t.rev.sub }}</p>
-  <h2 style="{{ h2Dark }};text-align:center;margin:12px auto 48px">{{ t.rev.h2 }}</h2>
-  <div class="rev-scroll" style="{{ revScrollStyle }}">
+  <div style="position:absolute;inset:0;background-image:url('https://images.unsplash.com/photo-1502933691298-84fc14542831?fm=jpg&q=74&w=1600&auto=format&fit=crop&ixlib=rb-4.1.0');background-size:cover;background-position:center 40%;opacity:.65"></div>
+  <p style="{{ subheadDark }};text-align:center;position:relative;z-index:1">{{ t.rev.sub }}</p>
+  <h2 style="{{ h2Dark }};text-align:center;margin:12px auto 48px;position:relative;z-index:1">{{ t.rev.h2 }}</h2>
+  <div class="rev-scroll" style="{{ revScrollStyle }};position:relative;z-index:1">
     <div class="rev-track" style="{{ revTrackStyle }}">
     <sc-for list="{{ reviewsLoop }}" as="r" hint-placeholder-count="6">
       <div style="{{ r.cardStyle }}">
@@ -369,25 +375,25 @@
 </section>
 
 <!-- ============ FAQ ============ -->
-<section id="faq" data-navtheme="light" data-screen-label="FAQ" style="position:relative;min-height:100vh;display:flex;align-items:center;background:#fff">
+<section id="faq" data-screen-label="FAQ" style="position:relative;min-height:100vh;display:flex;align-items:center;background:var(--eb-bg-2)">
   <div class="wrap sec-pad" style="max-width:1280px;margin:0 auto;padding:64px 32px 100px">
    <div>
-    <p style="{{ subheadDark }};text-align:center">{{ t.faq.sub }}</p>
-    <h2 style="{{ h2Dark }};text-align:center;margin:12px auto 48px">{{ t.faq.h2 }}</h2>
-    <div class="faq-grid" style="max-width:820px;margin:0 auto;border-top:1px solid rgba(11,62,86,.16)">
+    <p style="{{ subhead }};text-align:center">{{ t.faq.sub }}</p>
+    <h2 style="{{ h2Style }};text-align:center;margin:12px auto 48px">{{ t.faq.h2 }}</h2>
+    <div class="faq-grid" style="max-width:820px;margin:0 auto;border-top:1px solid rgba(255,255,255,.14)">
       <sc-for list="{{ faqs }}" as="q" hint-placeholder-count="6">
-        <div style="border-bottom:1px solid rgba(11,62,86,.16)">
-          <button onClick="{{ q.toggle }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:20px;background:transparent;border:none;cursor:pointer;text-align:left;padding:26px 4px;color:#17211F;font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:18px;line-height:1.2">
+        <div style="border-bottom:1px solid rgba(255,255,255,.14)">
+          <button onClick="{{ q.toggle }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:20px;background:transparent;border:none;cursor:pointer;text-align:left;padding:26px 4px;color:#fff;font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:18px;line-height:1.2">
             {{ q.question }}
             <span style="{{ q.iconStyle }}">+</span>
           </button>
           <div style="{{ q.panelStyle }}">
-            <p style="font-size:15px;line-height:1.65;margin:0;padding:0 4px 26px;max-width:64ch;color:rgba(23,33,31,.72)">{{ q.answer }}</p>
+            <p style="font-size:15px;line-height:1.65;margin:0;padding:0 4px 26px;max-width:64ch;color:#FFFFFFCC">{{ q.answer }}</p>
           </div>
         </div>
       </sc-for>
     </div>
-    <p style="text-align:center;font-size:14px;margin:32px 0 0;color:rgba(23,33,31,.55)">{{ t.faq.contactNote }}<a href="mailto:hello@easybali.surf" style="color:#0B8F82">{{ t.faq.contactEmail }}</a>{{ t.faq.contactNoteEnd }}</p>
+    <p style="text-align:center;font-size:14px;margin:32px 0 0;color:#FFFFFF99">{{ t.faq.contactNote }}<a href="mailto:hello@easybali.surf" style="color:#61FFD0">{{ t.faq.contactEmail }}</a>{{ t.faq.contactNoteEnd }}</p>
    </div>
   </div>
 </section>
@@ -1067,14 +1073,6 @@ class Component extends DCLogic {
     this._formMountedAt = Date.now();
     this._raf = null;
     this._wxFail = {};
-    // macOS-style time-of-day sky in the hero (bottom always settles into the ocean color #0C3D57 the seam wave uses)
-    const hr = new Date().getHours();
-    const sky = (hr >= 5 && hr < 8) ? 'linear-gradient(180deg,rgba(19,26,54,.85) 0%,rgba(74,58,92,.8) 42%,rgba(192,138,99,.8) 70%,rgba(14,48,80,.92) 100%)'
-      : (hr >= 8 && hr < 17) ? 'linear-gradient(180deg,rgba(14,58,99,.85) 0%,rgba(30,111,168,.8) 52%,rgba(21,91,122,.85) 78%,rgba(14,48,80,.92) 100%)'
-      : (hr >= 17 && hr < 21) ? 'linear-gradient(180deg,rgba(34,34,78,.85) 0%,rgba(110,58,85,.8) 48%,rgba(199,107,74,.8) 70%,rgba(14,48,80,.92) 100%)'
-      : 'linear-gradient(180deg,rgba(5,9,20,.9) 0%,rgba(10,27,51,.85) 55%,rgba(14,48,80,.92) 100%)';
-    const hb = document.getElementById('heroBgLayer');
-    if (hb) hb.style.backgroundImage = sky;
     this.setState({ isTouch: !window.matchMedia('(hover:hover) and (pointer:fine)').matches });
     document.documentElement.lang = this.state.lang;
     this.fetchIdrRate();
@@ -1690,7 +1688,7 @@ class Component extends DCLogic {
       bookSoon: (() => { if (!chosenSlot) return false; const st = (chosenSlot.split(/[–-]/)[0] || '08:00').trim(); const p = targetDate.split('-').map(Number); const tp = st.split(':').map(Number); const startUtc = Date.UTC(p[0], p[1] - 1, p[2], tp[0], tp[1]) - 8 * 3600000; return (startUtc - Date.now()) < 24 * 3600000 && (startUtc - Date.now()) > 0; })(),
       soonWarnMsg: sm.soonWarn || '',
       bookDisabled: !(!!chosenSlot && !chosenFull && anyFree),
-      bookBtnStyle: 'flex:none;font-weight:600;font-size:15px;padding:14px 26px;border:none;border-radius:100px;transition:filter .2s;' + ((!!chosenSlot && !chosenFull && anyFree) ? 'background:#61FFD0;color:#08100d;cursor:pointer' : 'background:rgba(11,62,86,.1);color:rgba(23,33,31,.35);cursor:not-allowed'),
+      bookBtnStyle: 'flex:none;font-weight:600;font-size:15px;padding:14px 26px;border:none;border-radius:100px;transition:filter .2s;' + ((!!chosenSlot && !chosenFull && anyFree) ? 'background:#61FFD0;color:#08100d;cursor:pointer' : 'background:rgba(255,255,255,.08);color:rgba(255,255,255,.35);cursor:not-allowed'),
       bookBtnHover: '',
       bookLabel: (() => { const dp2 = targetDate.split('-').map(Number); const dl = new Date(Date.UTC(dp2[0], dp2[1] - 1, dp2[2])).toLocaleDateString(locale, { day: 'numeric', month: 'short', timeZone: 'UTC' }); return chosenFull ? (sm.slotFull || 'No coaches free — pick another window') : chosenSlot ? (sm.bookDate || 'Book {date}').replace('{date}', dl) : (sm.pickSlot || 'Select a time slot'); })(),
       spots: pool.map(s => ({ name: s.name, style: spotChip(active.name === s.name), pick: () => this.setEx('spot', s.name) })),
@@ -1728,7 +1726,7 @@ class Component extends DCLogic {
     const D = this.dict();
     const L = D[this.state.lang] || D.en;
     const f = this.state.form;
-    const subhead = "font-family:'Inter',sans-serif;color:#7CFFDA;font-size:14px;font-weight:600;letter-spacing:.4px;text-transform:uppercase;margin:0;text-shadow:0 1px 4px rgba(0,0,0,.55)";
+    const subhead = "font-family:'Inter',sans-serif;color:#7CFFDA;font-size:14px;font-weight:600;letter-spacing:.4px;text-transform:uppercase;margin:0";
     const h2Style = "font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:clamp(34px,4.5vw,62px);line-height:.98;letter-spacing:-.5px;color:#fff;margin:12px 0 0;max-width:16ch";
     const subheadDark = "font-family:'Inter',sans-serif;color:#3A6B6E;font-size:14px;font-weight:600;letter-spacing:.4px;text-transform:uppercase;margin:0";
     const h2Dark = "font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:clamp(34px,4.5vw,62px);line-height:.98;letter-spacing:-.5px;color:#22282A;margin:12px 0 0;max-width:16ch";
@@ -1745,7 +1743,7 @@ class Component extends DCLogic {
     const glassCard = "background:linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,.025));border:1px solid rgba(255,255,255,.14)";
     const glassPanel = "background:linear-gradient(180deg,rgba(255,255,255,.16),rgba(255,255,255,.07));border:1px solid rgba(255,255,255,.22);border-radius:18px;backdrop-filter:blur(20px) saturate(140%);-webkit-backdrop-filter:blur(20px) saturate(140%);box-shadow:0 12px 40px rgba(0,0,0,.18)";
     // Flat, solid, high-contrast hero panel theme (booking.com-style) — used only by the hero finder card.
-    const heroPanel = glassCard + ";border-radius:18px";
+    const heroPanel = "background:transparent;border:1px solid rgba(255,255,255,.25);border-radius:18px;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)";
     const heroInputStyle = inputStyle;
     const heroSelectStyle = selectStyle;
     const heroFieldLabel = "display:block;font-size:13px;letter-spacing:.4px;color:#FFFFFFBD;text-transform:uppercase;font-weight:600";
@@ -1790,7 +1788,7 @@ class Component extends DCLogic {
     const onExSport = e => this.setEx('sport', Math.max(0, L.book.sportOpts.indexOf(e.target.value)));
     const onExLevel = e => this.setEx('level', Math.max(0, L.book.levelOpts.indexOf(e.target.value)));
     const customSelectStyle = "width:100%;height:50px;box-sizing:border-box;margin-top:8px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.18);border-radius:12px;padding:0 15px;color:#fff;font-family:'Inter',sans-serif;font-size:15px;font-weight:500;display:flex;align-items:center;justify-content:space-between;gap:10px;cursor:pointer;transition:border-color .15s,background .15s";
-    const customMenuStyle = "position:absolute;top:calc(100% + 6px);left:0;right:0;z-index:20;background:#182A2E;border:1px solid rgba(255,255,255,.14);border-radius:14px;padding:6px;box-shadow:0 16px 40px rgba(0,0,0,.4);animation:recoFade .15s ease";
+    const customMenuStyle = "position:absolute;top:calc(100% + 6px);left:0;right:0;z-index:20;background:#182A2E;border:1px solid rgba(255,255,255,.14);border-radius:14px;padding:6px;animation:recoFade .15s ease";
     const menuRowStyle = (sel) => 'padding:11px 12px;border-radius:9px;font-size:14px;font-weight:500;color:' + (sel ? '#61FFD0' : '#fff') + ';background:' + (sel ? 'rgba(97,255,208,.1)' : 'transparent') + ';cursor:pointer;transition:background .12s';
     const sportMenuOpen = !!this.state.sportMenuOpen, levelMenuOpen = !!this.state.levelMenuOpen;
     const toggleSportMenu = () => this.setState(s => ({ sportMenuOpen: !s.sportMenuOpen, levelMenuOpen: false }));
@@ -2061,7 +2059,7 @@ class Component extends DCLogic {
         return {
           question: item.q, answer: item.a,
           toggle: () => this.setState(s => ({ openFaq: s.openFaq === i ? -1 : i })),
-          iconStyle: "flex:none;width:30px;height:30px;border-radius:50%;background:rgba(11,143,130,.12);color:#0B8F82;display:flex;align-items:center;justify-content:center;font-size:22px;font-family:'Inter',sans-serif;font-weight:300;transition:transform .3s;transform:rotate(" + (open ? '45deg' : '0deg') + ")",
+          iconStyle: "flex:none;width:30px;height:30px;border-radius:50%;background:rgba(97,255,208,.14);color:#61FFD0;display:flex;align-items:center;justify-content:center;font-size:22px;font-family:'Inter',sans-serif;font-weight:300;transition:transform .3s;transform:rotate(" + (open ? '45deg' : '0deg') + ")",
           panelStyle: "overflow:hidden;transition:max-height .35s ease,opacity .3s;max-height:" + (open ? '320px' : '0') + ";opacity:" + (open ? '1' : '0'),
         };
       }),

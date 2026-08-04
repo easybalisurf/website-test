@@ -22,9 +22,9 @@ window.SITE_TEXT = {
         why: { sub:'Why EasyBali.surf', h2:'Book your coach directly.', mission:'Our mission is to make your time in the water as easy and enjoyable as possible — we take care of every detail and connect you with the best coaches on the island.',
           perks: [
             { n:'1', title:'Vetted, certified coaches', body:'We only work with proven providers and coaches with a strong track record — ISA & IKO certified, working legally on the island.' },
-            { n:'2', title:'Matched to your real level', body:'Tell us your level when you book — we match you with a spot, timing and coach that fit it, so you\u2019re never out of your depth.' },
-            { n:'3', title:'Private, max 2 by law', body:'Indonesian regulations cap group size at 2 riders per coach — real supervision, not a crowd.' },
-            { n:'4', title:'Automatic refund', body:'No coach available for your request — your deposit is refunded automatically, no chasing anyone for it.' },
+            { n:'2', title:'Matched to your real level', body:'Tell us your level when you book — we match you with a spot, timing and coach that fit it.' },
+            { n:'3', title:'Private, max 2', body:'Indonesian regulations cap group size at 2 riders per coach — real supervision, not a crowd.' },
+            { n:'4', title:'Automatic refund', body:'No coach available for your request — your deposit is refunded automatically.' },
           ] },
         how: { sub:'Simple as it gets', h2:'How booking works',
           steps: [
