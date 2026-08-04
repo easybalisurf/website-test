@@ -21,11 +21,16 @@
       ensure();
       const size = this.getAttribute('size') || 'clamp(22px,5vw,30px)';
       const root = this.shadowRoot || this.attachShadow({ mode: 'open' });
-      const base = `font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;text-transform:uppercase;background:linear-gradient(120deg,#61C9E6,#8CFFC1);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent`;
-      const suffix = `<span style="font-weight:600;font-size:.72em;text-transform:none;color:${WHITE};-webkit-text-fill-color:${WHITE}">.surf</span>`;
+      const base = `font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;text-transform:uppercase;letter-spacing:-.2px`;
       root.innerHTML =
         `<style>:host{display:inline-block;vertical-align:middle;line-height:1}</style>` +
-        `<span style="${base};font-size:${size};letter-spacing:-.3px;display:inline-flex;align-items:baseline">EASYBALI${suffix}</span>`;
+        `<span style="${base};font-size:${size};display:inline-flex;flex-direction:column;align-items:center;line-height:.92;background:linear-gradient(180deg,#61C9E6,#8CFFC1 68%,${WHITE} 68%,${WHITE});-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent">` +
+          `<span>EASY</span>` +
+          `<span>BALI</span>` +
+          `<span style="font-size:1em;display:inline-flex;align-items:flex-end;gap:.16em">` +
+            `<span style="width:.2em;height:.2em;min-width:4px;min-height:4px;border-radius:50%;background:${WHITE};flex:none;-webkit-text-fill-color:${WHITE};margin-bottom:.06em"></span>SURF` +
+          `</span>` +
+        `</span>`;
     }
   }
   if (!customElements.get('eb-logo')) customElements.define('eb-logo', EbLogo);

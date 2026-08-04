@@ -12,6 +12,7 @@
 <meta property="og:description" content="Book certified surf, kite, wing foil and SUP coaching on Bali's best breaks — booked in minutes.">
 <meta property="og:url" content="https://easybali.surf/">
 <meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%2064%2064'%3E%0A%3Crect%20width%3D'64'%20height%3D'64'%20rx%3D'14'%20fill%3D'%2308100d'%2F%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D'g'%20x1%3D'0'%20y1%3D'0'%20x2%3D'0'%20y2%3D'1'%3E%0A%3Cstop%20offset%3D'0%25'%20stop-color%3D'%2361C9E6'%2F%3E%3Cstop%20offset%3D'100%25'%20stop-color%3D'%238CFFC1'%2F%3E%0A%3C%2FlinearGradient%3E%3C%2Fdefs%3E%0A%3Ctext%20x%3D'32'%20y%3D'19'%20font-family%3D'Plus%20Jakarta%20Sans%2C%20Arial%2C%20sans-serif'%20font-weight%3D'800'%20font-size%3D'13.5'%20text-anchor%3D'middle'%20fill%3D'url(%23g)'%20letter-spacing%3D'-0.3'%3EEASY%3C%2Ftext%3E%0A%3Ctext%20x%3D'32'%20y%3D'32.5'%20font-family%3D'Plus%20Jakarta%20Sans%2C%20Arial%2C%20sans-serif'%20font-weight%3D'800'%20font-size%3D'13.5'%20text-anchor%3D'middle'%20fill%3D'url(%23g)'%20letter-spacing%3D'-0.3'%3EBALI%3C%2Ftext%3E%0A%3Ccircle%20cx%3D'14.5'%20cy%3D'42.1'%20r%3D'2'%20fill%3D'%23ffffff'%2F%3E%0A%3Ctext%20x%3D'37'%20y%3D'46'%20font-family%3D'Plus%20Jakarta%20Sans%2C%20Arial%2C%20sans-serif'%20font-weight%3D'800'%20font-size%3D'13.5'%20text-anchor%3D'middle'%20fill%3D'%23ffffff'%20letter-spacing%3D'-0.3'%3ESURF%3C%2Ftext%3E%0A%3C%2Fsvg%3E">
 <script src="./support.js"></script>
 </head>
 <body>
@@ -113,6 +114,11 @@
     #heroContent{padding-bottom:20px!important}
     .cond-grid{grid-template-columns:repeat(2,1fr)!important}
     .finder-panel{padding:20px 18px!important;margin-top:30px!important;margin-left:-22px!important;margin-right:-22px!important;width:calc(100% + 44px)!important}
+    .slot-row{flex-direction:column!important;align-items:stretch!important;gap:6px!important}
+    .slot-row-top{justify-content:space-between!important}
+    .slot-row-meta{justify-content:flex-start!important}
+    .slot-row-badge-desktop{display:none!important}
+    .slot-row-badge-mobile{display:inline-flex!important}
     .book-glass{padding:20px 16px!important;margin-left:-22px!important;margin-right:-22px!important;width:calc(100% + 44px)!important}
     .sec-pad{padding-top:64px!important;padding-bottom:64px!important}
   }
@@ -125,7 +131,7 @@
 <nav data-screen-label="Nav" style="{{ navStyle }}">
   <div class="wrap nav-inner" style="max-width:1280px;margin:0 auto;padding:env(safe-area-inset-top) 32px 0;height:calc(74px + env(safe-area-inset-top));display:flex;align-items:center;justify-content:space-between">
     <a href="#hero" style="display:flex;align-items:center;gap:12px;color:{{ navInk }}">
-      <eb-logo size="24px" animated="false"></eb-logo>
+      <eb-logo size="19px" animated="false"></eb-logo>
     </a>
 
     <!-- desktop nav -->
@@ -147,7 +153,7 @@
         </div>
       </div>
 
-      <a href="#book" style="display:inline-flex;align-items:center;gap:8px;background:linear-gradient(120deg,#7DFFC4,#61FFD0 42%,#3FD9E6);color:#08100d;font-weight:600;font-size:14px;padding:11px 20px;border-radius:100px;transition:transform .2s,box-shadow .2s" style-hover="box-shadow:0 8px 30px rgba(97,255,208,.4);transform:translateY(-1px)">{{ t.nav.book }}</a>
+      <a href="#book" style="display:inline-flex;align-items:center;gap:8px;background:transparent;border:1px solid rgba(255,255,255,.3);color:#fff;font-weight:500;font-size:14px;padding:10px 19px;border-radius:100px">{{ t.nav.book }}</a>
     </div>
 
     <!-- mobile burger -->
@@ -176,36 +182,42 @@
 </div>
 
 <!-- ============ HERO — the live forecast/booking tool IS the hero (variant 1a) ============ -->
-<header id="hero" data-screen-label="Hero" style="position:relative;min-height:100vh;display:flex;align-items:center;overflow:visible;padding-top:calc(120px + env(safe-area-inset-top));padding-bottom:120px">
-  <div id="heroBgLayer" style="position:absolute;inset:0;background:linear-gradient(180deg,#0E3A63 0%,#1E6FA8 50%,#176394 80%,#145E86 100%);background-size:100% 100vh;background-repeat:no-repeat;background-position:top"></div>
+<header id="hero" data-screen-label="Hero" style="position:relative;min-height:100vh;background:#0E3050;display:flex;align-items:center;overflow:visible;padding-top:calc(120px + env(safe-area-inset-top));padding-bottom:120px">
+  <div style="position:absolute;inset:0;background-image:url('https://images.unsplash.com/photo-1502680390469-be75c86b636f?fm=jpg&q=60&w=1600&auto=format&fit=crop&ixlib=rb-4.1.0');background-size:cover;background-position:center 60%"></div>
+  <div id="heroBgLayer" style="position:absolute;inset:0;background:rgba(8,26,40,.6)"></div>
   
   <div id="heroContent" class="wrap fc-grid" style="position:relative;width:100%;max-width:1280px;margin:0 auto;padding:0 32px 90px;pointer-events:auto;display:grid;grid-template-columns:1fr 1.05fr;gap:64px;align-items:center">
    <div>
-    <p style="{{ subhead }}">Bali · water sports coaching</p>
-    <h2 style="{{ h2Style }};animation:floatUp .9s .2s ease-out both">Book a private coach</h2>
-    <p style="max-width:44ch;margin:18px 0 0;font-size:16px;line-height:1.6;color:#FFFFFFBD;animation:floatUp 1s .35s ease-out both">Certified coaches, matched to live wind, tide and swell — pick your level, see the best window, book direct.</p>
+    <h2 style="{{ h2Style }}">{{ t.finder.h2 }}</h2>
+    <p style="max-width:44ch;margin:18px 0 0;font-size:16px;line-height:1.6;color:#FFFFFFBD">{{ t.finder.lead }}</p>
    </div>
-   <div>
-    <div class="finder-panel" style="{{ glassPanel }};padding:28px;animation:floatUp 1.1s .3s ease-out both">
-      <div style="display:flex;flex-wrap:wrap;gap:16px">
-        <label style="{{ fieldLabel }};flex:1;min-width:130px">{{ t.book.fSport }}
-          <select value="{{ exSportVal }}" onChange="{{ onExSport }}" style="{{ selectStyle }}">
+   <div id="forecast">
+    <div class="finder-panel" style="{{ heroPanel }};padding:28px">
+      <p style="font-size:11px;letter-spacing:.4px;text-transform:uppercase;color:#22282A;font-weight:600;margin:0 0 16px">{{ t.finder.panelLabel }}</p>
+      <div style="display:flex;flex-wrap:wrap;align-items:flex-end;gap:16px">
+        <label style="{{ heroFieldLabel }};flex:1;min-width:130px">{{ t.book.fSport }}
+          <select value="{{ exSportVal }}" onChange="{{ onExSport }}" style="{{ heroSelectStyle }}">
             <sc-for list="{{ sportOpts }}" as="o" hint-placeholder-count="4"><option style="color:#000">{{ o }}</option></sc-for>
           </select>
         </label>
-        <label style="{{ fieldLabel }};flex:1;min-width:130px">{{ t.book.fLevel }}
-          <select value="{{ exLevelVal }}" onChange="{{ onExLevel }}" style="{{ selectStyle }}">
+        <label style="{{ heroFieldLabel }};flex:1;min-width:130px">{{ t.book.fLevel }}
+          <select value="{{ exLevelVal }}" onChange="{{ onExLevel }}" style="{{ heroSelectStyle }}">
             <sc-for list="{{ levelOpts }}" as="o" hint-placeholder-count="4"><option style="color:#000">{{ o }}</option></sc-for>
           </select>
         </label>
+        <sc-if value="{{ levelNotPicked }}" hint-placeholder-val="{{ true }}">
+          <button type="button" onClick="{{ revealResults }}" aria-label="{{ t.finder.findBtn }}" style="width:44px;height:44px;flex:none;display:flex;align-items:center;justify-content:center;border:none;border-radius:50%;background:linear-gradient(120deg,#7DFFC4,#61FFD0 42%,#3FD9E6);color:#08100d;cursor:pointer;transition:filter .15s" style-hover="filter:brightness(1.08)">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M6 13l6 6 6-6"/></svg>
+          </button>
+        </sc-if>
       </div>
       <sc-if value="{{ levelPicked }}" hint-placeholder-val="{{ false }}">
-      <div key="{{ recoKey }}" style="animation:panelExpand .35s ease-out both">
+      <div key="{{ recoKey }}" style="animation:panelExpand .35s ease both">
       <div style="margin-top:24px">
-        <div style="font-size:11px;letter-spacing:.4px;text-transform:uppercase;color:#FFFFFF80;margin-bottom:8px">{{ t.smart.spotLabel }}</div>
+        <div style="font-size:11px;letter-spacing:.4px;text-transform:uppercase;color:rgba(23,33,31,.55);margin-bottom:8px">{{ t.smart.spotLabel }}</div>
         <div style="display:flex;align-items:baseline;gap:10px;flex-wrap:wrap">
-          <span style="font-family:'Plus Jakarta Sans';font-weight:700;font-size:36px;color:#61FFD0;line-height:.95">{{ reco.active.name }}</span>
-          <span style="font-size:13px;color:#FFFFFFBD">{{ reco.active.region }}</span>
+          <span style="font-family:'Plus Jakarta Sans';font-weight:700;font-size:36px;color:#17211F;line-height:.95">{{ reco.active.name }}</span>
+          <span style="font-size:13px;color:rgba(23,33,31,.6)">{{ reco.active.region }}</span>
         </div>
         <div style="{{ wxStatus.pill }}"><span style="{{ wxStatus.dot }}"></span>{{ wxStatus.label }}</div>
         <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap">
@@ -215,65 +227,60 @@
         </div>
       </div>
       <div style="margin-top:24px">
-        <div style="font-size:11px;letter-spacing:.4px;text-transform:uppercase;color:#FFFFFF80;margin-bottom:8px">{{ t.smart.week }}</div>
+        <div style="font-size:11px;letter-spacing:.4px;text-transform:uppercase;color:rgba(23,33,31,.55);margin-bottom:8px">{{ t.smart.week }}</div>
         <div class="week-strip" onScroll="{{ onWeekScroll }}" onTouchStart="{{ onWeekTouchStart }}" onTouchEnd="{{ onWeekTouchEnd }}" onTouchCancel="{{ onWeekTouchEnd }}" style="display:flex;gap:7px;overflow-x:auto;-webkit-overflow-scrolling:touch;scroll-behavior:auto;padding-bottom:4px;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 14px,#000 calc(100% - 14px),transparent 100%);mask-image:linear-gradient(90deg,transparent 0,#000 14px,#000 calc(100% - 14px),transparent 100%)">
           <sc-for list="{{ reco.week }}" as="d" hint-placeholder-count="7">
             <button type="button" onClick="{{ d.pick }}" style="{{ d.style }}">
-              <div style="font-size:10px;letter-spacing:.3px;text-transform:uppercase;color:#FFFFFF99">{{ d.label }}</div>
-              <div style="font-family:'Plus Jakarta Sans';font-weight:600;font-size:18px;color:#fff;line-height:1.1;margin-top:2px">{{ d.dnum }}</div>
+              <div style="font-size:10px;letter-spacing:.3px;text-transform:uppercase;color:rgba(23,33,31,.6)">{{ d.label }}</div>
+              <div style="font-family:'Plus Jakarta Sans';font-weight:600;font-size:18px;color:#17211F;line-height:1.1;margin-top:2px">{{ d.dnum }}</div>
               <div style="{{ d.dotStyle }}"></div>
             </button>
           </sc-for>
         </div>
       </div>
       <div style="margin-top:22px">
-        <div style="font-size:11px;letter-spacing:.4px;text-transform:uppercase;color:#FFFFFF80;margin-bottom:8px">{{ t.smart.slotLabel }}</div>
+        <div style="font-size:11px;letter-spacing:.4px;text-transform:uppercase;color:rgba(23,33,31,.55);margin-bottom:8px">{{ t.smart.slotLabel }}</div>
         <div style="display:flex;flex-direction:column;gap:8px">
           <sc-for list="{{ reco.slots }}" as="s" hint-placeholder-count="4">
-            <button type="button" onClick="{{ s.pick }}" style="{{ s.style }}">
-              <span style="display:flex;align-items:center;gap:10px">
-                <span style="font-family:'Plus Jakarta Sans';font-weight:600;font-size:14px;color:#fff">{{ s.time }}</span>
+            <button type="button" onClick="{{ s.pick }}" class="slot-row" style="{{ s.style }}">
+              <span class="slot-row-top" style="display:flex;align-items:center;gap:10px">
+                <span style="font-family:'Plus Jakarta Sans';font-weight:600;font-size:14px;color:#17211F">{{ s.time }}</span>
+                <span class="slot-row-badge-mobile" style="{{ s.badge }};display:none">{{ s.quality }}</span>
               </span>
-              <span style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;justify-content:flex-end">
+              <span class="slot-row-meta" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;justify-content:flex-end">
                 <sc-if value="{{ s.full }}" hint-placeholder-val="{{ false }}">
-                  <span style="font-size:11px;font-weight:600;letter-spacing:.3px;text-transform:uppercase;padding:3px 9px;border-radius:100px;background:rgba(255,255,255,.12);color:#FFFFFFB0">{{ s.fullLabel }}</span>
+                  <span style="font-size:11px;font-weight:600;letter-spacing:.3px;text-transform:uppercase;padding:3px 9px;border-radius:100px;background:rgba(11,62,86,.08);color:rgba(23,33,31,.6)">{{ s.fullLabel }}</span>
                 </sc-if>
-                <span style="font-size:12px;color:#FFFFFFBD;display:flex;align-items:center;gap:10px">
+                <span style="font-size:12px;color:rgba(23,33,31,.65);display:flex;align-items:center;gap:10px">
                   <span>{{ s.wave }}</span>
-                  <span style="display:inline-flex;align-items:center;gap:3px"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#61FFD0" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" style="transform:rotate({{ s.windDeg }}deg);flex:none"><path d="M12 19V5"/><path d="M6 11l6-6 6 6"/></svg>{{ s.wind }}</span>
+                  <span style="display:inline-flex;align-items:center;gap:3px"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#0B8F82" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" style="transform:rotate({{ s.windDeg }}deg);flex:none"><path d="M12 19V5"/><path d="M6 11l6-6 6 6"/></svg>{{ s.wind }}</span>
                   <span style="display:inline-flex;align-items:center;gap:3px">
-                    <sc-if value="{{ s.tideUp }}" hint-placeholder-val="{{ false }}"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#61FFD0" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="M6 11l6-6 6 6"/></svg></sc-if>
-                    <sc-if value="{{ s.tideDown }}" hint-placeholder-val="{{ false }}"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#61FFD0" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M6 13l6 6 6-6"/></svg></sc-if>
-                    <sc-if value="{{ s.tideMid }}" hint-placeholder-val="{{ false }}"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#61FFD0" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18"/><path d="M7 8l5-5 5 5"/><path d="M7 16l5 5 5-5"/></svg></sc-if>
+                    <sc-if value="{{ s.tideUp }}" hint-placeholder-val="{{ false }}"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0B8F82" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="M6 11l6-6 6 6"/></svg></sc-if>
+                    <sc-if value="{{ s.tideDown }}" hint-placeholder-val="{{ false }}"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0B8F82" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M6 13l6 6 6-6"/></svg></sc-if>
+                    <sc-if value="{{ s.tideMid }}" hint-placeholder-val="{{ false }}"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0B8F82" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18"/><path d="M7 8l5-5 5 5"/><path d="M7 16l5 5 5-5"/></svg></sc-if>
                     {{ s.tide }}
                   </span>
                 </span>
-                <span style="{{ s.badge }}">{{ s.quality }}</span>
+                <span class="slot-row-badge-desktop" style="{{ s.badge }}">{{ s.quality }}</span>
               </span>
             </button>
           </sc-for>
           <sc-if value="{{ reco.noSlots }}" hint-placeholder-val="{{ false }}">
-            <div style="padding:16px 14px;border-radius:14px;background:rgba(255,255,255,.04);border:1px dashed rgba(255,255,255,.16);font-size:13px;color:#FFFFFF99;text-align:center">{{ reco.noWinMsg }}</div>
+            <div style="padding:16px 14px;border-radius:14px;background:rgba(11,62,86,.035);border:1px dashed rgba(11,62,86,.22);font-size:13px;color:rgba(23,33,31,.6);text-align:center">{{ reco.noWinMsg }}</div>
           </sc-if>
           <sc-if value="{{ reco.allFull }}" hint-placeholder-val="{{ false }}">
             <div style="padding:16px 14px;border-radius:14px;background:rgba(255,180,84,.09);border:1px solid rgba(255,180,84,.35);font-size:13px;color:#FFD9A8;text-align:center">{{ reco.noCoachesMsg }}</div>
           </sc-if>
         </div>
-        <p style="font-size:11px;line-height:1.5;color:#FFFFFF80;margin:10px 0 0;opacity:.7">{{ t.smart.disclaimerSrc }}</p>
-        <p style="margin:10px 0 0;font-size:13px"><a href="{{ guideHref }}" style="font-weight:500;color:#61FFD0">{{ t.finder.guideLink }} →</a></p>
+        <p style="font-size:11px;line-height:1.5;color:rgba(23,33,31,.55);margin:10px 0 0;opacity:.7">{{ t.smart.disclaimerSrc }}</p>
+        <p style="margin:10px 0 0;font-size:13px"><a href="{{ guideHref }}" style="font-weight:600;color:#0C2436">{{ t.finder.guideLink }} →</a></p>
       </div>
       </div>
-      <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:22px;padding-top:20px;border-top:1px solid rgba(255,255,255,.1)">
-        <button type="button" onClick="{{ collapseResults }}" style="font-size:13px;color:#FFFFFFBD;font-weight:500;background:none;border:none;padding:0;cursor:pointer;display:flex;align-items:center;gap:5px" style-hover="color:#61FFD0"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M18 15l-6-6-6 6"/></svg>Collapse</button>
-        <button type="button" disabled="{{ reco.bookDisabled }}" onClick="{{ bookThis }}" style="{{ reco.bookBtnStyle }}" style-hover="{{ reco.bookBtnHover }}">{{ reco.bookLabel }}</button>
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:22px;padding-top:20px;border-top:1px solid rgba(11,62,86,.14)">
+        <button type="button" onClick="{{ collapseResults }}" style="font-size:13px;color:rgba(23,33,31,.65);font-weight:500;background:none;border:none;padding:0;cursor:pointer;display:flex;align-items:center;gap:5px" style-hover="color:#0B8F82"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M18 15l-6-6-6 6"/></svg>{{ t.finder.collapseBtn }}</button>
+        <button type="button" data-book-cta disabled="{{ reco.bookDisabled }}" onClick="{{ bookThis }}" style="{{ reco.bookBtnStyle }}" style-hover="{{ reco.bookBtnHover }}">{{ reco.bookLabel }}</button>
       </div>
-      <p style="font-size:12px;line-height:1.5;color:#FFFFFF99;margin:10px 0 0">{{ t.smart.disclaimer }}</p>
-      </sc-if>
-      <sc-if value="{{ levelNotPicked }}" hint-placeholder-val="{{ true }}">
-        <div style="display:flex;align-items:center;gap:16px;margin-top:20px;animation:panelExpand .3s ease-out both">
-          <button type="button" onClick="{{ revealResults }}" style="padding:16px 30px;border:none;border-radius:100px;background:linear-gradient(120deg,#7DFFC4,#61FFD0 42%,#3FD9E6);color:#08100d;font-weight:600;font-size:15px;cursor:pointer">Find my session</button>
-          <a href="#how" style="font-size:13px;color:#FFFFFFBD;font-weight:500;white-space:nowrap" style-hover="color:#61FFD0">How it works</a>
-        </div>
+      <p style="font-size:12px;line-height:1.5;color:rgba(23,33,31,.55);margin:10px 0 0">{{ t.smart.disclaimer }}</p>
       </sc-if>
     </div>
     <div style="display:flex;align-items:baseline;flex-wrap:wrap;gap:6px 12px;margin-top:26px">
@@ -289,10 +296,6 @@
 </header>
 
 <!-- ============ CONTRAST SECTIONS (deliberate alternating tones) ============ -->
-
-<!-- ============ FORECAST ANCHOR — panel now lives in the hero (variant 1a); this section stays
-     only so #forecast nav links still land somewhere sensible. ============ -->
-<section id="forecast" data-screen-label="Forecast (anchor)" style="position:relative"></section>
 
 <!-- ============ WHY US ============ -->
 <section id="why" data-navtheme="light" data-screen-label="Why us" style="position:relative;overflow:hidden;min-height:100vh;display:flex;align-items:center;background:var(--eb-bg-light);color:#33383A">
@@ -539,7 +542,7 @@
               <sc-if value="{{ rentalAvail }}" hint-placeholder-val="{{ true }}">
               <div>
                 <div onClick="{{ toggleRental }}" style="{{ aRental.row }}">
-                  <span style="{{ aRental.box }}">{{ aRental.mark }}</span>
+                  <span style="{{ aRental.box }}"><sc-if value="{{ aRental.checked }}" hint-placeholder-val="{{ false }}"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#08100d" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></sc-if></span>
                   <span style="flex:1;font-size:15px;color:#fff">{{ rentalLabel }}</span>
                   <span style="{{ addonPrice }}">{{ rentalPrice }} {{ w.perDay }}</span>
                 </div>
@@ -557,7 +560,7 @@
               <sc-if value="{{ transfersAvail }}" hint-placeholder-val="{{ false }}">
               <div>
                 <div onClick="{{ toggleTT }}" style="{{ aTT.row }}">
-                  <span style="{{ aTT.box }}">{{ aTT.mark }}</span>
+                  <span style="{{ aTT.box }}"><sc-if value="{{ aTT.checked }}" hint-placeholder-val="{{ false }}"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#08100d" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></sc-if></span>
                   <span style="flex:1;font-size:15px;color:#fff">{{ transferToLabel }}</span>
                   <span style="{{ addonPrice }}">{{ ttPrice }}</span>
                 </div>
@@ -573,7 +576,7 @@
               </div>
               <div>
                 <div onClick="{{ toggleTB }}" style="{{ aTB.row }}">
-                  <span style="{{ aTB.box }}">{{ aTB.mark }}</span>
+                  <span style="{{ aTB.box }}"><sc-if value="{{ aTB.checked }}" hint-placeholder-val="{{ false }}"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#08100d" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></sc-if></span>
                   <span style="flex:1;font-size:15px;color:#fff">{{ w.transferBack }}</span>
                   <span style="{{ addonPrice }}">{{ tbPrice }}</span>
                 </div>
@@ -591,7 +594,7 @@
               <sc-if value="{{ mediaAvail }}" hint-placeholder-val="{{ true }}">
               <div>
                 <div onClick="{{ toggleMedia }}" style="{{ aMedia.row }}">
-                  <span style="{{ aMedia.box }}">{{ aMedia.mark }}</span>
+                  <span style="{{ aMedia.box }}"><sc-if value="{{ aMedia.checked }}" hint-placeholder-val="{{ false }}"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#08100d" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></sc-if></span>
                   <span style="flex:1;font-size:15px;color:#fff">{{ w.media }}</span>
                   <span style="{{ addonPrice }}">{{ mediaPrice }}</span>
                 </div>
@@ -610,7 +613,7 @@
               <sc-for list="{{ customAddonRows }}" as="ca" hint-placeholder-count="0">
                 <div>
                   <div onClick="{{ ca.toggle }}" style="{{ ca.row }}">
-                    <span style="{{ ca.box }}">{{ ca.mark }}</span>
+                    <span style="{{ ca.box }}"><sc-if value="{{ ca.checked }}" hint-placeholder-val="{{ false }}"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#08100d" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></sc-if></span>
                     <span style="flex:1;font-size:15px;color:#fff">{{ ca.label }}</span>
                     <span style="{{ addonPrice }}">{{ ca.priceLabel }}</span>
                   </div>
@@ -763,7 +766,7 @@
         <div style="{{ footHead }}">{{ t.foot.company }}</div>
         <a href="{{ termsHref }}" style="{{ footLink }}" style-hover="color:#61FFD0">{{ t.foot.terms }}</a>
         <a href="{{ privacyHref }}" style="{{ footLink }}" style-hover="color:#61FFD0">{{ t.foot.privacy }}</a>
-        <a href="Instructors.dc.html" style="{{ footLink }}" style-hover="color:#61FFD0">{{ t.foot.forInstructors }}</a>
+        <a href="instructors.html" style="{{ footLink }}" style-hover="color:#61FFD0">{{ t.foot.forInstructors }}</a>
         <a href="{{ guideHref }}" style="{{ footLink }}" style-hover="color:#61FFD0">{{ t.foot.guide }}</a>
         <a href="{{ commitmentHref }}" style="{{ footLink }}" style-hover="color:#61FFD0">{{ t.foot.commitment }}</a>
       </div>
@@ -1007,6 +1010,7 @@ class Component extends DCLogic {
   wizDict() { return window.WIZARD_TEXT; }
   gotoStep(n) {
     this.setState({ step: n });
+    if (window.innerWidth <= 768) { setTimeout(() => { const el = document.querySelector('.book-glass'); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'end' }); }, 20); return; }
     const el = document.getElementById('book'); if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 20, behavior: 'smooth' });
   }
 
@@ -1024,17 +1028,23 @@ class Component extends DCLogic {
     obs.observe(el);
   };
   componentDidMount() {
+    this._onDocClick = (e) => {
+      if (this.state.sportMenuOpen || this.state.levelMenuOpen) {
+        if (!e.target.closest('.finder-panel')) this.setState({ sportMenuOpen: false, levelMenuOpen: false });
+      }
+    };
+    document.addEventListener('mousedown', this._onDocClick);
     this._formMountedAt = Date.now();
     this._raf = null;
     this._wxFail = {};
     // macOS-style time-of-day sky in the hero (bottom always settles into the ocean color #0C3D57 the seam wave uses)
     const hr = new Date().getHours();
-    const sky = (hr >= 5 && hr < 8) ? 'linear-gradient(180deg,#131A36 0%,#4A3A5C 42%,#C08A63 70%,#0E3050 100%)'
-      : (hr >= 8 && hr < 17) ? 'linear-gradient(180deg,#0E3A63 0%,#1E6FA8 52%,#155B7A 78%,#0E3050 100%)'
-      : (hr >= 17 && hr < 21) ? 'linear-gradient(180deg,#22224E 0%,#6E3A55 48%,#C76B4A 70%,#0E3050 100%)'
-      : 'linear-gradient(180deg,#050914 0%,#0A1B33 55%,#0E3050 100%)';
+    const sky = (hr >= 5 && hr < 8) ? 'linear-gradient(180deg,rgba(19,26,54,.85) 0%,rgba(74,58,92,.8) 42%,rgba(192,138,99,.8) 70%,rgba(14,48,80,.92) 100%)'
+      : (hr >= 8 && hr < 17) ? 'linear-gradient(180deg,rgba(14,58,99,.85) 0%,rgba(30,111,168,.8) 52%,rgba(21,91,122,.85) 78%,rgba(14,48,80,.92) 100%)'
+      : (hr >= 17 && hr < 21) ? 'linear-gradient(180deg,rgba(34,34,78,.85) 0%,rgba(110,58,85,.8) 48%,rgba(199,107,74,.8) 70%,rgba(14,48,80,.92) 100%)'
+      : 'linear-gradient(180deg,rgba(5,9,20,.9) 0%,rgba(10,27,51,.85) 55%,rgba(14,48,80,.92) 100%)';
     const hb = document.getElementById('heroBgLayer');
-    if (hb) hb.style.background = sky;
+    if (hb) hb.style.backgroundImage = sky;
     this.setState({ isTouch: !window.matchMedia('(hover:hover) and (pointer:fine)').matches });
     document.documentElement.lang = this.state.lang;
     this.fetchIdrRate();
@@ -1152,6 +1162,7 @@ class Component extends DCLogic {
     if (!a || a.sport !== b.sport || a.level !== b.level || a.spot !== b.spot) this.maybeFetch();
   }
   componentWillUnmount() {
+    document.removeEventListener('mousedown', this._onDocClick);
     window.removeEventListener('scroll', this._onScroll);
     window.removeEventListener('resize', this._onHeroResize);
     if (this._availPoll) clearInterval(this._availPoll);
@@ -1557,16 +1568,16 @@ class Component extends DCLogic {
         label: dt.toLocaleDateString(locale, { weekday: 'short', timeZone: 'UTC' }),
         dnum: String(dt.getUTCDate()),
         // grey hollow dot when there's no live data for that day
-        dotStyle: 'width:8px;height:8px;border-radius:50%;margin:6px auto 0;' + (dqi < 0 ? 'background:transparent;border:1.5px solid rgba(255,255,255,.28)' : 'background:' + dotC[dqi]),
-        style: 'flex:none;width:66px;scroll-snap-align:start;text-align:center;cursor:pointer;padding:10px 4px 11px;border-radius:14px;background:' + (sel ? 'rgba(97,255,208,.16)' : 'rgba(255,255,255,.04)') + ';border:1px solid ' + (sel ? 'rgba(97,255,208,.55)' : 'rgba(255,255,255,.09)') + ';transition:all .2s',
+        dotStyle: 'width:8px;height:8px;border-radius:50%;margin:6px auto 0;' + (dqi < 0 ? 'background:transparent;border:1.5px solid rgba(11,62,86,.3)' : 'background:' + dotC[dqi]),
+        style: 'flex:none;width:66px;scroll-snap-align:start;text-align:center;cursor:pointer;padding:10px 4px 11px;border-radius:14px;background:' + (sel ? 'rgba(11,143,130,.14)' : 'rgba(11,62,86,.045)') + ';border:1px solid ' + (sel ? 'rgba(11,143,130,.5)' : 'rgba(11,62,86,.14)') + ';transition:all .2s',
         pick: () => this.setEx('date', ds)
       });
     }
 
     const order = noData ? [] : per.map((p, i) => ({ i, s: p.score })).sort((a, b) => b.s - a.s);
     const rankOf = {}; order.forEach((o, r) => { rankOf[o.i] = r; });
-    const badgeBg = ['rgba(97,255,208,.18)', 'rgba(255,255,255,.1)', 'rgba(255,255,255,.07)', 'rgba(255,255,255,.05)'];
-    const badgeFg = ['#61FFD0', '#ffffff', '#FFFFFFBD', '#FFFFFF80'];
+    const badgeBg = ['rgba(11,143,130,.16)', 'rgba(11,62,86,.09)', 'rgba(11,62,86,.06)', 'rgba(11,62,86,.045)'];
+    const badgeFg = ['#0B8F82', '#17211F', 'rgba(23,33,31,.72)', 'rgba(23,33,31,.5)'];
 
     let slots = noData ? [] : baseSlots.map((time, i) => {
       // ABSOLUTE quality from the slot's own score — NOT a relative rank among the day's 4 windows.
@@ -1606,8 +1617,8 @@ class Component extends DCLogic {
       { isTideDown: tideIdx === 0, isTideMid: tideIdx === 1, isTideUp: tideIdx === 2, label: sm.condTide, valLine1: selPer.tide, valLine2: '' }
     ] : [];
 
-    const spotChip = (sel) => 'background:' + (sel ? '#61FFD0' : 'rgba(255,255,255,.05)') + ';color:' + (sel ? '#08100d' : '#fff') + ';border:1px solid ' + (sel ? '#61FFD0' : 'rgba(255,255,255,.16)') + ';border-radius:100px;padding:8px 15px;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s';
-    const slotRow = (sel) => 'display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;text-align:left;cursor:pointer;padding:12px 14px;border-radius:14px;background:' + (sel ? 'rgba(97,255,208,.14)' : 'rgba(255,255,255,.04)') + ';border:1px solid ' + (sel ? 'rgba(97,255,208,.55)' : 'rgba(255,255,255,.1)') + ';transition:all .2s';
+    const spotChip = (sel) => 'background:' + (sel ? '#61FFD0' : 'rgba(11,62,86,.05)') + ';color:' + (sel ? '#08100d' : '#17211F') + ';border:1px solid ' + (sel ? '#61FFD0' : 'rgba(11,62,86,.16)') + ';border-radius:100px;padding:8px 15px;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s';
+    const slotRow = (sel) => 'display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;text-align:left;cursor:pointer;padding:12px 14px;border-radius:14px;background:' + (sel ? 'rgba(11,143,130,.12)' : 'rgba(11,62,86,.04)') + ';border:1px solid ' + (sel ? 'rgba(11,143,130,.5)' : 'rgba(11,62,86,.12)') + ';transition:all .2s';
 
     return {
       active: { ...active, region: this.regionFor(active) }, primary, week, conds,
@@ -1621,11 +1632,11 @@ class Component extends DCLogic {
       bookSoon: (() => { if (!chosenSlot) return false; const st = (chosenSlot.split(/[–-]/)[0] || '08:00').trim(); const p = targetDate.split('-').map(Number); const tp = st.split(':').map(Number); const startUtc = Date.UTC(p[0], p[1] - 1, p[2], tp[0], tp[1]) - 8 * 3600000; return (startUtc - Date.now()) < 24 * 3600000 && (startUtc - Date.now()) > 0; })(),
       soonWarnMsg: sm.soonWarn || '',
       bookDisabled: !(!!chosenSlot && !chosenFull && anyFree),
-      bookBtnStyle: 'flex:none;font-weight:600;font-size:15px;padding:14px 26px;border:none;border-radius:100px;transition:filter .2s;' + ((!!chosenSlot && !chosenFull && anyFree) ? 'background:linear-gradient(120deg,#7DFFC4,#61FFD0 42%,#3FD9E6);color:#08100d;cursor:pointer' : 'background:rgba(255,255,255,.12);color:#FFFFFF66;cursor:not-allowed'),
-      bookBtnHover: (!!chosenSlot && !chosenFull && anyFree) ? 'filter:brightness(1.05)' : '',
+      bookBtnStyle: 'flex:none;font-weight:600;font-size:15px;padding:14px 26px;border:none;border-radius:100px;transition:filter .2s;' + ((!!chosenSlot && !chosenFull && anyFree) ? 'background:linear-gradient(120deg,#7DFFC4,#61FFD0 42%,#3FD9E6);color:#08100d;cursor:pointer' : 'background:rgba(11,62,86,.1);color:rgba(23,33,31,.35);cursor:not-allowed'),
+      bookBtnHover: '',
       bookLabel: (() => { const dp2 = targetDate.split('-').map(Number); const dl = new Date(Date.UTC(dp2[0], dp2[1] - 1, dp2[2])).toLocaleDateString(locale, { day: 'numeric', month: 'short', timeZone: 'UTC' }); return chosenFull ? (sm.slotFull || 'No coaches free — pick another window') : chosenSlot ? (sm.bookDate || 'Book {date}').replace('{date}', dl) : (sm.pickSlot || 'Select a time slot'); })(),
       spots: pool.map(s => ({ name: s.name, style: spotChip(active.name === s.name), pick: () => this.setEx('spot', s.name) })),
-      slots: slots.map(s => ({ ...s, full: !!s.full, fullLabel: s.full ? (sm.slotFullTag || 'Full') : '', style: slotRow(chosenSlot === s.time) + (s.full ? ';opacity:.42;cursor:not-allowed;filter:grayscale(.5)' : ''), pick: s.full ? (() => {}) : (() => this.setState(st => ({ explore: { ...st.explore, slot: s.time, spot: st.explore.spot || active.name } }))) }))
+      slots: slots.map(s => ({ ...s, full: !!s.full, fullLabel: s.full ? (sm.slotFullTag || 'Full') : '', style: slotRow(chosenSlot === s.time) + (s.full ? ';opacity:.42;cursor:not-allowed;filter:grayscale(.5)' : ''), pick: s.full ? (() => {}) : (() => { this.setState(st => ({ explore: { ...st.explore, slot: s.time, spot: st.explore.spot || active.name } })); if (window.innerWidth <= 768) setTimeout(() => { const el = document.querySelector('.finder-panel'); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'end' }); }, 60); }) }))
     };
   }
 
@@ -1674,7 +1685,12 @@ class Component extends DCLogic {
     const footLink = "display:block;font-size:14px;color:#FFFFFFBD;margin-bottom:11px;transition:color .2s;width:max-content";
 
     const glassCard = "background:linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,.025));border:1px solid rgba(255,255,255,.14)";
-    const glassPanel = "background:linear-gradient(180deg,rgba(255,255,255,.10),rgba(255,255,255,.045));border:1px solid rgba(255,255,255,.14);border-radius:18px";
+    const glassPanel = "background:linear-gradient(180deg,rgba(255,255,255,.16),rgba(255,255,255,.07));border:1px solid rgba(255,255,255,.22);border-radius:18px;backdrop-filter:blur(20px) saturate(140%);-webkit-backdrop-filter:blur(20px) saturate(140%);box-shadow:0 12px 40px rgba(0,0,0,.18)";
+    // Flat, solid, high-contrast hero panel theme (booking.com-style) — used only by the hero finder card.
+    const heroPanel = "background:linear-gradient(180deg,rgba(255,255,255,.82),rgba(255,255,255,.74));border:1px solid rgba(255,255,255,.55);border-radius:18px;box-shadow:0 20px 50px rgba(0,0,0,.3);backdrop-filter:blur(20px) saturate(140%);-webkit-backdrop-filter:blur(20px) saturate(140%)";
+    const heroInputStyle = "width:100%;height:50px;box-sizing:border-box;margin-top:8px;background:#F2F5F5;border:1px solid rgba(10,30,40,.14);border-radius:12px;padding:0 15px;color:#17211F;font-family:'Inter',sans-serif;font-size:15px;line-height:1;outline:none;-webkit-appearance:none;appearance:none";
+    const heroSelectStyle = heroInputStyle + ";background-image:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='7' viewBox='0 0 11 7'%3E%3Cpath d='M1 1l4.5 4.5L10 1' stroke='%230B3E56' stroke-width='1.6' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\");background-repeat:no-repeat;background-position:right 15px center;padding-right:36px";
+    const heroFieldLabel = "display:block;font-size:13px;letter-spacing:.4px;color:#22282A;text-transform:uppercase;font-weight:600";
 
     const CERT_BADGES = [
       { name: 'ISA', full: 'International Surfing Association' },
@@ -1715,6 +1731,15 @@ class Component extends DCLogic {
     const exLevelVal = L.book.levelOpts[ex.level];
     const onExSport = e => this.setEx('sport', Math.max(0, L.book.sportOpts.indexOf(e.target.value)));
     const onExLevel = e => this.setEx('level', Math.max(0, L.book.levelOpts.indexOf(e.target.value)));
+    const customSelectStyle = "width:100%;height:50px;box-sizing:border-box;margin-top:8px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.18);border-radius:12px;padding:0 15px;color:#fff;font-family:'Inter',sans-serif;font-size:15px;font-weight:500;display:flex;align-items:center;justify-content:space-between;gap:10px;cursor:pointer;transition:border-color .15s,background .15s";
+    const customMenuStyle = "position:absolute;top:calc(100% + 6px);left:0;right:0;z-index:20;background:#182A2E;border:1px solid rgba(255,255,255,.14);border-radius:14px;padding:6px;box-shadow:0 16px 40px rgba(0,0,0,.4);animation:recoFade .15s ease";
+    const menuRowStyle = (sel) => 'padding:11px 12px;border-radius:9px;font-size:14px;font-weight:500;color:' + (sel ? '#61FFD0' : '#fff') + ';background:' + (sel ? 'rgba(97,255,208,.1)' : 'transparent') + ';cursor:pointer;transition:background .12s';
+    const sportMenuOpen = !!this.state.sportMenuOpen, levelMenuOpen = !!this.state.levelMenuOpen;
+    const toggleSportMenu = () => this.setState(s => ({ sportMenuOpen: !s.sportMenuOpen, levelMenuOpen: false }));
+    const toggleLevelMenu = () => this.setState(s => ({ levelMenuOpen: !s.levelMenuOpen, sportMenuOpen: false }));
+    const sportMenuOpts = L.book.sportOpts.map((o, i) => ({ label: o, rowStyle: menuRowStyle(i === ex.sport), pick: () => { this.setEx('sport', i); this.setState({ sportMenuOpen: false }); } }));
+    const levelMenuOpts = L.book.levelOpts.map((o, i) => ({ label: o, rowStyle: menuRowStyle(i === ex.level), pick: () => { this.setEx('level', i); this.setState({ levelMenuOpen: false }); } }));
+    const chevStyle = (open) => 'flex:none;transition:transform .15s' + (open ? ';transform:rotate(180deg)' : '');
     const bookThis = () => {
       if (!reco.canBook) return; // no free coach for the chosen window — button is disabled anyway
       // If the chosen/default date has no time windows left (e.g. all of today's already ended
@@ -1729,7 +1754,7 @@ class Component extends DCLogic {
         }
       }
       this.setState(s => ({ step: 1, form: { ...s.form, sport: L.book.sportOpts[ex.sport], level: L.book.levelOpts[ex.level], sessionCount: '1', sessions: [{ date: dt, slot }], spot: reco.active.name } }));
-      const el = document.getElementById('book'); if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 20, behavior: 'smooth' });
+      setTimeout(() => { const el = document.querySelector('.book-glass'); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 20);
     };
 
     const first = f.name ? f.name.split(' ')[0] : '';
@@ -1782,8 +1807,8 @@ class Component extends DCLogic {
     const noAddons = !rentalAvail && !mediaAvail && !transfersAvail;
     const addonStyle = (chk) => ({
       row: 'display:flex;align-items:center;gap:14px;padding:15px 16px;border-radius:14px;cursor:pointer;user-select:none;transition:background .2s,border-color .2s;background:' + (chk ? 'rgba(97,255,208,.12)' : 'rgba(255,255,255,.04)') + ';border:1px solid ' + (chk ? 'rgba(97,255,208,.55)' : 'rgba(255,255,255,.1)'),
-      box: 'flex:none;width:24px;height:24px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#08100d;transition:background .2s,border-color .2s;background:' + (chk ? GRAD : 'transparent') + ';border:1px solid ' + (chk ? 'transparent' : 'rgba(255,255,255,.3)'),
-      mark: chk ? '✓' : ''
+      box: 'flex:none;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;transition:background .2s,border-color .2s;background:' + (chk ? GRAD : 'transparent') + ';border:1.5px solid ' + (chk ? 'transparent' : 'rgba(255,255,255,.35)'),
+      checked: chk
     });
     const wizSteps = (noAddons ? [W.s1, W.s3] : [W.s1, W.s2, W.s3]).map((nm, i) => {
       const num = i + 1, on = num <= (noAddons && step === 3 ? 2 : step);
@@ -1866,7 +1891,7 @@ class Component extends DCLogic {
         : this.state.scrolled
         ? "position:fixed;top:0;left:0;right:0;z-index:70;background:rgba(12,36,54,.5);backdrop-filter:blur(14px) saturate(140%);-webkit-backdrop-filter:blur(14px) saturate(140%);border-bottom:1px solid rgba(255,255,255,.09);transition:background .35s,border-color .35s"
         : "position:fixed;top:0;left:0;right:0;z-index:70;background:transparent;border-bottom:1px solid transparent;transition:background .35s,border-color .35s",
-      eyebrow: subhead, subhead, subheadDark, h2Style, h2Dark, inputStyle, selectStyle, textareaStyle, fieldLabel, footHead, footLink, glassCard, glassPanel,
+      eyebrow: subhead, subhead, subheadDark, h2Style, h2Dark, inputStyle, selectStyle, textareaStyle, fieldLabel, footHead, footLink, glassCard, glassPanel, heroPanel, heroFieldLabel, heroSelectStyle,
       heroExpanded: this.state.heroExpanded,
       toggleHeroExpand: () => this.setState(s => ({ heroExpanded: !s.heroExpanded })),
       heroExpandChevStyle: this.state.heroExpanded ? 'rotate(180deg)' : 'rotate(0deg)',
@@ -1948,6 +1973,8 @@ class Component extends DCLogic {
       openDatePicker: e => { if (e.target.showPicker) { try { e.target.showPicker(); } catch (err) {} } },
       reco,
       recoKey: JSON.stringify(this.state.explore), wxStatus, condAnim, exSportVal, exLevelVal, onExSport, onExLevel, bookThis,
+      customSelectStyle, customMenuStyle, sportMenuOpen, levelMenuOpen, toggleSportMenu, toggleLevelMenu, sportMenuOpts, levelMenuOpts,
+      sportChevStyle: chevStyle(sportMenuOpen), levelChevStyle: chevStyle(levelMenuOpen),
       levelPicked: !!ex.levelPicked,
       levelNotPicked: !ex.levelPicked,
       revealResults: () => { this.setState(s => ({ explore: { ...s.explore, levelPicked: true } })); setTimeout(() => { const el = document.querySelector('.finder-panel'); if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 100, behavior: 'smooth' }); }, 50); },
@@ -1955,10 +1982,10 @@ class Component extends DCLogic {
       onWeekScroll: e => { this._weekScroll = e.target.scrollLeft; },
       onWeekTouchStart: () => { this._weekTouching = true; },
       onWeekTouchEnd: () => { this._weekTouching = false; },
-      guideHref: 'Surf Guide.dc.html?lang=' + this.state.lang,
-      termsHref: 'Terms of Service.dc.html?lang=' + this.state.lang,
-      privacyHref: 'Privacy Policy.dc.html?lang=' + this.state.lang,
-      commitmentHref: 'Commitment.dc.html?lang=' + this.state.lang,
+      guideHref: 'surf-guide.html?lang=' + this.state.lang,
+      termsHref: 'terms-of-service.html?lang=' + this.state.lang,
+      privacyHref: 'privacy-policy.html?lang=' + this.state.lang,
+      commitmentHref: 'commitment.html?lang=' + this.state.lang,
 
       faqs: L.faq.list.map((item, i) => {
         const open = this.state.openFaq === i;
