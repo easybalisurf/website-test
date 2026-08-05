@@ -209,7 +209,7 @@
           </select>
         </label>
         <sc-if value="{{ levelNotPicked }}" hint-placeholder-val="{{ true }}">
-          <button type="button" onClick="{{ revealResults }}" aria-label="{{ t.finder.findBtn }}" style="width:44px;height:44px;flex:none;display:flex;align-items:center;justify-content:center;border:none;border-radius:50%;background:#61FFD0;color:#08100d;cursor:pointer;transition:filter .15s" style-hover="filter:brightness(1.08)">
+          <button type="button" onClick="{{ revealResults }}" aria-label="{{ t.finder.findBtn }}" style="width:48px;height:48px;flex:none;display:flex;align-items:center;justify-content:center;border:none;border-radius:50%;background:linear-gradient(120deg,#7DFFC4,#61FFD0 42%,#3FD9E6);color:#08100d;cursor:pointer;transition:filter .15s" style-hover="filter:brightness(1.08)">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
           </button>
         </sc-if>
@@ -1741,7 +1741,7 @@ class Component extends DCLogic {
     const glassCard = "background:linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,.025));border:1px solid rgba(255,255,255,.14)";
     const glassPanel = "background:linear-gradient(180deg,rgba(255,255,255,.16),rgba(255,255,255,.07));border:1px solid rgba(255,255,255,.22);border-radius:18px;backdrop-filter:blur(20px) saturate(140%);-webkit-backdrop-filter:blur(20px) saturate(140%);box-shadow:0 12px 40px rgba(0,0,0,.18)";
     // Flat, solid, high-contrast hero panel theme (booking.com-style) — used only by the hero finder card.
-    const heroPanel = "background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.25);border-radius:18px;backdrop-filter:blur(40px);-webkit-backdrop-filter:blur(40px)";
+    const heroPanel = "background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.25);border-radius:24px;backdrop-filter:blur(40px);-webkit-backdrop-filter:blur(40px)";
     const heroInputStyle = inputStyle;
     const heroSelectStyle = selectStyle;
     const heroFieldLabel = "display:block;font-size:13px;letter-spacing:.4px;color:#FFFFFFBD;text-transform:uppercase;font-weight:600";
@@ -1949,9 +1949,9 @@ class Component extends DCLogic {
       navStyle: this.state.menuOpen
         ? "position:fixed;top:0;left:0;right:0;z-index:70;background:transparent;border-bottom:1px solid transparent;transition:all .35s"
         : this.state.navPinned
-        ? "position:absolute;top:" + (this.state.navPinTop - 74) + "px;left:0;right:0;z-index:70;background:rgba(12,36,54,.5);backdrop-filter:blur(14px) saturate(140%);-webkit-backdrop-filter:blur(14px) saturate(140%);border-bottom:1px solid rgba(255,255,255,.08)"
+        ? "position:absolute;top:" + (this.state.navPinTop - 74) + "px;left:0;right:0;z-index:70;background:transparent;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid rgba(255,255,255,.08)"
         : this.state.scrolled
-        ? "position:fixed;top:0;left:0;right:0;z-index:70;background:rgba(12,36,54,.5);backdrop-filter:blur(14px) saturate(140%);-webkit-backdrop-filter:blur(14px) saturate(140%);border-bottom:1px solid rgba(255,255,255,.09);transition:background .35s,border-color .35s"
+        ? "position:fixed;top:0;left:0;right:0;z-index:70;background:transparent;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid rgba(255,255,255,.09);transition:background .35s,border-color .35s"
         : "position:fixed;top:0;left:0;right:0;z-index:70;background:transparent;border-bottom:1px solid transparent;transition:background .35s,border-color .35s",
       eyebrow: subhead, subhead, subheadDark, h2Style, h2Dark, inputStyle, selectStyle, textareaStyle, fieldLabel, footHead, footLink, glassCard, glassPanel, heroPanel, heroFieldLabel, heroSelectStyle,
       heroExpanded: this.state.heroExpanded,
@@ -2041,9 +2041,9 @@ class Component extends DCLogic {
       levelNotPicked: !ex.levelPicked,
       showResults: ex.levelPicked || !!this.state.resultsClosing,
       resultsRows: ex.levelPicked ? '1fr' : '0fr',
-      resultsAnimStyle: this.state.resultsClosing ? 'animation:panelCollapse .3s ease both' : 'animation:panelExpand .35s ease both',
+      resultsAnimStyle: this.state.resultsClosing ? 'animation:panelCollapse .4s ease both' : 'animation:panelExpand .4s ease both',
       revealResults: () => { this.setState(s => ({ explore: { ...s.explore, levelPicked: true } })); setTimeout(() => { const el = document.querySelector('.finder-panel'); if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 100, behavior: 'smooth' }); }, 50); },
-      collapseResults: () => { this.setState({ resultsClosing: true }); setTimeout(() => { this.setState(s => ({ explore: { ...s.explore, levelPicked: false }, resultsClosing: false })); }, 300); window.scrollTo({ top: 0, behavior: 'smooth' }); },
+      collapseResults: () => { this.setState({ resultsClosing: true }); setTimeout(() => { this.setState(s => ({ explore: { ...s.explore, levelPicked: false }, resultsClosing: false })); }, 400); window.scrollTo({ top: 0, behavior: 'smooth' }); },
       onWeekScroll: e => { this._weekScroll = e.target.scrollLeft; },
       onWeekTouchStart: () => { this._weekTouching = true; },
       onWeekTouchEnd: () => { this._weekTouching = false; },

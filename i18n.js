@@ -29,7 +29,7 @@ window.SITE_TEXT = {
         how: { sub:'Simple as it gets', h2:'How booking works',
           steps: [
             { n:'01', title:'Book & hold', body:'Fill in the form. Your deposit is held for 3 hours.', body2:'Plans change? Cancel or reschedule anytime using the link in your confirmation email.' },
-            { n:'02', title:'Coach confirms', body:'Your request goes out to our coaches. Once one confirms, the deposit is charged and he messages you directly to sort out the details.', body2:'No coach available? Your deposit is refunded automatically after 3 hours.' },
+            { n:'02', title:'Coach confirms', body:'Your request goes out to our coaches. Once one confirms, the deposit is charged and he messages you directly to sort out the details.' },
             { n:'03', title:'Show up & ride', body:"Meet on the beach — gear's ready, waves are waiting." },
           ] },
         rev: { sub:'From the line-up', h2:'Riders talk',
