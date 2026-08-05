@@ -446,7 +446,6 @@
               <span class="{{ st.dotClass }}" style="{{ st.dot }}">{{ st.num }}</span>
               <span style="{{ st.label }}">{{ st.name }}</span>
             </div>
-            <sc-if value="{{ st.showConnector }}" hint-placeholder-val="{{ false }}"><span class="{{ st.connectorClass }}" style="{{ st.connectorStyle }}"></span></sc-if>
           </sc-for>
         </div>
 
@@ -2040,10 +2039,10 @@ class Component extends DCLogic {
       levelPicked: !!ex.levelPicked,
       levelNotPicked: !ex.levelPicked,
       showResults: ex.levelPicked || !!this.state.resultsClosing,
-      resultsRows: ex.levelPicked ? '1fr' : '0fr',
-      resultsAnimStyle: this.state.resultsClosing ? 'animation:panelCollapse .4s ease both' : 'animation:panelExpand .4s ease both',
+      resultsRows: (ex.levelPicked && !this.state.resultsShrinking) ? '1fr' : '0fr',
+      resultsAnimStyle: this.state.resultsClosing ? 'animation:panelCollapse .4s cubic-bezier(.4,0,.2,1) both' : 'animation:panelExpand .4s cubic-bezier(.4,0,.2,1) both',
       revealResults: () => { this.setState(s => ({ explore: { ...s.explore, levelPicked: true } })); setTimeout(() => { const el = document.querySelector('.finder-panel'); if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 100, behavior: 'smooth' }); }, 50); },
-      collapseResults: () => { this.setState({ resultsClosing: true }); setTimeout(() => { this.setState(s => ({ explore: { ...s.explore, levelPicked: false }, resultsClosing: false })); }, 400); window.scrollTo({ top: 0, behavior: 'smooth' }); },
+      collapseResults: () => { this.setState({ resultsClosing: true }); setTimeout(() => { this.setState({ resultsShrinking: true }); setTimeout(() => { this.setState(s => ({ explore: { ...s.explore, levelPicked: false }, resultsClosing: false, resultsShrinking: false })); }, 400); }, 260); window.scrollTo({ top: 0, behavior: 'smooth' }); },
       onWeekScroll: e => { this._weekScroll = e.target.scrollLeft; },
       onWeekTouchStart: () => { this._weekTouching = true; },
       onWeekTouchEnd: () => { this._weekTouching = false; },
