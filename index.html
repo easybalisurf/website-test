@@ -349,10 +349,10 @@
 </section>
 
 <!-- ============ TESTIMONIALS MARQUEE ============ -->
-<section data-navtheme="light" data-screen-label="Testimonials" style="position:relative;padding:88px 0 56px;overflow:hidden;min-height:100vh;display:flex;flex-direction:column;justify-content:center;background:var(--eb-bg-light);color:#33383A">
-  <div style="position:absolute;inset:0;background-image:url('https://images.unsplash.com/photo-1502933691298-84fc14542831?fm=jpg&q=74&w=1600&auto=format&fit=crop&ixlib=rb-4.1.0');background-size:cover;background-position:center 40%;opacity:.65"></div>
-  <p style="{{ subheadDark }};text-align:center;position:relative;z-index:1">{{ t.rev.sub }}</p>
-  <h2 style="{{ h2Dark }};text-align:center;margin:12px auto 48px;position:relative;z-index:1">{{ t.rev.h2 }}</h2>
+<section data-navtheme="dark" data-screen-label="Testimonials" style="position:relative;padding:88px 0 56px;overflow:hidden;min-height:100vh;display:flex;flex-direction:column;justify-content:center;background:var(--eb-bg-2);color:#fff">
+  <div style="position:absolute;inset:0;background-image:url('https://images.unsplash.com/photo-1502933691298-84fc14542831?fm=jpg&q=74&w=1600&auto=format&fit=crop&ixlib=rb-4.1.0');background-size:cover;background-position:center 40%;opacity:.28"></div>
+  <p style="{{ subhead }};text-align:center;position:relative;z-index:1">{{ t.rev.sub }}</p>
+  <h2 style="{{ h2Style }};text-align:center;margin:12px auto 48px;position:relative;z-index:1">{{ t.rev.h2 }}</h2>
   <div class="rev-scroll" style="{{ revScrollStyle }};position:relative;z-index:1">
     <div class="rev-track" style="{{ revTrackStyle }}">
     <sc-for list="{{ reviewsLoop }}" as="r" hint-placeholder-count="6">
