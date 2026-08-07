@@ -12,7 +12,7 @@
 <meta property="og:description" content="Book certified surf, kite, wing foil and SUP coaching on Bali's best breaks — booked in minutes.">
 <meta property="og:url" content="https://easybali.surf/">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%2064%2064'%3E%0A%3Crect%20width%3D'64'%20height%3D'64'%20rx%3D'14'%20fill%3D'%2308100d'%2F%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D'g'%20x1%3D'0'%20y1%3D'0'%20x2%3D'0'%20y2%3D'1'%3E%0A%3Cstop%20offset%3D'0%25'%20stop-color%3D'%2361C9E6'%2F%3E%3Cstop%20offset%3D'100%25'%20stop-color%3D'%238CFFC1'%2F%3E%0A%3C%2FlinearGradient%3E%3C%2Fdefs%3E%0A%3Ctext%20x%3D'32'%20y%3D'19'%20font-family%3D'Plus%20Jakarta%20Sans%2C%20Arial%2C%20sans-serif'%20font-weight%3D'800'%20font-size%3D'13.5'%20text-anchor%3D'middle'%20fill%3D'url(%23g)'%20letter-spacing%3D'-0.3'%3EEASY%3C%2Ftext%3E%0A%3Ctext%20x%3D'32'%20y%3D'32.5'%20font-family%3D'Plus%20Jakarta%20Sans%2C%20Arial%2C%20sans-serif'%20font-weight%3D'800'%20font-size%3D'13.5'%20text-anchor%3D'middle'%20fill%3D'url(%23g)'%20letter-spacing%3D'-0.3'%3EBALI%3C%2Ftext%3E%0A%3Ccircle%20cx%3D'14.5'%20cy%3D'42.1'%20r%3D'2'%20fill%3D'%23ffffff'%2F%3E%0A%3Ctext%20x%3D'37'%20y%3D'46'%20font-family%3D'Plus%20Jakarta%20Sans%2C%20Arial%2C%20sans-serif'%20font-weight%3D'800'%20font-size%3D'13.5'%20text-anchor%3D'middle'%20fill%3D'%23ffffff'%20letter-spacing%3D'-0.3'%3ESURF%3C%2Ftext%3E%0A%3C%2Fsvg%3E">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%3E%0A%3Crect%20width%3D%2264%22%20height%3D%2264%22%20rx%3D%2214%22%20fill%3D%22%230C2436%22%3E%3C%2Frect%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%220%22%20y2%3D%221%22%3E%0A%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%2361C9E6%22%3E%3C%2Fstop%3E%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%238CFFC1%22%3E%3C%2Fstop%3E%0A%3C%2FlinearGradient%3E%3C%2Fdefs%3E%0A%3Ctext%20x%3D%2232%22%20y%3D%2224%22%20font-family%3D%22Plus%20Jakarta%20Sans%2C%20Arial%2C%20sans-serif%22%20font-weight%3D%22800%22%20font-size%3D%2213.5%22%20text-anchor%3D%22middle%22%20fill%3D%22url(%23g)%22%20letter-spacing%3D%22-0.3%22%3EEASY%3C%2Ftext%3E%0A%3Ctext%20x%3D%2232%22%20y%3D%2237.5%22%20font-family%3D%22Plus%20Jakarta%20Sans%2C%20Arial%2C%20sans-serif%22%20font-weight%3D%22800%22%20font-size%3D%2213.5%22%20text-anchor%3D%22middle%22%20fill%3D%22url(%23g)%22%20letter-spacing%3D%22-0.3%22%3EBALI%3C%2Ftext%3E%0A%3Ccircle%20cx%3D%2217.8%22%20cy%3D%2249.4%22%20r%3D%222%22%20fill%3D%22%23ffffff%22%3E%3C%2Fcircle%3E%0A%3Ctext%20x%3D%2239%22%20y%3D%2251%22%20font-family%3D%22Plus%20Jakarta%20Sans%2C%20Arial%2C%20sans-serif%22%20font-weight%3D%22800%22%20font-size%3D%2213.5%22%20text-anchor%3D%22middle%22%20fill%3D%22%23ffffff%22%20letter-spacing%3D%22-0.3%22%3ESURF%3C%2Ftext%3E%0A%3C%2Fsvg%3E">
 <script src="./support.js"></script>
 </head>
 <body>
@@ -27,7 +27,7 @@
      i18n.js          — all site + booking-wizard copy, per language (edit here to add a language or change any text)
      services-data.js — session pricing, add-on fees, transfer geo, surf-spot database (edit here to add service packages / spots)
      Both load before the component's logic runs, so window.SITE_TEXT / WIZARD_TEXT / SERVICES_DATA are ready synchronously. -->
-<script src="./i18n.js"></script>
+<script src="./i18n.js?v=2"></script>
 <script src="./services-data.js"></script>
 <script src="./brand.js"></script>
 <link rel="stylesheet" href="theme.css">
@@ -187,7 +187,10 @@
 </div>
 
 <!-- ============ HERO — the live forecast/booking tool IS the hero (variant 1a) ============ -->
-<header id="hero" data-screen-label="Hero" style="position:relative;min-height:100vh;background:var(--eb-bg-2);display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:visible;padding-top:calc(120px + env(safe-area-inset-top));padding-bottom:120px">
+<header id="hero" data-screen-label="Hero" style="position:relative;min-height:100vh;background:var(--eb-bg-2);display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:clip;padding-top:calc(120px + env(safe-area-inset-top));padding-bottom:120px">
+  <div style="position:absolute;top:0;left:0;right:0;bottom:0;background:var(--eb-bg-2)"></div>
+  <div style="position:absolute;top:0;left:0;right:0;height:100vh;background-image:url('https://images.unsplash.com/photo-1489035300997-93cd03b5a885?fm=jpg&q=74&w=1600&auto=format&fit=crop&ixlib=rb-4.1.0');background-size:cover;background-position:center 15%"></div>
+  <div style="position:absolute;top:0;left:0;right:0;height:100vh;background:linear-gradient(180deg,rgba(11,62,86,.42) 0%,rgba(11,62,86,.78) 55%,var(--eb-bg-2) 78%)"></div>
   
   <div id="heroContent" class="wrap fc-grid" style="position:relative;width:100%;max-width:1280px;margin:0 auto;padding:0 32px 90px;pointer-events:auto;display:grid;grid-template-columns:1fr 1.05fr;gap:64px;align-items:center;flex:none">
    <div>
@@ -328,7 +331,7 @@
 </section>
 
 <!-- ============ HOW IT WORKS ============ -->
-<section id="how" data-screen-label="How it works" style="position:relative;min-height:100vh;display:flex;align-items:center;background:var(--eb-bg-2)">
+<section id="how" data-screen-label="How it works" style="position:relative;display:flex;align-items:center;background:var(--eb-bg-2)">
   <div class="wrap sec-pad" style="max-width:1280px;margin:0 auto;padding:100px 32px">
     <p style="{{ subhead }};text-align:center">{{ t.how.sub }}</p>
     <h2 style="{{ h2Style }};text-align:center;margin:12px auto 0">{{ t.how.h2 }}</h2>
@@ -337,8 +340,8 @@
         <div ref="{{ st.ref }}" style="{{ st.wrapStyle }}">
           <sc-if value="{{ st.showConnector }}" hint-placeholder-val="{{ false }}"><span class="how-connector" style="position:absolute;top:50%;right:-24px;transform:translateY(-50%);color:#61FFD0;font-size:20px;z-index:1">→</span></sc-if>
         <div style="position:relative;padding:34px 28px;border:1px solid rgba(255,255,255,.16);border-radius:18px;background:rgba(255,255,255,.05);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(14px)">
-            <div style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:64px;color:rgba(97,255,208,.32);line-height:.8">{{ st.n }}</div>
-            <h4 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:24px;color:#fff;margin:16px 0 8px;line-height:1.05">{{ st.title }}</h4>
+            <div style="width:64px;height:64px;display:flex;align-items:center;justify-content:center;font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:64px;color:rgba(97,255,208,.32);line-height:.8">{{ st.n }}</div>
+            <h4 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:24px;color:#fff;margin:18px 0 8px;line-height:1.05">{{ st.title }}</h4>
             <p style="font-size:15px;line-height:1.6;margin:0">{{ st.body }}</p>
             <sc-if value="{{ st.body2 }}" hint-placeholder-val="{{ false }}"><p style="font-size:15px;line-height:1.6;margin:10px 0 0">{{ st.body2 }}</p></sc-if>
           </div>
@@ -350,7 +353,6 @@
 
 <!-- ============ TESTIMONIALS MARQUEE ============ -->
 <section data-navtheme="dark" data-screen-label="Testimonials" style="position:relative;padding:88px 0 56px;overflow:hidden;min-height:100vh;display:flex;flex-direction:column;justify-content:center;background:var(--eb-bg-2);color:#fff">
-  <div style="position:absolute;inset:0;background-image:url('https://images.unsplash.com/photo-1502933691298-84fc14542831?fm=jpg&q=74&w=1600&auto=format&fit=crop&ixlib=rb-4.1.0');background-size:cover;background-position:center 40%;opacity:.28"></div>
   <p style="{{ subhead }};text-align:center;position:relative;z-index:1">{{ t.rev.sub }}</p>
   <h2 style="{{ h2Style }};text-align:center;margin:12px auto 48px;position:relative;z-index:1">{{ t.rev.h2 }}</h2>
   <div class="rev-scroll" style="{{ revScrollStyle }};position:relative;z-index:1">
@@ -383,7 +385,7 @@
         <div style="border-bottom:1px solid rgba(255,255,255,.14)">
           <button onClick="{{ q.toggle }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:20px;background:transparent;border:none;cursor:pointer;text-align:left;padding:26px 4px;color:#fff;font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:18px;line-height:1.2">
             {{ q.question }}
-            <span style="{{ q.iconStyle }}">+</span>
+            <span style="{{ q.iconStyle }}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span>
           </button>
           <div style="{{ q.panelStyle }}">
             <p style="font-size:15px;line-height:1.65;margin:0;padding:0 4px 26px;max-width:64ch;color:#FFFFFFCC">{{ q.answer }}</p>
@@ -397,7 +399,7 @@
 </section>
 
 <!-- ============ BOOKING FORM ============ -->
-<section id="book" data-screen-label="Booking" style="position:relative;overflow:hidden;min-height:100vh;background:var(--eb-bg)">
+<section id="book" data-screen-label="Booking" style="position:relative;background:var(--eb-bg)">
 
   <div class="wrap sec-pad book-grid" style="position:relative;max-width:1280px;margin:0 auto;padding:100px 32px 28px;display:grid;grid-template-columns:1fr 1.05fr;gap:64px;align-items:start">
     <div>
@@ -763,7 +765,7 @@
 <!-- /contrast sections -->
 
 <!-- ============ FOOTER ============ -->
-<footer style="position:relative;z-index:8;background:var(--eb-bg-2);overflow:hidden">
+<footer style="position:relative;z-index:8;background:var(--eb-bg);overflow:hidden">
   <div class="wrap footer-grid" style="position:relative;max-width:1280px;margin:0 auto;padding:48px 32px 40px;display:grid;grid-template-columns:1.6fr 1fr 1fr;gap:40px;align-items:start">
     <div>
       <eb-logo size="20px" animated="false"></eb-logo>
@@ -1019,8 +1021,8 @@ class Component extends DCLogic {
   wizDict() { return window.WIZARD_TEXT; }
   gotoStep(n) {
     this.setState({ step: n });
-    if (window.innerWidth <= 768) { setTimeout(() => { const el = document.querySelector('.book-glass'); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'end' }); }, 20); return; }
-    const el = document.getElementById('book'); if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 20, behavior: 'smooth' });
+    if (window.innerWidth <= 768) { setTimeout(() => { const el = document.querySelector('.book-glass'); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 20); return; }
+    const el = document.getElementById('book'); if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 60, behavior: 'smooth' });
   }
 
   // ============================================================
@@ -1068,6 +1070,25 @@ class Component extends DCLogic {
     };
     this._waveRaf = requestAnimationFrame(this._waveTick);
     this._formMountedAt = Date.now();
+    this._howStart = performance.now();
+    this._howTick = () => {
+      const t = (performance.now() - this._howStart) / 1000;
+      const checkP = document.querySelector('.how-check-path');
+      if (checkP) checkP.style.strokeDashoffset = (12 * (1 - Math.min(1, (t % 3) / 2))).toFixed(2);
+      const confirmP = document.querySelector('.how-confirm-path');
+      if (confirmP) confirmP.style.strokeDashoffset = (13 * (1 - Math.min(1, ((t + 1.5) % 3) / 2))).toFixed(2);
+      const cyclePos = t % 5;
+      const a = document.querySelector('.how-cycle-a'), b = document.querySelector('.how-cycle-b');
+      if (a && b) { const showB = cyclePos >= 2.5; a.style.opacity = showB ? 0 : 1; b.style.opacity = showB ? 1 : 0; }
+      document.querySelectorAll('.how-person').forEach(g => {
+        const p = parseInt(g.dataset.p, 10);
+        g.style.transform = 'scale(' + (1 + Math.max(0, Math.sin(t * 3 + p * 2.1)) * 0.22).toFixed(3) + ')';
+        g.style.transformBox = 'fill-box'; g.style.transformOrigin = 'center';
+      });
+      document.querySelectorAll('.how-wave-g').forEach(g => { g.style.transform = 'translateX(-' + ((t * 5.8) % 19).toFixed(1) + 'px)'; });
+      this._howRaf = requestAnimationFrame(this._howTick);
+    };
+    this._howRaf = requestAnimationFrame(this._howTick);
     this._raf = null;
     this._wxFail = {};
     this.setState({ isTouch: !window.matchMedia('(hover:hover) and (pointer:fine)').matches });
@@ -1187,6 +1208,7 @@ class Component extends DCLogic {
     if (!a || a.sport !== b.sport || a.level !== b.level || a.spot !== b.spot) this.maybeFetch();
   }
   componentWillUnmount() {
+    cancelAnimationFrame(this._howRaf);
     document.removeEventListener('mousedown', this._onDocClick);
     window.removeEventListener('scroll', this._onScroll);
     window.removeEventListener('resize', this._onHeroResize);
@@ -1448,6 +1470,42 @@ class Component extends DCLogic {
         return svg(e('circle', { key: 'a', cx: 9, cy: 8.5, r: 3.2 }), e('path', { key: 'b', d: 'M3.5 19.5c0-3 2.5-5 5.5-5s5.5 2 5.5 5' }), e('path', { key: 'c', d: 'M15.5 5.6a3.2 3.2 0 0 1 0 5.8M17.8 14.9c1.9.7 3.2 2.3 3.2 4.6' }));
       case 3: // automatic refund — shield check
         return svg(e('path', { key: 'a', d: 'M12 3.5 5 6.2v5.3c0 4.8 3 8 7 9.5 4-1.5 7-4.7 7-9.5V6.2Z' }), e('path', { key: 'b', d: 'M9 12l2 2 4-4.2' }));
+      default:
+        return null;
+    }
+  }
+  stepIcon(i) {
+    const e = React.createElement;
+    const svg = (attrs, ...kids) => e('svg', { key: 'si' + i, width: 56, height: 56, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 1.4, strokeLinecap: 'round', strokeLinejoin: 'round', ...attrs }, ...kids);
+    switch (i) {
+      case 0: // book & hold — calendar, check drawn cleanly inside the grid (no overlap)
+        return svg({},
+          e('rect', { key: 'a', x: 3, y: 5, width: 18, height: 15, rx: 2 }),
+          e('path', { key: 'b', d: 'M3 10h18M8 2v4M16 2v4' }),
+          e('path', { key: 'd', className: 'how-check-path', d: 'M8 15l2.6 2.6L16.5 12', strokeDasharray: 12 })
+        );
+      case 1: // coach confirms — cycles between "searching" people and "confirmed" check
+        return e('span', { key: 'si1', style: { position: 'relative', width: 56, height: 56, display: 'inline-block' } },
+          svg({ className: 'how-cycle-a', style: { position: 'absolute', inset: 0 } },
+            e('g', { key: 'p1', className: 'how-person', 'data-p': 1 }, e('circle', { cx: 5, cy: 9, r: 2 }), e('path', { d: 'M1.8 19c.4-2.8 1.8-4.3 3.7-4.3s3.3 1.5 3.7 4.3' })),
+            e('g', { key: 'p2', className: 'how-person', 'data-p': 2 }, e('circle', { cx: 12, cy: 7, r: 2.2 }), e('path', { d: 'M8.3 19c.4-3.1 1.9-4.8 3.7-4.8s3.3 1.7 3.7 4.8' })),
+            e('g', { key: 'p3', className: 'how-person', 'data-p': 3 }, e('circle', { cx: 19, cy: 9, r: 2 }), e('path', { d: 'M15.5 19c.4-2.8 1.8-4.3 3.7-4.3s3.3 1.5 3.7 4.3' }))
+          ),
+          svg({ className: 'how-cycle-b', style: { position: 'absolute', inset: 0, opacity: 0 } },
+            e('circle', { key: 'a', cx: 12, cy: 12, r: 9.5 }), e('path', { key: 'b', className: 'how-confirm-path', d: 'M7.5 12.5l2.8 2.8L16.5 9', strokeDasharray: 13 })
+          )
+        );
+      case 2: // show up & ride — sliding waves (design-system "Riding" glyph)
+        return svg({},
+          e('g', { key: 'w', className: 'how-wave-g' },
+            e('path', { key: 'a1', d: 'M2 6c.6.5 1.2 1 2.5 1C7 7 7 5 9.5 5c2.6 0 2.6 2 5.1 2 2.6 0 2.6-2 5.1-2 1.3 0 1.9.5 2.5 1' }),
+            e('path', { key: 'a2', d: 'M21 6c.6.5 1.2 1 2.5 1C26 7 26 5 28.5 5c2.6 0 2.6 2 5.1 2 2.6 0 2.6-2 5.1-2 1.3 0 1.9.5 2.5 1' }),
+            e('path', { key: 'b1', d: 'M2 12c.6.5 1.2 1 2.5 1C7 13 7 11 9.5 11c2.6 0 2.6 2 5.1 2 2.6 0 2.6-2 5.1-2 1.3 0 1.9.5 2.5 1' }),
+            e('path', { key: 'b2', d: 'M21 12c.6.5 1.2 1 2.5 1C26 13 26 11 28.5 11c2.6 0 2.6 2 5.1 2 2.6 0 2.6-2 5.1-2 1.3 0 1.9.5 2.5 1' }),
+            e('path', { key: 'c1', d: 'M2 18c.6.5 1.2 1 2.5 1C7 19 7 17 9.5 17c2.6 0 2.6 2 5.1 2 2.6 0 2.6-2 5.1-2 1.3 0 1.9.5 2.5 1' }),
+            e('path', { key: 'c2', d: 'M21 18c.6.5 1.2 1 2.5 1C26 19 26 17 28.5 17c2.6 0 2.6 2 5.1 2 2.6 0 2.6-2 5.1-2 1.3 0 1.9.5 2.5 1' })
+          )
+        );
       default:
         return null;
     }
@@ -2009,6 +2067,7 @@ class Component extends DCLogic {
       perks: L.why.perks.map((p, i) => ({ ...p, icon: this.perkIcon(i) })),
       steps: L.how.steps.map((st, i) => ({
         ...st,
+        icon: this.stepIcon(i),
         ref: this.howCardRef(i),
         showConnector: i < L.how.steps.length - 1,
         wrapStyle: 'position:relative;transition:opacity .6s ease,transform .6s ease;transition-delay:' + (this.state.isTouch ? '0s' : (i * 0.12).toFixed(2) + 's') + ';' + (this.state.howVisible[i] ? 'opacity:1;transform:translateY(0)' : 'opacity:0;transform:translateY(24px)')
@@ -2056,7 +2115,7 @@ class Component extends DCLogic {
         return {
           question: item.q, answer: item.a,
           toggle: () => this.setState(s => ({ openFaq: s.openFaq === i ? -1 : i })),
-          iconStyle: "flex:none;width:30px;height:30px;border-radius:50%;background:rgba(97,255,208,.14);color:#61FFD0;display:flex;align-items:center;justify-content:center;font-size:22px;font-family:'Inter',sans-serif;font-weight:300;transition:transform .3s;transform:rotate(" + (open ? '45deg' : '0deg') + ")",
+          iconStyle: "flex:none;width:20px;height:20px;color:#FFFFFF80;display:flex;align-items:center;justify-content:center;transition:transform .3s;transform:rotate(" + (open ? '180deg' : '0deg') + ")",
           panelStyle: "overflow:hidden;transition:max-height .35s ease,opacity .3s;max-height:" + (open ? '320px' : '0') + ";opacity:" + (open ? '1' : '0'),
         };
       }),

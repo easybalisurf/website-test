@@ -9,7 +9,7 @@ window.SITE_TEXT = {
       en: {
         nav: { forecast:'Forecast', disciplines:'Disciplines', why:'Why us', coaches:'Coaches', how:'How it works', book:'Book a session' },
         hero: { h1a:'RIDE THE ', h1accent:'BEST', h1b:' WAVES OF THE ISLAND',
-          lead:'Book independent, certified coaches for water sports in Bali. Private sessions, live conditions, matched to your level.',
+          lead:'Book independent coaches for water sports in Bali. Private sessions, live conditions, matched to your level.',
           ctaBook:'Book session', ctaExplore:'Why us?' },
         stats: [ {num:'12+',label:'Years coaching'}, {num:'4.9★',label:'Avg. rating'}, {num:'6',label:'Local breaks'}, {num:'2k+',label:'Riders taught'} ],
         sports: { sub:'What we teach', h2:'Pick your discipline', lead:'From your first whitewater ride to advanced foiling, our coaches meet you exactly where you are.',
@@ -19,7 +19,7 @@ window.SITE_TEXT = {
             { slotId:'sp-wing', ph:'Wing foil photo', level:'Intermediate', name:'Wing Foiling', desc:'The fastest-growing sport on the water — fly above the surface on a foil, with balance, board and wing handling broken down step by step.', price:'from $160 / 2-hr session' },
             { slotId:'sp-sup', ph:'SUP photo', level:'Everyone', name:'SUP', desc:'Stand-up paddle tours & technique along calm morning coastlines — a gentle full-body session and the easiest way onto the water.', price:'from $70 / 2-hr session' },
           ] },
-        why: { sub:'Why EasyBali.surf', h2:'Book your coach directly.', mission:'Our mission is to make your time in the water as easy and enjoyable as possible — we take care of every detail and connect you with the best coaches on the island.',
+        why: { sub:'Why EasyBali.surf', h2:'Built around your safety and fit.', mission:'Every detail — the coach, the spot, the timing — is matched to you before you show up. Here is what that means in practice.',
           perks: [
             { n:'1', title:'Vetted, certified coaches', body:'We only work with proven providers and coaches with a strong track record — ISA & IKO certified, working legally on the island.' },
             { n:'2', title:'Matched to your real level', body:'Tell us your level when you book — we match you with a spot, timing and coach that fit it.' },
@@ -70,7 +70,7 @@ window.SITE_TEXT = {
           statusLive:'Live conditions', statusLoading:'Fetching live conditions…', statusEst:'Estimated forecast',
           q:['Prime','Good','Fair','Poor'], wind:['Offshore','Cross-shore','Onshore','Light'], tide:['Low','Mid','High'],
           note:'Matched to your level and today’s forecast — pick a window and we lock in your coach.', disclaimerSrc:'Sources: Open-Meteo Marine & Weather Forecast APIs.', disclaimer:'Data is read in real time, but conditions can change closer to your slot — you\u2019ll sort out the details with your coach.' },
-        finder: { sub:'Live forecast', panelLabel:'Check live availability', imLookingFor:"I'm looking for", findBtn:'Find my session', howItWorks:'How it works', collapseBtn:'Collapse', h2:'Ride the best waves of the island', h2AccentWord:'best waves', lead:'Book independent, certified coaches for water sports in Bali. Private sessions, live conditions, matched to your level.', guideLink:'New to this? Read our surf guide' },
+        finder: { sub:'Live forecast', panelLabel:'Check live availability', imLookingFor:"I'm looking for", findBtn:'Find my session', howItWorks:'How it works', collapseBtn:'Collapse', h2:'Ride the best waves of the island', h2AccentWord:'best waves', lead:'Book independent coaches for water sports in Bali. Private sessions, live conditions, matched to your level.', guideLink:'New to this? Read our surf guide' },
         care: { sub:'Our commitment', h2:"Giving back to Bali's ocean & culture", lead:"Bali gives us world-class waves \u2014 so we treat its ocean, land and culture with the respect they deserve. A part of what we do goes to the people cleaning up Indonesia's waters, and we hold ourselves to leaving every spot better than we found it.",
           items:[
             { title:'Fighting ocean plastic', body:"Indonesia's rivers carry huge volumes of plastic to the sea. We back Sungai Watch, whose river barriers have already intercepted millions of kilograms of waste across Bali and Java.", link:'sungaiwatch.org', href:'https://sungaiwatch.org' },
@@ -93,7 +93,7 @@ window.SITE_TEXT = {
             { slotId:'sp-wing', ph:'Wing foil photo', level:'Средний', name:'Вингфойл', desc:'Самый быстрорастущий вид на воде — лети над поверхностью на фойле; баланс, доску и управление вингом разбираем по шагам.', price:'от $75 / занятие' },
             { slotId:'sp-sup', ph:'SUP photo', level:'Для всех', name:'SUP', desc:'SUP-туры и техника гребли вдоль спокойного утреннего побережья — мягкая нагрузка на всё тело и самый простой вход в воду.', price:'от $29 / занятие' },
           ] },
-        why: { sub:'Почему EasyBali.surf', h2:'Бронируй тренера напрямую.', mission:'Наша миссия — сделать твоё обучение максимально простым и приятным, позаботившись о каждой детали, и связать тебя с лучшими инструкторами острова.',
+        why: { sub:'Почему EasyBali.surf', h2:'Всё продумано до твоего приезда.', mission:'Тренер, спот, время — всё подбирается под тебя заранее. Вот что это значит на практике.',
           perks: [
             { n:'1', title:'Проверенные, сертифицированные тренеры', body:'Мы работаем только с зарекомендовавшими себя провайдерами услуг и тренерами с хорошей репутацией — сертификаты ISA и IKO, легальная работа на острове.' },
             { n:'2', title:'Подбор под твой реальный уровень', body:'Укажи уровень при бронировании — мы подберём спот, время и тренера, которые ему соответствуют, чтобы задача была тебе по силам.' },
