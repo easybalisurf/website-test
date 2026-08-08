@@ -9,21 +9,21 @@
    ============================================================ */
 :root{
   /* Brand palette */
-  --eb-accent:#61FFD0;          /* mint — accent text, links, surfaces */
-  --eb-accent-2:#3FD9E6;        /* aqua */
-  --eb-accent-3:#7DFFC4;        /* gradient start */
-  --eb-accent-strong:#61FFD0;   /* readable accent on dark */
-  --eb-accent-ink:#08100d;      /* text on accent surfaces */
+  --eb-accent:#7DE0C4;          /* phosphor teal-green — accent text, links, surfaces */
+  --eb-accent-2:#6EC6F0;        /* sky blue */
+  --eb-accent-3:#9AF0DC;        /* gradient start */
+  --eb-accent-strong:#7DE0C4;   /* readable accent on dark */
+  --eb-accent-ink:#04231A;      /* text on accent surfaces */
   --eb-grad:linear-gradient(120deg,var(--eb-accent-3),var(--eb-accent) 42%,var(--eb-accent-2));
   --eb-warn:#FFB454;
   --eb-danger:#E5484D;
 
   /* Surfaces — FLAT deep navy, no gradient / no depth */
-  --eb-bg:#0C2436;
-  --eb-bg-solid:#0C2436;
-  --eb-bg-2:#0B3E56;         /* alternate dark section — for section rhythm */
-  --eb-bg-3:#0E3050;         /* deep slate-teal alternate — Forecast section */
-  --eb-bg-light:#D7DCDD;     /* neutral light-grey accent section (Why us, Testimonials) */
+  --eb-bg:#0A1730;
+  --eb-bg-solid:#0A1730;
+  --eb-bg-2:#14213D;         /* alternate dark section — for section rhythm */
+  --eb-bg-3:#101C38;         /* deep night-blue alternate — Forecast section */
+  --eb-bg-light:#EAEEF7;     /* neutral light-grey accent section (Why us, Testimonials) */
   --eb-surface:rgba(255,255,255,.05);
   --eb-surface-2:linear-gradient(180deg,rgba(255,255,255,.09),rgba(255,255,255,.04));
   --eb-border:rgba(255,255,255,.14);
@@ -73,7 +73,7 @@ a:hover{color:#8affe0}
 .wiz-pulse{animation:ebPulse 2.2s ease-in-out infinite!important}
 .wiz-sweep{animation:ebFlow 2.5s linear infinite!important}
 @keyframes ebFlow{0%{background-position:0% 50%}100%{background-position:200% 50%}}
-@keyframes ebPulse{0%,100%{box-shadow:0 0 0 0 rgba(97,255,208,.5)}50%{box-shadow:0 0 0 6px rgba(97,255,208,0)}}
+@keyframes ebPulse{0%,100%{box-shadow:0 0 0 0 rgba(125,224,196,.5)}50%{box-shadow:0 0 0 6px rgba(125,224,196,0)}}
 
 /* ---- Optional component layer (secondary pages) ---- */
 .eb-page{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:32px 20px}

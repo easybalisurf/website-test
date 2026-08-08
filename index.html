@@ -18,7 +18,7 @@
 <body>
 <x-dc>
 
-<template id="__bundler_thumbnail" data-bg-color="#0a0e0d"><svg viewBox="0 0 80 56" xmlns="http://www.w3.org/2000/svg"><rect width="80" height="56" fill="#0a0e0d"/><text x="40" y="33" font-family="sans-serif" font-size="14" fill="#61FFD0" text-anchor="middle">EB</text></svg></template>
+<template id="__bundler_thumbnail" data-bg-color="#0a0e0d"><svg viewBox="0 0 80 56" xmlns="http://www.w3.org/2000/svg"><rect width="80" height="56" fill="#0a0e0d"/><text x="40" y="33" font-family="sans-serif" font-size="14" fill="#7DE0C4" text-anchor="middle">EB</text></svg></template>
 <helmet>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
@@ -35,9 +35,9 @@
   *{box-sizing:border-box}
   html{scroll-behavior:smooth;background:var(--eb-bg-solid)}
   body{margin:0;background:var(--eb-bg);color:#FFFFFFBD;font-family:'Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
-  a{color:#61FFD0;text-decoration:none}
+  a{color:#7DE0C4;text-decoration:none}
   a:hover{color:#8affe0}
-  ::selection{background:#61FFD0;color:#08100d}
+  ::selection{background:#7DE0C4;color:#04231A}
   input,select,textarea{font-family:'Inter',sans-serif}
   input[type="date"]{color-scheme:dark}
   /* Kill the native date chevron/spinner (Android Chrome & Safari render their own arrow next
@@ -60,7 +60,7 @@
   @keyframes panelCollapse{from{opacity:1;transform:translateY(0)}to{opacity:0;transform:translateY(-8px)}}
   @keyframes livePulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.3;transform:scale(.55)}}
   @keyframes condShimmer{0%,100%{opacity:1}50%{opacity:.45}}
-  @keyframes wizPulse{0%,100%{box-shadow:0 0 0 0 rgba(97,255,208,.45)}50%{box-shadow:0 0 0 5px rgba(97,255,208,0)}}
+  @keyframes wizPulse{0%,100%{box-shadow:0 0 0 0 rgba(125,224,196,.45)}50%{box-shadow:0 0 0 5px rgba(125,224,196,0)}}
   @keyframes wizSweep{from{background-position:0 0}to{background-position:-200% 0}}
   .wiz-pulse.wiz-on{animation:wizPulse 1.8s ease-in-out infinite}
   .wiz-sweep{animation:wizSweep 1.4s linear infinite}
@@ -88,7 +88,7 @@
   @media(max-width:880px){
     .nav-desktop{display:none!important}
     .nav-burger{display:flex!important}
-    nav,.glass-card,.glass-panel,[style*="backdrop-filter"]{backdrop-filter:blur(6px)!important;-webkit-backdrop-filter:blur(6px)!important}
+    .glass-card,.glass-panel,[style*="backdrop-filter"]{backdrop-filter:blur(6px)!important;-webkit-backdrop-filter:blur(6px)!important}
     nav{transition:none!important}
     .stats-grid{grid-template-columns:repeat(2,1fr)!important;gap:32px 16px!important}
     .coaches-head{flex-direction:column!important;align-items:flex-start!important}
@@ -143,9 +143,9 @@
 
     <!-- desktop nav -->
     <div class="nav-desktop" style="display:flex;align-items:center;gap:28px">
-      <a href="#why" style="{{ navLinkWhy }}" style-hover="color:#61FFD0">{{ t.nav.why }}</a>
-      <a href="#how" style="{{ navLinkHow }}" style-hover="color:#61FFD0">{{ t.nav.how }}</a>
-      <a href="#faq" style="{{ navLinkFaq }}" style-hover="color:#61FFD0">FAQ</a>
+      <a href="#why" style="{{ navLinkWhy }}" style-hover="color:#7DE0C4">{{ t.nav.why }}</a>
+      <a href="#how" style="{{ navLinkHow }}" style-hover="color:#7DE0C4">{{ t.nav.how }}</a>
+      <a href="#faq" style="{{ navLinkFaq }}" style-hover="color:#7DE0C4">FAQ</a>
 
       <div data-langwrap="" style="position:relative">
         <button onClick="{{ toggleLang }}" style="{{ langBtnStyle }}">
@@ -159,11 +159,11 @@
         </div>
       </div>
 
-      <a href="#book" style="display:inline-flex;align-items:center;gap:8px;background:transparent;border:1px solid rgba(255,255,255,.3);color:#fff;font-weight:500;font-size:14px;padding:10px 19px;border-radius:100px">{{ t.nav.book }}</a>
+      <a href="#book" style="display:inline-flex;align-items:center;gap:8px;background:transparent;border:1px solid {{ burgerBorder }};color:{{ navInk }};font-weight:500;font-size:14px;padding:10px 19px;border-radius:100px">{{ t.nav.book }}</a>
     </div>
 
     <!-- mobile burger -->
-    <button class="nav-burger" onClick="{{ toggleMenu }}" style="width:44px;height:44px;background:transparent;border:1px solid rgba(255,255,255,.22);border-radius:12px;cursor:pointer;flex-direction:column;align-items:center;justify-content:center;gap:5px;padding:0">
+    <button class="nav-burger" onClick="{{ toggleMenu }}" style="width:44px;height:44px;background:transparent;border:1px solid {{ burgerBorder }};border-radius:12px;cursor:pointer;flex-direction:column;align-items:center;justify-content:center;gap:5px;padding:0">
       <span style="{{ burgerTop }}"></span>
       <span style="{{ burgerMid }}"></span>
       <span style="{{ burgerBot }}"></span>
@@ -174,15 +174,15 @@
 <!-- mobile drawer -->
 <div style="{{ drawerStyle }}">
   <div style="display:flex;flex-direction:column;gap:8px;padding:0 26px;width:100%;max-width:420px">
-    <a href="#why" onClick="{{ closeMenu }}" style="{{ drawerLink1 }}" style-hover="color:#61FFD0">{{ t.nav.why }}</a>
-    <a href="#how" onClick="{{ closeMenu }}" style="{{ drawerLink2 }}" style-hover="color:#61FFD0">{{ t.nav.how }}</a>
-    <a href="#faq" onClick="{{ closeMenu }}" style="{{ drawerLink3 }}" style-hover="color:#61FFD0">FAQ</a>
+    <a href="#why" onClick="{{ closeMenu }}" style="{{ drawerLink1 }}" style-hover="color:#7DE0C4">{{ t.nav.why }}</a>
+    <a href="#how" onClick="{{ closeMenu }}" style="{{ drawerLink2 }}" style-hover="color:#7DE0C4">{{ t.nav.how }}</a>
+    <a href="#faq" onClick="{{ closeMenu }}" style="{{ drawerLink3 }}" style-hover="color:#7DE0C4">FAQ</a>
     <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:20px">
       <sc-for list="{{ langOptions }}" as="lo" hint-placeholder-count="6">
         <button onClick="{{ lo.pickClose }}" style="{{ lo.chipStyle }}">{{ lo.native }}</button>
       </sc-for>
     </div>
-    <a href="#book" onClick="{{ closeMenu }}" style="margin-top:24px;text-align:center;background:linear-gradient(120deg,#7DFFC4,#61FFD0 42%,#3FD9E6);color:#08100d;font-weight:600;font-size:17px;padding:16px;border-radius:100px">{{ t.nav.book }}</a>
+    <a href="#book" onClick="{{ closeMenu }}" style="margin-top:24px;text-align:center;background:linear-gradient(120deg,#7DE0C4,#6EC6F0);color:#04231A;font-weight:600;font-size:17px;padding:16px;border-radius:100px">{{ t.nav.book }}</a>
   </div>
 </div>
 
@@ -190,7 +190,7 @@
 <header id="hero" data-screen-label="Hero" style="position:relative;min-height:100vh;background:var(--eb-bg-2);display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:clip;padding-top:calc(120px + env(safe-area-inset-top));padding-bottom:120px">
   <div style="position:absolute;top:0;left:0;right:0;bottom:0;background:var(--eb-bg-2)"></div>
   <div style="position:absolute;top:0;left:0;right:0;height:100vh;background-image:url('https://images.unsplash.com/photo-1489035300997-93cd03b5a885?fm=jpg&q=74&w=1600&auto=format&fit=crop&ixlib=rb-4.1.0');background-size:cover;background-position:center 15%"></div>
-  <div style="position:absolute;top:0;left:0;right:0;height:100vh;background:linear-gradient(180deg,rgba(11,62,86,.42) 0%,rgba(11,62,86,.78) 55%,var(--eb-bg-2) 78%)"></div>
+  <div style="position:absolute;top:0;left:0;right:0;height:100vh;background:{{ heroGradient }}"></div>
   
   <div id="heroContent" class="wrap fc-grid" style="position:relative;width:100%;max-width:1280px;margin:0 auto;padding:0 32px 90px;pointer-events:auto;display:grid;grid-template-columns:1fr 1.05fr;gap:64px;align-items:center;flex:none">
    <div>
@@ -198,7 +198,7 @@
     <p style="max-width:44ch;margin:18px 0 0;font-size:16px;line-height:1.6;color:#FFFFFFBD">{{ t.finder.lead }}</p>
    </div>
    <div id="forecast">
-    <p class="finder-label" style="font-size:11px;letter-spacing:.4px;text-transform:uppercase;color:#61FFD0;font-weight:600;margin:0 0 12px;padding-left:28px">{{ t.finder.panelLabel }}</p>
+    <p class="finder-label" style="font-size:11px;letter-spacing:.4px;text-transform:uppercase;color:#7DE0C4;font-weight:600;margin:0 0 12px;padding-left:28px">{{ t.finder.panelLabel }}</p>
     <div class="finder-panel" style="{{ heroPanel }};padding:28px">
       <div style="display:flex;flex-wrap:wrap;align-items:flex-end;gap:16px">
         <label style="{{ heroFieldLabel }};flex:1;min-width:96px">{{ t.book.fSport }}
@@ -212,12 +212,12 @@
           </select>
         </label>
         <sc-if value="{{ levelNotPicked }}" hint-placeholder-val="{{ true }}">
-          <button type="button" onClick="{{ revealResults }}" aria-label="{{ t.finder.findBtn }}" style="width:48px;height:48px;flex:none;display:flex;align-items:center;justify-content:center;border:none;border-radius:50%;background:linear-gradient(120deg,#7DFFC4,#61FFD0 42%,#3FD9E6);color:#08100d;cursor:pointer;transition:filter .15s" style-hover="filter:brightness(1.08)">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          <button type="button" onClick="{{ revealResults }}" aria-label="{{ t.finder.findBtn }}" style="width:48px;height:48px;flex:none;display:flex;align-items:center;justify-content:center;border:none;border-radius:50%;background:linear-gradient(120deg,#7DE0C4,#6EC6F0);color:#04231A;cursor:pointer;transition:filter .15s" style-hover="filter:brightness(1.08)">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
           </button>
         </sc-if>
       </div>
-      <div style="display:grid;grid-template-rows:{{ resultsRows }};transition:grid-template-rows .4s cubic-bezier(.4,0,.2,1)">
+      <div style="display:grid;grid-template-rows:{{ resultsRows }};transition:grid-template-rows .4s cubic-bezier(.4,0,.2,1);overflow-anchor:none">
       <div style="overflow:hidden;min-height:0">
       <sc-if value="{{ showResults }}" hint-placeholder-val="{{ false }}">
       <div key="{{ recoKey }}" style="{{ resultsAnimStyle }}">
@@ -261,11 +261,11 @@
                 </sc-if>
                 <span style="font-size:12px;color:rgba(255,255,255,.65);display:flex;align-items:center;gap:10px">
                   <span>{{ s.wave }}</span>
-                  <span style="display:inline-flex;align-items:center;gap:3px"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#61FFD0" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" style="transform:rotate({{ s.windDeg }}deg);flex:none"><path d="M12 19V5"/><path d="M6 11l6-6 6 6"/></svg>{{ s.wind }}</span>
+                  <span style="display:inline-flex;align-items:center;gap:3px"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#7DE0C4" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" style="transform:rotate({{ s.windDeg }}deg);flex:none"><path d="M12 19V5"/><path d="M6 11l6-6 6 6"/></svg>{{ s.wind }}</span>
                   <span style="display:inline-flex;align-items:center;gap:3px">
-                    <sc-if value="{{ s.tideUp }}" hint-placeholder-val="{{ false }}"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#61FFD0" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="M6 11l6-6 6 6"/></svg></sc-if>
-                    <sc-if value="{{ s.tideDown }}" hint-placeholder-val="{{ false }}"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#61FFD0" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M6 13l6 6 6-6"/></svg></sc-if>
-                    <sc-if value="{{ s.tideMid }}" hint-placeholder-val="{{ false }}"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#61FFD0" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18"/><path d="M7 8l5-5 5 5"/><path d="M7 16l5 5 5-5"/></svg></sc-if>
+                    <sc-if value="{{ s.tideUp }}" hint-placeholder-val="{{ false }}"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7DE0C4" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="M6 11l6-6 6 6"/></svg></sc-if>
+                    <sc-if value="{{ s.tideDown }}" hint-placeholder-val="{{ false }}"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7DE0C4" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M6 13l6 6 6-6"/></svg></sc-if>
+                    <sc-if value="{{ s.tideMid }}" hint-placeholder-val="{{ false }}"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7DE0C4" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18"/><path d="M7 8l5-5 5 5"/><path d="M7 16l5 5 5-5"/></svg></sc-if>
                     {{ s.tide }}
                   </span>
                 </span>
@@ -281,12 +281,12 @@
           </sc-if>
         </div>
         <p style="font-size:11px;line-height:1.5;color:#FFFFFF80;margin:10px 0 0;opacity:.7">{{ t.smart.disclaimerSrc }}</p>
-        <p style="margin:10px 0 0;font-size:13px"><a href="{{ guideHref }}" style="font-weight:600;color:#61FFD0">{{ t.finder.guideLink }} →</a></p>
+        <p style="margin:10px 0 0;font-size:13px"><a href="{{ guideHref }}" style="font-weight:600;color:#7DE0C4">{{ t.finder.guideLink }} →</a></p>
       </div>
       </div>
       <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:22px;padding-top:20px;border-top:1px solid rgba(255,255,255,.14)">
         <button type="button" data-book-cta disabled="{{ reco.bookDisabled }}" onClick="{{ bookThis }}" style="{{ reco.bookBtnStyle }}" style-hover="{{ reco.bookBtnHover }}">{{ reco.bookLabel }}</button>
-        <button type="button" onClick="{{ collapseResults }}" aria-label="{{ t.finder.collapseBtn }}" style="font-size:13px;color:rgba(255,255,255,.65);font-weight:500;background:none;border:none;padding:0;cursor:pointer;display:flex;align-items:center;gap:6px" style-hover="color:#0B8F82">{{ t.finder.collapseBtn }}<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-6 6 6"/></svg></button>
+        <button type="button" onClick="{{ collapseResults }}" aria-label="{{ t.finder.collapseBtn }}" style="font-size:13px;color:rgba(255,255,255,.65);font-weight:500;background:none;border:none;padding:0;cursor:pointer;display:flex;align-items:center;gap:6px" style-hover="color:#2E6E5C">{{ t.finder.collapseBtn }}<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-6 6 6"/></svg></button>
       </div>
       <p style="font-size:12px;line-height:1.5;color:#FFFFFF80;margin:10px 0 0">{{ t.smart.disclaimer }}</p>
       </sc-if>
@@ -308,7 +308,7 @@
 <!-- ============ CONTRAST SECTIONS (deliberate alternating tones) ============ -->
 
 <!-- ============ WHY US ============ -->
-<section id="why" data-navtheme="dark" data-screen-label="Why us" style="position:relative;overflow:hidden;min-height:100vh;display:flex;align-items:center;background:var(--eb-bg);color:#fff">
+<section id="why" data-navtheme="dark" data-screen-label="Why us" style="position:relative;overflow:hidden;min-height:100vh;display:flex;align-items:center;background:var(--eb-bg-3);color:#fff">
 
   <div class="wrap sec-pad" style="position:relative;max-width:1280px;margin:0 auto;padding:110px 32px">
     <div style="max-width:680px">
@@ -331,16 +331,16 @@
 </section>
 
 <!-- ============ HOW IT WORKS ============ -->
-<section id="how" data-screen-label="How it works" style="position:relative;display:flex;align-items:center;background:var(--eb-bg-2)">
+<section id="how" data-screen-label="How it works" style="position:relative;display:flex;align-items:center;background:var(--eb-bg)">
   <div class="wrap sec-pad" style="max-width:1280px;margin:0 auto;padding:100px 32px">
     <p style="{{ subhead }};text-align:center">{{ t.how.sub }}</p>
     <h2 style="{{ h2Style }};text-align:center;margin:12px auto 0">{{ t.how.h2 }}</h2>
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:24px;margin-top:56px">
       <sc-for list="{{ steps }}" as="st" hint-placeholder-count="3">
         <div ref="{{ st.ref }}" style="{{ st.wrapStyle }}">
-          <sc-if value="{{ st.showConnector }}" hint-placeholder-val="{{ false }}"><span class="how-connector" style="position:absolute;top:50%;right:-24px;transform:translateY(-50%);color:#61FFD0;font-size:20px;z-index:1">→</span></sc-if>
+          <sc-if value="{{ st.showConnector }}" hint-placeholder-val="{{ false }}"><span class="how-connector" style="position:absolute;top:50%;right:-24px;transform:translateY(-50%);color:#7DE0C4;font-size:20px;z-index:1">→</span></sc-if>
         <div style="position:relative;padding:34px 28px;border:1px solid rgba(255,255,255,.16);border-radius:18px;background:rgba(255,255,255,.05);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(14px)">
-            <div style="width:64px;height:64px;display:flex;align-items:center;justify-content:center;font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:64px;color:rgba(97,255,208,.32);line-height:.8">{{ st.n }}</div>
+            <div style="width:64px;height:64px;display:flex;align-items:center;justify-content:center;font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:64px;color:rgba(125,224,196,.32);line-height:.8">{{ st.n }}</div>
             <h4 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:24px;color:#fff;margin:18px 0 8px;line-height:1.05">{{ st.title }}</h4>
             <p style="font-size:15px;line-height:1.6;margin:0">{{ st.body }}</p>
             <sc-if value="{{ st.body2 }}" hint-placeholder-val="{{ false }}"><p style="font-size:15px;line-height:1.6;margin:10px 0 0">{{ st.body2 }}</p></sc-if>
@@ -352,17 +352,17 @@
 </section>
 
 <!-- ============ TESTIMONIALS MARQUEE ============ -->
-<section data-navtheme="dark" data-screen-label="Testimonials" style="position:relative;padding:88px 0 56px;overflow:hidden;min-height:100vh;display:flex;flex-direction:column;justify-content:center;background:var(--eb-bg-2);color:#fff">
-  <p style="{{ subhead }};text-align:center;position:relative;z-index:1">{{ t.rev.sub }}</p>
-  <h2 style="{{ h2Style }};text-align:center;margin:12px auto 48px;position:relative;z-index:1">{{ t.rev.h2 }}</h2>
+<section data-navtheme="light" data-screen-label="Testimonials" style="position:relative;padding:88px 0 56px;overflow:hidden;min-height:100vh;display:flex;flex-direction:column;justify-content:center;background:var(--eb-bg-light);color:#22282A">
+  <p style="{{ subheadDark }};text-align:center;position:relative;z-index:1">{{ t.rev.sub }}</p>
+  <h2 style="{{ h2Dark }};text-align:center;margin:12px auto 48px;position:relative;z-index:1">{{ t.rev.h2 }}</h2>
   <div class="rev-scroll" style="{{ revScrollStyle }};position:relative;z-index:1">
     <div class="rev-track" style="{{ revTrackStyle }}">
     <sc-for list="{{ reviewsLoop }}" as="r" hint-placeholder-count="6">
       <div style="{{ r.cardStyle }}">
-        <div style="color:#0B6E7A;font-size:15px;letter-spacing:2px">★★★★★</div>
+        <div style="color:#2E6E5C;font-size:15px;letter-spacing:2px">★★★★★</div>
         <p style="font-size:16px;line-height:1.6;color:#33383A;margin:16px 0 20px">"{{ r.text }}"</p>
         <div style="display:flex;align-items:center;gap:12px">
-          <span style="width:38px;height:38px;border-radius:50%;background:rgba(58,107,110,.10);border:1px solid rgba(58,107,110,.30);display:flex;align-items:center;justify-content:center;font-family:'Plus Jakarta Sans';color:#3A6B6E;font-weight:700">{{ r.init }}</span>
+          <span style="width:38px;height:38px;border-radius:50%;background:rgba(46,110,92,.10);border:1px solid rgba(46,110,92,.30);display:flex;align-items:center;justify-content:center;font-family:'Plus Jakarta Sans';color:#2E6E5C;font-weight:700">{{ r.init }}</span>
           <div>
             <div style="font-size:14px;color:#22282A;font-weight:600">{{ r.name }}</div>
             <div style="font-size:12px;color:#6D7577">{{ r.from }}</div>
@@ -375,7 +375,7 @@
 </section>
 
 <!-- ============ FAQ ============ -->
-<section id="faq" data-screen-label="FAQ" style="position:relative;min-height:100vh;display:flex;align-items:center;background:var(--eb-bg-2)">
+<section id="faq" data-navtheme="dark" data-screen-label="FAQ" style="position:relative;min-height:100vh;display:flex;align-items:center;background:var(--eb-bg-2)">
   <div class="wrap sec-pad" style="max-width:1280px;margin:0 auto;padding:64px 32px 100px">
    <div>
     <p style="{{ subhead }};text-align:center">{{ t.faq.sub }}</p>
@@ -393,23 +393,23 @@
         </div>
       </sc-for>
     </div>
-    <p style="text-align:center;font-size:14px;margin:32px 0 0;color:#FFFFFF99">{{ t.faq.contactNote }}<a href="mailto:hello@easybali.surf" style="color:#61FFD0">{{ t.faq.contactEmail }}</a>{{ t.faq.contactNoteEnd }}</p>
+    <p style="text-align:center;font-size:14px;margin:32px 0 0;color:#FFFFFF99">{{ t.faq.contactNote }}<a href="mailto:hello@easybali.surf" style="color:#7DE0C4">{{ t.faq.contactEmail }}</a>{{ t.faq.contactNoteEnd }}</p>
    </div>
   </div>
 </section>
 
 <!-- ============ BOOKING FORM ============ -->
-<section id="book" data-screen-label="Booking" style="position:relative;background:var(--eb-bg)">
+<section id="book" data-screen-label="Booking" style="position:relative;background:var(--eb-bg-3)">
 
   <div class="wrap sec-pad book-grid" style="position:relative;max-width:1280px;margin:0 auto;padding:100px 32px 28px;display:grid;grid-template-columns:1fr 1.05fr;gap:64px;align-items:start">
     <div>
-      <h2 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:clamp(36px,5vw,70px);line-height:.95;letter-spacing:-.5px;color:#fff;margin:0">{{ t.book.h1a }}<br><span style="color:#61FFD0">{{ t.book.h1b }}</span></h2>
+      <h2 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:clamp(36px,5vw,70px);line-height:.95;letter-spacing:-.5px;color:#fff;margin:0">{{ t.book.h1a }}<br><span style="color:#7DE0C4">{{ t.book.h1b }}</span></h2>
       <p style="font-size:17px;line-height:1.65;max-width:44ch;margin:24px 0 0">{{ t.book.lead }}</p>
     </div>
 
     <sc-if value="{{ submitted }}" hint-placeholder-val="{{ false }}">
       <div class="book-glass" style="{{ glassCard }};border-radius:24px;padding:56px 44px;text-align:center;animation:floatUp .5s ease-out both">
-        <div style="width:66px;height:66px;margin:0 auto 22px;border-radius:50%;background:linear-gradient(120deg,#7DFFC4,#61FFD0 42%,#3FD9E6);color:#08100d;display:flex;align-items:center;justify-content:center;font-size:34px;animation:checkPop .5s .1s cubic-bezier(.2,.9,.3,1) both">✓</div>
+        <div style="width:66px;height:66px;margin:0 auto 22px;border-radius:50%;background:linear-gradient(120deg,#7DE0C4,#6EC6F0);color:#04231A;display:flex;align-items:center;justify-content:center;font-size:34px;animation:checkPop .5s .1s cubic-bezier(.2,.9,.3,1) both">✓</div>
         <h3 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:34px;color:#fff;margin:0 0 12px;animation:floatUp .5s .2s ease-out both">{{ t.book.okTitle }}</h3>
         <p style="font-size:16px;line-height:1.6;margin:0 auto;max-width:40ch;animation:floatUp .5s .28s ease-out both">{{ okLine }}</p>
         <p style="font-size:13px;line-height:1.5;margin:12px auto 0;max-width:38ch;color:#FFFFFF80;animation:floatUp .5s .34s ease-out both">{{ t.book.okMatchNote }}</p>
@@ -428,7 +428,7 @@
 
     <sc-if value="{{ catalogUnavailable }}" hint-placeholder-val="{{ false }}">
       <div class="book-glass" style="{{ glassCard }};border-radius:24px;padding:48px 40px;text-align:center">
-        <div style="width:60px;height:60px;margin:0 auto 20px;border-radius:50%;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#61FFD0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12c2 0 2-2 4-2s2 2 4 2 2-2 4-2 2 2 4 2 2-2 4-2"/><path d="M2 17c2 0 2-2 4-2s2 2 4 2 2-2 4-2 2 2 4 2 2-2 4-2"/></svg></div>
+        <div style="width:60px;height:60px;margin:0 auto 20px;border-radius:50%;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#7DE0C4" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12c2 0 2-2 4-2s2 2 4 2 2-2 4-2 2 2 4 2 2-2 4-2"/><path d="M2 17c2 0 2-2 4-2s2 2 4 2 2-2 4-2 2 2 4 2 2-2 4-2"/></svg></div>
         <h3 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:28px;color:#fff;margin:0 0 12px">{{ unavailableTitle }}</h3>
         <p style="font-size:16px;line-height:1.6;margin:0 auto;max-width:36ch;color:#FFFFFFCC">{{ unavailableBody }}</p>
       </div>
@@ -491,19 +491,19 @@
               
             </div>
             <sc-if value="{{ showCoachNote }}" hint-placeholder-val="{{ true }}">
-              <div style="display:flex;align-items:flex-start;gap:8px;margin-top:12px;font-size:13px;line-height:1.5;color:#61FFD0">
+              <div style="display:flex;align-items:flex-start;gap:8px;margin-top:12px;font-size:13px;line-height:1.5;color:#7DE0C4">
                 <span>{{ t.book.sessionsCoachNote }}</span>
               </div>
             </sc-if>
             <div style="display:flex;flex-direction:column;gap:14px;margin-top:16px">
               <sc-for list="{{ sessionRows }}" as="row" hint-placeholder-count="1">
                 <div style="padding:14px;border-radius:14px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08)">
-                  <div style="font-size:12px;font-weight:600;letter-spacing:.4px;text-transform:uppercase;color:#61FFD0;margin-bottom:10px">{{ row.label }}</div>
+                  <div style="font-size:12px;font-weight:600;letter-spacing:.4px;text-transform:uppercase;color:#7DE0C4;margin-bottom:10px">{{ row.label }}</div>
                   <div class="form-2col" style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
                     <label style="{{ fieldLabel }}">{{ t.book.fDate }}
                       <div style="position:relative">
                         <input required="" type="date" min="{{ row.minDate }}" value="{{ row.date }}" onInput="{{ row.onDate }}" onBlur="{{ row.onDate }}" onClick="{{ openDatePicker }}" style="{{ row.dateInputStyle }}">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3FD9E6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="position:absolute;right:15px;top:50%;transform:translateY(-50%);pointer-events:none"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18M8 3v4M16 3v4"/></svg>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#7DE0C4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="position:absolute;right:15px;top:50%;transform:translateY(-50%);pointer-events:none"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18M8 3v4M16 3v4"/></svg>
                       </div>
                       <sc-if value="{{ row.err }}" hint-placeholder-val="{{ false }}"><span style="display:flex;align-items:center;gap:6px;font-size:12px;color:#FFB454;margin-top:7px;font-weight:400;text-transform:none;letter-spacing:0"><span style="width:4px;height:4px;border-radius:50%;background:#FFB454;flex:none"></span>{{ row.err }}</span></sc-if>
                     </label>
@@ -520,8 +520,8 @@
                 </div>
               </sc-for>
             </div>
-            <div style="margin-top:22px;padding:18px;border-radius:16px;background:rgba(97,255,208,.07);border:1px solid rgba(97,255,208,.25)">
-              <div style="font-size:12px;letter-spacing:.5px;text-transform:uppercase;color:#61FFD0;font-weight:600;margin-bottom:14px">{{ w.summaryTitle }}</div>
+            <div style="margin-top:22px;padding:18px;border-radius:16px;background:rgba(125,224,196,.07);border:1px solid rgba(125,224,196,.25)">
+              <div style="font-size:12px;letter-spacing:.5px;text-transform:uppercase;color:#7DE0C4;font-weight:600;margin-bottom:14px">{{ w.summaryTitle }}</div>
               <div style="display:flex;flex-direction:column;gap:9px">
                 <sc-for list="{{ summary }}" as="li" hint-placeholder-count="1">
                   <div style="display:flex;justify-content:space-between;gap:12px;font-size:14px;color:{{ li.textColor }};font-weight:{{ li.textWeight }}">
@@ -535,7 +535,7 @@
               </div>
               <div style="display:flex;justify-content:space-between;gap:12px;margin-top:8px">
                 <span style="font-size:12px;color:#FFFFFF80">{{ depositLabel }}</span>
-                <span style="font-size:13px;color:#61FFD0;font-weight:600">{{ depositDue }}</span>
+                <span style="font-size:13px;color:#7DE0C4;font-weight:600">{{ depositDue }}</span>
               </div>
               <div style="display:flex;justify-content:space-between;gap:12px;margin-top:6px">
                 <span style="font-size:12px;color:#FFFFFF80">{{ remainderLabel }}</span>
@@ -553,7 +553,7 @@
               <sc-if value="{{ rentalAvail }}" hint-placeholder-val="{{ true }}">
               <div>
                 <div onClick="{{ toggleRental }}" style="{{ aRental.row }}">
-                  <span style="{{ aRental.box }}"><sc-if value="{{ aRental.checked }}" hint-placeholder-val="{{ false }}"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#08100d" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></sc-if></span>
+                  <span style="{{ aRental.box }}"><sc-if value="{{ aRental.checked }}" hint-placeholder-val="{{ false }}"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#04231A" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></sc-if></span>
                   <span style="flex:1;font-size:15px;color:#fff">{{ rentalLabel }}</span>
                   <span style="{{ addonPrice }}">{{ rentalPrice }} {{ w.perDay }}</span>
                 </div>
@@ -571,7 +571,7 @@
               <sc-if value="{{ transfersAvail }}" hint-placeholder-val="{{ false }}">
               <div>
                 <div onClick="{{ toggleTT }}" style="{{ aTT.row }}">
-                  <span style="{{ aTT.box }}"><sc-if value="{{ aTT.checked }}" hint-placeholder-val="{{ false }}"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#08100d" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></sc-if></span>
+                  <span style="{{ aTT.box }}"><sc-if value="{{ aTT.checked }}" hint-placeholder-val="{{ false }}"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#04231A" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></sc-if></span>
                   <span style="flex:1;font-size:15px;color:#fff">{{ transferToLabel }}</span>
                   <span style="{{ addonPrice }}">{{ ttPrice }}</span>
                 </div>
@@ -587,7 +587,7 @@
               </div>
               <div>
                 <div onClick="{{ toggleTB }}" style="{{ aTB.row }}">
-                  <span style="{{ aTB.box }}"><sc-if value="{{ aTB.checked }}" hint-placeholder-val="{{ false }}"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#08100d" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></sc-if></span>
+                  <span style="{{ aTB.box }}"><sc-if value="{{ aTB.checked }}" hint-placeholder-val="{{ false }}"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#04231A" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></sc-if></span>
                   <span style="flex:1;font-size:15px;color:#fff">{{ w.transferBack }}</span>
                   <span style="{{ addonPrice }}">{{ tbPrice }}</span>
                 </div>
@@ -605,7 +605,7 @@
               <sc-if value="{{ mediaAvail }}" hint-placeholder-val="{{ true }}">
               <div>
                 <div onClick="{{ toggleMedia }}" style="{{ aMedia.row }}">
-                  <span style="{{ aMedia.box }}"><sc-if value="{{ aMedia.checked }}" hint-placeholder-val="{{ false }}"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#08100d" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></sc-if></span>
+                  <span style="{{ aMedia.box }}"><sc-if value="{{ aMedia.checked }}" hint-placeholder-val="{{ false }}"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#04231A" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></sc-if></span>
                   <span style="flex:1;font-size:15px;color:#fff">{{ w.media }}</span>
                   <span style="{{ addonPrice }}">{{ mediaPrice }}</span>
                 </div>
@@ -624,7 +624,7 @@
               <sc-for list="{{ customAddonRows }}" as="ca" hint-placeholder-count="0">
                 <div>
                   <div onClick="{{ ca.toggle }}" style="{{ ca.row }}">
-                    <span style="{{ ca.box }}"><sc-if value="{{ ca.checked }}" hint-placeholder-val="{{ false }}"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#08100d" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></sc-if></span>
+                    <span style="{{ ca.box }}"><sc-if value="{{ ca.checked }}" hint-placeholder-val="{{ false }}"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#04231A" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></sc-if></span>
                     <span style="flex:1;font-size:15px;color:#fff">{{ ca.label }}</span>
                     <span style="{{ addonPrice }}">{{ ca.priceLabel }}</span>
                   </div>
@@ -641,8 +641,8 @@
                 </div>
               </sc-for>
             </div>
-            <div style="margin-top:22px;padding:18px;border-radius:16px;background:rgba(97,255,208,.07);border:1px solid rgba(97,255,208,.25)">
-              <div style="font-size:12px;letter-spacing:.5px;text-transform:uppercase;color:#61FFD0;font-weight:600;margin-bottom:14px">{{ w.summaryTitle }}</div>
+            <div style="margin-top:22px;padding:18px;border-radius:16px;background:rgba(125,224,196,.07);border:1px solid rgba(125,224,196,.25)">
+              <div style="font-size:12px;letter-spacing:.5px;text-transform:uppercase;color:#7DE0C4;font-weight:600;margin-bottom:14px">{{ w.summaryTitle }}</div>
               <div style="display:flex;flex-direction:column;gap:9px">
                 <sc-for list="{{ summary }}" as="li" hint-placeholder-count="1">
                   <div style="display:flex;justify-content:space-between;gap:12px;font-size:14px;color:{{ li.textColor }};font-weight:{{ li.textWeight }}">
@@ -656,7 +656,7 @@
               </div>
               <div style="display:flex;justify-content:space-between;gap:12px;margin-top:8px">
                 <span style="font-size:12px;color:#FFFFFF80">{{ depositLabel }}</span>
-                <span style="font-size:13px;color:#61FFD0;font-weight:600">{{ depositDue }}</span>
+                <span style="font-size:13px;color:#7DE0C4;font-weight:600">{{ depositDue }}</span>
               </div>
               <div style="display:flex;justify-content:space-between;gap:12px;margin-top:6px">
                 <span style="font-size:12px;color:#FFFFFF80">{{ remainderLabel }}</span>
@@ -703,8 +703,8 @@
             <label style="{{ fieldLabel }};margin-top:16px">{{ t.book.fNote }}
               <textarea value="{{ form.note }}" onInput="{{ onNote }}" rows="3" placeholder="{{ t.book.phNote }}" style="{{ textareaStyle }}"></textarea>
             </label>
-            <div style="margin-top:22px;padding:18px;border-radius:16px;background:rgba(97,255,208,.07);border:1px solid rgba(97,255,208,.25)">
-              <div style="font-size:12px;letter-spacing:.5px;text-transform:uppercase;color:#61FFD0;font-weight:600;margin-bottom:14px">{{ w.summaryTitle }}</div>
+            <div style="margin-top:22px;padding:18px;border-radius:16px;background:rgba(125,224,196,.07);border:1px solid rgba(125,224,196,.25)">
+              <div style="font-size:12px;letter-spacing:.5px;text-transform:uppercase;color:#7DE0C4;font-weight:600;margin-bottom:14px">{{ w.summaryTitle }}</div>
               <div style="display:flex;flex-direction:column;gap:9px">
                 <sc-for list="{{ summary }}" as="li" hint-placeholder-count="1">
                   <div style="display:flex;justify-content:space-between;gap:12px;font-size:14px;color:{{ li.textColor }};font-weight:{{ li.textWeight }}">
@@ -718,7 +718,7 @@
               </div>
               <div style="display:flex;justify-content:space-between;gap:12px;margin-top:8px">
                 <span style="font-size:12px;color:#FFFFFF80">{{ depositLabel }}</span>
-                <span style="font-size:13px;color:#61FFD0;font-weight:600">{{ depositDue }}</span>
+                <span style="font-size:13px;color:#7DE0C4;font-weight:600">{{ depositDue }}</span>
               </div>
               <div style="display:flex;justify-content:space-between;gap:12px;margin-top:6px">
                 <span style="font-size:12px;color:#FFFFFF80">{{ remainderLabel }}</span>
@@ -727,18 +727,18 @@
             </div>
             <label onClick="{{ toggleAgree }}" style="display:flex;align-items:flex-start;gap:10px;margin-top:20px;cursor:pointer;font-size:13px;line-height:1.5;color:#FFFFFFB0">
               <span style="{{ agreeBoxStyle }}">✓</span>
-              <span>{{ t.book.fineA }}<a href="{{ termsHref }}" style="color:#61FFD0" onClick="{{ stopProp }}">{{ t.book.fineLink }}</a>{{ t.book.fineB }}</span>
+              <span>{{ t.book.fineA }}<a href="{{ termsHref }}" style="color:#7DE0C4" onClick="{{ stopProp }}">{{ t.book.fineLink }}</a>{{ t.book.fineB }}</span>
             </label>
             <label onClick="{{ togglePrivacy }}" style="display:flex;align-items:flex-start;gap:10px;margin-top:10px;cursor:pointer;font-size:13px;line-height:1.5;color:#FFFFFFB0">
               <span style="{{ privacyBoxStyle }}">✓</span>
-              <span>{{ t.book.privacyA }}<a href="{{ privacyHref }}" style="color:#61FFD0" onClick="{{ stopProp }}">{{ t.book.privacyLink }}</a>{{ t.book.privacyB }}</span>
+              <span>{{ t.book.privacyA }}<a href="{{ privacyHref }}" style="color:#7DE0C4" onClick="{{ stopProp }}">{{ t.book.privacyLink }}</a>{{ t.book.privacyB }}</span>
             </label>
             <div style="margin-top:20px">
               <div style="font-size:12px;letter-spacing:.5px;text-transform:uppercase;color:#FFFFFF99;margin-bottom:10px">{{ payWith }}</div>
               <div style="display:flex;gap:10px;flex-wrap:wrap">
                 <div onClick="{{ selectPaypal }}" style="{{ paypalTileStyle }}">
                   <span style="width:18px;height:18px;border-radius:50%;border:1.5px solid {{ paypalDotBorder }};display:flex;align-items:center;justify-content:center;flex:none">
-                    <sc-if value="{{ paypalSelected }}" hint-placeholder-val="{{ true }}"><span style="width:9px;height:9px;border-radius:50%;background:#61FFD0"></span></sc-if>
+                    <sc-if value="{{ paypalSelected }}" hint-placeholder-val="{{ true }}"><span style="width:9px;height:9px;border-radius:50%;background:#7DE0C4"></span></sc-if>
                   </span>
                   <span style="font-family:Arial,Helvetica,sans-serif;font-weight:700;font-style:italic;font-size:15px;letter-spacing:-.2px;color:#fff">PayPal</span>
                 </div>
@@ -754,7 +754,7 @@
             <sc-if value="{{ reco.bookSoon }}" hint-placeholder-val="{{ false }}">
               <p style="font-size:12px;text-align:center;line-height:1.5;margin:12px auto 0;max-width:42ch;color:#FFB454">{{ reco.soonWarnMsg }}</p>
             </sc-if>
-            <p style="font-size:12px;text-align:center;margin:12px 0 0;color:#61FFD0CC">{{ t.book.refundGuarantee }}</p>
+            <p style="font-size:12px;text-align:center;margin:12px 0 0;color:#7DE0C4CC">{{ t.book.refundGuarantee }}</p>
           </div>
         </sc-if>
       </form>
@@ -775,16 +775,16 @@
     <div style="display:contents">
       <div>
         <div style="{{ footHead }}">{{ t.foot.company }}</div>
-        <a href="{{ termsHref }}" style="{{ footLink }}" style-hover="color:#61FFD0">{{ t.foot.terms }}</a>
-        <a href="{{ privacyHref }}" style="{{ footLink }}" style-hover="color:#61FFD0">{{ t.foot.privacy }}</a>
-        <a href="instructors.html" style="{{ footLink }}" style-hover="color:#61FFD0">{{ t.foot.forInstructors }}</a>
-        <a href="{{ guideHref }}" style="{{ footLink }}" style-hover="color:#61FFD0">{{ t.foot.guide }}</a>
-        <a href="{{ commitmentHref }}" style="{{ footLink }}" style-hover="color:#61FFD0">{{ t.foot.commitment }}</a>
+        <a href="{{ termsHref }}" style="{{ footLink }}" style-hover="color:#7DE0C4">{{ t.foot.terms }}</a>
+        <a href="{{ privacyHref }}" style="{{ footLink }}" style-hover="color:#7DE0C4">{{ t.foot.privacy }}</a>
+        <a href="instructors.html" style="{{ footLink }}" style-hover="color:#7DE0C4">{{ t.foot.forInstructors }}</a>
+        <a href="{{ guideHref }}" style="{{ footLink }}" style-hover="color:#7DE0C4">{{ t.foot.guide }}</a>
+        <a href="{{ commitmentHref }}" style="{{ footLink }}" style-hover="color:#7DE0C4">{{ t.foot.commitment }}</a>
       </div>
       <div>
         <div style="{{ footHead }}">{{ t.foot.contact }}</div>
-        <a href="mailto:hello@easybali.surf" style="{{ footLink }}" style-hover="color:#61FFD0">hello@easybali.surf</a>
-        <a href="https://t.me/EasyBaliSurf" style="{{ footLink }}" style-hover="color:#61FFD0">Telegram · @EasyBaliSurf</a>
+        <a href="mailto:hello@easybali.surf" style="{{ footLink }}" style-hover="color:#7DE0C4">hello@easybali.surf</a>
+        <a href="https://t.me/EasyBaliSurf" style="{{ footLink }}" style-hover="color:#7DE0C4">Telegram · @EasyBaliSurf</a>
       </div>
     </div>
   </div>
@@ -1513,7 +1513,7 @@ class Component extends DCLogic {
   buildHeroChars(h1a, h1accent, h1b, still) {
     const segs = [
       { text: h1a, color: '#fff' },
-      { text: h1accent, color: '#61FFD0' },
+      { text: h1accent, color: '#7DE0C4' },
       { text: h1b, color: '#fff' }
     ];
     // Group runs of non-space chars into words so a word never splits across a line break —
@@ -1566,7 +1566,7 @@ class Component extends DCLogic {
         chars: w.chars.map(c => {
           const idx = i++;
           const delay = (3 + idx * 0.08).toFixed(3);
-          return { ch: c.ch, style: 'display:inline-block;transform-origin:center bottom;' + (c.accent ? 'color:#61FFD0;' : ''), idx, still: !!still };
+          return { ch: c.ch, style: 'display:inline-block;transform-origin:center bottom;' + (c.accent ? 'color:#7DE0C4;' : ''), idx, still: !!still };
         })
       };
     });
@@ -1664,7 +1664,7 @@ class Component extends DCLogic {
     const per = md ? md.per : null, sst = md ? md.sst : null, live = !!(md && md.live);
     const noData = !per;
 
-    const dotC = ['#0B8F82', '#61FFD0', '#9AA8A2', '#5C726A'];
+    const dotC = ['#2E6E5C', '#7DE0C4', '#9AA8A2', '#5C726A'];
     // 7-day strip
     const week = [];
     for (let k = 0; k < 7; k++) {
@@ -1680,15 +1680,15 @@ class Component extends DCLogic {
         dnum: String(dt.getUTCDate()),
         // grey hollow dot when there's no live data for that day
         dotStyle: 'width:8px;height:8px;border-radius:50%;margin:6px auto 0;' + (dqi < 0 ? 'background:transparent;border:1.5px solid rgba(255,255,255,.3)' : 'background:' + dotC[dqi]),
-        style: 'flex:none;width:66px;scroll-snap-align:start;text-align:center;cursor:pointer;padding:10px 4px 11px;border-radius:14px;background:' + (sel ? 'rgba(97,255,208,.14)' : 'rgba(255,255,255,.045)') + ';border:1px solid ' + (sel ? 'rgba(97,255,208,.5)' : 'rgba(255,255,255,.14)') + ';transition:all .2s',
+        style: 'flex:none;width:66px;scroll-snap-align:start;text-align:center;cursor:pointer;padding:10px 4px 11px;border-radius:14px;background:' + (sel ? 'rgba(125,224,196,.14)' : 'rgba(255,255,255,.045)') + ';border:1px solid ' + (sel ? 'rgba(125,224,196,.5)' : 'rgba(255,255,255,.14)') + ';transition:all .2s',
         pick: () => this.setEx('date', ds)
       });
     }
 
     const order = noData ? [] : per.map((p, i) => ({ i, s: p.score })).sort((a, b) => b.s - a.s);
     const rankOf = {}; order.forEach((o, r) => { rankOf[o.i] = r; });
-    const badgeBg = ['rgba(97,255,208,.16)', 'rgba(255,255,255,.09)', 'rgba(255,255,255,.06)', 'rgba(255,255,255,.045)'];
-    const badgeFg = ['#61FFD0', '#fff', 'rgba(255,255,255,.72)', 'rgba(255,255,255,.5)'];
+    const badgeBg = ['rgba(125,224,196,.16)', 'rgba(255,255,255,.09)', 'rgba(255,255,255,.06)', 'rgba(255,255,255,.045)'];
+    const badgeFg = ['#7DE0C4', '#fff', 'rgba(255,255,255,.72)', 'rgba(255,255,255,.5)'];
 
     let slots = noData ? [] : baseSlots.map((time, i) => {
       // ABSOLUTE quality from the slot's own score — NOT a relative rank among the day's 4 windows.
@@ -1728,8 +1728,8 @@ class Component extends DCLogic {
       { isTideDown: tideIdx === 0, isTideMid: tideIdx === 1, isTideUp: tideIdx === 2, label: sm.condTide, valLine1: selPer.tide, valLine2: '' }
     ] : [];
 
-    const spotChip = (sel) => 'background:' + (sel ? '#61FFD0' : 'rgba(255,255,255,.05)') + ';color:' + (sel ? '#08100d' : '#fff') + ';border:1px solid ' + (sel ? '#61FFD0' : 'rgba(255,255,255,.16)') + ';border-radius:100px;padding:8px 15px;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s';
-    const slotRow = (sel) => 'display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;text-align:left;cursor:pointer;padding:12px 14px;border-radius:14px;background:' + (sel ? 'rgba(97,255,208,.12)' : 'rgba(255,255,255,.04)') + ';border:1px solid ' + (sel ? 'rgba(97,255,208,.5)' : 'rgba(255,255,255,.12)') + ';transition:all .2s';
+    const spotChip = (sel) => 'background:' + (sel ? '#7DE0C4' : 'rgba(255,255,255,.05)') + ';color:' + (sel ? '#04231A' : '#fff') + ';border:1px solid ' + (sel ? '#7DE0C4' : 'rgba(255,255,255,.16)') + ';border-radius:100px;padding:8px 15px;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s';
+    const slotRow = (sel) => 'display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;text-align:left;cursor:pointer;padding:12px 14px;border-radius:14px;background:' + (sel ? 'rgba(125,224,196,.12)' : 'rgba(255,255,255,.04)') + ';border:1px solid ' + (sel ? 'rgba(125,224,196,.5)' : 'rgba(255,255,255,.12)') + ';transition:all .2s';
 
     return {
       active: { ...active, region: this.regionFor(active) }, primary, week, conds,
@@ -1743,7 +1743,7 @@ class Component extends DCLogic {
       bookSoon: (() => { if (!chosenSlot) return false; const st = (chosenSlot.split(/[–-]/)[0] || '08:00').trim(); const p = targetDate.split('-').map(Number); const tp = st.split(':').map(Number); const startUtc = Date.UTC(p[0], p[1] - 1, p[2], tp[0], tp[1]) - 8 * 3600000; return (startUtc - Date.now()) < 24 * 3600000 && (startUtc - Date.now()) > 0; })(),
       soonWarnMsg: sm.soonWarn || '',
       bookDisabled: !(!!chosenSlot && !chosenFull && anyFree),
-      bookBtnStyle: 'flex:none;font-weight:600;font-size:15px;padding:14px 26px;border:none;border-radius:100px;transition:filter .2s;' + ((!!chosenSlot && !chosenFull && anyFree) ? 'background:#61FFD0;color:#08100d;cursor:pointer' : 'background:rgba(255,255,255,.08);color:rgba(255,255,255,.35);cursor:not-allowed'),
+      bookBtnStyle: 'flex:none;font-weight:600;font-size:15px;padding:14px 26px;border:none;border-radius:100px;transition:filter .2s;' + ((!!chosenSlot && !chosenFull && anyFree) ? 'background:linear-gradient(120deg,#7DE0C4,#6EC6F0);color:#04231A;cursor:pointer' : 'background:rgba(255,255,255,.08);color:rgba(255,255,255,.35);cursor:not-allowed'),
       bookBtnHover: '',
       bookLabel: (() => { const dp2 = targetDate.split('-').map(Number); const dl = new Date(Date.UTC(dp2[0], dp2[1] - 1, dp2[2])).toLocaleDateString(locale, { day: 'numeric', month: 'short', timeZone: 'UTC' }); return chosenFull ? (sm.slotFull || 'No coaches free — pick another window') : chosenSlot ? (sm.bookDate || 'Book {date}').replace('{date}', dl) : (sm.pickSlot || 'Select a time slot'); })(),
       spots: pool.map(s => ({ name: s.name, style: spotChip(active.name === s.name), pick: () => this.setEx('spot', s.name) })),
@@ -1780,10 +1780,21 @@ class Component extends DCLogic {
   renderVals() {
     const D = this.dict();
     const L = D[this.state.lang] || D.en;
+    const heroHour = new Date().getHours();
+    const heroSky = (h => {
+      if (h < 5) return ['#0A1A2E', '#0A1730'];
+      if (h < 7) return ['#3A3A6B', '#8A5B7A'];
+      if (h < 10) return ['#5B8FB0', '#14213D'];
+      if (h < 16) return ['#0B6E86', '#14213D'];
+      if (h < 18) return ['#B0704A', '#3A2E56'];
+      if (h < 20) return ['#5A3A66', '#241938'];
+      return ['#0F1D33', '#0A1730'];
+    })(heroHour);
+    const heroGradient = 'linear-gradient(180deg,' + heroSky[0] + 'CC 0%,' + heroSky[1] + 'D9 55%,var(--eb-bg-2) 78%)';
     const f = this.state.form;
     const subhead = "font-family:'Inter',sans-serif;color:#7CFFDA;font-size:14px;font-weight:600;letter-spacing:.4px;text-transform:uppercase;margin:0";
     const h2Style = "font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:clamp(34px,4.5vw,62px);line-height:.98;letter-spacing:-.5px;color:#fff;margin:12px 0 0;max-width:16ch";
-    const subheadDark = "font-family:'Inter',sans-serif;color:#3A6B6E;font-size:14px;font-weight:600;letter-spacing:.4px;text-transform:uppercase;margin:0";
+    const subheadDark = "font-family:'Inter',sans-serif;color:#2E6E5C;font-size:14px;font-weight:600;letter-spacing:.4px;text-transform:uppercase;margin:0";
     const h2Dark = "font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:clamp(34px,4.5vw,62px);line-height:.98;letter-spacing:-.5px;color:#22282A;margin:12px 0 0;max-width:16ch";
     const inputStyle = "width:100%;height:50px;box-sizing:border-box;margin-top:8px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.16);border-radius:12px;padding:0 15px;color:#fff;font-family:'Inter',sans-serif;font-size:15px;line-height:1;outline:none;-webkit-appearance:none;appearance:none";
     const selectStyle = inputStyle + ";background-image:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='7' viewBox='0 0 11 7'%3E%3Cpath d='M1 1l4.5 4.5L10 1' stroke='%2361FFD0' stroke-width='1.6' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\");background-repeat:no-repeat;background-position:right 15px center;padding-right:36px";
@@ -1791,8 +1802,8 @@ class Component extends DCLogic {
     // calendar affordance on iOS Safari/Chrome. Center it vertically via line-height instead.
     const dateInputBase = "width:100%;height:50px;box-sizing:border-box;margin-top:8px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.16);border-radius:12px;padding:0 36px 0 15px;color:#fff;font-family:'Inter',sans-serif;font-size:15px;line-height:48px;outline:none;text-align:left";
     const textareaStyle = "width:100%;margin-top:8px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.16);border-radius:12px;padding:13px 15px;color:#fff;font-family:'Inter',sans-serif;font-size:15px;line-height:1.5;outline:none;resize:vertical;box-sizing:border-box";
-    const fieldLabel = "display:block;font-size:13px;letter-spacing:.4px;color:#61FFD0;text-transform:uppercase;font-weight:500";
-    const footHead = "font-size:12px;letter-spacing:.6px;text-transform:uppercase;color:#61FFD0;margin-bottom:16px;font-weight:600";
+    const fieldLabel = "display:block;font-size:13px;letter-spacing:.4px;color:#7DE0C4;text-transform:uppercase;font-weight:500";
+    const footHead = "font-size:12px;letter-spacing:.6px;text-transform:uppercase;color:#7DE0C4;margin-bottom:16px;font-weight:600";
     const footLink = "display:block;font-size:14px;color:#FFFFFFBD;margin-bottom:11px;transition:color .2s;width:max-content";
 
     const glassCard = "background:linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,.025));border:1px solid rgba(255,255,255,.14)";
@@ -1812,14 +1823,15 @@ class Component extends DCLogic {
     const LANGS = [
       { c:'en', n:'English' }, { c:'ru', n:'Русский' }
     ];
-    const menuItem = (a) => "display:block;width:100%;text-align:left;background:" + (a ? 'rgba(97,255,208,.16)' : 'transparent') + ";color:" + (a ? '#61FFD0' : '#fff') + ";border:none;border-radius:10px;cursor:pointer;font-family:'Inter';font-size:14px;font-weight:500;padding:10px 14px;transition:background .15s";
-    const chip = (a) => "background:" + (a ? '#61FFD0' : 'transparent') + ";color:" + (a ? '#08100d' : '#fff') + ";border:1px solid " + (a ? '#61FFD0' : 'rgba(255,255,255,.25)') + ";border-radius:100px;padding:8px 15px;font-size:14px;font-weight:600;cursor:pointer";
+    const menuItem = (a) => "display:block;width:100%;text-align:left;background:" + (a ? 'rgba(125,224,196,.16)' : 'transparent') + ";color:" + (a ? '#7DE0C4' : '#fff') + ";border:none;border-radius:10px;cursor:pointer;font-family:'Inter';font-size:14px;font-weight:500;padding:10px 14px;transition:background .15s";
+    const chip = (a) => "background:" + (a ? '#7DE0C4' : 'transparent') + ";color:" + (a ? '#04231A' : '#fff') + ";border:1px solid " + (a ? '#7DE0C4' : 'rgba(255,255,255,.25)') + ";border-radius:100px;padding:8px 15px;font-size:14px;font-weight:600;cursor:pointer";
     const lmOpen = this.state.langMenuOpen;
     // Over light sections the nav BAR turns dark (navy) so light text stays legible; ink stays light.
     const onLight = this.state.navOnLight && !this.state.menuOpen;
-    const navInk = '#fff';
-    const navLinkIdle = '#FFFFFFBD';
-    const navLinkActive = '#61FFD0';
+    const navInk = onLight ? '#22282A' : '#fff';
+    const navLinkIdle = onLight ? '#4A5254' : '#FFFFFFBD';
+    const navLinkActive = onLight ? '#2E6E5C' : '#7DE0C4';
+    const burgerBorder = onLight ? 'rgba(34,40,42,.28)' : 'rgba(255,255,255,.22)';
     const navLinkCss = (id) => "color:" + (this.state.activeSection === id ? navLinkActive : navLinkIdle) + ";font-size:14px;font-weight:500;transition:color .35s";
     const burgerCss = (t) => "display:block;width:20px;height:2px;background:" + navInk + ";border-radius:2px;transition:" + t;
 
@@ -1844,7 +1856,7 @@ class Component extends DCLogic {
     const onExLevel = e => this.setEx('level', Math.max(0, L.book.levelOpts.indexOf(e.target.value)));
     const customSelectStyle = "width:100%;height:50px;box-sizing:border-box;margin-top:8px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.18);border-radius:12px;padding:0 15px;color:#fff;font-family:'Inter',sans-serif;font-size:15px;font-weight:500;display:flex;align-items:center;justify-content:space-between;gap:10px;cursor:pointer;transition:border-color .15s,background .15s";
     const customMenuStyle = "position:absolute;top:calc(100% + 6px);left:0;right:0;z-index:20;background:#182A2E;border:1px solid rgba(255,255,255,.14);border-radius:14px;padding:6px;animation:recoFade .15s ease";
-    const menuRowStyle = (sel) => 'padding:11px 12px;border-radius:9px;font-size:14px;font-weight:500;color:' + (sel ? '#61FFD0' : '#fff') + ';background:' + (sel ? 'rgba(97,255,208,.1)' : 'transparent') + ';cursor:pointer;transition:background .12s';
+    const menuRowStyle = (sel) => 'padding:11px 12px;border-radius:9px;font-size:14px;font-weight:500;color:' + (sel ? '#7DE0C4' : '#fff') + ';background:' + (sel ? 'rgba(125,224,196,.1)' : 'transparent') + ';cursor:pointer;transition:background .12s';
     const sportMenuOpen = !!this.state.sportMenuOpen, levelMenuOpen = !!this.state.levelMenuOpen;
     const toggleSportMenu = () => this.setState(s => ({ sportMenuOpen: !s.sportMenuOpen, levelMenuOpen: false }));
     const toggleLevelMenu = () => this.setState(s => ({ levelMenuOpen: !s.levelMenuOpen, sportMenuOpen: false }));
@@ -1906,10 +1918,10 @@ class Component extends DCLogic {
     const step = this.state.step;
     const ad = this.state.addons;
     const rentalLabel = [f.sport, W.rental].filter(Boolean).join(' ');
-    const GRAD = 'linear-gradient(120deg,#7DFFC4,#61FFD0 42%,#3FD9E6)';
-    const nextBtn = 'flex:none;background:' + GRAD + ';color:#08100d;font-weight:600;font-size:15px;padding:13px 24px;border:none;border-radius:100px;cursor:pointer;transition:filter .2s';
+    const GRAD = 'linear-gradient(120deg,#7DE0C4,#6EC6F0)';
+    const nextBtn = 'flex:none;background:' + GRAD + ';color:#04231A;font-weight:600;font-size:15px;padding:13px 24px;border:none;border-radius:100px;cursor:pointer;transition:filter .2s';
     const backBtn = 'flex:none;background:transparent;border:1px solid rgba(255,255,255,.3);color:#fff;font-weight:500;font-size:14px;padding:13px 20px;border-radius:100px;cursor:pointer';
-    const addonPrice = "font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:16px;color:#61FFD0;white-space:nowrap";
+    const addonPrice = "font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:16px;color:#7DE0C4;white-space:nowrap";
     const sessions = f.sessions || [{date:'',slot:''}];
     const firstSlotted = sessions.find(s => s.slot);
     const transfersAvail = !!(f.spot && f.spot.trim() && firstSlotted) && equipTier.transfersEnabled !== false;
@@ -1917,7 +1929,7 @@ class Component extends DCLogic {
     const mediaAvail = equipTier.mediaEnabled !== false;
     const noAddons = !rentalAvail && !mediaAvail && !transfersAvail;
     const addonStyle = (chk) => ({
-      row: 'display:flex;align-items:center;gap:14px;padding:15px 16px;border-radius:14px;cursor:pointer;user-select:none;transition:background .2s,border-color .2s;background:' + (chk ? 'rgba(97,255,208,.12)' : 'rgba(255,255,255,.04)') + ';border:1px solid ' + (chk ? 'rgba(97,255,208,.55)' : 'rgba(255,255,255,.1)'),
+      row: 'display:flex;align-items:center;gap:14px;padding:15px 16px;border-radius:14px;cursor:pointer;user-select:none;transition:background .2s,border-color .2s;background:' + (chk ? 'rgba(125,224,196,.12)' : 'rgba(255,255,255,.04)') + ';border:1px solid ' + (chk ? 'rgba(125,224,196,.55)' : 'rgba(255,255,255,.1)'),
       box: 'flex:none;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;transition:background .2s,border-color .2s;background:' + (chk ? GRAD : 'transparent') + ';border:1.5px solid ' + (chk ? 'transparent' : 'rgba(255,255,255,.35)'),
       checked: chk
     });
@@ -1928,13 +1940,13 @@ class Component extends DCLogic {
       return {
         num: String(num), name: nm,
         dotClass: isCurrent ? 'wiz-pulse wiz-on' : '',
-        dot: "flex:none;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Inter',sans-serif;font-weight:600;font-size:12px;" + (on ? 'color:#fff;background:rgba(97,255,208,.16);border:1px solid rgba(97,255,208,.4);' : 'color:#FFFFFF80;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.16);'),
+        dot: "flex:none;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Inter',sans-serif;font-weight:600;font-size:12px;" + (on ? 'color:#fff;background:rgba(125,224,196,.16);border:1px solid rgba(125,224,196,.4);' : 'color:#FFFFFF80;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.16);'),
         label: "font-family:'Inter',sans-serif;font-size:11px;font-weight:600;letter-spacing:.1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:" + (isCurrent ? '#fff' : '#FFFFFF80'),
         showConnector: num < total,
         connectorClass: isCurrent ? 'wiz-sweep' : '',
         connectorStyle: 'flex:0 0 14px;height:3px;margin:0 4px;border-radius:2px;' + (isCurrent
-          ? 'background-image:linear-gradient(90deg,#61FFD0,#3FD9E6,#61FFD0);background-size:200% 100%'
-          : nextOn ? 'background:rgba(97,255,208,.4)' : 'background:rgba(255,255,255,.14)')
+          ? 'background-image:linear-gradient(90deg,#7DE0C4,#6EC6F0,#7DE0C4);background-size:200% 100%'
+          : nextOn ? 'background:rgba(125,224,196,.4)' : 'background:rgba(255,255,255,.14)')
       };
     });
 
@@ -1977,7 +1989,7 @@ class Component extends DCLogic {
     const durH = this.sportDuration(discKey); const durTag = (durH % 1 === 0 ? durH : durH.toFixed(1)) + 'h';
     const sessionLabel = [W.private, sportName, W.sessionWord].filter(Boolean).join(' ')
       + ' (' + (sessionsCount > 1 ? sessionsCount + 'x' + durTag : durTag) + ') x ' + headcount + ' ' + (headcount === 1 ? W.personWord : W.peopleWord);
-    const summary = [{ label: sessionLabel, amount: '$' + baseNum, textColor: '#61FFD0', textWeight: '600', amountWeight: '700' }];
+    const summary = [{ label: sessionLabel, amount: '$' + baseNum, textColor: '#7DE0C4', textWeight: '600', amountWeight: '700' }];
     if (ad.rental) summary.push({ type:'rental', label: rentalLabel + ' ' + rentalQty + ' ' + (rentalQty === 1 ? W.personWord : W.peopleWord) + ' ×' + sessionsCount + ' (' + durTag + ')', amount: '$' + (rentalUnit * rentalQty * sessionsCount) , textColor:'#FFFFFFCC', textWeight:'400', amountWeight:'500' });
     if (transfersAvail && ad.transferTo && this.state.transferToFrom) summary.push({ type:'transferTo', label: W.transferRoute.replace('{a}', this.state.transferToFrom).replace('{b}', destName) + (transferDaysCount > 1 ? ' x' + transferDaysCount : ''), amount: '$' + ttNum , textColor:'#FFFFFFCC', textWeight:'400', amountWeight:'500' });
     if (transfersAvail && ad.transferBack && this.state.transferBackFrom) summary.push({ type:'transferBack', label: W.transferRoute.replace('{a}', destName).replace('{b}', this.state.transferBackFrom) + (transferDaysCount > 1 ? ' x' + transferDaysCount : ''), amount: '$' + tbNum , textColor:'#FFFFFFCC', textWeight:'400', amountWeight:'500' });
@@ -2003,6 +2015,7 @@ class Component extends DCLogic {
 
     return {
       t: L,
+      heroGradient,
       navStyle: this.state.menuOpen
         ? "position:fixed;top:0;left:0;right:0;z-index:70;background:transparent;border-bottom:1px solid transparent;transition:all .35s"
         : this.state.navPinned
@@ -2019,10 +2032,11 @@ class Component extends DCLogic {
         : (this.state.lang === 'ru' ? 'Найти сессию' : 'Find your session'),
       heroToggleBtnStyle: this.state.heroExpanded
         ? 'display:flex;align-items:center;justify-content:center;gap:9px;width:100%;margin-top:14px;padding:16px;border:1px solid rgba(255,255,255,.14);border-radius:100px;background:rgba(255,255,255,.06);color:#fff;font-size:15px;font-weight:600;transition:filter .2s'
-        : 'display:flex;align-items:center;justify-content:center;gap:9px;width:100%;margin-top:14px;padding:16px;border:none;border-radius:100px;background:linear-gradient(120deg,#7DFFC4,#61FFD0 42%,#3FD9E6);color:#08100d;font-size:15px;font-weight:600;transition:filter .2s',
+        : 'display:flex;align-items:center;justify-content:center;gap:9px;width:100%;margin-top:14px;padding:16px;border:none;border-radius:100px;background:linear-gradient(120deg,#7DE0C4,#6EC6F0);color:#04231A;font-size:15px;font-weight:600;transition:filter .2s',
 
       curLangName: (LANGS.find(l => l.c === this.state.lang) || LANGS[0]).n,
       navInk,
+      burgerBorder,
       placeName: (window.SERVICES_DATA && window.SERVICES_DATA.place) || 'Bali',
       placeBorder: 'rgba(255,255,255,.22)',
       // Dormant until a 2nd place exists: with only one place this is a no-op; once places[]
@@ -2034,7 +2048,7 @@ class Component extends DCLogic {
         const other = places.find(p => p.name !== ((window.SERVICES_DATA && window.SERVICES_DATA.place) || 'Bali'));
         if (other && other.url) window.location.href = other.url;
       },
-      langBtnStyle: "display:flex;align-items:center;gap:7px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.2);border-radius:100px;color:" + navInk + ";font-family:'Inter';font-size:13px;font-weight:500;padding:9px 14px;cursor:pointer;transition:all .35s",
+      langBtnStyle: "display:flex;align-items:center;gap:7px;background:rgba(255,255,255,.07);border:1px solid " + burgerBorder + ";border-radius:100px;color:" + navInk + ";font-family:'Inter';font-size:13px;font-weight:500;padding:9px 14px;cursor:pointer;transition:all .35s",
       langCaret: "display:inline-flex;transition:transform .2s;transform:rotate(" + (lmOpen ? '180deg' : '0') + ")",
       navLinkForecast: navLinkCss('forecast'),
       navLinkWhy: navLinkCss('why'),
@@ -2101,7 +2115,7 @@ class Component extends DCLogic {
       resultsRows: (ex.levelPicked && !this.state.resultsShrinking) ? '1fr' : '0fr',
       resultsAnimStyle: this.state.resultsClosing ? 'animation:panelCollapse .4s cubic-bezier(.4,0,.2,1) both' : 'animation:panelExpand .4s cubic-bezier(.4,0,.2,1) both',
       revealResults: () => { this.setState(s => ({ explore: { ...s.explore, levelPicked: true } })); setTimeout(() => { const el = document.querySelector('.finder-panel'); if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 100, behavior: 'smooth' }); }, 50); },
-      collapseResults: () => { this.setState({ resultsClosing: true }); setTimeout(() => { this.setState({ resultsShrinking: true }); setTimeout(() => { this.setState(s => ({ explore: { ...s.explore, levelPicked: false }, resultsClosing: false, resultsShrinking: false })); }, 400); }, 260); window.scrollTo({ top: 0, behavior: 'smooth' }); },
+      collapseResults: () => { this.setState({ resultsClosing: true }); window.scrollTo({ top: 0, behavior: 'smooth' }); setTimeout(() => { this.setState({ resultsShrinking: true }); setTimeout(() => { this.setState(s => ({ explore: { ...s.explore, levelPicked: false }, resultsClosing: false, resultsShrinking: false })); }, 400); }, 260); },
       onWeekScroll: e => { this._weekScroll = e.target.scrollLeft; },
       onWeekTouchStart: () => { this._weekTouching = true; },
       onWeekTouchEnd: () => { this._weekTouching = false; },
@@ -2137,9 +2151,9 @@ class Component extends DCLogic {
       okLine: L.book.okBodyA + (first ? (', ' + first) : '') + L.book.okBodyB,
       payWith: this.state.lang === 'ru' ? 'Способ оплаты' : 'Payment method',
       selectPaypal: () => this.setState({ paymentMethod: 'paypal' }),
-      paypalTileStyle: 'display:flex;align-items:center;gap:10px;padding:14px 16px;border-radius:12px;background:rgba(255,255,255,.05);cursor:pointer;border:1.5px solid ' + (this.state.paymentMethod === 'paypal' ? '#61FFD0' : 'rgba(255,255,255,.16)'),
+      paypalTileStyle: 'display:flex;align-items:center;gap:10px;padding:14px 16px;border-radius:12px;background:rgba(255,255,255,.05);cursor:pointer;border:1.5px solid ' + (this.state.paymentMethod === 'paypal' ? '#7DE0C4' : 'rgba(255,255,255,.16)'),
       paypalSelected: this.state.paymentMethod === 'paypal',
-      paypalDotBorder: this.state.paymentMethod === 'paypal' ? '#61FFD0' : 'rgba(255,255,255,.4)',
+      paypalDotBorder: this.state.paymentMethod === 'paypal' ? '#7DE0C4' : 'rgba(255,255,255,.4)',
       priceEst, priceNote,
 
       // wizard
@@ -2196,7 +2210,7 @@ class Component extends DCLogic {
         const checked = mediaSessions.length ? mediaSessions.includes(idx) : true;
         return {
           label: (W.sessionLine || 'Session') + ' ' + (idx + 1),
-          box: 'width:16px;height:16px;border-radius:5px;border:1.5px solid ' + (checked ? '#61FFD0' : 'rgba(255,255,255,.35)') + ';background:' + (checked ? '#61FFD0' : 'transparent') + ';display:inline-flex;align-items:center;justify-content:center;font-size:11px;color:#08100d;margin-right:7px',
+          box: 'width:16px;height:16px;border-radius:5px;border:1.5px solid ' + (checked ? '#7DE0C4' : 'rgba(255,255,255,.35)') + ';background:' + (checked ? '#7DE0C4' : 'transparent') + ';display:inline-flex;align-items:center;justify-content:center;font-size:11px;color:#04231A;margin-right:7px',
           mark: checked ? '✓' : '',
           chipStyle: 'display:flex;align-items:center;font-size:13px;color:#fff;cursor:pointer;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:100px;padding:6px 12px 6px 8px',
           toggle: () => this.setState(s => {
@@ -2220,7 +2234,7 @@ class Component extends DCLogic {
             const checked = c.picked.length ? c.picked.includes(idx) : true;
             return {
               label: (W.sessionLine || 'Session') + ' ' + (idx + 1),
-              box: 'width:16px;height:16px;border-radius:5px;border:1.5px solid ' + (checked ? '#61FFD0' : 'rgba(255,255,255,.35)') + ';background:' + (checked ? '#61FFD0' : 'transparent') + ';display:inline-flex;align-items:center;justify-content:center;font-size:11px;color:#08100d;margin-right:7px',
+              box: 'width:16px;height:16px;border-radius:5px;border:1.5px solid ' + (checked ? '#7DE0C4' : 'rgba(255,255,255,.35)') + ';background:' + (checked ? '#7DE0C4' : 'transparent') + ';display:inline-flex;align-items:center;justify-content:center;font-size:11px;color:#04231A;margin-right:7px',
               mark: checked ? '✓' : '',
               chipStyle: 'display:flex;align-items:center;font-size:13px;color:#fff;cursor:pointer;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:100px;padding:6px 12px 6px 8px',
               toggle: () => this.setState(s => {
@@ -2284,8 +2298,8 @@ class Component extends DCLogic {
       privacyAgreed: !!this.state.privacyAgreed,
       togglePrivacy: () => this.setState(s => ({ privacyAgreed: !s.privacyAgreed })),
       stopProp: e => { e.stopPropagation(); },
-      agreeBoxStyle: 'flex:none;width:20px;height:20px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:13px;transition:all .18s;border:' + (this.state.agreed ? '1px solid #61FFD0;background:#61FFD0;color:#08100d' : '1.5px solid rgba(255,255,255,.35);background:transparent;color:transparent'),
-      privacyBoxStyle: 'flex:none;width:20px;height:20px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:13px;transition:all .18s;border:' + (this.state.privacyAgreed ? '1px solid #61FFD0;background:#61FFD0;color:#08100d' : '1.5px solid rgba(255,255,255,.35);background:transparent;color:transparent'),
+      agreeBoxStyle: 'flex:none;width:20px;height:20px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:13px;transition:all .18s;border:' + (this.state.agreed ? '1px solid #7DE0C4;background:#7DE0C4;color:#04231A' : '1.5px solid rgba(255,255,255,.35);background:transparent;color:transparent'),
+      privacyBoxStyle: 'flex:none;width:20px;height:20px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:13px;transition:all .18s;border:' + (this.state.privacyAgreed ? '1px solid #7DE0C4;background:#7DE0C4;color:#04231A' : '1.5px solid rgba(255,255,255,.35);background:transparent;color:transparent'),
       multiInfeasibleMsg: W.multiBusy || (this.state.lang === 'ru'
         ? 'Нет одного тренера, свободного на все выбранные занятия. Измените даты или время.'
         : 'No single coach is free for all selected sessions. Try different dates or times.'),

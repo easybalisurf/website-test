@@ -13,8 +13,8 @@
       document.head.appendChild(l);
     }
   }
-  const WHITE = '#fff';
-  const ACCENT = '#61FFD0';
+  const WHITE = 'var(--eb-text-strong, #fff)';
+  const ACCENT = '#7DE0C4';
 
   class EbLogo extends HTMLElement {
     connectedCallback() {
@@ -24,7 +24,7 @@
       const base = `font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;text-transform:uppercase;letter-spacing:-.2px`;
       root.innerHTML =
         `<style>:host{display:inline-block;vertical-align:middle;line-height:1}</style>` +
-        `<span style="${base};font-size:${size};display:inline-flex;flex-direction:column;align-items:center;line-height:.92;background:linear-gradient(180deg,#61C9E6,#8CFFC1 68%,${WHITE} 68%,${WHITE});-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent">` +
+        `<span style="${base};font-size:${size};display:inline-flex;flex-direction:column;align-items:center;line-height:.92;background:linear-gradient(180deg,var(--eb-accent-3,#9AF0DC),var(--eb-accent,#7DE0C4) 68%,${WHITE} 68%,${WHITE});-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent">` +
           `<span>EASY</span>` +
           `<span>BALI</span>` +
           `<span style="font-size:1em;display:inline-flex;align-items:flex-end;gap:.16em">` +
@@ -35,5 +35,5 @@
   }
   if (!customElements.get('eb-logo')) customElements.define('eb-logo', EbLogo);
 
-  window.EB_BRAND = { accent: ACCENT, accent2: '#3FD9E6', ink: '#08100d' };
+  window.EB_BRAND = { accent: ACCENT, accent2: '#6EC6F0', ink: '#04231A' };
 })();
