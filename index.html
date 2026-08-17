@@ -1320,7 +1320,7 @@ class Component extends DCLogic {
       .then(data => {
         if (!data || !data.sessionPricing || !data.spots) return;
         const keepFn = window.SERVICES_DATA.isDateBlocked; // preserve the client-side helper
-        window.SERVICES_DATA = Object.assign({}, window.SERVICES_DATA, data);
+        window.SERVICES_DATA = Object.assign({}, window.SERVICES_DATA, data, { spots: Object.assign({}, window.SERVICES_DATA.spots, data.spots), spotCoords: Object.assign({}, window.SERVICES_DATA.spotCoords, data.spotCoords) });
         if (keepFn) window.SERVICES_DATA.isDateBlocked = keepFn;
         this.setState({ catalogStatus: 'ok' });
         // The live catalog may add spots that weren't in the bundled fallback — pull their
@@ -1398,13 +1398,20 @@ class Component extends DCLogic {
       const ctrl = new AbortController();
       const to = setTimeout(() => ctrl.abort(), 8000);
       let mr, wr;
-      try { [mr, wr] = await Promise.all([fetch(m, { signal: ctrl.signal }), fetch(w, { signal: ctrl.signal })]); }
+      try { [mr, wr] = await Promise.allSettled([fetch(m, { signal: ctrl.signal }), fetch(w, { signal: ctrl.signal })]); }
       finally { clearTimeout(to); }
-      if (!mr.ok || !wr.ok) throw new Error('http');
-      const mj = await mr.json(), wj = await wr.json();
-      if (!mj.hourly || !wj.hourly) throw new Error('shape');
+      if (wr.status !== 'fulfilled' || !wr.value.ok) throw new Error('http');
+      const wj = await wr.value.json();
+      if (!wj.hourly) throw new Error('shape');
+      let mj = null;
+      if (mr.status === 'fulfilled' && mr.value.ok) { try { mj = await mr.value.json(); } catch (e) {} }
+      // Marine (wave) coverage can be missing for sheltered bays/lagoons the marine model doesn't
+      // resolve (Sanur, Nusa Lembongan, Tanjung Benoa) — wind-sport spots. Wind data alone is
+      // enough to score kite/wing/SUP, so don't fail the whole spot over missing wave data; use a
+      // calm-water default instead.
+      const marineHourly = (mj && mj.hourly && mj.hourly.wave_height) ? mj.hourly : { ...wj.hourly, wave_height: wj.hourly.wind_speed_10m.map(() => 0.4), sea_level_height_msl: wj.hourly.wind_speed_10m.map(() => 0) };
       if (this._wxInFlight) delete this._wxInFlight[key];
-      this.setState(s => ({ wx: { ...s.wx, [key]: { marine: mj.hourly, wind: wj.hourly } } }));
+      this.setState(s => ({ wx: { ...s.wx, [key]: { marine: marineHourly, wind: wj.hourly } } }));
     } catch (e) {
       if (this._wxInFlight) delete this._wxInFlight[key];
       this._wxTries[key] = (this._wxTries[key] || 0) + 1;
@@ -1426,6 +1433,22 @@ class Component extends DCLogic {
   seedFromDate(dateStr) {
     const s = dateStr || new Date().toISOString().slice(0, 10);
     let h = 0; for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) >>> 0; return h || 12345;
+  }
+  // Per-sport suitability score: surf rewards wave size matched to level + clean wind; kite/wing
+  // reward wind strength in a ridable band far more than wave shape; SUP rewards calm, flat water.
+  sportScore(sportKey, wave, windKt, wc, levelCenter) {
+    if (sportKey === 'kite' || sportKey === 'wing') {
+      const windFit = Math.max(0, 1 - Math.abs(windKt - 16) / 11);
+      const dirBonus = wc === 0 ? 0.6 : wc === 1 ? 0.4 : wc === 2 ? 0.15 : 0;
+      const chopPenalty = Math.max(0, (wave - 1.2) * 0.4);
+      return windFit * 4.2 + dirBonus - chopPenalty;
+    }
+    if (sportKey === 'sup') {
+      const calmWind = Math.max(0, 1 - windKt / 14);
+      const calmWave = Math.max(0, 1 - wave / 1.0);
+      return calmWind * 2.4 + calmWave * 2.4;
+    }
+    return (wc === 0 ? 3 : wc === 3 ? 1.6 : wc === 1 ? 1.6 : 0.3) + Math.max(0, 1 - Math.abs(wave - levelCenter) / 1.2) * 2.2;
   }
   todayStr() { const t = new Date(); return t.getFullYear() + '-' + String(t.getMonth() + 1).padStart(2, '0') + '-' + String(t.getDate()).padStart(2, '0'); }
   lerpHex(a, b, t) {
@@ -1638,7 +1661,7 @@ class Component extends DCLogic {
         const offFrom = (sf + 180) % 360;
         const diff = Math.abs(((dir - offFrom + 540) % 360) - 180);
         let wc; if (spd < 6) wc = 3; else if (diff < 50) wc = 0; else if (diff < 125) wc = 1; else wc = 2;
-        let score = (wc === 0 ? 3 : wc === 3 ? 1.6 : wc === 1 ? 1.6 : 0.3) + Math.max(0, 1 - Math.abs(wave - levelCenter) / 1.2) * 2.2;
+        const score = this.sportScore(sportKey, wave, spd, wc, levelCenter);
         return { wave, windLabel: sm.wind[wc], windKt: Math.round(spd), windDeg: Math.round(dir), tide, score };
       });
       return { per, sst: sst == null ? 28 : sst, live: true };
