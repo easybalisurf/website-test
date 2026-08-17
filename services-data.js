@@ -61,7 +61,10 @@ window.SERVICES_DATA = {
     'Medewi': [-8.435, 114.803], 'Uluwatu': [-8.815, 115.088], 'Padang Padang': [-8.808, 115.103],
     'Keramas': [-8.596, 115.331], 'Sanur Lagoon': [-8.703, 115.262], 'Nusa Lembongan': [-8.681, 115.447],
     'Sanur Reef': [-8.712, 115.268], 'Tanjung Benoa': [-8.760, 115.222], 'Mushroom Bay': [-8.681, 115.446],
-    'Sanur Beach': [-8.687, 115.263]
+    'Sanur Beach': [-8.687, 115.263], 'Legian Beach': [-8.706, 115.167], 'Echo Beach': [-8.661, 115.125],
+    "Old Man's": [-8.658, 115.130], 'Nusa Dua': [-8.799, 115.227], 'Pererenan': [-8.645, 115.117],
+    'Dreamland': [-8.799, 115.128], 'Bingin': [-8.795, 115.116], 'Impossibles': [-8.804, 115.106],
+    'Green Bowl': [-8.854, 115.176], 'Balian': [-8.404, 114.925]
   },
   // Spot pools per discipline. Surf is further split by level (0=first timer .. 3=advanced) since
   // beginner-friendly breaks differ from advanced reef breaks. Each entry: { lat, lon, shore, name, region }.
@@ -71,22 +74,32 @@ window.SERVICES_DATA = {
         { lat:-8.717, lon:115.168, shore:245, name:'Kuta Beach',     region:'Kuta' },
         { lat:-8.657, lon:115.128, shore:250, name:'Batu Bolong',    region:'Canggu' },
         { lat:-8.690, lon:115.157, shore:250, name:'Seminyak Beach', region:'Seminyak' },
-        { lat:-8.687, lon:115.263, shore:95,  name:'Sanur Beach',    region:'Sanur' }
+        { lat:-8.687, lon:115.263, shore:95,  name:'Sanur Beach',    region:'Sanur' },
+        { lat:-8.706, lon:115.167, shore:245, name:'Legian Beach',   region:'Legian' }
       ],
       1: [
         { lat:-8.657, lon:115.128, shore:250, name:'Batu Bolong', region:'Canggu' },
         { lat:-8.735, lon:115.160, shore:245, name:'Kuta Reef',   region:'Kuta' },
-        { lat:-8.792, lon:115.122, shore:235, name:'Balangan',    region:'Bukit' }
+        { lat:-8.792, lon:115.122, shore:235, name:'Balangan',    region:'Bukit' },
+        { lat:-8.661, lon:115.125, shore:250, name:'Echo Beach',  region:'Canggu' },
+        { lat:-8.658, lon:115.130, shore:250, name:"Old Man's",   region:'Canggu' },
+        { lat:-8.799, lon:115.227, shore:140, name:'Nusa Dua',    region:'Nusa Dua' }
       ],
       2: [
-        { lat:-8.792, lon:115.122, shore:235, name:'Balangan', region:'Bukit' },
-        { lat:-8.668, lon:115.135, shore:250, name:'Berawa',   region:'Canggu' },
-        { lat:-8.435, lon:114.803, shore:210, name:'Medewi',   region:'West Bali' }
+        { lat:-8.792, lon:115.122, shore:235, name:'Balangan',   region:'Bukit' },
+        { lat:-8.668, lon:115.135, shore:250, name:'Berawa',     region:'Canggu' },
+        { lat:-8.435, lon:114.803, shore:210, name:'Medewi',     region:'West Bali' },
+        { lat:-8.645, lon:115.117, shore:250, name:'Pererenan',  region:'Canggu' },
+        { lat:-8.799, lon:115.128, shore:225, name:'Dreamland',  region:'Bukit' }
       ],
       3: [
         { lat:-8.815, lon:115.088, shore:225, name:'Uluwatu',      region:'Bukit' },
         { lat:-8.808, lon:115.103, shore:225, name:'Padang Padang', region:'Bukit' },
-        { lat:-8.596, lon:115.331, shore:110, name:'Keramas',      region:'East Bali' }
+        { lat:-8.596, lon:115.331, shore:110, name:'Keramas',      region:'East Bali' },
+        { lat:-8.795, lon:115.116, shore:225, name:'Bingin',       region:'Bukit' },
+        { lat:-8.804, lon:115.106, shore:225, name:'Impossibles',  region:'Bukit' },
+        { lat:-8.854, lon:115.176, shore:180, name:'Green Bowl',   region:'Bukit' },
+        { lat:-8.404, lon:114.925, shore:210, name:'Balian',       region:'West Bali' }
       ]
     },
     kite: [

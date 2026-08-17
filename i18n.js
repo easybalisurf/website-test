@@ -77,7 +77,7 @@ window.SITE_TEXT = {
             { title:'A plastic-free generation', body:'Founded by two Balinese sisters, Bye Bye Plastic Bags empowers local youth to cut single-use plastic \u2014 the movement behind the island\u2019s plastic-bag ban.', link:'byebyeplasticbags.org', href:'https://www.byebyeplasticbags.org' },
             { title:'Respect for Balinese culture', body:'We live by Tri Hita Karana \u2014 the Balinese principle of harmony between people, nature and the sacred. We honour local ceremonies, temples and the communities whose home this is.', link:'', href:'' },
           ] },
-        certs: { label:'Coaches certified by' },
+        certs: { label:'Coaches certified by', ratingNote:'4.9/5 from riders on Bali' },
         foot: { tagline:"Water sports coaching on Bali's best breaks. Surf, kite, wing & SUP — booked in minutes.", explore:'Explore', contact:'Contact', follow:'Follow', company:'About service', terms:'Terms of Service', privacy:'Privacy Policy', forInstructors:'For instructors', commitment:'Our commitment', guide:'Surf guide', rights:'All rights reserved.' },
       },
       ru: {
@@ -151,7 +151,7 @@ window.SITE_TEXT = {
             { title:'Поколение без пластика', body:'Основанная двумя балийскими сёстрами, Bye Bye Plastic Bags вовлекает местную молодёжь в отказ от одноразового пластика — именно это движение привело к запрету пластиковых пакетов на острове.', link:'byebyeplasticbags.org', href:'https://www.byebyeplasticbags.org' },
             { title:'Уважение к культуре Бали', body:'Мы живём по принципу Три Хита Карана — балийской гармонии между людьми, природой и священным. Чтим местные церемонии, храмы и общины, для которых это дом.', link:'', href:'' },
           ] },
-        certs: { label:'Аккредитации тренеров' },
+        certs: { label:'Аккредитации тренеров', ratingNote:'4.9/5 от райдеров на Бали' },
         foot: { tagline:'Тренировки по водным видам спорта на лучших спотах Бали. Сёрф, кайт, винг и SUP — бронь за пару минут.', explore:'Разделы', contact:'Контакты', follow:'Соцсети', company:'О сервисе', terms:'Условия использования', privacy:'Политика конфиденциальности', forInstructors:'Для инструкторов', commitment:'Наша позиция', guide:'Гид по сёрфингу', rights:'Все права защищены.' },
       },
     };
